@@ -3,13 +3,13 @@
 ## Contributers
 1. Anika Wante
 2. Bas Buijsen
-3. David van Mourik
+3. David van Mourik - Reviewer
 4. Enes Aygun
 5. Fairys Ardhana
 6. Frank Gabrsek
 7. Qiang Loozen
-8. Stefan de Nijs
-9. Stephen Klop
+8. Stefan de Nijs - Reviewer
+9. Stephen Klop - Reviewer
 
 ## Development Guidelines
 1. Alles moet in het Engels behalve review comments
