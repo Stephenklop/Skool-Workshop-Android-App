@@ -8,4 +8,5 @@
     android:background="@color/background">
 
     <include layout="@layout/fragment_menu_icons" />
+    <include layout="@layout/fragment_edittext_plaintext" />
 </androidx.constraintlayout.widget.ConstraintLayout>
