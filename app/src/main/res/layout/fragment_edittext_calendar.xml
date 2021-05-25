@@ -10,7 +10,7 @@
         android:background="@drawable/edittext_states_et"
         android:fontFamily="@font/proxima_nova_semibold"
         android:inputType="date"
-        android:lines="5"
+        android:lines="1"
         android:paddingStart="25dp"
         android:paddingEnd="75dp"
         android:paddingVertical="13dp"
