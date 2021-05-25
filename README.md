@@ -18,6 +18,7 @@
 4. [Code conventions Java](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md)
 5. [Code conventions Android](https://source.android.com/setup/contribute/code-style#follow-field-naming-conventions)
 6. [Android naming conventions](https://medium.com/@mikelimantara/overview-of-android-project-structure-and-naming-conventions-b08f6d0b7291)
+7. [Node.js code conventions](https://medium.com/swlh/node-js-coding-style-guidelines-74a20d00c40b)
 
 ## Git branch naming conventions
 - ```<type> / <detailed_comment>```
