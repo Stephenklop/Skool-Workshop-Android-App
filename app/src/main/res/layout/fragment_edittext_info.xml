@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_states_et"
+        android:background="@drawable/edittext_states"
         android:fontFamily="@font/proxima_nova_semibold"
         android:inputType="text"
         android:lines="1"
