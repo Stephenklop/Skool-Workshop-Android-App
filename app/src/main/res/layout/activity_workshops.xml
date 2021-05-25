@@ -49,6 +49,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" />
 
+    <!-- Category Items -->
     <TextView
         android:id="@+id/activity_workshops_txt_category_title"
         android:layout_width="match_parent"
@@ -79,6 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_category_title"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!-- Include Icon Menu -->
     <include
         android:id="@+id/include2"
         layout="@layout/fragment_menu_icons"
