@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_focused="false"
-        android:drawable="@drawable/edittext_default_et"/>
+        android:drawable="@drawable/edittext_default"/>
      <item
          android:state_focused="true"
          android:drawable="@drawable/edittext_focused_et"/>
