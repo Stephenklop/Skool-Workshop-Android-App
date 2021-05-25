@@ -13,6 +13,8 @@
         android:text="Verzenden"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:fontFamily="@font/proxima_nova"
+        android:textFontWeight="600"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
