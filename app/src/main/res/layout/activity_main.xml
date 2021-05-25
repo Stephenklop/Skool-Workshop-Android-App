@@ -16,5 +16,5 @@
     <include
         layout="@layout/fragment_edittext_info" />
 
-
+    <include layout="@layout/fragment_menu_icons" />
 </androidx.constraintlayout.widget.ConstraintLayout>
