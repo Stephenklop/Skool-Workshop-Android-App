@@ -20,7 +20,5 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView mWorkshopCardImg = findViewById(R.id.img_workshop_card);
         mWorkshopCardImg.setClipToOutline(true);
-
     }
-
 }
