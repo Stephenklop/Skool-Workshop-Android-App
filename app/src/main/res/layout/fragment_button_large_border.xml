@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@drawable/btn_orange">
+    android:background="@drawable/btn_orange_border">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lineHeight="24sp"
-        android:text="Verzenden"
-        android:textSize="20sp"
-        android:textColor="@color/white"
         android:fontFamily="@font/proxima_nova"
+        android:lineHeight="24sp"
+        android:text="Vraag Meer Informatie Aan"
+        android:textColor="@color/main_orange"
         android:textFontWeight="600"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
