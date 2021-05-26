@@ -8,14 +8,33 @@
     tools:context=".MainActivity">
 
     <include
-        layout="@layout/fragment_edittext_password"
-        android:id="@+id/pass"/>
+        android:id="@+id/pass"
+        layout="@layout/fragment_edittext_password" />
 
     <include
+        android:id="@+id/include"
+        layout="@layout/fragment_edittext_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/fragment_edittext_info"
         app:layout_constraintTop_toBottomOf="@+id/pass" />
 
-    <include layout="@layout/fragment_menu_icons" />
+    <include
+        android:id="@+id/item_dashboard"
+        layout="@layout/item_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <include
+        layout="@layout/item_dashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_dashboard" />
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/fragment_menu_icons"
+        tools:layout_editor_absoluteY="656dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
