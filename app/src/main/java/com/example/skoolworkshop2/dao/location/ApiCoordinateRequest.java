@@ -17,7 +17,7 @@ public class ApiCoordinateRequest implements CoordinateRequest {
     private final String SEARCH_POSTALCODE = "postalcode=";
     private final String FORMAT = "&format=json";
 
-    private final String BASE_URL_DISTANCE = "router.project-osrm.org/route/v1/driving/4.766496028722843,51.59854262243952;";
+    private final String BASE_URL_DISTANCE = "https://router.project-osrm.org/route/v1/driving/4.766496028722843,51.59854262243952;";
 
     @Override
     public double[] getCoordinates(String postalCode) {
@@ -67,7 +67,7 @@ public class ApiCoordinateRequest implements CoordinateRequest {
         } catch (Exception e){
             e.printStackTrace();
         }
-        return distance;
+        return distance / 1000;
     }
 
     private void connect(String url) throws Exception{
