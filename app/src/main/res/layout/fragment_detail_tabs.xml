@@ -6,32 +6,53 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="70dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/tabs_background">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Test 1"
+                android:text="Overview"
+                android:gravity="center"
+                android:fontFamily="@font/proxima_nova"
+                android:textSize="18sp"
+                android:textFontWeight="600"
+                android:background="@drawable/tabs_states"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Inhoud"
+                android:fontFamily="@font/proxima_nova"
+                android:textSize="18sp"
+                android:textFontWeight="600"
                 android:gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Test 1"
+                android:text="Info"
+                android:fontFamily="@font/proxima_nova"
+                android:textSize="18sp"
+                android:textFontWeight="600"
                 android:gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Test 1"
+                android:text="Kosten"
+                android:fontFamily="@font/proxima_nova"
+                android:textSize="18sp"
+                android:textFontWeight="600"
                 android:gravity="center"/>
         </LinearLayout>
     </FrameLayout>
