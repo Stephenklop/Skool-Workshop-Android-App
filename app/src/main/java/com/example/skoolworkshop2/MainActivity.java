@@ -2,6 +2,8 @@ package com.example.skoolworkshop2;
 
 import android.os.Bundle;
 
+import com.example.skoolworkshop2.dao.websiteData.ApiWebsiteInfoFactory;
+import com.example.skoolworkshop2.dao.websiteData.WebsiteInfoFactory;
 import com.example.skoolworkshop2.logic.calculations.LocationCalculation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         LocationCalculation lc = new LocationCalculation();
         System.out.println(lc.getDistance("4706LW"));
+        WebsiteInfoFactory wif = new ApiWebsiteInfoFactory();
+
     }
 
 }
