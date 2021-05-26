@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_dashboard_container">
 
@@ -14,20 +14,25 @@
         android:padding="25dp"
         android:layout_centerHorizontal="true">
 
-        <ImageView
-            android:id="@+id/img_dashboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_info" />
-
         <TextView
+            android:layout_gravity="center"
             android:textAlignment="center"
-            android:id="@+id/tv_dashboard"
+            android:id="@+id/tv_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Dashboard item"
+            android:text="Je hebt 0 punten"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/tv_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="Waarde €0,-"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
