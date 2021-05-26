@@ -14,7 +14,7 @@
         android:padding="25dp">
 
         <TextView
-            android:id="@+id/tv_points_points"
+            android:id="@+id/item_points_tv_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -25,7 +25,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/tv_points_value"
+            android:id="@+id/item_points_tv_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -14,7 +14,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_home_greeting"
+                android:id="@+id/activity_home_tv_greeting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="25dp"
@@ -28,7 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/ll_home_buttons"
+                android:id="@+id/activity_home_ll_dashboard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -37,10 +37,10 @@
                 android:weightSum="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_greeting">
+                app:layout_constraintTop_toBottomOf="@id/activity_home_tv_greeting">
 
                 <include
-                    android:id="@+id/item_home_reservation"
+                    android:id="@+id/activity_home_item_reservation"
                     layout="@layout/item_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                     android:layout_height="match_parent" />
 
                 <include
-                    android:id="@+id/item_home_account"
+                    android:id="@+id/activity_home_item_account"
                     layout="@layout/item_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,10 +72,10 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_home_buttons" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_home_ll_dashboard" />
 
             <include
-                android:id="@+id/item_home_notifications"
+                android:id="@+id/activity_home_fragment_notifications"
                 layout="@layout/fragment_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_home_notifications" />
 
             <TextView
-                android:id="@+id/tv_home_portal"
+                android:id="@+id/activity_home_tv_portal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -99,10 +99,10 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_home_notifications" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_home_fragment_notifications" />
 
             <include
-                android:id="@+id/item_home_points"
+                android:id="@+id/activity_home_item_points"
                 layout="@layout/item_points"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,10 +111,10 @@
                 android:layout_marginEnd="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_portal" />
+                app:layout_constraintTop_toBottomOf="@id/activity_home_tv_portal" />
 
             <TextView
-                android:id="@+id/tv_home_news_feed"
+                android:id="@+id/activity_home_tv_news_feed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -126,10 +126,10 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_home_points" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_home_item_points" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_home_news_feed"
+                android:id="@+id/activity_home_rv_news_feed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -137,14 +137,14 @@
                 android:layout_marginEnd="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_news_feed" />
+                app:layout_constraintTop_toBottomOf="@id/activity_home_tv_news_feed" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
     <include
-        android:id="@+id/menu_home_buttons"
+        android:id="@+id/activity_home_menu_buttons"
         layout="@layout/fragment_menu_icons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
