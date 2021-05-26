@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         LocationCalculation lc = new LocationCalculation();
-        lc.getCoordinates("4706LW");
+        System.out.println(lc.getDistance("4706LW"));
     }
 
 }
