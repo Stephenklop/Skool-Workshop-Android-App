@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:id="@+id/view"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_dashboard_container">
 
@@ -12,19 +13,24 @@
         android:orientation="vertical"
         android:padding="25dp">
 
-        <ImageView
-            android:id="@+id/img_dashboard_icon"
+        <TextView
+            android:id="@+id/tv_points_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_info" />
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Je hebt 0 punten"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/tv_dashboard_text"
+            android:id="@+id/tv_points_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Dashboard item"
+            android:layout_gravity="center"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="Waarde €0,-"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp" />

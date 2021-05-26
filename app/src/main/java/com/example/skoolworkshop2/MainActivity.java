@@ -19,10 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
-        RelativeLayout mDashItem = findViewById(R.id.item_dashboard);
-        TextView mDashTv = mDashItem.findViewById(R.id.tv_dashboard);
-        mDashTv.setText("test");
     }
 }
