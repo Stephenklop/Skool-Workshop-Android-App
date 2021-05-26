@@ -8,17 +8,14 @@
     tools:context=".MainActivity">
 
     <include
-        android:id="@+id/sv_main"
-        layout="@layout/fragment_search" />
+        layout="@layout/fragment_edittext_password"
+        android:id="@+id/pass"/>
 
     <include
-        layout="@layout/item_workshop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_main"
-        android:layout_marginHorizontal="25dp"/>
+        layout="@layout/fragment_edittext_info"
+        app:layout_constraintTop_toBottomOf="@+id/pass" />
 
     <include layout="@layout/fragment_menu_icons" />
 </androidx.constraintlayout.widget.ConstraintLayout>
