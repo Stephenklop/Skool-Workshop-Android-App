@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_tv_price" />
 
         <include
-            android:id="@+id/fragment_workshop_overview_btn_purchase"
+            android:id="@+id/fragment_workshop_overview_btn_booking"
             layout="@layout/fragment_button_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_btn_purchase" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_btn_booking" />
 
         <include
             android:id="@+id/fragment_workshop_overview_btn_info"
