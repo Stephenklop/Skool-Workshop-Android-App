@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.os.Bundle;
 
@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Workshop;
-
-import org.w3c.dom.Text;
 
 public class WorkshopOverviewFragment extends Fragment {
     private TextView mDescriptionTv;

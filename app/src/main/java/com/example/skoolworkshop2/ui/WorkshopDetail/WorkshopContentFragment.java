@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Workshop;
 
 public class WorkshopContentFragment extends Fragment {
