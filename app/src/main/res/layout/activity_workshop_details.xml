@@ -31,5 +31,17 @@
             android:textFontWeight="700"
             android:layout_marginTop="25dp"
             android:textColor="@color/black"/>
+
+        <include
+            android:id="@+id/"
+            layout="@layout/fragment_detail_tabs"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="none"
+            android:textSize="24sp"
+            android:textColor="@color/black"/>
+
     </LinearLayout>
 </RelativeLayout>
