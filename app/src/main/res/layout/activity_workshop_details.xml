@@ -33,7 +33,7 @@
             android:textColor="@color/black"/>
 
         <include
-            android:id="@+id/"
+            android:id="@+id/tabs"
             layout="@layout/fragment_detail_tabs"/>
 
         <TextView
