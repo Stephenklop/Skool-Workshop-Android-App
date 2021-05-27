@@ -11,6 +11,17 @@
         android:scaleType="centerCrop"
         android:src="@drawable/testimage" />
 
+    <ImageButton
+        android:id="@+id/activity_details_details_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ic_arrow_left"
+        android:tint="@color/white"
+        android:layout_margin="10dp"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
