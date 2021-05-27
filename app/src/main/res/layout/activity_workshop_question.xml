@@ -195,7 +195,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:gravity="top"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="Ik ga akkoord met de algemene voorwaarden"
                     android:textSize="18sp" />
 
