@@ -48,7 +48,8 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" >
+    </androidx.recyclerview.widget.RecyclerView>
 
     <!-- Category Items -->
     <TextView
@@ -69,6 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_rv_categories" />
 
     <!-- Include Icon Menu -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_workshops_txt_category_view"
         android:layout_width="0dp"
@@ -78,8 +80,10 @@
         android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_category_title" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_category_title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <include
         android:id="@+id/activity_menu_buttons"

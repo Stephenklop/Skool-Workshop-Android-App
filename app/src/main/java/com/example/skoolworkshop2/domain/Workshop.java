@@ -7,14 +7,16 @@ public class Workshop implements Product {
     private double price;
     private String date; // Might be changed to Timestamp later (depends on whether that's useful)
     private int maxParticipants;
+    private String category;
 
-    public Workshop(int id, String name, String description, double price, String date, int maxParticipants) {
+    public Workshop(int id, String name, String description, double price, String date, int maxParticipants, String category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.date = date;
         this.maxParticipants = maxParticipants;
+        this.category = category;
     }
 
     @Override
@@ -67,5 +69,13 @@ public class Workshop implements Product {
 
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
