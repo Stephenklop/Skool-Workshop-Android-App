@@ -37,8 +37,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_search" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_workshops_rv_categories"
+    <ScrollView
+        android:id="@+id/activity_workshops_sv_categories"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginStart="25dp"
@@ -65,7 +65,7 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_rv_categories" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_sv_categories" />
 
     <!-- Include Icon Menu -->
     <androidx.recyclerview.widget.RecyclerView
