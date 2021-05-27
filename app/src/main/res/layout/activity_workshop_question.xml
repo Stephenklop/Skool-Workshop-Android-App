@@ -198,7 +198,8 @@
                     android:gravity="top"
                     android:paddingStart="10dp"
                     android:text="Ik ga akkoord met de algemene voorwaarden"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:buttonTint="@color/main_orange"/>
 
                 <include
                     android:id="@+id/activity_workshop_question_btn_send"
