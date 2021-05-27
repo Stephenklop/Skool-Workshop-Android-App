@@ -1,4 +1,4 @@
 package com.example.skoolworkshop2.dao.websiteData.interfaces;
 
-public interface Product {
+public interface AccountDao {
 }

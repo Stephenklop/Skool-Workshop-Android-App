@@ -1,11 +1,11 @@
 package com.example.skoolworkshop2.dao.websiteData;
 
-import com.example.skoolworkshop2.dao.websiteData.interfaces.Account;
-import com.example.skoolworkshop2.dao.websiteData.interfaces.Order;
-import com.example.skoolworkshop2.dao.websiteData.interfaces.Product;
+import com.example.skoolworkshop2.dao.websiteData.interfaces.AccountDao;
+import com.example.skoolworkshop2.dao.websiteData.interfaces.OrderDao;
+import com.example.skoolworkshop2.dao.websiteData.interfaces.ProductDao;
 
 public interface WebsiteInfoFactory {
-    Product getProductDao();
-    Order getOrderDao();
-    Account getAccountDao();
+    ProductDao getProductDao();
+    OrderDao getOrderDao();
+    AccountDao getAccountDao();
 }
