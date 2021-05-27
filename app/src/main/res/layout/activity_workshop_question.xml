@@ -87,7 +87,7 @@
                     android:textSize="18sp" />
 
                 <include
-                    android:id="@+id/activity_workshop_question_ed_date"
+                    android:id="@+id/activity_workshop_question_et_date"
                     layout="@layout/fragment_edittext_calendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
