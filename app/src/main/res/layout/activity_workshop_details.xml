@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="275dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/testimage" />
+        android:src="@drawable/testimage"
+        android:id="@+id/activity_workshops_details_cover"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,8 @@
             android:textSize="26sp"
             android:textFontWeight="700"
             android:layout_marginTop="25dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:id="@+id/activity_workshops_details_title"/>
 
         <include
             android:id="@+id/tabs"
@@ -41,7 +43,8 @@
             android:layout_height="wrap_content"
             android:text="none"
             android:textSize="24sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:id="@+id/activity_workshops_details_description"/>
 
     </LinearLayout>
 </RelativeLayout>
