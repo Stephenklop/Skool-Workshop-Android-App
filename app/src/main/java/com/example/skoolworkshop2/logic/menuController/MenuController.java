@@ -2,6 +2,7 @@ package com.example.skoolworkshop2.logic.menuController;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -10,7 +11,12 @@ import com.example.skoolworkshop2.WorkshopActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 
+import java.io.Console;
+
 public class MenuController {
+
+    private final String LOG_TAG = this.getClass().getSimpleName();
+
     private View menu;
     private BottomNavigationItemView home;
     private BottomNavigationItemView search;
@@ -31,6 +37,7 @@ public class MenuController {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(LOG_TAG, " Redirecting to home page");
                 Intent toHome = new Intent(context, MainActivity.class);
                 context.startActivity(toHome);
             }
@@ -39,6 +46,7 @@ public class MenuController {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(LOG_TAG, " Redirecting to search page");
                 Intent toSearch = new Intent(context, WorkshopActivity.class);
                 context.startActivity(toSearch);
             }
@@ -47,14 +55,14 @@ public class MenuController {
         shoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d(LOG_TAG, " Redirecting to shoppingcart page");
             }
         });
 
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d(LOG_TAG, " Redirecting to account page");
             }
         });
     }
