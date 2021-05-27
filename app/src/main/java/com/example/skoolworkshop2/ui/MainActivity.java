@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.WorkshopActivity;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,13 +19,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        View root = (View) findViewById(R.id.activity_home);
+
+        MenuController mc = new MenuController(root);
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WorkshopActivity.class);
-                startActivity(intent);
+                mc.sendToSearch();
             }
         });
 
