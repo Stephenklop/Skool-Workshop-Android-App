@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_states"
         android:fontFamily="@font/proxima_nova_semibold"
+        android:gravity="top"
         android:inputType="text|textMultiLine"
         android:lines="5"
         android:paddingVertical="13dp"
