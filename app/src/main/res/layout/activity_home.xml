@@ -15,6 +15,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- Requires setClipToOutline(true) on base img to have rounded corners -->
+            <include
+                layout="@layout/fragment_home_banner"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_home_ll_dashboard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
             <TextView
                 android:id="@+id/activity_home_tv_greeting"
                 android:layout_width="0dp"
@@ -23,7 +35,7 @@
                 android:layout_marginTop="50dp"
                 android:fontFamily="@font/proxima_nova_semibold"
                 android:text="Goedenmorgen, Clinten Pique"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
