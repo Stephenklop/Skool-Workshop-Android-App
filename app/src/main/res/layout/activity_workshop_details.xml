@@ -35,9 +35,42 @@
         android:paddingTop="25dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:id="@+id/activity_workshop_details_short_info">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="150,-"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="25 deelnemers"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60 minuten"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"/>
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/activity_workshop_details_tv_title"

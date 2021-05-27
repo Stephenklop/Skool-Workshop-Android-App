@@ -1,6 +1,8 @@
 package com.example.skoolworkshop2.domain;
 
-public class Workshop implements Product {
+import java.io.Serializable;
+
+public class Workshop implements Product, Serializable {
     private int id;
     private String name;
     private String description;
