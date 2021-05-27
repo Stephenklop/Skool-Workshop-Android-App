@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.ui.WorkshopCostFragment;
+import com.example.skoolworkshop2.ui.WorkshopInfoFragment;
 
 import java.util.List;
 
@@ -25,6 +27,10 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
     View mTabsSelector;
     TextView mTabsOverviewTv;
     TextView mTabsContentTv;
+    TextView mTabsInfoTv;
+    TextView mTabsCostTv;
+
+
     private ImageButton mBackButton;
 
     private TextView mTitleTV;
@@ -48,6 +54,8 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mTabsOverviewTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_overview);
         mTabsContentTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_content);
+        mTabsInfoTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_info);
+        mTabsCostTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_costs);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.activity_workshop_details_fragment_txt, new WorkshopOverviewFragment(workshop))
@@ -55,6 +63,8 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mTabsOverviewTv.setOnClickListener(this);
         mTabsContentTv.setOnClickListener(this);
+        mTabsCostTv.setOnClickListener(this);
+        mTabsInfoTv.setOnClickListener(this);
 
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +87,16 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
             mTabsSelector.animate().x(mTabsContentTv.getX()).setDuration(100);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_workshop_details_fragment_txt, new WorkshopContentFragment(workshop))
+                    .commit();
+        } else if (v == mTabsInfoTv){
+            mTabsSelector.animate().x(mTabsInfoTv.getX()).setDuration(100);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_workshop_details_fragment_txt, new WorkshopInfoFragment(workshop))
+                    .commit();
+        } else if (v == mTabsCostTv){
+            mTabsSelector.animate().x(mTabsCostTv.getX()).setDuration(100);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.activity_workshop_details_fragment_txt, new WorkshopCostFragment(workshop))
                     .commit();
         }
     }
