@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.invoke.WrongMethodTypeException;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
+
+        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(1).setChecked(true);
 
         MenuController mc = new MenuController(root);
     }

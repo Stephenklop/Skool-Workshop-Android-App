@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/fragment_workshop_costs_tv_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/proxima_nova"
+        android:paddingBottom="25dp"
+        android:text="Starttarief € 25,-
+        \nKosten workshop € 150,- (60 minuten)
+
+        \n\nPer deelnemer rekenen wij €7,50 materiaalkosten.
+        \nExclusief reiskosten excl. € 0,28 per kilometer."
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+</ScrollView>
