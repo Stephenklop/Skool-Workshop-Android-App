@@ -1,25 +1,18 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui.WorkshopDetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
-import com.example.skoolworkshop2.ui.WorkshopCostFragment;
-import com.example.skoolworkshop2.ui.WorkshopInfoFragment;
-
-import java.util.List;
 
 
 public class WorkshopDetailActivity extends FragmentActivity implements View.OnClickListener {
@@ -36,6 +29,10 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
     private TextView mTitleTV;
 
     private Workshop workshop;
+
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mDurationBn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +71,15 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
                 startActivity(backIntent);
             }
         });
+
+
+        mPriceBn = findViewById(R.id.activity_workshop_detail_button_price);
+        mParticipantsBn = findViewById(R.id.activity_workshop_detail_button_participants);
+        mDurationBn = findViewById(R.id.activity_workshop_detail_button_duration);
+
+        mPriceBn.setText(workshop.getPrice() + ",-");
+        mParticipantsBn.setText(workshop.getMaxParticipants() + " deelnemers");
+        mDurationBn.setText(workshop.getDuration() + " minuten");
     }
 
     @Override

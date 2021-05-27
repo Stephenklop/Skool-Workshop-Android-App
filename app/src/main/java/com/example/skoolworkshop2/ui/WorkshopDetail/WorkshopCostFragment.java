@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ui;
+package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

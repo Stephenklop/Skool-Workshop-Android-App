@@ -47,6 +47,7 @@
                 android:orientation="horizontal">
                 <Button
                     android:layout_width="wrap_content"
+                    android:id="@+id/activity_workshop_detail_button_price"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:text="150,-"
@@ -55,6 +56,7 @@
                     android:enabled="false"/>
                 <Button
                     android:layout_width="wrap_content"
+                    android:id="@+id/activity_workshop_detail_button_participants"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:text="25 deelnemers"
@@ -63,6 +65,7 @@
                     android:enabled="false"/>
                 <Button
                     android:layout_width="wrap_content"
+                    android:id="@+id/activity_workshop_detail_button_duration"
                     android:layout_height="wrap_content"
                     android:text="60 minuten"
                     android:backgroundTint="@color/main_orange"

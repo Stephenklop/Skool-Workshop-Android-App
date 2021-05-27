@@ -1,22 +1,18 @@
 package com.example.skoolworkshop2;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.lang.invoke.WrongMethodTypeException;
 import java.util.ArrayList;
 
 public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapter.OnWorkshopSelectionListener {
