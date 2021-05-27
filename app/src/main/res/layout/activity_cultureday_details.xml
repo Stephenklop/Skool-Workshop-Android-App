@@ -38,6 +38,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_cultureday_details_rv_tags"
             android:layout_width="match_parent"
             android:layout_height="35dp" />
 

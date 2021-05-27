@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/fragment_home_banner_img_base"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/img_home_banner_container"
-        android:scaleType="centerCrop"
-        android:src="@drawable/home_banner_placeholder" />
+<!--    <ImageView-->
+<!--        android:id="@+id/fragment_home_banner_img_base"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@drawable/img_home_banner_container"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/home_banner_placeholder" />-->
 
     <ImageView
         android:id="@+id/fragment_home_banner_img_gradient"

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
 
 import java.util.ArrayList;
@@ -26,9 +27,10 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
         this.workshopArrayList = workshopArrayList;
-        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, "Test", 6));
-        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55,  "Test", 6));
-        workshopArrayList.add(new Workshop(1, "Result", "Test", 55.55,  "Test", 6));
+        String[] desc = {"blabla", "test", "info", "price"};
+        workshopArrayList.add(new Workshop(1, "Test", Category.DS, desc,55.55, "Test", 60, 25));
+        workshopArrayList.add(new Workshop(2, "Test", Category.BK, desc,55.55, "Test", 60, 25));
+        workshopArrayList.add(new Workshop(3, "Test", Category.MK, desc,55.55, "Test", 60, 25));
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
         this.listener = listener;
     }
