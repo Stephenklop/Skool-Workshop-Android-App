@@ -1,8 +1,8 @@
 package com.example.skoolworkshop2.domain;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class Customer {
+public class Customer implements Serializable {
     private int id;
     private String firstName;
     private String lastName;
@@ -37,6 +37,10 @@ public class Customer {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getStreet() {
