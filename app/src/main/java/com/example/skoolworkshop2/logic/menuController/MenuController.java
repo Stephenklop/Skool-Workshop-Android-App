@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.WorkshopActivity;
+import com.example.skoolworkshop2.ui.CulturedayActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,7 +47,7 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to search page");
-                Intent toSearch = new Intent(context, WorkshopActivity.class);
+                Intent toSearch = new Intent(context, CulturedayActivity.class);
                 context.startActivity(toSearch);
             }
         });
