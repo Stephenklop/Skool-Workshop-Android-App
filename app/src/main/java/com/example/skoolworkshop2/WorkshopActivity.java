@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -33,6 +34,17 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     @Override
     public void onWorkshopSelected(int position) {
+        String name = mWorkshops.get(position).getName();
+        String description = mWorkshops.get(position).getDescription();
+        Double price = mWorkshops.get(position).getPrice();
+        int maxParticipant = mWorkshops.get(position).getMaxParticipants();
+
+        Intent intent = new Intent(this, WorkshopDetailActivity.class);
+        intent.putExtra("NAME", name);
+        intent.putExtra("DESCRIPTION", description);
+        intent.putExtra("PRICE", price);
+        intent.putExtra("MAXP", maxParticipant);
+        startActivity(intent);
 
     }
 }
