@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ public class WorkshopDetailActivity extends AppCompatActivity {
     private TextView mWorkshopTitle;
     private TextView mWorkshopDescription;
     private TextView mWorkshopPrice;
+    private View mFragmentContainerView;
 
     private TextView tv1;
     private TextView tv2;
@@ -36,12 +38,13 @@ public class WorkshopDetailActivity extends AppCompatActivity {
 //        TextView tv3 = tabsll.findViewById(R.id.c);
 //        TextView tv4 = tabsll.findViewById(R.id.d);
 
+        mFragmentContainerView = (View) findViewById(R.id.activity_workshop_details_fragment_txt);
         mCoverView = (ImageView) findViewById(R.id.activity_workshops_details_cover);
-        mWorkshopTitle = (TextView) findViewById(R.id.activity_workshops_details_title);
-        mWorkshopDescription = (TextView) findViewById(R.id.activity_workshops_details_description);
+        mWorkshopTitle = (TextView) findViewById(R.id.activity_workshop_title);
+//        mWorkshopDescription = (TextView) findViewById(R.id.activity_workshops_details_description);
 
         mWorkshopTitle.setText(getIntent().getStringExtra("NAME"));
-        mWorkshopDescription.setText(getIntent().getStringExtra("DESCRIPTION"));
+//        mWorkshopDescription.setText(getIntent().getStringExtra("DESCRIPTION"));
 
 
 
