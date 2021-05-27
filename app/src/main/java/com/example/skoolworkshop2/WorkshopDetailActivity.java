@@ -76,7 +76,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         } else if (v == mTabsContentTv) {
             mTabsSelector.animate().x(mTabsContentTv.getX()).setDuration(100);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_workshop_details_fragment_txt, new WorkshopContentFragment())
+                    .replace(R.id.activity_workshop_details_fragment_txt, new WorkshopContentFragment(workshop))
                     .commit();
         }
     }

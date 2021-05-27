@@ -29,7 +29,7 @@ public class WorkshopOverviewFragment extends Fragment {
 
         mParticipants.setText("60 minuten | Maximaal " + workshop.getMaxParticipants() + " deelnemers");
         mPriceTv.setText(workshop.getPrice() + ",-");
-        mDescriptionTv.setText(workshop.getDescription());
+        mDescriptionTv.setText(workshop.getDescription()[0]);
 
         return root;
     }
