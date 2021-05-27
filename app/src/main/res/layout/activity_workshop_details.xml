@@ -33,7 +33,7 @@
             android:textStyle="bold" />
 
         <include
-            android:id="@+id/tabs"
+            android:id="@+id/activity_workshop_details_ll_tabs"
             layout="@layout/fragment_detail_tabs" />
 
         <androidx.fragment.app.FragmentContainerView
@@ -41,7 +41,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="25dp" />
-
-
     </LinearLayout>
 </RelativeLayout>
