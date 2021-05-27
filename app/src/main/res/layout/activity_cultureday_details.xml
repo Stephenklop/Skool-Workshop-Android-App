@@ -28,11 +28,12 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_marginTop="175dp"
         android:layout_height="0dp"
+        android:layout_marginTop="175dp"
         android:background="@drawable/detail_background"
         android:orientation="vertical"
-        android:padding="25dp"
+        android:paddingHorizontal="25dp"
+        android:paddingTop="25dp"
         app:layout_constraintBottom_toTopOf="@id/activity_cultureday_details_menu_icons"
         app:layout_constraintTop_toTopOf="parent">
 
