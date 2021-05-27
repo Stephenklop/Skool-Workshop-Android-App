@@ -13,7 +13,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/fragment_edittext_info"
+        layout="@layout/fragment_edittext_plaintext_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
