@@ -26,9 +26,9 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
         this.workshopArrayList = workshopArrayList;
-        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, 6, "Test"));
-        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, 6, "Test"));
-        workshopArrayList.add(new Workshop(1, "Result", "Test", 55.55, 6, "Test"));
+        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, "Test", 6));
+        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55,  "Test", 6));
+        workshopArrayList.add(new Workshop(1, "Result", "Test", 55.55,  "Test", 6));
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
         this.listener = listener;
     }

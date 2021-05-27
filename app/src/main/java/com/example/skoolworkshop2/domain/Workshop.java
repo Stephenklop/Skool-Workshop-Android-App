@@ -17,6 +17,7 @@ public class Workshop implements Product {
         this.maxParticipants = maxParticipants;
     }
 
+
     @Override
     public int getId() {
         return id;
