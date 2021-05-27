@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skoolworkshop2.domain.Workshop;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +88,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
             super(itemView);
             mWorkshopName = (TextView) itemView.findViewById(R.id.tv_workshop_title);
             mWorkshopImage = (ImageView) itemView.findViewById(R.id.img_workshop_card);
+            mWorkshopImage.setClipToOutline(true);
             mWorkshopCategory = (TextView) itemView.findViewById(R.id.tv_workshop_category);
             itemView.setOnClickListener(this);
         }
@@ -115,7 +118,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         Log.d(LOG_TAG, "onBindViewHolder - " + workshop.toString());
 
         holder.mWorkshopName.setText(workshop.getName());
-        holder.mWorkshopCategory.setText(workshop.getCategory());
+//        holder.mWorkshopCategory.setText(workshop.getCategory());
     }
 
 
