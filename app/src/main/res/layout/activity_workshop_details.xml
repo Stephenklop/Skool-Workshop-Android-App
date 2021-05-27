@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/testimage" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/detail_background"
+        android:padding="25dp"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="35dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova"
+            android:text="Graffiti"
+            android:textSize="26sp"
+            android:textFontWeight="700"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/black"/>
+
+        <include
+            android:id="@+id/tabs"
+            layout="@layout/fragment_detail_tabs"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="none"
+            android:textSize="24sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+</RelativeLayout>
