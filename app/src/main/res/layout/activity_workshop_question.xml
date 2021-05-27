@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Gewenste aanvangsttijd:"
+                    android:text="Gewenste aanvangstijd:"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
