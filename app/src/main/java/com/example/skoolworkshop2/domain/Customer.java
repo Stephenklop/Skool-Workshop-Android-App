@@ -39,6 +39,10 @@ public class Customer implements Serializable {
         return lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getStreet() {
         return street;
     }
