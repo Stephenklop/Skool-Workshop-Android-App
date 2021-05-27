@@ -19,17 +19,32 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final ArrayList<Workshop> workshopArrayList;
+    private final ArrayList<String> categories = new ArrayList<>();
     private OnWorkshopSelectionListener listener;
 
     public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
+        addCategories();
         this.workshopArrayList = workshopArrayList;
-        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, 6, "Test"));
-        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, 6, "Test"));
+        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, 6, "Sport"));
+        workshopArrayList.add(new Workshop(1, "Test", "Test", 55.55, 6, ""));
         workshopArrayList.add(new Workshop(1, "Result", "Test", 55.55, 6, "Test"));
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
         this.listener = listener;
     }
+
+    // Hard-coded categories
+    public void addCategories(){
+        ArrayList<String> list = new ArrayList<>();
+        categories.add("Meest gekozen");
+        categories.add("Beeldende Kunst");
+        categories.add("Dans");
+        categories.add("Media");
+        categories.add("Muziek");
+        categories.add("Sport");
+        categories.add("Theater");
+    }
+
 
     // filtereren
     @Override
@@ -79,6 +94,8 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         public void onClick(View view) {
             Log.d(LOG_TAG, "onClick on item " + getAdapterPosition());
             listener.onWorkshopSelected(getAdapterPosition());
+            Log.d(LOG_TAG, "onClick category selected" + getAdapterPosition());
+            listener.onWorkshopCategorySelected(getAdapterPosition());
         }
     }
 
@@ -109,5 +126,6 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
 
     public interface OnWorkshopSelectionListener {
         void onWorkshopSelected(int position);
+        void onWorkshopCategorySelected(int position);
     }
 }
