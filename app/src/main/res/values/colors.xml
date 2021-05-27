@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="main_orange">#F49700</color>
+    <color name="background">#F2F6F9</color>
+    <color name="light_grey">#C2C6C8</color>
+    <color name="dark_grey">#949494</color>
+
+    <!-- EditText colours -->
+    <color name="disabled_grey">#F7F8F8</color>
+    <color name="error_red">#F3474B</color>
+    <color name="confirmed_green">#7CB342</color>
 </resources>
