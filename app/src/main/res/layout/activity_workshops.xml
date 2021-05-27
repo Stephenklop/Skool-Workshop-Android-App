@@ -69,6 +69,7 @@
 
     <!-- Include Icon Menu -->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_workshops_txt_category_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="25dp"
