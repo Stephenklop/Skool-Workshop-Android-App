@@ -4,7 +4,9 @@ public enum Category {
     BK("Beeldende Kunst"),
     MK("Muziek"),
     MA("Media"),
-    DS("Dans");
+    DS("Dans"),
+    ST("Sport"),
+    TR("Theater");
 
     public final String label;
 
