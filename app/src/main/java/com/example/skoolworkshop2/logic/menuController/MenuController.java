@@ -3,21 +3,20 @@ package com.example.skoolworkshop2.logic.menuController;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.WorkshopActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.Console;
 
 public class MenuController {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
-    private View menu;
+    private BottomNavigationView menu;
     private BottomNavigationItemView home;
     private BottomNavigationItemView search;
     private BottomNavigationItemView shoppingCart;
@@ -56,6 +55,7 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to shoppingcart page");
+                menu.getMenu().getItem(2).setChecked(true);
             }
         });
 
@@ -63,6 +63,7 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to account page");
+                menu.getMenu().getItem(3).setChecked(true);
             }
         });
     }
