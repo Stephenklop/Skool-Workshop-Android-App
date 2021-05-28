@@ -58,7 +58,8 @@
                     android:text="1674,-"
                     android:backgroundTint="@color/main_orange"
                     android:textColor="@color/white"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_price"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,21 +67,24 @@
                     android:text="100 deelnemers"
                     android:backgroundTint="@color/main_orange"
                     android:textColor="@color/white"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_participant"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4 Workshops"
                     android:backgroundTint="@color/main_orange"
                     android:textColor="@color/white"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_workshop"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3 Rondes"
                     android:backgroundTint="@color/main_orange"
                     android:textColor="@color/white"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_round"/>
             </LinearLayout>
 
         </HorizontalScrollView>

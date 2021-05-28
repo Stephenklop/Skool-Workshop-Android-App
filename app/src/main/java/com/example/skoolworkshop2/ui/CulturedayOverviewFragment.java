@@ -25,9 +25,9 @@ public class CulturedayOverviewFragment extends Fragment {
         mPriceTv = root.findViewById(R.id.fragment_workshop_overview_tv_price);
         mParticipants = root.findViewById(R.id.fragment_worksjop_overview_tv_details);
 
-        mParticipants.setText("60 minuten | Maximaal 100 deelnemers");
-        mPriceTv.setText("1674,-");
-//        mDescriptionTv.setText(cultureDay.getDescription()[0]);
+        mParticipants.setText(cultureDay.getWorkshops().size() + " Workshops, " + cultureDay.getRounds() + " Rondes | Maximaal " + cultureDay.getMaxParticipants() + " Deelnemers");
+        mPriceTv.setText(cultureDay.getPrice() + ",-");
+        mDescriptionTv.setText(cultureDay.getDescription()[0]);
 
         return root;
     }

@@ -7,10 +7,16 @@ import android.view.View;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.WorkshopActivity;
+import com.example.skoolworkshop2.domain.Category;
+import com.example.skoolworkshop2.domain.CultureDay;
+import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.ui.CulturedayActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MenuController {
@@ -22,6 +28,9 @@ public class MenuController {
     private BottomNavigationItemView search;
     private BottomNavigationItemView shoppingCart;
     private BottomNavigationItemView account;
+
+    private List<Workshop> workshopArrayList;
+
 
     private Context context;
 
@@ -43,11 +52,22 @@ public class MenuController {
             }
         });
 
+        //Test data for cultureday
+        this.workshopArrayList = new ArrayList<>();
+        String[] desc = {"blabla", "test", "info", "price"};
+        workshopArrayList.add(new Workshop(1, "Test", Category.DS, desc,55.55, "Test", 60, 25));
+        workshopArrayList.add(new Workshop(2, "Test", Category.BK, desc,55.55, "Test", 60, 25));
+        workshopArrayList.add(new Workshop(3, "Test", Category.MK, desc,55.55, "Test", 60, 25));
+
+
         search.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to search page");
                 Intent toSearch = new Intent(context, CulturedayActivity.class);
+                toSearch.putExtra("Cultureday", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"},
+                        workshopArrayList, 4, 1650,"5/28/2021", 100));
                 context.startActivity(toSearch);
             }
         });
