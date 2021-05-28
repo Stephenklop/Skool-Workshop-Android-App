@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.WorkshopActivity;
-import com.example.skoolworkshop2.Logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
 
 public class MainActivity extends AppCompatActivity {
 
