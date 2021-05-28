@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,25 +52,26 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public class CategoryGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public Button mCategoryButton;
+        public RadioButton mCategoryButton;
 
         public CategoryGridViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCategoryButton = (Button) itemView.findViewById(R.id.medium_button_extendable);
+            mCategoryButton = (RadioButton) itemView.findViewById(R.id.radio_button_extendable);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Log.d(LOG_TAG, "onClick on item " + getAdapterPosition());
-            listener.onCategorySelected(getAdapterPosition());
+                Log.d(LOG_TAG, "onClick on item " + getAdapterPosition());
+                listener.onCategorySelected(getAdapterPosition());
+                
+            }
         }
-    }
 
     @NonNull
     @Override
     public CategoryGridViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutIdListedItem = R.layout.fragment_button_medium_extendable;
+        int layoutIdListedItem = R.layout.fragment_button_categories;
         final boolean shouldAttachToParentImmediately = false;
         View view = LayoutInflater.from(parent.getContext()).inflate(layoutIdListedItem, parent, shouldAttachToParentImmediately);
         return new CategoryGridViewHolder(view);
@@ -81,13 +83,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         if(position != 0){
             holder.mCategoryButton.setText(category);
             Log.d(LOG_TAG, "onBindViewHolder - " + category);
-            holder.mCategoryButton.setTextColor(Color.BLACK);
         } else {
             holder.mCategoryButton.setText(category);
+            holder.mCategoryButton.setChecked(true);
             Log.d(LOG_TAG, "onBindViewHolder - " + category);
         }
-
-
     }
 
     @Override

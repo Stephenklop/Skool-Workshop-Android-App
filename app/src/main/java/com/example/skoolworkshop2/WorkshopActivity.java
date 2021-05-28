@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
 
 import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
-import com.example.skoolworkshop2.logic.menuController.MenuController;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.util.ArrayList;
 
 public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapter.OnWorkshopSelectionListener, CategoryAdapter.OnCategorySelectionListener {
@@ -22,6 +21,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private WorkshopAdapter mWorkshopAdapter;
     private CategoryAdapter mCategoryAdapter;
     private RecyclerView mCategoryRecyclerView;
+    private RadioButton radioButton;
     private RecyclerView mRecyclerView;
     private ArrayList<Workshop> mWorkshops = new ArrayList<>();
     private ArrayList<String> mCategories = new ArrayList<>();
@@ -29,20 +29,17 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Overview", "Inhoud", "Info", "Kosten"}, 55.55, "11-11-2021", 1, Category.DS));
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Overview", "Inhoud", "Info", "Kosten"}, 55.55, "11-11-2021", 1, Category.BK));
-        mWorkshops.add(new Workshop(1, "Result", new String[]{"Overview", "Inhoud", "Info", "Kosten"}, 55.55, "11-11-2021", 1, Category.MK));
-        // Add enum list with data
-        mEnumCategories.addAll(addCategories());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshops);
-
-
-        View root = (View) findViewById(R.id.activity_workshops);
-        MenuController mc = new MenuController(root);
-        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
-        menu.getMenu().getItem(1).setChecked(true);
-
+        // Add data to workshops
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.DS));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.BK));
+        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.MK));
+        // Add enum list with data
+        mEnumCategories.addAll(addCategories());
+        // Radiobutton
+        View root = findViewById(R.id.activity_workshops_sv_categories);
+        radioButton = (RadioButton) root.findViewById(R.id.radio_button_extendable);
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshops_txt_category_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,15 +67,14 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                     }
                 }
                 if(s.equals("")){
-                    ArrayList<Workshop> allWorkshops = new ArrayList<>();
-                    allWorkshops.addAll(mWorkshops);
-                    mWorkshopAdapter.setWorkshopList(allWorkshops);
+                    mWorkshopAdapter.setWorkshopList(mWorkshops);
                 } else {
                     mWorkshopAdapter.setWorkshopList(filter);
                 }
                 return false;
             }
         });
+
     }
 
 
@@ -103,6 +99,12 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     @Override
     public void onCategorySelected(int position) {
         String category = mEnumCategories.get(position);
+        String radioCategory = mCategories.get(position);
+        if(radioButton.getText().equals(radioCategory)){
+            radioButton.setChecked(true);
+        } else {
+            radioButton.setChecked(false);
+        }
 
         if (category.equals("Meest gekozen")) {
             mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
@@ -111,9 +113,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             Log.d(LOG_TAG, "onCategorySelected: category: " + category);
             ArrayList<Workshop> workshops = new ArrayList<>();
             for(Workshop workshop: mWorkshops){
-                    if (workshop.getCategory().equals(Category.valueOf(category))) {
-                        workshops.add(workshop);
-                    }
+                if (workshop.getCategory().equals(Category.valueOf(category))) {
+                    workshops.add(workshop);
+                }
             }
             Log.d(LOG_TAG, "onCategorySelected: size: " + workshops.size());
             mRecyclerView.setAdapter(null);
