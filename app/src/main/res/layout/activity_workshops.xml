@@ -38,18 +38,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_search" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <HorizontalScrollView
         android:id="@+id/activity_workshops_sv_categories"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
-        android:orientation="horizontal"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" >
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/activity_workshops_rg_selector"
+                android:orientation="horizontal"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- Category Items -->
     <TextView

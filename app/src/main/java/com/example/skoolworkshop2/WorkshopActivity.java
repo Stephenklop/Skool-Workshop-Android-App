@@ -1,9 +1,11 @@
 package com.example.skoolworkshop2;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +17,7 @@ import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
 import java.util.ArrayList;
 
-public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapter.OnWorkshopSelectionListener, CategoryAdapter.OnCategorySelectionListener {
+public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapter.OnWorkshopSelectionListener{
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private WorkshopAdapter mWorkshopAdapter;
@@ -27,10 +29,12 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private ArrayList<String> mCategories = new ArrayList<>();
     private ArrayList<String> mEnumCategories = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshops);
+        View root = findViewById(R.id.activity_workshops);
         // Add data to workshops
         mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.DS));
         mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.BK));
@@ -44,11 +48,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
-        // RecyclerView for categories
-        mCategoryRecyclerView = (RecyclerView) findViewById(R.id.activity_workshops_sv_categories);
-        mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mCategoryAdapter = new CategoryAdapter(mCategories, this);
-        mCategoryRecyclerView.setAdapter(mCategoryAdapter);
+
+        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this);
 
 
 
@@ -98,32 +99,4 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     }
 
-    @Override
-    public void onCategorySelected(int position) {
-        radioButton = (RadioButton) mCategoryRecyclerView.getChildAt(1);
-        String category = mEnumCategories.get(position);
-        String radioCategory = mCategories.get(position);
-        if(radioButton.getText().equals(radioCategory)){
-            radioButton.setChecked(true);
-        } else {
-            radioButton.setChecked(false);
-        }
-
-        if (category.equals("Meest gekozen")) {
-            mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
-            mRecyclerView.setAdapter(mWorkshopAdapter);
-        } else {
-            Log.d(LOG_TAG, "onCategorySelected: category: " + category);
-            ArrayList<Workshop> workshops = new ArrayList<>();
-            for(Workshop workshop: mWorkshops){
-                if (workshop.getCategory().equals(Category.valueOf(category))) {
-                    workshops.add(workshop);
-                }
-            }
-            Log.d(LOG_TAG, "onCategorySelected: size: " + workshops.size());
-            mRecyclerView.setAdapter(null);
-            mWorkshopAdapter = new WorkshopAdapter(workshops, this);
-            mRecyclerView.setAdapter(mWorkshopAdapter);
-        }
-    }
 }
