@@ -22,14 +22,13 @@ public class MainActivity extends AppCompatActivity {
         View root = (View) findViewById(R.id.activity_home);
 
         MenuController mc = new MenuController(root);
-        Intent intent = new Intent(this, WorkshopActivity.class);
-        startActivity(intent);
+
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mc.sendToSearch();
+                mc.sendToSearch();
             }
         });
 
