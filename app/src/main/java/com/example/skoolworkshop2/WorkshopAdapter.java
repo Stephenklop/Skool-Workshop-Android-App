@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +87,9 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         public void onClick(View view) {
             Log.d(LOG_TAG, "onClick on item " + getAdapterPosition());
             listener.onWorkshopSelected(getAdapterPosition());
+            Intent intent = new Intent(view.getContext(), WorkshopDetailActivity.class);
+            intent.putExtra("Workshop", workshopArrayList.get(getAdapterPosition()));
+            view.getContext().startActivity(intent);
         }
     }
 
