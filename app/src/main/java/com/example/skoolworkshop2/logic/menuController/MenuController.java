@@ -59,13 +59,12 @@ public class MenuController {
         workshopArrayList.add(new Workshop(2, "Test", desc,55.55, "Test", 60, Category.BK));
         workshopArrayList.add(new Workshop(3, "Test", desc,55.55, "Test", 60, Category.MA));
 
-
         search.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to search page");
-                Intent toSearch = new Intent(context, CulturedayActivity.class);
+                Intent toSearch = new Intent(context, WorkshopActivity.class);
                 toSearch.putExtra("Cultureday", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"},
                         workshopArrayList, 4, 1650,"5/28/2021", 100));
                 context.startActivity(toSearch);

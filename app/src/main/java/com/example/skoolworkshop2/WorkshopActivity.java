@@ -6,10 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.SearchView;
 
 import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 
 public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapter.OnWorkshopSelectionListener, CategoryAdapter.OnCategorySelectionListener {
@@ -32,6 +36,13 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mEnumCategories.addAll(addCategories());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshops);
+
+
+        View root = (View) findViewById(R.id.activity_workshops);
+        MenuController mc = new MenuController(root);
+        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(1).setChecked(true);
+
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshops_txt_category_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -59,7 +70,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                     }
                 }
                 if(s.equals("")){
-                    mWorkshopAdapter.setWorkshopList(mWorkshops);
+                    ArrayList<Workshop> allWorkshops = new ArrayList<>();
+                    allWorkshops.addAll(mWorkshops);
+                    mWorkshopAdapter.setWorkshopList(allWorkshops);
                 } else {
                     mWorkshopAdapter.setWorkshopList(filter);
                 }
