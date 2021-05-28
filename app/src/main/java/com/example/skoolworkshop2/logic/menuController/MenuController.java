@@ -47,7 +47,7 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to search page");
-                Intent toSearch = new Intent(context, CulturedayActivity.class);
+                Intent toSearch = new Intent(context, WorkshopActivity.class);
                 context.startActivity(toSearch);
             }
         });
@@ -77,5 +77,10 @@ public class MenuController {
     public void sendToSearch(){
         Intent toSearch = new Intent(context, WorkshopActivity.class);
         context.startActivity(toSearch);
+    }
+
+    public void sendToCultureDay(){
+        Intent toCultureDay = new Intent(context, CulturedayActivity.class);
+        context.startActivity(toCultureDay);
     }
 }
