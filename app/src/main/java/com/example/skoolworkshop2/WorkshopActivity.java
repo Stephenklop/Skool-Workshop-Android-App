@@ -38,8 +38,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         // Add enum list with data
         mEnumCategories.addAll(addCategories());
         // Radiobutton
-        View root = findViewById(R.id.activity_workshops_sv_categories);
-        radioButton = (RadioButton) root.findViewById(R.id.radio_button_extendable);
+
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshops_txt_category_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,6 +49,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mCategoryAdapter = new CategoryAdapter(mCategories, this);
         mCategoryRecyclerView.setAdapter(mCategoryAdapter);
+
+
+
         // SearchView
         SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -98,6 +100,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     @Override
     public void onCategorySelected(int position) {
+        radioButton = (RadioButton) mCategoryRecyclerView.getChildAt(1);
         String category = mEnumCategories.get(position);
         String radioCategory = mCategories.get(position);
         if(radioButton.getText().equals(radioCategory)){
