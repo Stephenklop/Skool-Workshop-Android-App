@@ -31,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        View cultureDay = findViewById(R.id.activity_home_item_account);
+        cultureDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mc.sendToCultureDay();
+            }
+        });
+
 
     }
 
