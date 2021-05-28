@@ -1,18 +1,19 @@
 package com.example.skoolworkshop2.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CultureDay implements Product {
+public class CultureDay implements Product, Serializable {
     private int id;
     private String name;
-    private String description;
+    private String[] description;
     private List<Workshop> workshops;
     private int rounds;
     private double price;
     private String date; // Might be changed to Timestamp later (depends on whether that's useful)
     private int maxParticipants;
 
-    public CultureDay(int id, String name, String description, List<Workshop> workshops, int rounds, double price, String date, int maxParticipants) {
+    public CultureDay(int id, String name, String[] description, List<Workshop> workshops, int rounds, double price, String date, int maxParticipants) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -34,7 +35,7 @@ public class CultureDay implements Product {
     }
 
     @Override
-    public String getDescription() {
+    public String[] getDescription() {
         return description;
     }
 
@@ -67,7 +68,7 @@ public class CultureDay implements Product {
         this.name = name;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String[] description) {
         this.description = description;
     }
 
