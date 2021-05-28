@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
 
+import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
 import java.util.ArrayList;
 
@@ -20,12 +21,15 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mRecyclerView;
     private ArrayList<Workshop> mWorkshops = new ArrayList<>();
     private ArrayList<String> mCategories = new ArrayList<>();
+    private ArrayList<String> mEnumCategories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mWorkshops.add(new Workshop(1, "Test", "Test", 55.55, "11-11-2021", 1, "Dans"));
-        mWorkshops.add(new Workshop(1, "Test", "Test", 55.55, "11-11-2021", 1, "Beeldende Kunst"));
-        mWorkshops.add(new Workshop(1, "Result", "Test", 55.55, "11-11-2021", 1, "Muziek"));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.DS));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.BK));
+        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.MK));
+        // Add enum list with data
+        mEnumCategories.addAll(addCategories());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshops);
         // RecyclerView for whole activity
@@ -55,6 +59,19 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     }
 
 
+    // Hard-coded categories
+    public ArrayList<String> addCategories(){
+        ArrayList<String> list = new ArrayList<>();
+        mEnumCategories.add("Meest gekozen");
+        mEnumCategories.add("BK");
+        mEnumCategories.add("DS");
+        mEnumCategories.add("MA");
+        mEnumCategories.add("MK");
+        mEnumCategories.add("ST");
+        mEnumCategories.add("TR");
+        return list;
+    }
+
     @Override
     public void onWorkshopSelected(int position) {
 
@@ -62,17 +79,18 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     @Override
     public void onCategorySelected(int position) {
-        String category = mCategories.get(position);
+        String category = mEnumCategories.get(position);
+
         if (category.equals("Meest gekozen")) {
             mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
             mRecyclerView.setAdapter(mWorkshopAdapter);
         } else {
             Log.d(LOG_TAG, "onCategorySelected: category: " + category);
             ArrayList<Workshop> workshops = new ArrayList<>();
-            for (Workshop workshop : mWorkshops) {
-                if (workshop.getCategory().equals(category)) {
-                    workshops.add(workshop);
-                }
+            for(Workshop workshop: mWorkshops){
+                    if (workshop.getCategory().equals(Category.valueOf(category))) {
+                        workshops.add(workshop);
+                    }
             }
             Log.d(LOG_TAG, "onCategorySelected: size: " + workshops.size());
             mRecyclerView.setAdapter(null);

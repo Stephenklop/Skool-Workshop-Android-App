@@ -21,7 +21,7 @@ public class WorkshopInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_info, container, false);
         mDescriptionTv = root.findViewById(R.id.fragment_workshop_info_tv_txt);
-        mDescriptionTv.setText(workshop.getDescription());
+        mDescriptionTv.setText(workshop.getDescription()[2]);
 
         return root;
     }

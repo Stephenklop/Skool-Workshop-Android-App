@@ -104,7 +104,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         Log.d(LOG_TAG, "onBindViewHolder - " + workshop.toString());
 
         holder.mWorkshopName.setText(workshop.getName());
-        holder.mWorkshopCategory.setText(workshop.getCategory());
+        holder.mWorkshopCategory.setText(workshop.getCategory().label);
     }
 
 

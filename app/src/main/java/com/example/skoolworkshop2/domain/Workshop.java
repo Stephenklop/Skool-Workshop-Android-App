@@ -1,15 +1,17 @@
 package com.example.skoolworkshop2.domain;
 
-public class Workshop {
+import java.io.Serializable;
+
+public class Workshop implements Product, Serializable {
     private int id;
     private String name;
-    private String description;
+    private String[] description;
     private double price;
     private String date; // Might be changed to Timestamp later (depends on whether that's useful)
     private int maxParticipants;
-    private String category;
+    private Category category;
 
-    public Workshop(int id, String name, String description, double price, String date, int maxParticipants, String category) {
+    public Workshop(int id, String name, String[] description, double price, String date, int maxParticipants, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -19,18 +21,22 @@ public class Workshop {
         this.category = category;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
+    @Override
+    public String[] getDescription() {
         return description;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
@@ -43,18 +49,22 @@ public class Workshop {
         return maxParticipants;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDescription(String description) {
+    @Override
+    public void setDescription(String[] description) {
         this.description = description;
     }
 
+    @Override
     public void setPrice(double price) {
         this.price = price;
     }
@@ -67,11 +77,11 @@ public class Workshop {
         this.maxParticipants = maxParticipants;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }
