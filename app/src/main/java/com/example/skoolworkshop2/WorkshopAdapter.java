@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopGridViewHolder> implements Filterable {
+public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopGridViewHolder> {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final ArrayList<Workshop> workshopArrayList;
@@ -34,37 +34,42 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         this.listener = listener;
     }
 
-    // filtereren
-    @Override
-    public Filter getFilter() {
-        return exampleFilter;
+//    // filtereren
+//    @Override
+//    public Filter getFilter() {
+//        return exampleFilter;
+//    }
+//
+//    private Filter exampleFilter = new Filter() {
+//        @Override
+//        protected FilterResults performFiltering(CharSequence constraint) {
+//            List<Workshop> filteredList = new ArrayList<>();
+//            String filterPattern = constraint.toString().toLowerCase().trim();
+//            for (Workshop workshop : workshopArrayList) {
+//                if (workshop.getName().toLowerCase().contains(filterPattern)) {
+//                    filteredList.add(workshop);
+//                }
+//            }
+//            FilterResults results = new FilterResults();
+//            results.values = filteredList;
+//            Log.d(LOG_TAG, "performFiltering: " + results);
+//            return results;
+//        }
+//        @Override
+//        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            workshopArrayList.clear();
+//            workshopArrayList.addAll((List) results.values);
+//            notifyDataSetChanged();
+//            Log.i(LOG_TAG, "publishResults: Characters: " + workshopArrayList);
+//        }
+//    };
+
+    public void setWorkshopList(List<Workshop> workshops) {
+        Log.d(LOG_TAG, "setMovieList");
+        this.workshopArrayList.clear();
+        this.workshopArrayList.addAll(workshops);
+        this.notifyDataSetChanged();
     }
-
-    private Filter exampleFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<Workshop> filteredList = new ArrayList<>();
-            String filterPattern = constraint.toString().toLowerCase().trim();
-            for (Workshop workshop : workshopArrayList) {
-                if (workshop.getName().toLowerCase().contains(filterPattern)) {
-                    filteredList.add(workshop);
-                }
-            }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            Log.d(LOG_TAG, "performFiltering: " + results);
-            return results;
-        }
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            workshopArrayList.clear();
-            workshopArrayList.addAll((List) results.values);
-            notifyDataSetChanged();
-            Log.i(LOG_TAG, "publishResults: Characters: " + workshopArrayList);
-        }
-    };
-
-
 
     public class WorkshopGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -106,7 +111,6 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         holder.mWorkshopName.setText(workshop.getName());
         holder.mWorkshopCategory.setText(workshop.getCategory().label);
     }
-
 
     @Override
     public int getItemCount() {

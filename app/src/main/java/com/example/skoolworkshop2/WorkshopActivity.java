@@ -52,7 +52,17 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
             @Override
             public boolean onQueryTextChange(String s) {
-                mWorkshopAdapter.getFilter().filter(s);
+                ArrayList<Workshop> filter = new ArrayList<>();
+                for (Workshop workshop : mWorkshops){
+                    if(workshop.getName().toLowerCase().contains(s)){
+                        filter.add(workshop);
+                    }
+                }
+                if(s.equals("")){
+                    mWorkshopAdapter.setWorkshopList(mWorkshops);
+                } else {
+                    mWorkshopAdapter.setWorkshopList(filter);
+                }
                 return false;
             }
         });
