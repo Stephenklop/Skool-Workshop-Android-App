@@ -98,4 +98,9 @@ public class MenuController {
         Intent toSearch = new Intent(context, WorkshopActivity.class);
         context.startActivity(toSearch);
     }
+
+    public void sendToCultureDay(){
+        Intent toCultureDay = new Intent(context, CulturedayActivity.class);
+        context.startActivity(toCultureDay);
+    }
 }
