@@ -63,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
+
             app:layout_constraintTop_toBottomOf="@id/fragment_worksjop_overview_tv_details" />
 
         <TextView

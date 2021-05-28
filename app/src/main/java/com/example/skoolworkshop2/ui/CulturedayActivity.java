@@ -37,10 +37,19 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_details);
+
+//        View root = (View) findViewById(R.id.activity_cultureday_details);
+//        MenuController mc = new MenuController(root);
+//        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+//        menu.getMenu().getItem(1).setChecked(true);
+
+
+
 
         mTitleTV = findViewById(R.id.activity_cultureday_details_tv_title);
         mBackButton = findViewById(R.id.activity_cultureday_details_btn_back);
@@ -48,6 +57,8 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mParticipantsBn = findViewById(R.id.activity_cultureday_details_btn_participant);
         mWorkshopsBn = findViewById(R.id.activity_cultureday_details_btn_workshop);
         mRoundsBn = findViewById(R.id.activity_cultureday_details_btn_round);
+
+
 
         cultureDay = (CultureDay) getIntent().getSerializableExtra("Cultureday");
 
@@ -86,6 +97,7 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
 //        menu.getMenu().getItem(2).setChecked(true);
 //
 //        MenuController mc = new MenuController(root);
+
     }
 
     @Override
