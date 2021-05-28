@@ -1,43 +1,91 @@
 package com.example.skoolworkshop2;
 
-import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.domain.Workshop;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryGridViewHolder> {
+public class CategoryAdapter{
 
     private final String LOG_TAG = this.getClass().getSimpleName();
-    private final ArrayList<String> categories;
-    private OnCategorySelectionListener listener;
+    private final ArrayList<String> categories = new ArrayList<>();
 
-    public CategoryAdapter(ArrayList<String> categoriesArrayList, OnCategorySelectionListener listener) {
+    private RadioGroup mCategoriesRadiogroup;
+    private AppCompatActivity activity;
+    private ArrayList<Workshop> mWorkshops;
+    private WorkshopAdapter mWorkshopAdapter;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public CategoryAdapter(View root, AppCompatActivity activity) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
-        this.categories = categoriesArrayList;
-        this.categories.addAll(addCategories());
-        this.listener = listener;
+        addCategories();
+        this.activity = activity;
+        mCategoriesRadiogroup = root.findViewById(R.id.activity_workshops_rg_selector);
+        addCategoriesToGroup();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void addCategoriesToGroup() {
+        for (int i = 0; i < categories.size(); i++) {
+            int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));
+
+            RadioButton rb = new RadioButton(activity);
+
+            rb.setBackgroundResource(R.drawable.btn_categories_states);
+            rb.setText(categories.get(i));
+            rb.setId(i);
+            rb.setButtonDrawable(android.R.color.transparent);
+            rb.setPadding(paddingDp, 0, paddingDp, 0);
+            rb.setHeight(Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, activity.getResources().getDisplayMetrics())));
+
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT
+            );
+
+
+            Typeface typeface = activity.getResources().getFont(R.font.proxima_nova);
+            rb.setTypeface(typeface);
+
+            params.setMargins(0, 0, paddingDp, 0);
+            rb.setLayoutParams(params);
+            rb.setTextColor(Color.BLACK);
+
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        rb.setTextColor(Color.WHITE);
+
+                    } else {
+                        rb.setTextColor(Color.BLACK);
+                    }
+                }
+            });
+
+            mCategoriesRadiogroup.addView(rb);
+            if(i == 0){
+                rb.setChecked(true);
+            }
+        }
     }
 
     // Hard-coded categories
-    public ArrayList<String> addCategories(){
-        ArrayList<String> list = new ArrayList<>();
+    public void addCategories(){
         categories.add("Meest gekozen");
         categories.add("Beeldende Kunst");
         categories.add("Dans");
@@ -45,58 +93,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         categories.add("Muziek");
         categories.add("Sport");
         categories.add("Theater");
-
-        return list;
     }
 
-    public class CategoryGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public Button mCategoryButton;
-
-        public CategoryGridViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mCategoryButton = (Button) itemView.findViewById(R.id.medium_button_extendable);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            Log.d(LOG_TAG, "onClick on item " + getAdapterPosition());
-            listener.onCategorySelected(getAdapterPosition());
-        }
-    }
-
-    @NonNull
-    @Override
-    public CategoryGridViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutIdListedItem = R.layout.fragment_button_medium_extendable;
-        final boolean shouldAttachToParentImmediately = false;
-        View view = LayoutInflater.from(parent.getContext()).inflate(layoutIdListedItem, parent, shouldAttachToParentImmediately);
-        return new CategoryGridViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull CategoryGridViewHolder holder, int position) {
-        String category = categories.get(position);
-        if(position != 0){
-            holder.mCategoryButton.setText(category);
-            Log.d(LOG_TAG, "onBindViewHolder - " + category);
-            holder.mCategoryButton.setTextColor(Color.BLACK);
-        } else {
-            holder.mCategoryButton.setText(category);
-            Log.d(LOG_TAG, "onBindViewHolder - " + category);
-        }
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return categories.size();
-    }
-
-    public interface OnCategorySelectionListener {
-        void onCategorySelected(int position);
-    }
 }
 
