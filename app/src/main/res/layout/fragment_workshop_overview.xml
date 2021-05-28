@@ -2,21 +2,19 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/fragment_overview">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="25dp">
 
         <TextView
             android:id="@+id/fragment_workshop_overview_tv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:text="Doen wat eigenlijk niet mag: openbare muurkladderij, oftewel graffiti spuiten. Dat wil je toch een keer gedaan hebben? Bij Skool Workshop mag het! Bij onze creatieve graffiti workshop ga je aan de slag met spuitbussen en een canvas. Je mag je eigen kunstwerk ontwerpen en waar nodig helpen we je. Samen met jouw eigen graffiti tag onderteken je jouw street art helemaal in stijl. Bij de Workshop Graffiti ben je volledig bezig met je creativiteit, net zoals bij de Workshop T-Shirt Ontwerpen
 
             \n\nBinnen de Workshop Graffiti wordt er gewerkt aan de volgende vijf kernvaardigheden;
@@ -25,15 +23,19 @@
             \n- Beleven
             \n- Innoveren
             \n- Onderscheiden
-            \n- Presenteren"/>
+            \n- Presenteren"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:textAlignment="center"
             android:id="@+id/fragment_workshop_overview_tv_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova_semibold"
             android:text="150,-"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +88,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_tv_div" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

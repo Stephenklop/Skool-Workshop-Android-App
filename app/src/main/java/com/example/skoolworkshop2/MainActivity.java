@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_home);
         Intent intent = new Intent(this, WorkshopActivity.class);
         startActivity(intent);
-        View menu = (View) findViewById(R.id.activity_home_menu_buttons);
+        View menu = (View) findViewById(R.id.activity_menu_buttons);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

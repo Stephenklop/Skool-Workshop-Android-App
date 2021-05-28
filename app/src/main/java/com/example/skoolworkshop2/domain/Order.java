@@ -1,8 +1,9 @@
 package com.example.skoolworkshop2.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private List<Product> products;
     private Customer customer;
     private String orderDate; // Might be changed to Timestamp later (depends on whether that's useful)

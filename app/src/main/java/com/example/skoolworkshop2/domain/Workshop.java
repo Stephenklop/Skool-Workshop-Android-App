@@ -1,6 +1,6 @@
 package com.example.skoolworkshop2.domain;
 
-public class Workshop implements Product {
+public class Workshop {
     private int id;
     private String name;
     private String description;
@@ -19,22 +19,18 @@ public class Workshop implements Product {
         this.category = category;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
 
-    @Override
     public double getPrice() {
         return price;
     }

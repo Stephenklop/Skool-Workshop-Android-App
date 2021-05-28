@@ -34,7 +34,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
         // RecyclerView for categories
-        mCategoryRecyclerView = (RecyclerView) findViewById(R.id.activity_workshops_rv_categories);
+        mCategoryRecyclerView = (RecyclerView) findViewById(R.id.activity_workshops_sv_categories);
         mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mCategoryAdapter = new CategoryAdapter(mCategories, this);
         mCategoryRecyclerView.setAdapter(mCategoryAdapter);
@@ -63,16 +63,21 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     @Override
     public void onCategorySelected(int position) {
         String category = mCategories.get(position);
-        Log.d(LOG_TAG, "onCategorySelected: category: " + category);
-        ArrayList<Workshop> workshops = new ArrayList<>();
-        for (Workshop workshop : mWorkshops){
-            if (workshop.getCategory().equals(category)){
-                workshops.add(workshop);
+        if (category.equals("Meest gekozen")) {
+            mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
+            mRecyclerView.setAdapter(mWorkshopAdapter);
+        } else {
+            Log.d(LOG_TAG, "onCategorySelected: category: " + category);
+            ArrayList<Workshop> workshops = new ArrayList<>();
+            for (Workshop workshop : mWorkshops) {
+                if (workshop.getCategory().equals(category)) {
+                    workshops.add(workshop);
+                }
             }
+            Log.d(LOG_TAG, "onCategorySelected: size: " + workshops.size());
+            mRecyclerView.setAdapter(null);
+            mWorkshopAdapter = new WorkshopAdapter(workshops, this);
+            mRecyclerView.setAdapter(mWorkshopAdapter);
         }
-        Log.d(LOG_TAG, "onCategorySelected: size: " + workshops.size());
-        mRecyclerView.setAdapter(null);
-        mWorkshopAdapter = new WorkshopAdapter(workshops, this);
-        mRecyclerView.setAdapter(mWorkshopAdapter);
     }
 }
