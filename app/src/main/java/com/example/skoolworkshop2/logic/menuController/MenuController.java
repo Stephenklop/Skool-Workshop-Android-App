@@ -55,10 +55,9 @@ public class MenuController {
         //Test data for cultureday
         this.workshopArrayList = new ArrayList<>();
         String[] desc = {"blabla", "test", "info", "price"};
-        workshopArrayList.add(new Workshop(1, "Test", Category.DS, desc,55.55, "Test", 60, 25));
-        workshopArrayList.add(new Workshop(2, "Test", Category.BK, desc,55.55, "Test", 60, 25));
-        workshopArrayList.add(new Workshop(3, "Test", Category.MK, desc,55.55, "Test", 60, 25));
-
+        workshopArrayList.add(new Workshop(1, "Test", desc,55.55, "Test", 60, Category.DS));
+        workshopArrayList.add(new Workshop(2, "Test", desc,55.55, "Test", 60, Category.BK));
+        workshopArrayList.add(new Workshop(3, "Test", desc,55.55, "Test", 60, Category.MA));
 
         search.setOnClickListener(new View.OnClickListener() {
 
