@@ -1,9 +1,11 @@
 package com.example.skoolworkshop2;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -12,11 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopGridViewHolder> implements Filterable {
 
@@ -24,13 +26,10 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     private final ArrayList<Workshop> workshopArrayList;
     private OnWorkshopSelectionListener listener;
 
+
     public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
         this.workshopArrayList = workshopArrayList;
-        String[] desc = {"blabla", "test", "info", "price"};
-        workshopArrayList.add(new Workshop(1, "Test", Category.DS, desc,55.55, "Test", 60, 25));
-        workshopArrayList.add(new Workshop(2, "Test", Category.BK, desc,55.55, "Test", 60, 25));
-        workshopArrayList.add(new Workshop(3, "Test", Category.MK, desc,55.55, "Test", 60, 25));
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
         this.listener = listener;
     }
@@ -65,6 +64,8 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         }
     };
 
+
+
     public class WorkshopGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mWorkshopName;
@@ -90,7 +91,6 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     @NonNull
     @Override
     public WorkshopGridViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         int layoutIdListedItem = R.layout.item_workshop;
         final boolean shouldAttachToParentImmediately = false;
         View view = LayoutInflater.from(parent.getContext()).inflate(layoutIdListedItem, parent, shouldAttachToParentImmediately);
@@ -99,11 +99,12 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
 
     @Override
     public void onBindViewHolder(@NonNull WorkshopGridViewHolder holder, int position) {
+
         Workshop workshop = workshopArrayList.get(position);
         Log.d(LOG_TAG, "onBindViewHolder - " + workshop.toString());
 
         holder.mWorkshopName.setText(workshop.getName());
-//        holder.mWorkshopCategory.setText(workshop.getCategory());
+        holder.mWorkshopCategory.setText(workshop.getCategory().label);
     }
 
 

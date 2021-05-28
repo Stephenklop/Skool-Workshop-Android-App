@@ -79,7 +79,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mPriceBn.setText(workshop.getPrice() + ",-");
         mParticipantsBn.setText(workshop.getMaxParticipants() + " deelnemers");
-        mDurationBn.setText(workshop.getDuration() + " minuten");
+//        mDurationBn.setText(workshop. + " minuten");
     }
 
     @Override

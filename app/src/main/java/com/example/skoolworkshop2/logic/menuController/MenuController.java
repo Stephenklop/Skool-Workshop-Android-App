@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.logic.menuController;
+package com.example.skoolworkshop2.Logic.menuController;
 
 import android.content.Context;
 import android.content.Intent;

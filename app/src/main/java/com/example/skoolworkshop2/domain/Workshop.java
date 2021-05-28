@@ -5,24 +5,21 @@ import java.io.Serializable;
 public class Workshop implements Product, Serializable {
     private int id;
     private String name;
-    private Category category;
-    private String[] description; // The first item is the overview, followed by: the content, practical info & costs
+    private String[] description;
     private double price;
     private String date; // Might be changed to Timestamp later (depends on whether that's useful)
-    private int duration; // Workshop duration in minutes
     private int maxParticipants;
+    private Category category;
 
-    public Workshop(int id, String name, Category category, String[] description, double price, String date, int duration, int maxParticipants) {
+    public Workshop(int id, String name, String[] description, double price, String date, int maxParticipants, Category category) {
         this.id = id;
         this.name = name;
-        this.category = category;
         this.description = description;
         this.price = price;
         this.date = date;
-        this.duration = duration;
         this.maxParticipants = maxParticipants;
+        this.category = category;
     }
-
 
     @Override
     public int getId() {
@@ -32,10 +29,6 @@ public class Workshop implements Product, Serializable {
     @Override
     public String getName() {
         return name;
-    }
-
-    public Category getCategory() {
-        return category;
     }
 
     @Override
@@ -52,10 +45,6 @@ public class Workshop implements Product, Serializable {
         return date;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
     public int getMaxParticipants() {
         return maxParticipants;
     }
@@ -68,10 +57,6 @@ public class Workshop implements Product, Serializable {
     @Override
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     @Override
@@ -88,11 +73,15 @@ public class Workshop implements Product, Serializable {
         this.date = date;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
