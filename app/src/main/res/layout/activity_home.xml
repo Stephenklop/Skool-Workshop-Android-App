@@ -17,7 +17,7 @@
 
             <!-- Requires setClipToOutline(true) on base img to have rounded corners -->
             <include
-                layout="@layout/fragment_home_banner"
+                layout="@layout/component_home_banner"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="50dp"
@@ -90,7 +90,7 @@
 
             <include
                 android:id="@+id/activity_home_fragment_notifications"
-                layout="@layout/fragment_notifications"
+                layout="@layout/component_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -161,7 +161,7 @@
 
     <include
         android:id="@+id/activity_home_menu_buttons"
-        layout="@layout/fragment_menu_icons"
+        layout="@layout/component_menu_icons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -10,7 +10,7 @@
     <!-- Include Searchbar -->
     <include
         android:id="@+id/activity_workshops_search"
-        layout="@layout/fragment_search"
+        layout="@layout/component_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -81,7 +81,7 @@
 
     <include
         android:id="@+id/include2"
-        layout="@layout/fragment_menu_icons"
+        layout="@layout/component_menu_icons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -72,7 +72,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_date"
-                    layout="@layout/fragment_edittext_date_calendar"
+                    layout="@layout/component_edittext_date_calendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -88,7 +88,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_amount"
-                    layout="@layout/fragment_edittext_number_info"
+                    layout="@layout/component_edittext_number_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -104,7 +104,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_rounds"
-                    layout="@layout/fragment_edittext_number"
+                    layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -120,7 +120,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_mins"
-                    layout="@layout/fragment_edittext_number"
+                    layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -136,7 +136,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_schedule"
-                    layout="@layout/fragment_edittext_plaintext_info_multiline"
+                    layout="@layout/component_edittext_plaintext_info_multiline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -152,7 +152,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_level"
-                    layout="@layout/fragment_edittext_plaintext"
+                    layout="@layout/component_edittext_plaintext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -231,7 +231,7 @@
 
                 <include
                     android:id="@+id/activity_workshop_booking_btn_book"
-                    layout="@layout/fragment_button_large"
+                    layout="@layout/component_button_large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp" />
