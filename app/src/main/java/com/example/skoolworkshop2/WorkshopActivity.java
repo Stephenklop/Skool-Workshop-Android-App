@@ -29,9 +29,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.DS));
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.BK));
-        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test"}, 55.55, "11-11-2021", 1, Category.MK));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Overview", "Inhoud", "Info", "Kosten"}, 55.55, "11-11-2021", 1, Category.DS));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Overview", "Inhoud", "Info", "Kosten"}, 55.55, "11-11-2021", 1, Category.BK));
+        mWorkshops.add(new Workshop(1, "Result", new String[]{"Overview", "Inhoud", "Info", "Kosten"}, 55.55, "11-11-2021", 1, Category.MK));
         // Add enum list with data
         mEnumCategories.addAll(addCategories());
         super.onCreate(savedInstanceState);
