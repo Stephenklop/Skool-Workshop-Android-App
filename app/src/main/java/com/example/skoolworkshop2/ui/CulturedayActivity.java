@@ -98,17 +98,17 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         } else if (v == mTabsContentTv) {
             mTabsSelector.animate().x(mTabsContentTv.getX()).setDuration(100);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_workshop_details_fragment_txt, new CulturedayContentFragment(cultureDay))
+                    .replace(R.id.activity_cultureday_details_fragment_txt, new CulturedayContentFragment(cultureDay))
                     .commit();
         } else if (v == mTabsInfoTv){
             mTabsSelector.animate().x(mTabsInfoTv.getX()).setDuration(100);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_workshop_details_fragment_txt, new CulturedayInfoFragment(cultureDay))
+                    .replace(R.id.activity_cultureday_details_fragment_txt, new CulturedayInfoFragment(cultureDay))
                     .commit();
         } else if (v == mTabsCostTv){
             mTabsSelector.animate().x(mTabsCostTv.getX()).setDuration(100);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_workshop_details_fragment_txt, new CulturedayCostFragment(cultureDay))
+                    .replace(R.id.activity_cultureday_details_fragment_txt, new CulturedayCostFragment(cultureDay))
                     .commit();
         }
     }
