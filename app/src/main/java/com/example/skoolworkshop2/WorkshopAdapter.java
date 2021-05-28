@@ -31,40 +31,10 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
 
     public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
-        this.workshopArrayList = workshopArrayList;
+        this.workshopArrayList = new ArrayList<>(workshopArrayList);
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
         this.listener = listener;
     }
-
-//    // filtereren
-//    @Override
-//    public Filter getFilter() {
-//        return exampleFilter;
-//    }
-//
-//    private Filter exampleFilter = new Filter() {
-//        @Override
-//        protected FilterResults performFiltering(CharSequence constraint) {
-//            List<Workshop> filteredList = new ArrayList<>();
-//            String filterPattern = constraint.toString().toLowerCase().trim();
-//            for (Workshop workshop : workshopArrayList) {
-//                if (workshop.getName().toLowerCase().contains(filterPattern)) {
-//                    filteredList.add(workshop);
-//                }
-//            }
-//            FilterResults results = new FilterResults();
-//            results.values = filteredList;
-//            Log.d(LOG_TAG, "performFiltering: " + results);
-//            return results;
-//        }
-//        @Override
-//        protected void publishResults(CharSequence constraint, FilterResults results) {
-//            workshopArrayList.clear();
-//            workshopArrayList.addAll((List) results.values);
-//            notifyDataSetChanged();
-//            Log.i(LOG_TAG, "publishResults: Characters: " + workshopArrayList);
-//        }
-//    };
 
     public void setWorkshopList(List<Workshop> workshops) {
         Log.d(LOG_TAG, "setMovieList");
