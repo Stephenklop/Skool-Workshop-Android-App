@@ -16,6 +16,8 @@
         <activity android:name=".ui.CulturedayActivity"></activity>
         <activity android:name=".ui.CulturedayBookingActivity"></activity>
         <activity android:name=".ui.CulturedayQuestionActivity"></activity>
+        <activity android:name=".ui.WorkshopDetail.WorkshopQuestionActivity"></activity>
+        <activity android:name=".ui.WorkshopDetail.WorkshopBookingActivity"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name">
