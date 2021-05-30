@@ -16,6 +16,7 @@ import android.widget.SearchView;
 import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapter.OnWorkshopSelectionListener{
 
@@ -49,9 +50,24 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
-        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this);
+        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this, new CategoryAdapter.Listener() {
+            @Override
+            public void onChange(String filterLabel) {
+                List<Workshop> workshops = new ArrayList<>();
 
+                if (filterLabel.equals("Meest gekozen")) {
+                    mWorkshopAdapter.setWorkshopList(mWorkshops);
+                } else {
+                    for (Workshop workshop : mWorkshops) {
+                        if (workshop.getCategory().label.equals(filterLabel)) {
+                            workshops.add(workshop);
+                        }
+                    }
 
+                    mWorkshopAdapter.setWorkshopList(workshops);
+                }
+            }
+        });
 
         // SearchView
         SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);

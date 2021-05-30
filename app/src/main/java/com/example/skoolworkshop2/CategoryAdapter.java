@@ -27,13 +27,15 @@ public class CategoryAdapter{
     private AppCompatActivity activity;
     private ArrayList<Workshop> mWorkshops;
     private WorkshopAdapter mWorkshopAdapter;
+    private Listener listener;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public CategoryAdapter(View root, AppCompatActivity activity) {
+    public CategoryAdapter(View root, AppCompatActivity activity, Listener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
         addCategories();
         this.activity = activity;
         mCategoriesRadiogroup = root.findViewById(R.id.activity_workshops_rg_selector);
+        this.listener = listener;
         addCategoriesToGroup();
     }
 
@@ -47,6 +49,7 @@ public class CategoryAdapter{
 
             rb.setBackgroundResource(R.drawable.btn_categories_states);
             rb.setText(categories.get(i));
+            rb.setTag(categories.get(i));
             rb.setId(i);
             rb.setButtonDrawable(android.R.color.transparent);
             rb.setPadding(paddingDp, 0, paddingDp, 0);
@@ -65,12 +68,16 @@ public class CategoryAdapter{
             rb.setLayoutParams(params);
             rb.setTextColor(Color.BLACK);
 
+            mCategoriesRadiogroup.setOnCheckedChangeListener((group, checkedId) -> {
+                RadioButton radioButton = activity.findViewById(checkedId);
+                listener.onChange(radioButton.getTag().toString());
+            });
+
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                         rb.setTextColor(Color.WHITE);
-
                     } else {
                         rb.setTextColor(Color.BLACK);
                     }
@@ -85,7 +92,7 @@ public class CategoryAdapter{
     }
 
     // Hard-coded categories
-    public void addCategories(){
+    public void addCategories() {
         categories.add("Meest gekozen");
         categories.add("Beeldende Kunst");
         categories.add("Dans");
@@ -95,6 +102,8 @@ public class CategoryAdapter{
         categories.add("Theater");
     }
 
-
+    public interface Listener {
+        void onChange(String filterLabel);
+    }
 }
 
