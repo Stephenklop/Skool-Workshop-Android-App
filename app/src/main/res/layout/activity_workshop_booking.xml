@@ -91,7 +91,8 @@
                     layout="@layout/component_edittext_number_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -107,7 +108,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -123,7 +125,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -132,7 +135,8 @@
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:text="Tijdschema"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    />
 
                 <include
                     android:id="@+id/activity_workshop_booking_et_schedule"
