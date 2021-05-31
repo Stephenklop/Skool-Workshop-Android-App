@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/btn_orange_border"
+    android:text="VRAAG MEER INFORMATIE AAN"
+    android:textColor="@color/main_orange"
+    android:textAllCaps="false"
+    android:fontFamily="@font/proxima_nova"
+    android:textSize="20sp"
+    android:textFontWeight="600"
+    android:letterSpacing="0"
+    android:lineHeight="24dp" />

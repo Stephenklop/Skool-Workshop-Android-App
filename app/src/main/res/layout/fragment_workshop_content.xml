@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/fragment_workshop_content_tv_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/proxima_nova"
+        android:paddingBottom="25dp"
+        android:text="Deze street art workshop is onderdeel van het kunstdiscipline beeldende kunst. Je leert de basistechnieken van graffiti spuiten waarbij je leert om assertief te zijn en je creativiteit te volgen. Tijdens de workshop graffiti leer je net zoals bij andere workshops, bijvoorbeeld T-shirt ontwerpen, hoe je origineel kunt zijn. Wat maakt jou uniek en hoe kun je dit uiten? Tijdens de Workshop Graffiti schenken we aandacht aan zelfvertrouwen. Door straatkunst, creativiteit en fun met elkaar te verbinden, geven we je nét die extra motivatie en zelfvertrouwen om iets nieuws te proberen. Anders dan Light Graffiti, nog wel met een activiteit die je normaal niet dagelijks kan of mag. Good vibes, juiste begeleiding en jouw graffiti skills: meer heb je niet nodig om je eigen masterpiece te creëren.
+
+        \n\nDe Workshop Graffiti bestaat uit twee delen en is ook inzetbaar voor een cultuurdag. Jammer genoeg kunnen we niet direct gaan spuiten, want het eerste gedeelte van de workshop bestaat uit het creatieve proces: het bedenken van een ontwerp. Je maakt niet alleen een schets, maar leert ook met een spuitbus om te gaan. Hoe hou je je bus vast? Hoe kun je het beste spuiten? We brengen je alle technieken bij om te zorgen dat jouw artwork helemaal cool wordt!
+
+        \n\nTijdens het tweede gedeelte gaan we Graffiti spuiten. Je vertelt je verhaal op het canvas met jouw kleuren en gevoelens en dat doe je net zoals in het echt, namelijk buiten. Deze vorm van beeldende kunst zorgt voor een kleurige en creatieve uiting van je gevoelens. Na de Workshop Graffiti mag je je kunstwerk mee naar huis nemen en aan iedereen laten zien!"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+</ScrollView>

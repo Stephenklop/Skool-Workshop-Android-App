@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="35dp"
+    android:background="@drawable/btn_categories_states"
+    android:button="@android:color/transparent"
+    android:id="@+id/radio_button_extendable"
+    android:fontFamily="@font/proxima_nova_semibold"
+    android:letterSpacing="0"
+    android:lineHeight="24dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:text="test"
+    android:textAllCaps="false"
+    android:textColor="@color/text_categories_states"
+    android:textSize="16sp" />
