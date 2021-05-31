@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ValidationsTests;
+package com.example.skoolworkshop2.validationsTests;
 
 
 import org.junit.Test;
@@ -10,7 +10,7 @@ import com.example.skoolworkshop2.logic.validation.EmailValidator;
 public class EmailValidatorTest {
 
     @Test
-    public void personValidator_CorrectEmailGiven_ReturnsTrue() {
+    public void emailValidator_CorrectEmailGiven_ReturnsTrue() {
         assertTrue(EmailValidator.isValidEmail("name@email.com"));
     }
 

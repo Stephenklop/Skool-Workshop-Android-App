@@ -13,26 +13,32 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
+import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 
 public class WorkshopQuestionActivity extends FragmentActivity implements View.OnClickListener {
     private Button mSendBn;
     private ImageButton mBackButton;
     private EditText mEmailEditText;
+    private EditText mTelEditText;
     private EmailValidator emailValidator = new EmailValidator();
+    private TelValidator telValidator = new TelValidator();
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_question);
+
+        // Set up IDS
         mSendBn = findViewById(R.id.activity_workshop_question_btn_send);
         mBackButton = findViewById(R.id.activity_workshop_question_btn_back);
-
         mEmailEditText = (EditText) findViewById(R.id.activity_workshop_question_et_email);
+        mTelEditText = (EditText) findViewById(R.id.activity_workshop_question_et_phone);
+        // Set up validations
         mEmailEditText.addTextChangedListener(emailValidator);
+        mTelEditText.addTextChangedListener(telValidator);
 
         mSendBn.setText("Verzenden");
-
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

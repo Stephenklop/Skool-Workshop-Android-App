@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ValidationsTests;
+package com.example.skoolworkshop2.validationsTests;
 
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;
@@ -18,12 +18,12 @@ public class TelValidatorTest {
     }
 
     @Test
-    public void telValidator_InvalidEmailNo11_ReturnsTrue() {
+    public void telValidator_CorrectPhoneWith11Numbers_ReturnsTrue() {
         assertTrue(TelValidator.isValidTelNumber("06222222221"));
     }
 
     @Test
-    public void telValidator_InvalidEmailNo15_ReturnsTrue() {
+    public void telValidator_CorrectPhoneWith15Numbers_ReturnsTrue() {
         assertTrue(TelValidator.isValidTelNumber("062222222212312"));
     }
 

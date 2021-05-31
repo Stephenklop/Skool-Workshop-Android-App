@@ -1,16 +1,13 @@
 package com.example.skoolworkshop2.logic.validation;
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
 public class EmailValidator implements TextWatcher {
 
     private String LOG_TAG = getClass().getSimpleName();
-    private Context context;
 
     public static final Pattern EMAILPATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +

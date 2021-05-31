@@ -25,14 +25,14 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cultureday_question);
+        setContentView(R.layout.activity_cultureday_booking);
 
         // Setting up IDS
-        mBackButton = findViewById(R.id.activity_cultureday_question_btn_back);
-        mPersonEditText = (EditText) findViewById(R.id.activity_cultureday_question_et_amount);
+        mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
+        mPersonEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_amount);
 //        mDateEditText = (EditText) findViewById(R.id.activity_cultureday_question_et_date);
-        mPhoneEditText = (EditText) findViewById(R.id.activity_cultureday_question_et_phone);
-        mEmailEditText = (EditText) findViewById(R.id.activity_cultureday_question_et_email);
+//        mPhoneEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_amount);
+//        mEmailEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_amount);
 
     }
 

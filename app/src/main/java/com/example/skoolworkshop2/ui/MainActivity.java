@@ -14,6 +14,7 @@ import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.CultureDay;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         View root = (View) findViewById(R.id.activity_home);
 
-        Intent intent = new Intent(this, WorkshopQuestionActivity.class);
+        Intent intent = new Intent(this, WorkshopBookingActivity.class);
         startActivity(intent);
 
         MenuController mc = new MenuController(root);
