@@ -30,11 +30,13 @@ public class LearningLevelValidator implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        mIsValid = isValidLearningLevels(s);
-        if(mIsValid){
-            Log.d(LOG_TAG, "afterTextChanged: learning level is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: learning level is invalid");
+        if (s.length() != 0 ) {
+            mIsValid = isValidLearningLevels(s);
+            if (mIsValid) {
+                Log.d(LOG_TAG, "afterTextChanged: learning level is valid");
+            } else {
+                Log.d(LOG_TAG, "afterTextChanged: learning level is invalid");
+            }
         }
     }
 }

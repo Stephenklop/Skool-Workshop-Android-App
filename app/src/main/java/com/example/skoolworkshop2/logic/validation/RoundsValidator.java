@@ -14,6 +14,7 @@ public class RoundsValidator implements TextWatcher{
 
     public static boolean isValidWorkshopRounds(CharSequence rounds) {
         int round = Integer.valueOf(rounds.toString());
+
         return round > 0;
 
     }
@@ -29,11 +30,13 @@ public class RoundsValidator implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        mIsValid = isValidWorkshopRounds(s);
-        if(mIsValid == true){
-            Log.d(LOG_TAG, "afterTextChanged: rounds given is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: rounds given is invalid");
+        if (s.length() != 0 ) {
+            mIsValid = isValidWorkshopRounds(s);
+            if (mIsValid == true) {
+                Log.d(LOG_TAG, "afterTextChanged: rounds given is valid");
+            } else {
+                Log.d(LOG_TAG, "afterTextChanged: rounds given is invalid");
+            }
         }
     }
 }

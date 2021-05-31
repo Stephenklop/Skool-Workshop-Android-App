@@ -33,11 +33,13 @@ public class ParticipantsValidator implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        mIsValid = isValidMaxParticipant(s);
-        if(mIsValid == true){
-            Log.d(LOG_TAG, "afterTextChanged: phone number is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: phone number is invalid");
+        if (s.length() != 0 ) {
+            mIsValid = isValidMaxParticipant(s);
+            if (mIsValid == true) {
+                Log.d(LOG_TAG, "afterTextChanged: phone number is valid");
+            } else {
+                Log.d(LOG_TAG, "afterTextChanged: phone number is invalid");
+            }
         }
     }
 }
