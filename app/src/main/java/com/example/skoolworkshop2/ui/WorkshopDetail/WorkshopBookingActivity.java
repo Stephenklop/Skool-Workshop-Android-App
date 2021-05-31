@@ -25,6 +25,8 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
         mSendBn.setText("Verzenden");
 
+
+
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

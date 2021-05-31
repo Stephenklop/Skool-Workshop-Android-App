@@ -1,11 +1,14 @@
 package com.example.skoolworkshop2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override

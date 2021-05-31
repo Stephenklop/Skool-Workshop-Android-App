@@ -37,9 +37,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         setContentView(R.layout.activity_workshops);
         View root = findViewById(R.id.activity_workshops);
         // Add data to workshops
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "test", "test", "test"}, 55.55, "11-11-2021", 1, Category.DS));
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "test", "test", "test"}, 55.55, "11-11-2021", 1, Category.BK));
-        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test", "test", "test", "test"}, 55.55, "11-11-2021", 1, Category.MK));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
+        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
+        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.MK));
         // Add enum list with data
         mEnumCategories.addAll(addCategories());
         // Radiobutton

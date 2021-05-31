@@ -1,0 +1,37 @@
+package com.example.skoolworkshop2.logic.validation;
+
+import android.text.Editable;
+import android.text.TextWatcher;
+
+import java.util.regex.Pattern;
+
+public class TelValidator implements TextWatcher {
+
+    public static final Pattern TELPATTERN = Pattern.compile(
+            "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{6})(?: *x(\\d+))?\\s*$");
+
+    private boolean mIsValid = false;
+
+    public boolean isValid() {
+        return mIsValid;
+    }
+
+    public static boolean isValidTelNumber(CharSequence tel) {
+        return tel != null && TELPATTERN.matcher(tel).matches();
+    }
+
+    @Override
+    final public void afterTextChanged(Editable editableText) {
+        mIsValid = isValidTelNumber(editableText);
+    }
+
+    @Override
+    final public void beforeTextChanged(CharSequence s, int start, int count, int after){
+
+    }
+
+    @Override
+    final public void onTextChanged(CharSequence s, int start, int before, int count){
+
+    }
+}
