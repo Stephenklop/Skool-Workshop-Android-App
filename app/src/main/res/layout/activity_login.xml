@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/activity_login_txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/proxima_nova"
+        android:text="SkoolPartner portaal"
+        android:textFontWeight="700"
+        android:textSize="28dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_login_txt_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/proxima_nova"
+        android:text="We zijn blij je weer te zien. Je kan doorgaan
+met inloggen om bijvoorbeeld reserveringen
+of factuur gegevens te bekijken."
+        android:textColor="@color/black"
+        android:textFontWeight="400"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_txt_title" />
+
+    <TextView
+        android:id="@+id/activity_login_txt_label_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/proxima_nova"
+        android:text="Gebruikersnaam of e-mailadres"
+        android:textColor="@color/black"
+        android:textFontWeight="700"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_txt_desc" />
+
+    <include
+        android:id="@+id/activity_login_et_username"
+        layout="@layout/component_edittext_plaintext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_txt_label_username" />
+
+    <TextView
+        android:id="@+id/activity_login_txt_label_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/proxima_nova"
+        android:text="Wachtwoord"
+        android:textColor="@color/black"
+        android:textFontWeight="700"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_et_username" />
+
+    <include
+        android:id="@+id/activity_login_et_password"
+        layout="@layout/component_edittext_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_txt_label_password" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/proxima_nova"
+        android:text="Wachtwoord vergeten?"
+        android:textColor="@color/black"
+        android:textFontWeight="400"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_et_password" />
+
+    <include
+        android:id="@+id/activity_login_btn_login"
+        layout="@layout/component_button_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_login_txt_create_account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_login_txt_create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/proxima_nova"
+        android:text="Nog geen account? Maak er een"
+        android:textColor="@color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_login_txt_forgot_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/activity_login_txt_forgot_password"
+        layout="@layout/component_menu_icons"
+        tools:layout_editor_absoluteY="793dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
