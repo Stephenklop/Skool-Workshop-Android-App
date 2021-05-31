@@ -28,6 +28,7 @@ public class MenuController {
     private BottomNavigationItemView search;
     private BottomNavigationItemView shoppingCart;
     private BottomNavigationItemView account;
+    private BottomNavigationItemView sun;
 
     private List<Workshop> workshopArrayList;
 
@@ -38,7 +39,8 @@ public class MenuController {
     public MenuController(View root){
         menu = root.findViewById(R.id.activity_menu_buttons);
         home = menu.findViewById(R.id.menu_bottom_icons_menu_home);
-        search = menu.findViewById(R.id.menu_bottom_icons_menu_sun);
+        sun = menu.findViewById(R.id.menu_bottom_icons_menu_sun);
+        search = menu.findViewById(R.id.menu_bottom_icons_menu_search);
         shoppingCart = menu.findViewById(R.id.menu_bottom_icons_menu_shopping_cart);
         account = menu.findViewById(R.id.menu_bottom_icons_menu_account);
         context = root.getContext();
@@ -68,7 +70,7 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to shoppingcart page");
-                menu.getMenu().getItem(2).setChecked(true);
+                menu.getMenu().getItem(3).setChecked(true);
             }
         });
 
@@ -76,7 +78,15 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to account page");
-                menu.getMenu().getItem(3).setChecked(true);
+                menu.getMenu().getItem(4).setChecked(true);
+            }
+        });
+
+        sun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG_TAG, " Redirecting to cultureday page");
+                menu.getMenu().getItem(2).setChecked(true);
             }
         });
     }
