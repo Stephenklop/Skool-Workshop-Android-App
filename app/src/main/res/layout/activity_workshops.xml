@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_search" />
 
-    <ScrollView
+    <HorizontalScrollView
         android:id="@+id/activity_workshops_sv_categories"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -46,9 +46,17 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:orientation="horizontal"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/activity_workshop_rg_categories"/>
+    </HorizontalScrollView>
 
     <!-- Category Items -->
     <TextView
@@ -75,6 +83,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
+        android:id="@+id/activity_workshop_workshops"
         app:layout_constraintBottom_toTopOf="@+id/include2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +91,7 @@
 
     <include
         android:id="@+id/include2"
-        layout="@layout/fragment_menu_icons"
+        layout="@layout/component_menu_icons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -163,7 +163,7 @@
     </ScrollView>
 
     <include
-        android:id="@+id/activity_home_menu_buttons"
+        android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -34,7 +34,7 @@ public class CategoryAdapter{
         Log.d(LOG_TAG, "Constructor aangeroepen");
         addCategories();
         this.activity = activity;
-        mCategoriesRadiogroup = root.findViewById(R.id.activity_workshops_rg_selector);
+        mCategoriesRadiogroup = root.findViewById(R.id.activity_workshop_rg_categories);
         this.listener = listener;
         addCategoriesToGroup();
     }
