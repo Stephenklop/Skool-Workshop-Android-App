@@ -47,12 +47,12 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mTitleTV.setText(workshop.getName());
 
         mDetailTabsLl = findViewById(R.id.activity_workshop_details_ll_tabs);
-        mTabsSelector = mDetailTabsLl.findViewById(R.id.fragment_tabs_selector);
+        mTabsSelector = mDetailTabsLl.findViewById(R.id.component_tabs_selector);
 
-        mTabsOverviewTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_overview);
-        mTabsContentTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_content);
-        mTabsInfoTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_info);
-        mTabsCostTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_costs);
+        mTabsOverviewTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_overview);
+        mTabsContentTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_content);
+        mTabsInfoTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_info);
+        mTabsCostTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_costs);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.activity_workshop_details_fragment_txt, new WorkshopOverviewFragment(workshop))

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/component_home_banner_img_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/img_home_banner_container"
+        android:scaleType="centerCrop"
+        android:src="@drawable/home_banner_placeholder" />
+
+    <ImageView
+        android:id="@+id/component_home_banner_img_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/img_home_banner_gradient" />
+
+</FrameLayout>

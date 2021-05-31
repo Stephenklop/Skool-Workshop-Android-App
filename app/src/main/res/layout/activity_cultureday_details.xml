@@ -103,7 +103,7 @@
 
         <include
             android:id="@+id/activity_cultureday_details_ll_tabs"
-            layout="@layout/fragment_detail_tabs" />
+            layout="@layout/component_detail_tabs" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/activity_cultureday_details_fragment_txt"
@@ -114,7 +114,7 @@
 
     <include
         android:id="@+id/activity_cultureday_details_menu_icons"
-        layout="@layout/fragment_menu_icons"
+        layout="@layout/component_menu_icons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

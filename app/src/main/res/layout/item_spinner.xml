@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edittext_default"
+    android:paddingVertical="13dp">
+
+    <ImageView
+        android:id="@+id/item_spinner_dropdown_img_chevron"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="11.75dp"
+        android:src="@drawable/ic_chevron_down" />
+
+    <TextView
+        android:id="@+id/item_spinner_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="50dp"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+</RelativeLayout>

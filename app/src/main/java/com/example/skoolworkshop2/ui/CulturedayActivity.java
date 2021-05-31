@@ -69,12 +69,12 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mRoundsBn.setText(cultureDay.getRounds() + " Rounds");
 
         mDetailTabsLl = findViewById(R.id.activity_cultureday_details_ll_tabs);
-        mTabsSelector = mDetailTabsLl.findViewById(R.id.fragment_tabs_selector);
+        mTabsSelector = mDetailTabsLl.findViewById(R.id.component_tabs_selector);
 
-        mTabsOverviewTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_overview);
-        mTabsContentTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_content);
-        mTabsInfoTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_info);
-        mTabsCostTv = mDetailTabsLl.findViewById(R.id.fragment_tabs_tv_costs);
+        mTabsOverviewTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_overview);
+        mTabsContentTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_content);
+        mTabsInfoTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_info);
+        mTabsCostTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_costs);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.activity_cultureday_details_fragment_txt, new CulturedayOverviewFragment(cultureDay))
