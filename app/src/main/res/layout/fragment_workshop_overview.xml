@@ -59,7 +59,7 @@
 
         <include
             android:id="@+id/fragment_workshop_overview_btn_booking"
-            layout="@layout/fragment_button_large"
+            layout="@layout/component_button_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -82,7 +82,7 @@
 
         <include
             android:id="@+id/fragment_workshop_overview_btn_info"
-            layout="@layout/fragment_button_large_border"
+            layout="@layout/component_button_large_border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"

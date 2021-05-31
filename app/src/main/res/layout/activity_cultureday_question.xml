@@ -72,7 +72,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_amount"
-                    layout="@layout/fragment_edittext_number"
+                    layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -87,8 +87,8 @@
                     android:textSize="18sp" />
 
                 <include
-                    android:id="@+id/activity_cultureday_question_et_date"
-                    layout="@layout/fragment_edittext_date_calendar"
+                    android:id="@+id/activity_cultureday_question_ed_date"
+                    layout="@layout/component_edittext_date_calendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -104,7 +104,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_time"
-                    layout="@layout/fragment_edittext_date"
+                    layout="@layout/component_edittext_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -120,7 +120,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_location"
-                    layout="@layout/fragment_edittext_plaintext"
+                    layout="@layout/component_edittext_plaintext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -136,7 +136,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_cjp"
-                    layout="@layout/fragment_edittext_number"
+                    layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -152,7 +152,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_email"
-                    layout="@layout/fragment_edittext_email"
+                    layout="@layout/component_edittext_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -168,7 +168,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_phone"
-                    layout="@layout/fragment_edittext_phone"
+                    layout="@layout/component_edittext_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -184,7 +184,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_et_message"
-                    layout="@layout/fragment_edittext_plaintext_multiline"
+                    layout="@layout/component_edittext_plaintext_multiline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -203,7 +203,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_question_btn_send"
-                    layout="@layout/fragment_button_large"
+                    layout="@layout/component_button_large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp" />

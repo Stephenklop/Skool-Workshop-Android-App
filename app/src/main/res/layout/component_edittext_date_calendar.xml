@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_states"
         android:fontFamily="@font/proxima_nova_semibold"
-        android:inputType="text"
+        android:inputType="date"
         android:lines="1"
         android:paddingVertical="13dp"
         android:paddingStart="25dp"
@@ -20,11 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/fragment_edittext_plaintext_info_btn_info"
+        android:id="@+id/component_edittext_date_calendar_btn_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="12.5dp"
         android:layout_marginEnd="11.75dp"
-        android:background="@drawable/ic_info" />
+        android:background="@drawable/ic_calendar" />
 </RelativeLayout>

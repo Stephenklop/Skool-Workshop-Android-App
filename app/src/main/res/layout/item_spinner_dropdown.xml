@@ -1,0 +1,11 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_spinner_tv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="13dp"
+    android:fontFamily="@font/proxima_nova_semibold"
+    android:textColor="@color/black"
+    android:paddingLeft="25dp"
+    android:paddingRight="50dp"
+    android:textSize="18sp"
+    android:background="@android:color/transparent" />

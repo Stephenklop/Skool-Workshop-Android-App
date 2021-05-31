@@ -6,6 +6,11 @@
         android:title=""/>
 
     <item
+        android:id="@+id/menu_bottom_icons_menu_search"
+        android:icon="@drawable/ic_search"
+        android:title=""/>
+
+    <item
         android:id="@+id/menu_bottom_icons_menu_sun"
         android:icon="@drawable/ic_sun"
         android:title=""/>

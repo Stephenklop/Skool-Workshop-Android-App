@@ -11,7 +11,7 @@
     <!-- Include Searchbar -->
     <include
         android:id="@+id/activity_workshops_search"
-        layout="@layout/fragment_search"
+        layout="@layout/component_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -38,30 +38,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_search" />
 
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/activity_workshops_sv_categories"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
-        android:overScrollMode="never"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/activity_workshops_rg_selector"
-                android:orientation="horizontal"/>
-
-        </LinearLayout>
-    </HorizontalScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_categories" />
 
     <!-- Category Items -->
     <TextView
@@ -82,23 +69,19 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_sv_categories" />
 
     <!-- Include Icon Menu -->
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_workshops_txt_category_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
+        app:layout_constraintBottom_toTopOf="@+id/include2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_category_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_category_title" />
 
     <include
-        android:id="@+id/activity_menu_buttons"
+        android:id="@+id/include2"
         layout="@layout/fragment_menu_icons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
