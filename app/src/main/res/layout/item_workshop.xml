@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_workshop_container"
-    android:elevation="20dp">
+    android:elevation="20dp"
+    android:layout_marginBottom="20dp">
 
     <ImageView
         android:id="@+id/img_workshop_card"
