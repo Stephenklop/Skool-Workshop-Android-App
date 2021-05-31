@@ -55,8 +55,6 @@ public class LayoutTestActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Log.e("CUNT", "onClick: " + height);
-
                         if (mDetailBtn.getText().equals("Details")) {
                             mDetailBtn.setText("Verbergen");
                             animateDetails(mDetailsLl, 0, height);
