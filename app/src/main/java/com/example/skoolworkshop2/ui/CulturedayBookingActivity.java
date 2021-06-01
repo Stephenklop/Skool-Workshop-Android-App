@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
     private String LOG_TAG = getClass().getSimpleName();
     private ImageButton mBackButton;
+    private Button mSendBn;
     private EditText mPersonEditText;
     private EditText mDateEditText;
     private EditText mPhoneEditText;
@@ -28,11 +30,18 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         setContentView(R.layout.activity_cultureday_booking);
 
         // Setting up IDS
+        mSendBn = findViewById(R.id.activity_cultureday_booking_btn_book);
         mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
-        mPersonEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_amount);
-//        mDateEditText = (EditText) findViewById(R.id.activity_cultureday_question_et_date);
-//        mPhoneEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_amount);
-//        mEmailEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_amount);
+
+        mSendBn.setText("Boek nu");
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(backIntent);
+            }
+        });
 
     }
 

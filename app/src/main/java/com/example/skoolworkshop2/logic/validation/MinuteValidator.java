@@ -29,11 +29,13 @@ public class MinuteValidator implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        mIsValid = isValidMinute(s);
-        if(mIsValid == true){
-            Log.d(LOG_TAG, "afterTextChanged: minutes given is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: minutes given is invalid");
+        if (s.length() != 0 ) {
+            mIsValid = isValidMinute(s);
+            if (mIsValid == true) {
+                Log.d(LOG_TAG, "afterTextChanged: minutes given is valid");
+            } else {
+                Log.d(LOG_TAG, "afterTextChanged: minutes given is invalid");
+            }
         }
     }
 }

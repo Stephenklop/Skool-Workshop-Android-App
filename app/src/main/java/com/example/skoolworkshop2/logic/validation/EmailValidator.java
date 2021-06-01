@@ -30,13 +30,15 @@ public class EmailValidator implements TextWatcher {
 
      @Override
      final public void afterTextChanged(Editable editableText) {
+         if (editableText.length() != 0 ) {
 
-        mIsValid = isValidEmail(editableText);
-        if(mIsValid == true){
-            Log.d(LOG_TAG, "afterTextChanged: email is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: email is invalid");
-        }
+             mIsValid = isValidEmail(editableText);
+             if (mIsValid == true) {
+                 Log.d(LOG_TAG, "afterTextChanged: email is valid");
+             } else {
+                 Log.d(LOG_TAG, "afterTextChanged: email is invalid");
+             }
+         }
      }
 
      @Override
