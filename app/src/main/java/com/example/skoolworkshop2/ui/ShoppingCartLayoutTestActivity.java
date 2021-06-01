@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.skoolworkshop2.R;
 
 import org.jetbrains.annotations.NotNull;
 

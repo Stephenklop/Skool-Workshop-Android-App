@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.example.skoolworkshop2.R;
 
 public class AddressInfoLayoutTestActivity extends AppCompatActivity {
     @Override

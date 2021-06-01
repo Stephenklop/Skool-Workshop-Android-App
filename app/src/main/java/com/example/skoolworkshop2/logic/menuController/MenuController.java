@@ -6,16 +6,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.WorkshopActivity;
-import com.example.skoolworkshop2.domain.Category;
-import com.example.skoolworkshop2.domain.CultureDay;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
-import com.example.skoolworkshop2.ui.CulturedayActivity;
+import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
