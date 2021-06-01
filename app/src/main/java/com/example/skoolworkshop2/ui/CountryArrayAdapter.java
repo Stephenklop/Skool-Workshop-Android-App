@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.skoolworkshop2.R;
 
 import org.jetbrains.annotations.NotNull;
 

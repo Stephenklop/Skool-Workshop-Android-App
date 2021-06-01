@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Workshop;
-import com.example.skoolworkshop2.ui.CulturedayBookingActivity;
-import com.example.skoolworkshop2.ui.CulturedayQuestionActivity;
 
 public class WorkshopOverviewFragment extends Fragment {
     private TextView mDescriptionTv;

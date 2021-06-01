@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.WorkshopActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
 
 

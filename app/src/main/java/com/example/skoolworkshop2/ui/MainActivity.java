@@ -3,19 +3,15 @@ package com.example.skoolworkshop2.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.CultureDay;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
+import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui.workshop;
 
 import android.content.Context;
 import android.view.KeyEvent;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.skoolworkshop2.R;
 
 import org.jetbrains.annotations.NotNull;
 

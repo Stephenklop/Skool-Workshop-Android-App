@@ -1,8 +1,7 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
@@ -14,9 +13,10 @@ import android.widget.RadioGroup;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.ui.workshop.WorkshopAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CategoryAdapter{

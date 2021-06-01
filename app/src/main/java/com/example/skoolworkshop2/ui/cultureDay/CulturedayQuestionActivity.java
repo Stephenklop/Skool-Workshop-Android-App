@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ui;
+package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.ui.MainActivity;
 
 public class CulturedayQuestionActivity extends FragmentActivity implements View.OnClickListener{
     private Button mSendBn;

@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ui;
+package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.content.Intent;
 import android.os.Bundle;
