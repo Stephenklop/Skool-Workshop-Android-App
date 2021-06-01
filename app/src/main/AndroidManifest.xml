@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SkoolWorkshop2">
-        <activity android:name=".WorkshopActivity"></activity>
+        <activity android:name=".ui.workshop.WorkshopActivity"></activity>
         <activity android:name=".ui.WorkshopDetail.WorkshopDetailActivity"></activity>
-        <activity android:name=".ui.CulturedayActivity"></activity>
-        <activity android:name=".ui.CulturedayBookingActivity"></activity>
-        <activity android:name=".ui.CulturedayQuestionActivity"></activity>
+        <activity android:name=".ui.cultureDay.CulturedayActivity"></activity>
+        <activity android:name=".ui.cultureDay.CulturedayBookingActivity"></activity>
+        <activity android:name=".ui.cultureDay.CulturedayQuestionActivity"></activity>
         <activity android:name=".ui.WorkshopDetail.WorkshopQuestionActivity"></activity>
         <activity android:name=".ui.WorkshopDetail.WorkshopBookingActivity"></activity>
         <activity
@@ -28,14 +28,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ShoppingCartLayoutTestActivity">
+        <activity android:name=".ui.ShoppingCartLayoutTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddressInfoLayoutTestActivity">
+        <activity android:name=".ui.AddressInfoLayoutTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

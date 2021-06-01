@@ -11,7 +11,7 @@ public class TelValidator implements TextWatcher {
     private String LOG_TAG = getClass().getSimpleName();
 
     public static final Pattern TELPATTERN = Pattern.compile(
-            "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{6})(?: *x(\\d+))?\\s*$");
+            "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{1})(?: *x(\\d+))?\\s*$");
 
     private boolean mIsValid = false;
 

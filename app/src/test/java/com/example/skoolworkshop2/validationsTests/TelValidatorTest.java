@@ -9,12 +9,12 @@ import com.example.skoolworkshop2.logic.validation.TelValidator;
 public class TelValidatorTest {
     @Test
     public void telValidator_CorrectPhoneNumberGiven_ReturnsTrue() {
-        assertTrue(TelValidator.isValidTelNumber("0612422288"));
+        assertTrue(TelValidator.isValidTelNumber("0638422288"));
     }
 
     @Test
-    public void telValidator_CorrectPhoneWith13Numbers_ReturnsTrue() {
-        assertTrue(TelValidator.isValidTelNumber("+0612422288121"));
+    public void telValidator_CorrectPhoneWith9Numbers_ReturnsTrue() {
+        assertTrue(TelValidator.isValidTelNumber("061242228"));
     }
 
     @Test

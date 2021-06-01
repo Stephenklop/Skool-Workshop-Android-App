@@ -101,7 +101,24 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
         mLevelEditText.addTextChangedListener(learningLevelValidator);
         mMinuteEditText.addTextChangedListener(minuteValidator);
-        mParticipantsEditText.addTextChangedListener(workshopParticipantsValidator);
+        mParticipantsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        // Rounds
         mRoundsEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
