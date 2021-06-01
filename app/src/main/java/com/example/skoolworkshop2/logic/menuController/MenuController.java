@@ -83,7 +83,8 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to cultureday page");
-                menu.getMenu().getItem(2).setChecked(true);
+                Intent toCultureDay = new Intent(context, CulturedayActivity.class);
+                context.startActivity(toCultureDay);
             }
         });
     }
