@@ -15,6 +15,9 @@ import android.widget.SearchView;
 
 import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,11 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshops);
         View root = findViewById(R.id.activity_workshops);
+
+        MenuController mc = new MenuController(root);
+
+        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(1).setChecked(true);
         // Add data to workshops
         mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
         mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
