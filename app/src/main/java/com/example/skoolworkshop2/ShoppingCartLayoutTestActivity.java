@@ -3,7 +3,6 @@ package com.example.skoolworkshop2;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ public class ShoppingCartLayoutTestActivity extends AppCompatActivity {
                         super(itemView);
                         mDetailBtn = itemView.findViewById(R.id.item_shopping_cart_btn_details);
                         mDetailsLl = itemView.findViewById(R.id.item_shopping_cart_ll_details);
-                        mWorkshopIv = itemView.findViewById(R.id.item_shopping_cart_iv_workshop);
+                        mWorkshopIv = itemView.findViewById(R.id.item_shopping_cart_img_workshop);
 
                         mDetailBtn.setText("Details");
                         mDetailBtn.setOnClickListener(this);
