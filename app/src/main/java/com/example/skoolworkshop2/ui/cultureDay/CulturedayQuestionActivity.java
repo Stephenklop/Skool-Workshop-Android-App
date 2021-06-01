@@ -298,7 +298,15 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+        if(dayOfMonth < 10 && month < 10){
+            mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+        } else if (dayOfMonth < 10){
+            mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+        } else if (month < 10){
+            mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+        } else {
+            mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+        }
         datePickerDialog.cancel();
     }
 }
