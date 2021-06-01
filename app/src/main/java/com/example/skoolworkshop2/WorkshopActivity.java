@@ -93,23 +93,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             }
         });
 
-        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this, new CategoryAdapter.Listener() {
-            @Override
-            public void onChange(String filterLabel) {
-                List<Workshop> filter = new ArrayList<>();
-                if (filterLabel.equals("Meest gekozen")) {
-                    mWorkshopAdapter.setWorkshopList(mWorkshops);
-                } else {
-                    for (Workshop workshop : mWorkshops) {
-                        if (workshop.getCategory().label.equals(filterLabel)) {
-                            mWorkshopAdapter.getFilter().filter(workshop.getName());
-                            filter.add(workshop);
-                        }
-                    }
-                    mWorkshopAdapter.setWorkshopList(filter);
-                }
-            }
-        });
         mWorkshopAdapter.notifyDataSetChanged();
     }
 
