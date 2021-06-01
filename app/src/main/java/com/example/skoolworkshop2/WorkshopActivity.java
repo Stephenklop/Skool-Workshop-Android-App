@@ -30,6 +30,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private ArrayList<String> mCategories = new ArrayList<>();
     private ArrayList<String> mEnumCategories = new ArrayList<>();
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,35 +40,14 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         // Add data to workshops
         mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
         mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
-        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.MK));
+        mWorkshops.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
         // Add enum list with data
         mEnumCategories.addAll(addCategories());
-        // Radiobutton
-
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshop_workshops);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
-
-        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this, new CategoryAdapter.Listener() {
-            @Override
-            public void onChange(String filterLabel) {
-                List<Workshop> workshops = new ArrayList<>();
-
-                if (filterLabel.equals("Meest gekozen")) {
-                    mWorkshopAdapter.setWorkshopList(mWorkshops);
-                } else {
-                    for (Workshop workshop : mWorkshops) {
-                        if (workshop.getCategory().label.equals(filterLabel)) {
-                            workshops.add(workshop);
-                        }
-                    }
-
-                    mWorkshopAdapter.setWorkshopList(workshops);
-                }
-            }
-        });
 
         // SearchView
         SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
@@ -79,23 +59,32 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
             @Override
             public boolean onQueryTextChange(String s) {
-                ArrayList<Workshop> filter = new ArrayList<>();
-                for (Workshop workshop : mWorkshops){
-                    if(workshop.getName().toLowerCase().contains(s)){
-                        filter.add(workshop);
-                    }
-                }
-                if(s.equals("")){
-                    mWorkshopAdapter.setWorkshopList(mWorkshops);
-                } else {
-                    mWorkshopAdapter.setWorkshopList(filter);
-                }
+                mWorkshopAdapter.getFilter().filter(s);
                 return false;
             }
         });
 
-    }
+        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this, new CategoryAdapter.Listener() {
+            @Override
+            public void onChange(String filterLabel) {
+                List<Workshop> filter = new ArrayList<>();
+                if (filterLabel.equals("Meest gekozen")) {
+                    mWorkshopAdapter.setWorkshopList(mWorkshops);
+                } else {
+                    for (Workshop workshop : mWorkshops) {
+                        if (workshop.getCategory().label.equals(filterLabel)) {
+                            mWorkshopAdapter.getFilter().filter();
+                            filter.add(workshop);
+                        }
+                    }
 
+                    mWorkshopAdapter.setWorkshopList(filter);
+                }
+            }
+        });
+
+        mWorkshopAdapter.notifyDataSetChanged();
+    }
 
     // Hard-coded categories
     public ArrayList<String> addCategories(){

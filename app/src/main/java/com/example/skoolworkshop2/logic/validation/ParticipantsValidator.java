@@ -18,7 +18,7 @@ public class ParticipantsValidator implements TextWatcher{
 
     public static boolean isValidMaxParticipant(CharSequence participants) {
         int participant = Integer.valueOf(participants.toString());
-        return participant >0;
+        return participant > 0 && participant <= 25;
     }
 
     @Override

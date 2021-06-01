@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopGridViewHolder> {
+public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopGridViewHolder> implements Filterable{
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final ArrayList<Workshop> workshopArrayList;
@@ -67,6 +67,36 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
             view.getContext().startActivity(intent);
         }
     }
+
+    // filtereren
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Workshop> filteredList = new ArrayList<>();
+            String filterPattern = constraint.toString().toLowerCase().trim();
+            for (Workshop workshop : workshopArrayList) {
+                if (workshop.getName().toLowerCase().contains(filterPattern)) {
+                    filteredList.add(workshop);
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            Log.d(LOG_TAG, "performFiltering: " + results);
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            workshopArrayList.clear();
+            workshopArrayList.addAll((List) results.values);
+            notifyDataSetChanged();
+            Log.i(LOG_TAG, "publishResults: Workshops size: " + workshopArrayList.size());
+        }
+    };
 
     @NonNull
     @Override

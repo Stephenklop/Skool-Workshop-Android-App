@@ -3,7 +3,6 @@ package com.example.skoolworkshop2.validationsTests;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 
 import org.junit.Test;
@@ -43,6 +42,11 @@ public class MinuteValidatorTest {
     @Test
     public void minuteValidator_InvalidMinutes30Given_ReturnsFalse() {
         assertFalse(MinuteValidator.isValidMinute("30"));
+    }
+
+    @Test
+    public void minuteValidator_InvalidMinutesMinus1Given_ReturnsFalse() {
+        assertFalse(MinuteValidator.isValidMinute("-1"));
     }
 
     @Test

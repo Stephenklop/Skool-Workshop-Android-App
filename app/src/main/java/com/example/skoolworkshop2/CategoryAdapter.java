@@ -61,8 +61,8 @@ public class CategoryAdapter{
             );
 
 
-            Typeface typeface = activity.getResources().getFont(R.font.proxima_nova);
-            rb.setTypeface(typeface);
+//            Typeface typeface = activity.getResources().getFont(R.font.proxima_nova);
+//            rb.setTypeface(typeface);
 
             params.setMargins(0, 0, paddingDp, 0);
             rb.setLayoutParams(params);

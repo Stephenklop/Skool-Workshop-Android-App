@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         View root = (View) findViewById(R.id.activity_home);
 
-        Intent intent = new Intent(this, WorkshopBookingActivity.class);
-        startActivity(intent);
-
         MenuController mc = new MenuController(root);
         this.workshopArrayList = new ArrayList<>();
         String[] desc = {"blabla", "test", "info", "price"};
