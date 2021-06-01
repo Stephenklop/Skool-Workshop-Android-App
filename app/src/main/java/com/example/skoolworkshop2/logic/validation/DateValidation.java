@@ -4,15 +4,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
-public class DateValidation implements TextWatcher {
+public class DateValidation {
 
-    private String LOG_TAG = getClass().getSimpleName();
     private boolean mIsValid = false;
 
-    public static final Pattern DATEPATTERN = Pattern.compile("MM-dd-yyyy");
+
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
 
     public boolean isValid() {
@@ -20,26 +23,13 @@ public class DateValidation implements TextWatcher {
     }
 
     public static boolean isValidDate(CharSequence date) {
-        return date != null && DATEPATTERN.matcher(date).matches();
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        mIsValid = isValidDate(editable);
-        if(mIsValid == true){
-            Log.d(LOG_TAG, "afterTextChanged: date is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: date is invalid");
+        DateFormat date1 = new SimpleDateFormat("dd/MM/yyyy");
+        date1.setLenient(false);
+        try {
+            date1.parse(date.toString());
+        } catch (Exception e){
+            return false;
         }
+        return true;
     }
 }

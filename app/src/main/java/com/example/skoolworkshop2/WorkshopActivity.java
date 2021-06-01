@@ -73,16 +73,14 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                 } else {
                     for (Workshop workshop : mWorkshops) {
                         if (workshop.getCategory().label.equals(filterLabel)) {
-                            mWorkshopAdapter.getFilter().filter();
+                            mWorkshopAdapter.getFilter().filter(workshop.getName());
                             filter.add(workshop);
                         }
                     }
-
                     mWorkshopAdapter.setWorkshopList(filter);
                 }
             }
         });
-
         mWorkshopAdapter.notifyDataSetChanged();
     }
 

@@ -8,11 +8,6 @@ import java.util.regex.Pattern;
 
 public class CJPValidator implements TextWatcher {
 
-
-
-    public static final Pattern CJPPATTERN = Pattern.compile(
-            "(7000000[0-9]|700000[1-9][0-9]|70000[1-9][0-9]{2}|7000[1-9][0-9]{3}|700[1-9][0-9]{4}|70[1-9][0-9]{5}|7[1-9][0-9]{6}|80000000)");
-
     private String LOG_TAG = getClass().getSimpleName();
     private boolean mIsValid = false;
 
@@ -21,7 +16,8 @@ public class CJPValidator implements TextWatcher {
     }
 
     public static boolean isValidCJP(CharSequence cjp) {
-        return cjp != null && CJPPATTERN.matcher(cjp).matches();
+        int cjps = Integer.valueOf(cjp.toString());
+        return cjp != null && cjps >= 70000000 && cjps <= 80000000;
     }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
