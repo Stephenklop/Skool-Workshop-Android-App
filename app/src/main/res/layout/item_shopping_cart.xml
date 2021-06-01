@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="25dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shopping_cart_container"
+        android:elevation="20dp"
+        android:scaleY="1">
+
+        <ImageView
+            android:id="@+id/item_shopping_cart_iv_workshop"
+            android:layout_width="189dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shopping_cart_container"
+            android:scaleType="centerCrop"
+            android:src="@drawable/testimage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_workshop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/proxima_nova"
+            android:text="Workshop"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_shopping_cart_iv_workshop"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="prijs"
+            android:textColor="@color/dark_grey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/item_shopping_cart_tv_workshop"
+            app:layout_constraintStart_toStartOf="@+id/item_shopping_cart_tv_workshop"
+            app:layout_constraintTop_toBottomOf="@+id/item_shopping_cart_tv_workshop" />
+
+        <include
+            android:id="@+id/item_shopping_cart_btn_details"
+            layout="@layout/component_button_medium_extendable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/item_shopping_cart_tv_price"
+            app:layout_constraintTop_toBottomOf="@+id/item_shopping_cart_tv_price" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/item_shopping_cart_ll_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shopping_cart_detail_container"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        android:paddingHorizontal="15dp"
+        android:paddingBottom="15dp"
+        android:translationY="-10dp">
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_participants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Totaal aantal deelnemers:"/>
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_rounds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Aantal workshoprondes"/>
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_round_mins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Aantal minuten per workshopronde:"/>
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Totale duur:"/>
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Tijdschema:"/>
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Leerniveau:"/>
+
+        <TextView
+            android:id="@+id/item_shopping_cart_tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Workshopdatum:"/>
+
+    </LinearLayout>
+</LinearLayout>

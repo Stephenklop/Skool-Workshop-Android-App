@@ -1,16 +1,14 @@
-package com.example.skoolworkshop2.logic.validation;
+package com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-
-import java.util.regex.Pattern;
-
-public class ParticipantsValidator implements TextWatcher{
+public class CultureDayParticipantsValidator implements ParticipantsValidatorInterface, TextWatcher {
 
     private String LOG_TAG = getClass().getSimpleName();
     private boolean mIsValid = false;
+
 
     public boolean isValid() {
         return mIsValid;
@@ -18,7 +16,7 @@ public class ParticipantsValidator implements TextWatcher{
 
     public static boolean isValidMaxParticipant(CharSequence participants) {
         int participant = Integer.valueOf(participants.toString());
-        return participant >0;
+        return participant > 0 && participant <= 100;
     }
 
     @Override
@@ -36,9 +34,9 @@ public class ParticipantsValidator implements TextWatcher{
         if (s.length() != 0 ) {
             mIsValid = isValidMaxParticipant(s);
             if (mIsValid == true) {
-                Log.d(LOG_TAG, "afterTextChanged: phone number is valid");
+                Log.d(LOG_TAG, "afterTextChanged: participants is valid");
             } else {
-                Log.d(LOG_TAG, "afterTextChanged: phone number is invalid");
+                Log.d(LOG_TAG, "afterTextChanged: particpants is invalid");
             }
         }
     }
