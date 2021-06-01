@@ -170,8 +170,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!CJPValidator.isValidCJP(s)){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                if(CJPValidator.isValidCJP(s)){
                     mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                 }
             }

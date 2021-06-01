@@ -16,9 +16,16 @@ public class CJPValidator implements TextWatcher {
     }
 
     public static boolean isValidCJP(CharSequence cjp) {
-        int cjps = Integer.valueOf(cjp.toString());
-        if(cjps >= 70000000 && cjps <= 80000000 ){
-            return true;
+        if(!cjp.toString().equals("")){
+            try{
+                int cjps = Integer.valueOf(cjp.toString());
+                if(cjps >= 70000000 && cjps <= 80000000 ){
+                    return true;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
         }
         return false;
     }
