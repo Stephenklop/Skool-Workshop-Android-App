@@ -27,6 +27,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     private EditText mLocationEditText;
     private EditText mCJPEditText;
     private EditText mMessageEditText;
+    private EditText mNameEditText;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
 
@@ -47,6 +48,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mLocationEditText = (EditText) findViewById(R.id.activity_workshop_question_et_location);
         mCJPEditText = (EditText) findViewById(R.id.activity_workshop_question_et_cjp);
         mMessageEditText = (EditText) findViewById(R.id.activity_workshop_question_et_message);
+        mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
+
         // Set up validations
         mEmailEditText.addTextChangedListener(emailValidator);
         mTelEditText.addTextChangedListener(telValidator);
@@ -82,6 +85,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("Contact informatie:");
+                    stringBuilder.append("\n-Naam: " + mNameEditText.getText().toString());
                     stringBuilder.append("\n-Email: " + mEmailEditText.getText().toString());
                     stringBuilder.append("\n-TelefoonNummer: " + mTelEditText.getText().toString());
                     stringBuilder.append("\nCJP schoolnummer: " + mCJPEditText.getText().toString());
