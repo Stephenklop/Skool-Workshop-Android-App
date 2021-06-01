@@ -125,7 +125,8 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
 
                     mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
+                    int rounds = Integer.parseInt(editable.toString());
+                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
                 }
             }
         });
