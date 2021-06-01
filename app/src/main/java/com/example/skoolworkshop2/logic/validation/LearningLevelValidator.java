@@ -6,9 +6,9 @@ import android.util.Log;
 
 import java.util.regex.Pattern;
 
-public class LearningLevelValidator implements TextWatcher{
+public class LearningLevelValidator{
 
-    private String LOG_TAG = getClass().getSimpleName();
+
     private boolean mIsValid = false;
 
     public boolean isValid() {
@@ -18,25 +18,5 @@ public class LearningLevelValidator implements TextWatcher{
     public static boolean isValidLearningLevels(CharSequence learns) {
         return learns != null && learns != "";
     }
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (s.length() != 0 ) {
-            mIsValid = isValidLearningLevels(s);
-            if (mIsValid) {
-                Log.d(LOG_TAG, "afterTextChanged: learning level is valid");
-            } else {
-                Log.d(LOG_TAG, "afterTextChanged: learning level is invalid");
-            }
-        }
-    }
 }

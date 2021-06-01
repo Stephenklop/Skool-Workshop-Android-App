@@ -22,6 +22,8 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Wor
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 
+import org.w3c.dom.Text;
+
 public class WorkshopBookingActivity extends FragmentActivity implements View.OnClickListener {
     private String LOG_TAG = getClass().getSimpleName();
     // Buttons
@@ -42,12 +44,17 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private EditText mMinuteEditText;
     private EditText mParticipantsEditText;
     private EditText mRoundsEditText;
+    private EditText mSchemeEditText;
     // Textviews
     private TextView mResultWorkshopRoundsTextView;
     private TextView mResultWorkshopMinutesPerRoundTextView;
     private TextView mResultWorkshopSchemeTextView;
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
+
+    //Total time variables;
+    private int minuteT;
+    private int roundT;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -63,6 +70,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_level);
+        mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_level);
         // minutes
         mMinuteEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_mins);
         mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_mins);
@@ -72,6 +80,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_rounds);
+        // Scheme
+        mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
+        mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_schedule);
+        //Total time
+        this.minuteT = 0;
+        this.roundT = 0 ;
+        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_duration);
 
         //Use validator
         // Date Validator
@@ -100,8 +115,9 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             }
         });
 
-        // Learning level Validator
-        mLevelEditText.addTextChangedListener(learningLevelValidator);
+
+        //Total time
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
 
         // Minutes
         mMinuteEditText.addTextChangedListener(new TextWatcher() {
@@ -126,6 +142,8 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                     int minutes = Integer.parseInt(editable.toString());
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
+                    minuteT = minutes;
+                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
                 } else {
                     mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
                 }
@@ -182,9 +200,63 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                     int rounds = Integer.parseInt(editable.toString());
                     mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
+                    roundT = rounds;
+                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
                 } else {
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
                 }
+            }
+        });
+
+        //Schedule scheme
+        mSchemeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String scheme = s.toString();
+                mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                mResultWorkshopSchemeTextView.setText("Tijdschema: " + scheme);
+
+            }
+        });
+
+        mLevelEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!LearningLevelValidator.isValidLearningLevels(s.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (LearningLevelValidator.isValidLearningLevels(s.toString())){
+
+                    mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + s.toString());
+                } else {
+                    mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
+                }
+
             }
         });
 
