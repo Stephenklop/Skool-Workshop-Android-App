@@ -65,15 +65,16 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mLevelEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_level);
         // minutes
         mMinuteEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_mins);
+        mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_mins);
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_workshop_booking_et_amount);
         mParticipantsEditText = findViewById(R.id.number_edit_text);
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_rounds);
-        mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
+        mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_rounds);
 
         //Use validator
-        // Date Validoter
+        // Date Validator
         mDateEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -99,8 +100,39 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             }
         });
 
+        // Learning level Validator
         mLevelEditText.addTextChangedListener(learningLevelValidator);
-        mMinuteEditText.addTextChangedListener(minuteValidator);
+
+        // Minutes
+        mMinuteEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if(!MinuteValidator.isValidMinute(charSequence.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (MinuteValidator.isValidMinute(editable.toString())){
+                    int minutes = Integer.parseInt(editable.toString());
+                    mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
+                } else {
+                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
+                }
+            }
+        });
+
+        // Participants
         mParticipantsEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -109,12 +141,19 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
 
+                if(!WorkshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if (WorkshopParticipantsValidator.isValidMaxParticipant(editable.toString())){
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }
             }
         });
 
@@ -140,10 +179,11 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             public void afterTextChanged(Editable editable) {
 
                 if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     int rounds = Integer.parseInt(editable.toString());
+                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
+                } else {
+                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
                 }
             }
         });
