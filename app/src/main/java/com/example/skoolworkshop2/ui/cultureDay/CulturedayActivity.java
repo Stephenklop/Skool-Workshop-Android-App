@@ -11,8 +11,14 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.domain.CultureDay;
+import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 
 public class CulturedayActivity extends FragmentActivity implements View.OnClickListener {
@@ -39,11 +45,13 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_details);
 
-//        View root = (View) findViewById(R.id.activity_cultureday_details);
-//        MenuController mc = new MenuController(root);
-//        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
-//        menu.getMenu().getItem(1).setChecked(true);
+        View root = (View) findViewById(R.id.activity_cultureday_details);
 
+
+        MenuController mc = new MenuController(root);
+
+        BottomNavigationView menu = findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(2).setChecked(true);
 
 
 
@@ -54,9 +62,9 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mWorkshopsBn = findViewById(R.id.activity_cultureday_details_btn_workshop);
         mRoundsBn = findViewById(R.id.activity_cultureday_details_btn_round);
 
-
-
-        cultureDay = (CultureDay) getIntent().getSerializableExtra("Cultureday");
+        ArrayList<Workshop> workshops = new ArrayList<>();
+        workshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
+        cultureDay = new CultureDay(1, "Cultuurdag", new String[]{"test", "test", "test", "test"}, workshops, 1, 100, "12/12/2021", 10);
 
         mTitleTV.setText(cultureDay.getName());
         mPriceBn.setText(cultureDay.getPrice() + ",-");
