@@ -33,6 +33,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
     private Button mPriceBn;
     private Button mParticipantsBn;
     private Button mDurationBn;
+    private Button mSendBn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,9 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mTabsContentTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_content);
         mTabsInfoTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_info);
         mTabsCostTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_costs);
+
+
+
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.activity_workshop_details_fragment_txt, new WorkshopOverviewFragment(workshop))
