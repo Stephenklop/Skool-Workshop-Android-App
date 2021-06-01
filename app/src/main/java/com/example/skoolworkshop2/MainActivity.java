@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         View root = (View) findViewById(R.id.activity_home);
 
         MenuController mc = new MenuController(root);
@@ -51,8 +52,5 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext().startActivity(intent);
             }
         });
-
-
     }
-
 }
