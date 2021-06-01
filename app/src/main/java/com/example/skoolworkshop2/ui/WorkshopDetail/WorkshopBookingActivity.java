@@ -1,17 +1,21 @@
 package com.example.skoolworkshop2.ui.WorkshopDetail;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
@@ -24,7 +28,9 @@ import com.example.skoolworkshop2.ui.MainActivity;
 
 import org.w3c.dom.Text;
 
-public class WorkshopBookingActivity extends FragmentActivity implements View.OnClickListener {
+import java.time.LocalDate;
+
+public class WorkshopBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private String LOG_TAG = getClass().getSimpleName();
     // Buttons
     private Button mSendBn;
@@ -52,15 +58,19 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
 
+    private DatePickerDialog datePickerDialog;
+
     //Total time variables;
     private int minuteT;
     private int roundT;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_booking);
 
+        datePickerDialog = new DatePickerDialog(this, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         //assign id
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
@@ -68,6 +78,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Date
         mDateLayout = findViewById(R.id.activity_workshop_booking_et_date);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
+        ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
         // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_level);
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_level);
@@ -87,6 +98,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         this.minuteT = 0;
         this.roundT = 0 ;
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_duration);
+
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         //Use validator
         // Date Validator
@@ -279,6 +297,20 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        if(dayOfMonth < 10 && month < 10){
+            mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+        } else if (dayOfMonth < 10){
+            mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+        } else if (month < 10){
+            mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+        } else {
+            mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+        }
+        datePickerDialog.cancel();
     }
 }
 
