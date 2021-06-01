@@ -69,13 +69,10 @@ public class LayoutTestActivity extends AppCompatActivity {
                                 .ofInt(currentValue, newValue)
                                 .setDuration(300);
 
-                        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                Integer value = (Integer) animation.getAnimatedValue();
-                                v.getLayoutParams().height = value.intValue();
-                                v.requestLayout();
-                            }
+                        slideAnimator.addUpdateListener(animation -> {
+                            Integer value = (Integer) animation.getAnimatedValue();
+                            v.getLayoutParams().height = value.intValue();
+                            v.requestLayout();
                         });
 
                         AnimatorSet set = new AnimatorSet();
@@ -101,6 +98,8 @@ public class LayoutTestActivity extends AppCompatActivity {
         });
 
         rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setHasFixedSize(false);
+
 
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
@@ -126,7 +126,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
     <include
         android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
