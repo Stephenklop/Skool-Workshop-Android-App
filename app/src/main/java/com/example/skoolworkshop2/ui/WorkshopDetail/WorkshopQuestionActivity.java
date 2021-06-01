@@ -43,7 +43,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mTelEditText = (EditText) findViewById(R.id.activity_workshop_question_et_phone);
         mAmountOfPersonsEditText = (EditText) findViewById(R.id.activity_workshop_question_et_amount);
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.activity_workshop_question_et_date);
-        mDateEditText = (EditText) rl.findViewById(R.id.editText);
+        mDateEditText = (EditText) rl.findViewById(R.id.date_picker_edit_text);
         mTimeEditText = (EditText) findViewById(R.id.activity_workshop_question_et_time);
         mLocationEditText = (EditText) findViewById(R.id.activity_workshop_question_et_location);
         mCJPEditText = (EditText) findViewById(R.id.activity_workshop_question_et_cjp);
