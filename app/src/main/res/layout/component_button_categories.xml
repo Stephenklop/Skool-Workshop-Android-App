@@ -6,7 +6,6 @@
     android:button="@android:color/transparent"
     android:fontFamily="@font/proxima_nova_semibold"
     android:letterSpacing="0"
-    android:lineHeight="24dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:text="test"
