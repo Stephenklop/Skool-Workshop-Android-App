@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -28,12 +29,14 @@ public class CategoryAdapter{
     private ArrayList<Workshop> mWorkshops;
     private WorkshopAdapter mWorkshopAdapter;
     private Listener listener;
+    private Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public CategoryAdapter(View root, AppCompatActivity activity, Listener listener) {
+    public CategoryAdapter(View root, Context context, AppCompatActivity activity, Listener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
-        addCategories();
+
         this.activity = activity;
+        this.context = context;
         mCategoriesRadiogroup = root.findViewById(R.id.activity_workshop_rg_categories);
         this.listener = listener;
         addCategoriesToGroup();
@@ -42,14 +45,16 @@ public class CategoryAdapter{
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void addCategoriesToGroup() {
-        for (int i = 0; i < categories.size(); i++) {
+        String[] categorieArray = context.getResources().getStringArray(R.array.category);
+
+        for (int i = 0; i < categorieArray.length; i++) {
             int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));
 
             RadioButton rb = new RadioButton(activity);
 
             rb.setBackgroundResource(R.drawable.btn_categories_states);
-            rb.setText(categories.get(i));
-            rb.setTag(categories.get(i));
+            rb.setText(categorieArray[i]);
+            rb.setTag(categorieArray[i]);
             rb.setId(i);
             rb.setButtonDrawable(android.R.color.transparent);
             rb.setPadding(paddingDp, 0, paddingDp, 0);
@@ -91,16 +96,7 @@ public class CategoryAdapter{
         }
     }
 
-    // Hard-coded categories
-    public void addCategories() {
-        categories.add("Meest gekozen");
-        categories.add("Beeldende Kunst");
-        categories.add("Dans");
-        categories.add("Media");
-        categories.add("Muziek");
-        categories.add("Sport");
-        categories.add("Theater");
-    }
+
 
     public interface Listener {
         void onChange(String filterLabel);

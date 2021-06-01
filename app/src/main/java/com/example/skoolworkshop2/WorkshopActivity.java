@@ -50,7 +50,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
-        CategoryAdapter ca = new CategoryAdapter(root, WorkshopActivity.this, new CategoryAdapter.Listener() {
+        CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
             @Override
             public void onChange(String filterLabel) {
                 List<Workshop> workshops = new ArrayList<>();

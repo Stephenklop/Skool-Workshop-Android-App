@@ -17,7 +17,11 @@ public class CJPValidator implements TextWatcher {
     }
 
     public static boolean isValidCJP(CharSequence cjp) {
-        return cjp != null && CJPPATTERN.matcher(cjp).matches();
+        int cjps = Integer.valueOf(cjp.toString());
+        if(cjps >= 70000000 && cjps <= 80000000 ){
+            return true;
+        }
+        return false;
     }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -187,11 +187,11 @@
                     android:id="@+id/activity_cultureday_booking_spnr_workshop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/edittext_default"
                     android:popupBackground="@drawable/edittext_focused"
                     android:spinnerMode="dropdown"
-                    tools:listitem="@layout/item_spinner"
-                    android:layout_marginTop="5dp"/>
+                    tools:listitem="@layout/item_spinner" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_cultureday_booking_rv_workshops"
