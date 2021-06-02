@@ -37,6 +37,7 @@ import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,18 +77,29 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private TextView mResultWorkshopSchemeTextView;
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
+    private TextView mTotalCostTextView;
 
     private DatePickerDialog datePickerDialog;
 
     //Total time variables;
     private int minuteT;
     private int roundT;
+    private int totalTime;
+    // Total Cost
+    private Double totalCost;
+    private Double totalPartCost;
+
+    // Workshop name
+    private String workshop;
 
     private Spinner mCategorieSpinner;
     private Spinner mWorkshopSpinner;
     private ArrayAdapter<CharSequence> categorieArrayAdapter;
     private ArrayAdapter<Workshop> workshopArrayAdapter;
     private List<Workshop> workshopDummylist;
+
+    //cost
+    private DecimalFormat df = new DecimalFormat("###.##");
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -118,13 +130,13 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mDateLayout = findViewById(R.id.activity_cultureday_booking_et_date);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
-//        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
-//        datePickerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                datePickerDialog.show();
-//            }
-//        });
+        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
         mParticipantsEditText = findViewById(R.id.number_edit_text);
@@ -142,10 +154,16 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 //        // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
+        // Total cost
+        mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
+
+        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+
         //Total time
         this.minuteT = 0;
         this.roundT = 0 ;
-        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+        this.totalTime = 0;
+        this.totalCost = 0.0;
 
         categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -230,8 +248,16 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                 if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
                     int rounds = Integer.parseInt(editable.toString());
                     mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    // totalCosts
+                    int roundss = Integer.valueOf(0 +mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*roundss*workshops*minute));
 
                 } else {
+                    mTotalCostTextView.setText("Subtotaal: ");
+
 
                 }
             }
@@ -257,18 +283,26 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
 
                 if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-                    int rounds = Integer.parseInt(editable.toString());
+                    int rounds = 0 +Integer.parseInt(editable.toString()) ;
                     mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
                     roundT = rounds;
                     mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
+                    // totalCosts
+//                    int rounds = Integer.valueOf(mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
                 } else {
+                    mTotalCostTextView.setText("Subtotaal: ");
+
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
                 }
             }
         });
         //Total time
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
         // Minutes
         mMinuteEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -283,6 +317,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                 if(!MinuteValidator.isValidMinute(charSequence.toString())){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+
                 }
             }
 
@@ -294,7 +329,14 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                     mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
                     minuteT = minutes;
                     mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
+                    // totalCosts
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
                 } else {
+                    mTotalCostTextView.setText("Subtotaal: ");
                     mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
                 }
             }
