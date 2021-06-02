@@ -131,9 +131,9 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
-//        //Workshops per workshoprounds
-//        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
-//        mResultWorkshopPerRoundLayout = findViewById(R.id.edit_text_workshops_per_rounds);
+        //Workshops per workshoprounds
+        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
+
         // minutes
         mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
         mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_mins);
@@ -208,35 +208,35 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             }
         });
 
-//        // workshop per Rounds
-//        mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!RoundsValidator.isValidWorkshopRounds(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//                if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-//                    int rounds = Integer.parseInt(editable.toString());
-//                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//
-//                } else {
-//
-//                }
-//            }
-//        });
+        // workshop per Rounds
+        mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if(!RoundsValidator.isValidWorkshopRounds(charSequence.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
+                    int rounds = Integer.parseInt(editable.toString());
+                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
+                } else {
+
+                }
+            }
+        });
         // rounds
         mRoundsEditText.addTextChangedListener(new TextWatcher() {
             @Override
