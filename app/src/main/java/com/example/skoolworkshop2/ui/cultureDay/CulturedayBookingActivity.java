@@ -300,6 +300,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                 }
             }
         });
+
         //Schedule scheme
         mSchemeEditText.addTextChangedListener(new TextWatcher() {
             @Override

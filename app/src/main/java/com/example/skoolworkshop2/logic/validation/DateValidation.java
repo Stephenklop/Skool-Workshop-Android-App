@@ -25,6 +25,7 @@ public class DateValidation {
     public static boolean isValidDate(CharSequence date) {
         DateFormat date1 = new SimpleDateFormat("dd/MM/yyyy");
         date1.setLenient(false);
+
         try {
             date1.parse(date.toString());
         } catch (Exception e){
