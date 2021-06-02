@@ -61,7 +61,7 @@ public class MenuController {
                 Bundle bundle = ActivityOptions
                         .makeSceneTransitionAnimation((Activity) context).toBundle();
 
-                context.startActivity(toHome, bundle);
+                context.startActivity(toHome);
             }
         });
 
@@ -75,7 +75,7 @@ public class MenuController {
 
                 Bundle bundle = ActivityOptions
                         .makeSceneTransitionAnimation((Activity) context).toBundle();
-                context.startActivity(toSearch, bundle);
+                context.startActivity(toSearch);
             }
         });
 
@@ -104,7 +104,7 @@ public class MenuController {
 
                 Bundle bundle = ActivityOptions
                         .makeSceneTransitionAnimation((Activity) context).toBundle();
-                context.startActivity(toCultureDay, bundle);
+                context.startActivity(toCultureDay);
             }
         });
     }
@@ -123,4 +123,6 @@ public class MenuController {
         Intent toCultureDay = new Intent(context, CulturedayActivity.class);
         context.startActivity(toCultureDay);
     }
+
+
 }
