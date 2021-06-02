@@ -76,7 +76,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_booking);
 
-//        datePickerDialog = new DatePickerDialog(this, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerDialog = new DatePickerDialog(this, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         //assign id
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
