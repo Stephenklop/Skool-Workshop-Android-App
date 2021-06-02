@@ -2,7 +2,7 @@ package com.example.skoolworkshop2.logic.validation;
 
 public class ParticipantsItemValidator {
 
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;

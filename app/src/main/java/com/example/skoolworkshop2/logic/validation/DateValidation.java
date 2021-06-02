@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class DateValidation {
 
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
 
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");

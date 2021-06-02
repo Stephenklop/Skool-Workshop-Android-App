@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class CJPValidator implements TextWatcher {
 
     private String LOG_TAG = getClass().getSimpleName();
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;

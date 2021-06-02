@@ -118,22 +118,21 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mDateLayout = findViewById(R.id.activity_cultureday_booking_et_date);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
-        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
-        datePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
-        });
+//        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+//        datePickerButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                datePickerDialog.show();
+//            }
+//        });
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
         mParticipantsEditText = findViewById(R.id.number_edit_text);
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
-        //Workshops per workshoprounds
+//        //Workshops per workshoprounds
         mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
-
         // minutes
         mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
         mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_mins);
@@ -312,16 +311,17 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 String scheme = s.toString();
-                mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                if (!scheme.isEmpty()){
+                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                } else {
+                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
                 mResultWorkshopSchemeTextView.setText("Tijdschema: " + scheme);
-
             }
         });
 
@@ -335,21 +335,18 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!LearningLevelValidator.isValidLearningLevels(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (LearningLevelValidator.isValidLearningLevels(s.toString())){
-
+                if(!LearningLevelValidator.isValidLearningLevels(s.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                } else if (LearningLevelValidator.isValidLearningLevels(s.toString())) {
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + s.toString());
                 } else {
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
-
                 }
 
             }
