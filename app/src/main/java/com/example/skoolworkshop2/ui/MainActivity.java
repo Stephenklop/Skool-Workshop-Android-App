@@ -18,8 +18,6 @@ import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.paperdb.Paper;
-
 public class MainActivity extends AppCompatActivity {
     private List<Workshop> workshopArrayList;
     private LocalAppStorage localAppStorage;
