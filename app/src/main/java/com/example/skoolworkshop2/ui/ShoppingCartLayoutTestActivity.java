@@ -42,7 +42,7 @@ public class ShoppingCartLayoutTestActivity extends AppCompatActivity {
                         super(itemView);
                         mDetailBtn = itemView.findViewById(R.id.item_shopping_cart_btn_details);
                         mDetailsLl = itemView.findViewById(R.id.item_shopping_cart_ll_details);
-                        mWorkshopIv = itemView.findViewById(R.id.item_shopping_cart_iv_workshop);
+                        mWorkshopIv = itemView.findViewById(R.id.item_shopping_cart_img_workshop);
 
                         mDetailBtn.setText("Details");
                         mDetailBtn.setOnClickListener(this);
