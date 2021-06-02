@@ -5,7 +5,7 @@ import android.util.Log;
 
 public class MinuteValidator{
 
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;
@@ -14,7 +14,7 @@ public class MinuteValidator{
     public static boolean isValidMinute(CharSequence minutes) {
         if(minutes.length() != 0){
             int minute = Integer.valueOf(minutes.toString());
-            return minute <= 120 && minute >= 45;
+            return minute <= 120 && minute >= 60;
         } else {
             return false;
         }

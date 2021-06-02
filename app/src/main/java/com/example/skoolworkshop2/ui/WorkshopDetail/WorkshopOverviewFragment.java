@@ -41,10 +41,12 @@ public class WorkshopOverviewFragment extends Fragment {
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
 
+
         mBookingBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkshopBookingActivity.class);
+                intent.putExtra("NAME", workshop.getName());
                 startActivity(intent);
             }
         });

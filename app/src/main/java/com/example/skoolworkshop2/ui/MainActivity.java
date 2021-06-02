@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         MenuController mc = new MenuController(root);
         this.workshopArrayList = new ArrayList<>();
         String[] desc = {"blabla", "test", "info", "price"};
-        workshopArrayList.add(new Workshop(1, "Test", desc,55.55, "Test", 60, Category.DS));
-        workshopArrayList.add(new Workshop(2, "Test", desc,55.55, "Test", 60, Category.BK));
+        workshopArrayList.add(new Workshop(1, "Graffiti", desc,55.55, "Test", 60, Category.DS));
+        workshopArrayList.add(new Workshop(2, "T-shirt Ontwerpen", desc,55.55, "Test", 60, Category.BK));
         workshopArrayList.add(new Workshop(3, "Test", desc,55.55, "Test", 60, Category.MA));
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);

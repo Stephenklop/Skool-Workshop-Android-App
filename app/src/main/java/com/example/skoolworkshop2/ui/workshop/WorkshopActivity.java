@@ -46,8 +46,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(1).setChecked(true);
         // Add data to workshops
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
-        mWorkshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
+        mWorkshops.add(new Workshop(1, "Graffiti", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
+        mWorkshops.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
         mWorkshops.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
         // Add enum list with data
         mEnumCategories.addAll(addCategories());

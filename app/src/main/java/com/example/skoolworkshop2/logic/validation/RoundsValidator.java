@@ -5,7 +5,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 
 public class RoundsValidator{
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;
