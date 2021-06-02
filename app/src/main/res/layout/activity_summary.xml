@@ -46,6 +46,100 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_summary_tv_shopping_cart" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:id="@+id/activity_summary_tv_subtotal_key"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="Subtotaal(_):"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@id/activity_summary_tv_subtotal_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/activity_summary_tv_subtotal_value" />
+
+            <TextView
+                android:id="@+id/activity_summary_tv_subtotal_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="€__,__"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/activity_summary_tv_travel_cost_key"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="Reiskosten:"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@id/activity_summary_tv_travel_cost_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/activity_summary_tv_travel_cost_value" />
+
+            <TextView
+                android:id="@+id/activity_summary_tv_travel_cost_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="€__,__"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_summary_tv_subtotal_value" />
+
+            <View
+                android:id="@+id/activity_summary_div"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="50dp"
+                android:background="@color/dark_grey"
+                app:layout_constraintTop_toBottomOf="@id/activity_summary_tv_travel_cost_value" />
+
+            <TextView
+                android:id="@+id/activity_summary_tv_total_key"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Totaal:"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@id/activity_summary_tv_total_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/activity_summary_tv_total_value" />
+
+            <TextView
+                android:id="@+id/activity_summary_tv_total_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
+                android:fontFamily="@font/proxima_nova_extrabold"
+                android:text="€__,__"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_summary_div" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,6 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <include
                     android:id="@+id/activity_summary_btn_transfer"
                     layout="@layout/component_btn_payment_transfer"
@@ -94,6 +189,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp" />
             </LinearLayout>
+
+            <include
+                android:id="@+id/activity_summary_btn_confirm"
+                layout="@layout/component_button_large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
