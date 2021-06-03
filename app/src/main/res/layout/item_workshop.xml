@@ -32,10 +32,11 @@
             android:id="@+id/tv_workshop_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova_extrabold"
+            android:fontFamily="@font/proxima_nova"
             android:text="Graffiti"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_workshop_category"
@@ -44,7 +45,7 @@
             android:fontFamily="@font/proxima_nova_semibold"
             android:text="Beeldende Kunst"
             android:textColor="@color/dark_grey"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 
