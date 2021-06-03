@@ -15,7 +15,7 @@
         android:fontFamily="@font/proxima_nova_semibold"
         android:paddingHorizontal="25dp"
         android:paddingVertical="10dp"
-        android:text="Betalen via CJP"
+        android:text="Betalen via Ideal"
         android:textColor="@color/black"
         android:textSize="18sp" />
 
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/btn_payment_expanded_container"
-        android:visibility="gone"
+        android:visibility="visible"
         android:padding="25dp">
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Rond de betaling af via Ideal. Kies hieronder uw bank."
+            android:text="Rond de betaling af via Ideal. De bestelling wordt verzonden wanneer Ideal de betaling bevestigt."
             android:textColor="@color/black"
             android:textSize="16sp" />
 
