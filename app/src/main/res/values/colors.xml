@@ -14,6 +14,7 @@
     <color name="background">#F2F6F9</color>
     <color name="light_grey">#C2C6C8</color>
     <color name="dark_grey">#949494</color>
+    <color name="darker_grey">#707070</color>
 
     <!-- EditText colours -->
     <color name="disabled_grey">#F7F8F8</color>

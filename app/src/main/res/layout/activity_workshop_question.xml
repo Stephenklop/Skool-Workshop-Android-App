@@ -35,15 +35,9 @@
         android:paddingTop="25dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_workshop_question_rv_tags"
-            android:layout_width="match_parent"
-            android:layout_height="35dp" />
-
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"

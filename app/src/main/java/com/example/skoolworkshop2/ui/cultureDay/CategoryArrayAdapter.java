@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ui.workshop;
+package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.content.Context;
 import android.view.KeyEvent;
@@ -12,14 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Workshop;
 
 import org.jetbrains.annotations.NotNull;
 
-public class WorkshopArrayAdapter extends ArrayAdapter<String> {
+import java.util.List;
+
+public class CategoryArrayAdapter extends ArrayAdapter<String> {
     LayoutInflater layoutInflater;
 
-    public WorkshopArrayAdapter(@NonNull Context context, @NonNull Object[] objects) {
-        super(context, 0, (String[]) objects);
+    public CategoryArrayAdapter(@NonNull Context context, @NonNull String[] categoryList) {
+        super(context, 0, categoryList);
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -57,7 +60,7 @@ public class WorkshopArrayAdapter extends ArrayAdapter<String> {
     @Override
     public String getItem(int position) {
         if (position == 0) {
-            return "Kies een optie";
+            return null;
         } else {
             return super.getItem(position - 1);
         }
@@ -73,8 +76,12 @@ public class WorkshopArrayAdapter extends ArrayAdapter<String> {
         return position != 0;
     }
 
-    private void setWorkshop(View view, String workshop) {
+    private void setWorkshop(View view, String category) {
         TextView workshopTv = view.findViewById(R.id.item_spinner_tv);
-        workshopTv.setText(workshop);
+        if (category != null) {
+            workshopTv.setText(category);
+        } else {
+            workshopTv.setText("Kies een categorie");
+        }
     }
 }

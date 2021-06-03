@@ -55,24 +55,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
-                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_tv_total_key"
-                tools:layout_editor_absoluteX="25dp" />
+                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_tv_total_cost_key" />
 
             <TextView
-                android:id="@+id/activity_shopping_cart_tv_total_key"
+                android:id="@+id/activity_shopping_cart_tv_total_cost_key"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/proxima_nova_regular"
-                android:text="Totaal(_):"
+                android:text="Subtotaal(_):"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@id/activity_shopping_cart_tv_total_value"
+                app:layout_constraintEnd_toStartOf="@id/activity_shopping_cart_tv_total_cost_value"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/activity_shopping_cart_tv_total_value" />
+                app:layout_constraintTop_toTopOf="@+id/activity_shopping_cart_tv_total_cost_value" />
 
             <TextView
-                android:id="@+id/activity_shopping_cart_tv_total_value"
+                android:id="@+id/activity_shopping_cart_tv_total_cost_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
@@ -88,44 +87,16 @@
                 android:id="@+id/activity_shopping_cart_div"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="25dp"
-                android:background="@color/dark_grey"
-                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_tv_travel_costs_key"
-                tools:layout_editor_absoluteX="25dp" />
-
-            <TextView
-                android:id="@+id/activity_shopping_cart_tv_travel_costs_key"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:fontFamily="@font/proxima_nova_regular"
-                android:text="Reiskosten:"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@id/activity_shopping_cart_tv_total_value"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/activity_shopping_cart_tv_travel_costs_value" />
-
-            <TextView
-                android:id="@+id/activity_shopping_cart_tv_travel_costs_value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
-                android:fontFamily="@font/proxima_nova_semibold"
-                android:text="€__,__"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_btn_confirm"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:background="@color/dark_grey"
+                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_btn_confirm" />
 
             <include
                 android:id="@+id/activity_shopping_cart_btn_confirm"
                 layout="@layout/component_button_large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="25dp" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

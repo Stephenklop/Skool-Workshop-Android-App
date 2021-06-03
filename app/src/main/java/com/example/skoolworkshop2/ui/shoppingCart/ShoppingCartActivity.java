@@ -48,10 +48,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         shoppingCartRecyclerView.setAdapter(mAdapter);
 
-        totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_key);
+        totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_key);
         totalPriceTitleTextView.setText("Totaal (" + shoppingCartItems.size() + ")");
 
-        totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_value);
+        totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_value);
         totalPriceTextView.setText("€ " + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
     }
 

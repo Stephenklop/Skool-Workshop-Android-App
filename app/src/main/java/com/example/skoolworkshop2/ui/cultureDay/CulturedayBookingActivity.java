@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -28,14 +27,10 @@ import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
-import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -174,6 +169,12 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
 
+//=======
+//        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+//
+//        WorkshopArrayAdapter workshopArrayAdapter = new WorkshopArrayAdapter(this, workshopDummylist);
+//        CategoryArrayAdapter categoryArrayAdapter = new CategoryArrayAdapter(this, getResources().getStringArray(R.array.category));
+//>>>>>>> feat/ui-components
 
         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
         mCategorieSpinner.setAdapter(categorieArrayAdapter);

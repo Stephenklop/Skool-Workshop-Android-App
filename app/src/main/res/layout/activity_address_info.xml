@@ -150,7 +150,7 @@
 
                     <include
                         android:id="@+id/activity_address_info_et_postalcode"
-                        layout="@layout/component_edittext_plaintext"
+                        layout="@layout/component_edittext_postalcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -503,7 +503,7 @@
 
                     <include
                         android:id="@+id/activity_address_info_et_workshop_postalcode"
-                        layout="@layout/component_edittext_plaintext"
+                        layout="@layout/component_edittext_postalcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

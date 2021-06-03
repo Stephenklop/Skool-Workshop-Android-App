@@ -90,6 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_workshops_txt_category_title" />
 
     <include
+        android:transitionName="menu_bottom_nav"
         android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
         app:layout_constraintBottom_toBottomOf="parent"

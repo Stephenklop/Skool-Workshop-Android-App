@@ -14,7 +14,7 @@
         android:scaleY="1">
 
         <ImageView
-            android:id="@+id/item_shopping_cart_iv_workshop"
+            android:id="@+id/item_shopping_cart_img_workshop"
             android:layout_width="189dp"
             android:layout_height="0dp"
             android:background="@drawable/shopping_cart_container"
@@ -37,7 +37,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/item_shopping_cart_iv_workshop"
+            app:layout_constraintStart_toEndOf="@+id/item_shopping_cart_img_workshop"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
