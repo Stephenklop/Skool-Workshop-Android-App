@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/component_btn_payment_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/btn_payment_container_states"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/component_btn_payment_tv_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="10dp"
+        android:text="Betalen via Ideal"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/component_btn_payment_ll_expand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/btn_payment_expanded_container"
+        android:visibility="gone"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/component_btn_payment_tv_expand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Rond de betaling af via Ideal. De bestelling wordt verzonden wanneer Ideal de betaling bevestigt."
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+        <Spinner
+            android:id="@+id/component_btn_payment_spnr_ideal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_default"
+            android:popupBackground="@drawable/edittext_focused"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/item_bank_spinner"
+            android:layout_marginTop="25dp"
+            android:isScrollContainer="false" />
+    </LinearLayout>
+
+</LinearLayout>

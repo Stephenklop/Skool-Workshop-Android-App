@@ -1,26 +1,33 @@
-package com.example.skoolworkshop2.ui.workshop;
-
+package com.example.skoolworkshop2.ui;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Bank;
+import com.example.skoolworkshop2.domain.Workshop;
 
 import org.jetbrains.annotations.NotNull;
 
-public class WorkshopArrayAdapter extends ArrayAdapter<String> {
-    LayoutInflater layoutInflater;
+import java.util.List;
 
-    public WorkshopArrayAdapter(@NonNull Context context, @NonNull Object[] objects) {
-        super(context, 0, (String[]) objects);
+public class BankArrayAdapter extends ArrayAdapter<Object> {
+    LayoutInflater layoutInflater;
+    private Context context;
+
+    public BankArrayAdapter(@NonNull Context context, @NonNull List<Bank> bankList) {
+        super(context, 0, (Object[]) bankList.toArray());
         layoutInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @NonNull
@@ -28,11 +35,11 @@ public class WorkshopArrayAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view;
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.item_spinner, parent, false);
+            view = layoutInflater.inflate(R.layout.item_bank_spinner, parent, false);
         } else {
             view = convertView;
         }
-        setWorkshop(view, getItem(position));
+        setBank(view, (Bank) getItem(position));
         return view;
     }
 
@@ -40,24 +47,24 @@ public class WorkshopArrayAdapter extends ArrayAdapter<String> {
     public View getDropDownView(int position, @Nullable @org.jetbrains.annotations.Nullable View convertView, @NonNull @NotNull ViewGroup parent) {
         View view;
         if (position == 0) {
-            view = layoutInflater.inflate(R.layout.item_spinner_header, parent, false);
+            view = layoutInflater.inflate(R.layout.item_bank_spinner_header, parent, false);
             view.setOnClickListener((View v) -> {
                 View root = parent.getRootView();
                 root.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
                 root.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
             });
         } else {
-            view = layoutInflater.inflate(R.layout.item_spinner_dropdown, parent, false);
-            setWorkshop(view, getItem(position));
+            view = layoutInflater.inflate(R.layout.item_bank_spinner_dropdown, parent, false);
+            setBank(view, (Bank) getItem(position));
         }
         return view;
     }
 
     @Nullable
     @Override
-    public String getItem(int position) {
+    public Object getItem(int position) {
         if (position == 0) {
-            return "Kies een optie";
+            return null;
         } else {
             return super.getItem(position - 1);
         }
@@ -73,8 +80,16 @@ public class WorkshopArrayAdapter extends ArrayAdapter<String> {
         return position != 0;
     }
 
-    private void setWorkshop(View view, String workshop) {
-        TextView workshopTv = view.findViewById(R.id.item_spinner_tv);
-        workshopTv.setText(workshop);
+    private void setBank(View view, Bank bank) {
+        TextView bankTv = view.findViewById(R.id.item_bank_spinner_tv);
+        ImageView bankImg = view.findViewById(R.id.item_bank_spinner_img_bank);
+
+        if (bank != null) {
+            bankTv.setText(bank.getName());
+            Glide.with(context).load(bank.getSvg()).into(bankImg);
+        } else {
+            Glide.with(context).load("https://www.mollie.com/external/icons/payment-methods/ideal.png").into(bankImg);
+            bankTv.setText("Kies uw bank");
+        }
     }
 }
