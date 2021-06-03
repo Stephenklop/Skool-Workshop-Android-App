@@ -13,9 +13,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.mollie.MollieAPIService;
 import com.example.skoolworkshop2.domain.Bank;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SummaryLayoutTestActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout mPaymentMethodsLl;
@@ -26,6 +27,8 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
     LinearLayout mPaymentIdealBtn;
 
     Spinner mIdealSpnr;
+
+    private List<Bank> banks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,10 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
         mPaymentCashBtn = findViewById(R.id.activity_summary_btn_cash);
         mPaymentIdealBtn = findViewById(R.id.activity_summary_btn_ideal);
 
+        getBanks();
+
         mIdealSpnr = findViewById(R.id.component_btn_payment_spnr_ideal);
+//        mIdealSpnr.setAdapter(new WorkshopArrayAdapter(this, new String[]{"ABN Amro", "ASN Bank"}));
 
         ArrayList<Bank> bankList = new ArrayList<>();
         bankList.add(new Bank("ideal_ABNANL2A", "ABNA AMRO", "https://mollie.com/external/icons/ideal-issuers/ABNANL2A.svg"));
@@ -89,5 +95,11 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
         v.setSelected(true);
         mPaymentMethodTv.setTextColor(getColor(R.color.white));
         mPaymentExpandLl.setVisibility(View.VISIBLE);
+    }
+
+    private void getBanks() {
+        MollieAPIService api = new MollieAPIService();
+
+        this.banks = api.getAllIdealBanks();
     }
 }
