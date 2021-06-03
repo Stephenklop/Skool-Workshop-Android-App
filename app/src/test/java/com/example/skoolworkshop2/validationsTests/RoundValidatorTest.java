@@ -26,6 +26,6 @@ public class RoundValidatorTest {
 
     @Test
     public void roundValidator_InvalidRounds0Given_ReturnsTrue() {
-        assertFalse(RoundsValidator.isValidWorkshopRounds("-1"));
+        assertFalse(RoundsValidator.isValidWorkshopRounds("0"));
     }
 }

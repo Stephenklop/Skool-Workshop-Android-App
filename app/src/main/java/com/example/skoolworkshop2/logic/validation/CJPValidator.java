@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.util.regex.Pattern;
 
-public class CJPValidator implements TextWatcher {
+public class CJPValidator {
 
     private String LOG_TAG = getClass().getSimpleName();
     public boolean mIsValid = false;
@@ -28,24 +28,5 @@ public class CJPValidator implements TextWatcher {
             }
         }
         return false;
-    }
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        mIsValid = isValidCJP(s);
-        if(mIsValid){
-            Log.d(LOG_TAG, "afterTextChanged: CJP is valid");
-        } else {
-            Log.d(LOG_TAG, "afterTextChanged: CJP is invalid");
-        }
     }
 }

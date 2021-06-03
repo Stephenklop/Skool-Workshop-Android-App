@@ -60,6 +60,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     // Layout
     private RelativeLayout mDateLayout;
     private RelativeLayout mParticipantsLayout;
+    private RelativeLayout mItemParticipantsLayout;
     private RelativeLayout mResultWorkshopPerRoundLayout;
     private RelativeLayout mResultWorkshopSchemeLayout;
     // Edit texts
@@ -81,6 +82,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
     private DatePickerDialog datePickerDialog;
 
+    private int maxParticipants;
     //Total time variables;
     private int minuteT;
     private int roundT;
@@ -110,8 +112,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         workshopDummylist = new ArrayList<>();
 
         //add dummylist
-        workshopDummylist.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
-        workshopDummylist.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
+        workshopDummylist.add(new Workshop(1, "Graffiti", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
+        workshopDummylist.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
         workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.MK));
 
         // Buttons
@@ -156,6 +158,9 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
+        // item participants
+        mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
+        mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
 
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
 
@@ -164,7 +169,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         this.roundT = 0 ;
         this.totalTime = 0;
         this.totalCost = 0.0;
-
+        this.maxParticipants = 0;
         categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
@@ -195,7 +200,6 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if (DateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
                 }
             }
         });
@@ -221,6 +225,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if (CultureDayParticipantsValidator.isValidMaxParticipant(editable.toString())){
                     mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    maxParticipants = Integer.valueOf(editable.toString());
                 }
             }
         });
@@ -391,6 +396,28 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
                 }
 
+            }
+        });
+
+        // item Participants
+        mParticipantsItemEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(LOG_TAG, "onTextChanged: text changed");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)){
+                    mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                } else if (!ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)) {
+                    mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
         });
 

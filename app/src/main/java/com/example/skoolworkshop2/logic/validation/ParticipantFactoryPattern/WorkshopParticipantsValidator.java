@@ -16,7 +16,7 @@ public class WorkshopParticipantsValidator implements ParticipantsValidatorInter
         return mIsValid;
     }
 
-    public boolean isValidMaxParticipant(CharSequence participants) {
+    public static boolean isValidMaxParticipant(CharSequence participants) {
         if (participants.length() != 0){
             int participant = Integer.valueOf(participants.toString());
             return participant > 0 && participant <= 25;
