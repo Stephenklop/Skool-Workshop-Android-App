@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
-                intent.putExtra("Cultureday", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"}, workshopArrayList, 4, 1650,"5/28/2021", 100));
+                intent.putExtra("CULTUREDAY", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"}, workshopArrayList, 4, 1650,"5/28/2021", 100));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
             }

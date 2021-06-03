@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Category;
@@ -28,23 +30,19 @@ import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
-import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
-
-import org.w3c.dom.Text;
+import com.example.skoolworkshop2.ui.workshop.WorkshopAdapter;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
-    private String LOG_TAG = getClass().getSimpleName();
+    private final String LOG_TAG = getClass().getSimpleName();
     private ImageButton mBackButton;
     private Button mSendBn;
 
@@ -86,10 +84,6 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     //Total time variables;
     private int minuteT;
     private int roundT;
-    private int totalTime;
-    // Total Cost
-    private Double totalCost;
-    private Double totalPartCost;
 
     // Workshop name
     private String workshop;
@@ -98,10 +92,16 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private Spinner mWorkshopSpinner;
     private ArrayAdapter<CharSequence> categorieArrayAdapter;
     private ArrayAdapter<Workshop> workshopArrayAdapter;
-    private List<Workshop> workshopDummylist;
+    private ArrayList<Workshop> workshopDummylist;
+    private ArrayList<Workshop> selectedWorkshops;
 
     //cost
     private DecimalFormat df = new DecimalFormat("###.##");
+
+    // Spinner
+    private String item;
+    private RecyclerView mWorkshopItemsRecyclerView;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -114,7 +114,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         //add dummylist
         workshopDummylist.add(new Workshop(1, "Graffiti", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
         workshopDummylist.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
-        workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.MK));
+        workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
 
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
@@ -132,7 +132,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mDateLayout = findViewById(R.id.activity_cultureday_booking_et_date);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
-        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+//        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +145,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
-//        //Workshops per workshoprounds
+        //Workshops per workshoprounds
         mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
         // minutes
         mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
@@ -153,7 +153,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Scheme
         mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_schedule);
-//        // Learning Level
+        // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
         // Total cost
@@ -167,16 +167,20 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         //Total time
         this.minuteT = 0;
         this.roundT = 0 ;
-        this.totalTime = 0;
-        this.totalCost = 0.0;
         this.maxParticipants = 0;
+
+        // Everything for spinner
         categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
-
-
         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
         mCategorieSpinner.setAdapter(categorieArrayAdapter);
+        mCategorieSpinner.setOnItemSelectedListener(this);
+        mWorkshopSpinner.setOnItemSelectedListener(this);
+        mWorkshopItemsRecyclerView = (RecyclerView) findViewById(R.id.activity_cultureday_booking_rv_workshops);
+        selectedWorkshops = new ArrayList<>();
+
+
 
         //Use validator
         // Date Validator
@@ -433,6 +437,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
     }
 
+
+
     @Override
     public void onClick(View v) {
 
@@ -450,5 +456,99 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
         }
         datePickerDialog.cancel();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        // Voor categorySpinner
+        switch (adapterView.getId()) {
+            case R.id.activity_cultureday_booking_spnr_category:
+                Log.d(LOG_TAG, "onItemSelected: Selected category spinner");
+                ArrayList<Workshop> categoryWorkshops = new ArrayList<>();
+                item = mCategorieSpinner.getSelectedItem().toString();
+                switch (item) {
+                    case "Meest gekozen":
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                    case "Beeldende Kunst":
+                        for (Workshop workshop : workshopDummylist) {
+                            if (workshop.getCategory().label.equals("Beeldende Kunst")) {
+                                categoryWorkshops.add(workshop);
+                            }
+                        }
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                    case "Dans":
+                        for (Workshop workshop : workshopDummylist) {
+                            if (workshop.getCategory().label.equals("Dans")) {
+                                categoryWorkshops.add(workshop);
+                            }
+                        }
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                    case "Media":
+                        for (Workshop workshop : workshopDummylist) {
+                            if (workshop.getCategory().label.equals("Media")) {
+                                categoryWorkshops.add(workshop);
+                            }
+                        }
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                    case "Muziek":
+                        for (Workshop workshop : workshopDummylist) {
+                            if (workshop.getCategory().label.equals("Muziek")) {
+                                categoryWorkshops.add(workshop);
+                            }
+                        }
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                    case "Sport":
+                        for (Workshop workshop : workshopDummylist) {
+                            if (workshop.getCategory().label.equals("Sport")) {
+                                categoryWorkshops.add(workshop);
+                            }
+                        }
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                    case "Theater":
+                        for (Workshop workshop : workshopDummylist) {
+                            if (workshop.getCategory().label.equals("Theater")) {
+                                categoryWorkshops.add(workshop);
+                            }
+                        }
+                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
+                }
+                break;
+            case R.id.activity_cultureday_booking_spnr_workshop:
+                i++;
+                if (i <= 1){
+                    Log.d(LOG_TAG, "onItemSelected: Nothing for now");
+                } else {
+                    Log.d(LOG_TAG, "onItemSelected: Selected workshop spinner");
+                    String workshopName = mWorkshopSpinner.getSelectedItem().toString();
+                    Log.d(LOG_TAG, "onItemSelected: workshopName: " + workshopName);
+                    for (Workshop workshop: workshopDummylist){
+                        Log.d(LOG_TAG, "onItemSelected: item name: " + workshop.getName());
+                        if (workshop.getName().equals(workshopName)) {
+                            selectedWorkshops.add(workshop);
+                        }
+                    }
+                    Log.d(LOG_TAG, "onItemSelected: selected workshop size: " + selectedWorkshops.size());
+                    break;
+                }
+                }
+            }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
