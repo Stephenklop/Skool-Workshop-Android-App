@@ -37,6 +37,7 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
+
         <Spinner
             android:id="@+id/component_btn_payment_spnr_ideal"
             android:layout_width="wrap_content"
@@ -45,7 +46,8 @@
             android:popupBackground="@drawable/edittext_focused"
             android:spinnerMode="dropdown"
             tools:listitem="@layout/item_bank_spinner"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="25dp"
+            android:popupTheme="@style/Theme.SkoolWorkshop2" />
     </LinearLayout>
 
 </LinearLayout>
