@@ -50,7 +50,6 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="25dp"
-                android:weightSum="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_home_tv_greeting">
@@ -58,7 +57,7 @@
                 <include
                     android:id="@+id/activity_home_item_reservation"
                     layout="@layout/item_dashboard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5" />
 
@@ -69,7 +68,7 @@
                 <include
                     android:id="@+id/activity_home_item_account"
                     layout="@layout/item_dashboard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5" />
 
