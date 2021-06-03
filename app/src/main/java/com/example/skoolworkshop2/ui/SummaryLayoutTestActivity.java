@@ -1,14 +1,10 @@
 package com.example.skoolworkshop2.ui;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,7 +14,6 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.mollie.MollieAPIService;
 import com.example.skoolworkshop2.domain.Bank;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SummaryLayoutTestActivity extends AppCompatActivity implements View.OnClickListener {

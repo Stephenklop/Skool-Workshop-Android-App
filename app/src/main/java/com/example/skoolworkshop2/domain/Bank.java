@@ -1,20 +1,6 @@
 package com.example.skoolworkshop2.domain;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.VectorDrawable;
-import android.util.Log;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static android.content.ContentValues.TAG;
 
 public class Bank {
     private Context context;
