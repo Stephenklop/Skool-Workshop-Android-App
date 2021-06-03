@@ -49,11 +49,11 @@
 
                 <include
                     android:id="@+id/activity_workshop_detail_button_price"
-                    layout="@layout/component_button_workshop_detail" />
+                    layout="@layout/component_button_tag_detail" />
 
                 <include
                     android:id="@+id/activity_workshop_detail_button_participants"
-                    layout="@layout/component_button_workshop_detail" />
+                    layout="@layout/component_button_tag_detail" />
 
 <!--                <include-->
 <!--                    android:id="@+id/activity_workshop_detail_button_duration"-->
