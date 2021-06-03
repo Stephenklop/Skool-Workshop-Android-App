@@ -41,7 +41,7 @@ public class MollieAPIService {
                 for(int i = 0; i < jsonObject.getJSONArray("issuers").length(); i++) {
                     String id = jsonObject.getJSONArray("issuers").getJSONObject(i).getString("id");
                     String name = jsonObject.getJSONArray("issuers").getJSONObject(i).getString("name");
-                    String svg = jsonObject.getJSONArray("issuers").getJSONObject(i).getJSONObject("image").getString("svg");
+                    String svg = jsonObject.getJSONArray("issuers").getJSONObject(i).getJSONObject("image").getString("size1x");
 
 
                     result.add(new Bank(id, name, svg));
@@ -53,5 +53,9 @@ public class MollieAPIService {
         }
 
         return result;
+    }
+
+    public void createPayment() {
+        
     }
 }

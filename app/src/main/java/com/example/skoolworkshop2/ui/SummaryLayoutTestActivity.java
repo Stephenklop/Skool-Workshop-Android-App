@@ -2,6 +2,8 @@ package com.example.skoolworkshop2.ui;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.mollie.MollieAPIService;
 import com.example.skoolworkshop2.domain.Bank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SummaryLayoutTestActivity extends AppCompatActivity implements View.OnClickListener {
@@ -42,15 +45,18 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
         mPaymentCashBtn = findViewById(R.id.activity_summary_btn_cash);
         mPaymentIdealBtn = findViewById(R.id.activity_summary_btn_ideal);
 
-        getBanks();
+        new Thread(() -> {
+            getBanks();
 
-        mIdealSpnr = findViewById(R.id.component_btn_payment_spnr_ideal);
-//        mIdealSpnr.setAdapter(new WorkshopArrayAdapter(this, new String[]{"ABN Amro", "ASN Bank"}));
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    mIdealSpnr = findViewById(R.id.component_btn_payment_spnr_ideal);
+                    mIdealSpnr.setAdapter(new BankArrayAdapter(getApplicationContext(), banks));
+                }
+            });
+        }).start();
 
-        ArrayList<Bank> bankList = new ArrayList<>();
-        bankList.add(new Bank("ideal_ABNANL2A", "ABNA AMRO", "https://mollie.com/external/icons/ideal-issuers/ABNANL2A.svg"));
-
-        mIdealSpnr.setAdapter(new BankArrayAdapter(this, bankList));
 
         mPaymentTransferBtn.setOnClickListener(this);
         mPaymentCjpBtn.setOnClickListener(this);

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Bank;
 import com.example.skoolworkshop2.domain.Workshop;
@@ -21,10 +22,12 @@ import java.util.List;
 
 public class BankArrayAdapter extends ArrayAdapter<Object> {
     LayoutInflater layoutInflater;
+    private Context context;
 
     public BankArrayAdapter(@NonNull Context context, @NonNull List<Bank> bankList) {
         super(context, 0, (Object[]) bankList.toArray());
         layoutInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @NonNull
@@ -83,7 +86,7 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
 
         if (bank != null) {
             bankTv.setText(bank.getName());
-            bankImg.setImageDrawable(bank.getLogo());
+            Glide.with(context).load(bank.getSvg()).into(bankImg);
         } else {
             bankImg.setImageDrawable(null);
             bankTv.setText("Kies een bank");

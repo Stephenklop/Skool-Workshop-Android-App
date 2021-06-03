@@ -21,55 +21,56 @@ public class Bank {
 
     private String id;
     private String name;
-    private VectorDrawable logo;
+    private String svg;
+
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Bank{" +
+                "context=" + context +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", svg='" + svg + '\'' +
+                '}';
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSvg() {
+        return svg;
+    }
+
+    public void setSvg(String svg) {
+        this.svg = svg;
+    }
 
 
     public Bank(String id, String name, String svgUrl) {
         this.id = id;
         this.name = name;
-
-        new Thread(() -> {
-            if (svgStream(svgUrl) != null) {
-                logo = parseSvg(svgStream(svgUrl));
-            }
-        }).start();
-    }
-
-    private InputStream svgStream(String svgUrl) {
-        try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(svgUrl).openConnection();
-            conn.connect();
-
-            return conn.getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private VectorDrawable parseSvg(InputStream svgStream) {
-        try {
-            XmlPullParserFactory xmlPpf = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPp = xmlPpf.newPullParser();
-
-            xmlPp.setInput(svgStream, null);
-
-            VectorDrawable logo = new VectorDrawable();
-            logo.inflate(Resources.getSystem(), xmlPp, null, null);
-
-            return logo;
-
-        } catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        this.svg = svgUrl;
     }
 
     public String getName() {
         return name;
     }
 
-    public VectorDrawable getLogo() {
-        return logo;
-    }
 }
