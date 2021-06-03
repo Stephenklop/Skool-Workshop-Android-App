@@ -3,6 +3,8 @@ package com.example.skoolworkshop2.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         workshopArrayList.add(new Workshop(3, "Test", desc,55.55, "Test", 60, Category.MA));
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
+        ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
+        TextView searchPageTv = searchPage.findViewById(R.id.item_dashboard_tv_txt);
+
+        searchPageImg.setImageDrawable(getDrawable(R.drawable.ic_search));
+        searchPageTv.setText("Workshops zoeken");
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         View cultureDay = findViewById(R.id.activity_home_item_account);
+        ImageView cultureDayImg = cultureDay.findViewById(R.id.item_dashboard_img_icon);
+        TextView cultureDayTv = cultureDay.findViewById(R.id.item_dashboard_tv_txt);
+
+        cultureDayImg.setImageDrawable(getDrawable(R.drawable.ic_sun));
+        cultureDayTv.setText("Cultuurdag bekijken");
         cultureDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
