@@ -2,11 +2,16 @@ package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Category;
@@ -14,6 +19,8 @@ import com.example.skoolworkshop2.domain.CultureDay;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,5 +70,37 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext().startActivity(intent);
             }
         });
+
+
+        // example newsfeed implementation
+        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
+        NewsFeedRv.setAdapter(new RecyclerView.Adapter() {
+            class BlogPostViewHolder extends RecyclerView.ViewHolder {
+                public BlogPostViewHolder(@NonNull @NotNull View itemView) {
+                    super(itemView);
+                    ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
+                    blogPostImg.setClipToOutline(true);
+                }
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+                return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_blog_post, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 5;
+            }
+        });
+        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
     }
 }

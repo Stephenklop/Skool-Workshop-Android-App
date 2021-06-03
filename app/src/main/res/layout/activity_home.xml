@@ -7,7 +7,7 @@
     android:background="@color/background">
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
@@ -147,20 +147,21 @@
                 android:id="@+id/activity_home_rv_news_feed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
                 android:layout_marginBottom="25dp"
+                android:paddingHorizontal="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_home_tv_news_feed"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:clipChildren="false"
+                android:clipToPadding="false"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:windowSharedElementsUseOverlay="false"
