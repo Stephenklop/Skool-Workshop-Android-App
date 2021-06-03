@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/activity_cultureday_details">
 
     <ImageView
         android:id="@+id/activity_cultureday_details_img_banner"
@@ -34,13 +35,60 @@
         android:orientation="vertical"
         android:paddingHorizontal="25dp"
         android:paddingTop="25dp"
-        app:layout_constraintBottom_toTopOf="@id/activity_cultureday_details_menu_icons"
+        app:layout_constraintBottom_toTopOf="@id/activity_menu_buttons"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_cultureday_details_rv_tags"
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/activity_cultureday_details_rv_tags"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="35dp" />-->
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:id="@+id/activity_cultureday_details_rv_tags">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="1674,-"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_price"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="100 deelnemers"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_participant"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4 Workshops"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_workshop"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3 Rondes"
+                    android:backgroundTint="@color/main_orange"
+                    android:textColor="@color/white"
+                    android:enabled="false"
+                    android:id="@+id/activity_cultureday_details_btn_round"/>
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/activity_cultureday_details_tv_title"
@@ -65,7 +113,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/activity_cultureday_details_menu_icons"
+        android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -92,7 +92,8 @@
                     layout="@layout/component_edittext_number_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -108,7 +109,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -124,7 +126,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -140,7 +143,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -151,49 +155,41 @@
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Categorie:"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
                 <Spinner
                     android:id="@+id/activity_cultureday_booking_spnr_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/edittext_default"
                     android:popupBackground="@drawable/edittext_focused"
                     android:spinnerMode="dropdown"
-                    tools:listitem="@layout/item_spinner"
-                    android:layout_marginTop="5dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Workshop:"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    tools:listitem="@layout/item_spinner" />
 
                 <Spinner
                     android:id="@+id/activity_cultureday_booking_spnr_workshop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/edittext_default"
                     android:popupBackground="@drawable/edittext_focused"
                     android:spinnerMode="dropdown"
-                    tools:listitem="@layout/item_spinner"
-                    android:layout_marginTop="5dp"/>
+                    tools:listitem="@layout/item_spinner" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_cultureday_booking_rv_workshops"
+                <HorizontalScrollView
+                    android:id="@+id/activity_cultureday_booking_sv_workshops"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/activity_cultureday_booking_ll_workshops"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+
+
+                </HorizontalScrollView>
 
                 <TextView
                     android:layout_width="match_parent"

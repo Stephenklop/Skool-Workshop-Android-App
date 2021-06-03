@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.skoolworkshop2.R;
 
 public class SummaryLayoutTestActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout mPaymentMethodsLl;
@@ -35,7 +37,7 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
         mPaymentIdealBtn = findViewById(R.id.activity_summary_btn_ideal);
 
         mIdealSpnr = findViewById(R.id.component_btn_payment_spnr_ideal);
-        mIdealSpnr.setAdapter(new WorkshopArrayAdapter(this, new String[]{"ABN Amro", "ASN Bank"}));
+        //mIdealSpnr.setAdapter(new WorkshopArrayAdapter(this, new String[]{"ABN Amro", "ASN Bank"}));
 
         mPaymentTransferBtn.setOnClickListener(this);
         mPaymentCjpBtn.setOnClickListener(this);

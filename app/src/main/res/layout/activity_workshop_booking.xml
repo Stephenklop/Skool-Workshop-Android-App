@@ -91,7 +91,8 @@
                     layout="@layout/component_edittext_number_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -107,7 +108,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -123,7 +125,8 @@
                     layout="@layout/component_edittext_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -160,74 +163,74 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/dark_grey"
-                    android:layout_marginTop="25dp" />
+                    android:layout_marginTop="25dp"
+                    android:background="@color/dark_grey" />
 
                 <TextView
                     android:id="@+id/activity_workshop_booking_tv_rounds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima_nova_regular"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:text="Aantal workshoprondes:"
-                    android:layout_marginTop="10dp"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/activity_workshop_booking_tv_mins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/proxima_nova_regular"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:text="Aantal minuten per workshopronde:"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/activity_workshop_booking_tv_schedule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/proxima_nova_regular"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:text="Tijdschema:"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/activity_workshop_booking_tv_duration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/proxima_nova_regular"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:text="Totale duur:"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/activity_workshop_booking_tv_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/proxima_nova_regular"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:text="Leerniveau:"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/dark_grey"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:background="@color/dark_grey" />
 
                 <TextView
                     android:id="@+id/activity_workshop_booking_tv_subtotal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
                     android:text="Subtotaal:"
-                    android:layout_marginTop="20dp"/>
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <include
                     android:id="@+id/activity_workshop_booking_btn_book"

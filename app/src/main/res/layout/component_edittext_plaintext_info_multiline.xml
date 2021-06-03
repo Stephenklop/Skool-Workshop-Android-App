@@ -18,7 +18,8 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/schedule_edit_text"/>
 
     <ImageButton
         android:id="@+id/component_edittext_plaintext_info_multiline_btn_info"
