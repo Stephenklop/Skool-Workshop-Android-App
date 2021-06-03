@@ -39,38 +39,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:id="@+id/activity_workshop_details_short_info">
+            android:id="@+id/activity_workshop_details_short_info"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
-                    android:layout_width="wrap_content"
+
+                <include
                     android:id="@+id/activity_workshop_detail_button_price"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="150,-"
-                    android:backgroundTint="@color/main_orange"
-                    android:textColor="@color/white"
-                    android:enabled="false"/>
-                <Button
-                    android:layout_width="wrap_content"
+                    layout="@layout/component_button_workshop_detail" />
+
+                <include
                     android:id="@+id/activity_workshop_detail_button_participants"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="25 deelnemers"
-                    android:backgroundTint="@color/main_orange"
-                    android:textColor="@color/white"
-                    android:enabled="false"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:id="@+id/activity_workshop_detail_button_duration"
-                    android:layout_height="wrap_content"
-                    android:text="60 minuten"
-                    android:backgroundTint="@color/main_orange"
-                    android:textColor="@color/white"
-                    android:enabled="false"/>
+                    layout="@layout/component_button_workshop_detail" />
+
+<!--                <include-->
+<!--                    android:id="@+id/activity_workshop_detail_button_duration"-->
+<!--                    layout="@layout/component_button_workshop_detail" />-->
+
             </LinearLayout>
 
         </HorizontalScrollView>
