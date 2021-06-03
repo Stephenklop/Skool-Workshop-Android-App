@@ -15,7 +15,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingHorizontal="25dp"
             android:paddingVertical="25dp"
             app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +30,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="22sp"
+                android:layout_marginHorizontal="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +42,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="25dp"
                 android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_item_promo"
                 app:layout_constraintTop_toBottomOf="@+id/activity_shopping_cart_tv_shopping_cart" />
 

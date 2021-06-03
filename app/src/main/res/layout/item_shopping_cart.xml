@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shopping_cart_container"
-        android:elevation="20dp"
+        android:elevation="10dp"
         android:scaleY="1">
 
         <ImageView
@@ -70,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shopping_cart_detail_container"
-        android:elevation="10dp"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:paddingTop="25dp"
         android:paddingHorizontal="15dp"
