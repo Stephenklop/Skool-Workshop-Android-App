@@ -46,10 +46,29 @@
                 android:orientation="vertical"
                 android:paddingBottom="25dp">
 
+                <HorizontalScrollView
+                    android:id="@+id/activity_cultureday_booking_rv_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/activity_cultureday_booking_ll_tags"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- inflate component_button_tag_detail -->
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
                 <TextView
                     android:id="@+id/activity_cultureday_booking_tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova"
                     android:text="Graffiti"
                     android:textColor="@color/black"
