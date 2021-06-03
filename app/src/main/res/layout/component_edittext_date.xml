@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/edittext_states"
     android:fontFamily="@font/proxima_nova_semibold"
-    android:inputType="date"
+    android:inputType="datetime"
     android:lines="1"
     android:paddingHorizontal="25dp"
     android:paddingVertical="13dp"
