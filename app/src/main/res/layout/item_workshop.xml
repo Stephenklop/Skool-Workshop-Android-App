@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_workshop_container"
-    android:elevation="20dp"
+    android:elevation="10dp"
     android:layout_marginBottom="20dp">
 
     <ImageView
@@ -12,7 +12,8 @@
         android:layout_width="189dp"
         android:layout_height="126dp"
         android:background="@drawable/item_workshop_container"
-        android:src="@color/black"
+        android:src="@drawable/home_banner_placeholder"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
