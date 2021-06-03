@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,6 +26,8 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
     LinearLayout mPaymentIdealBtn;
 
     Spinner mIdealSpnr;
+
+    Button mConfirmBtn;
 
     private List<Bank> banks;
 
