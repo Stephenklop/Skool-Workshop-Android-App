@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Bank;
 import com.example.skoolworkshop2.domain.Workshop;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,7 @@ import java.util.List;
 public class BankArrayAdapter extends ArrayAdapter<Object> {
     LayoutInflater layoutInflater;
 
-    public BankArrayAdapter(@NonNull Context context, @NonNull List<Object> bankList) {
+    public BankArrayAdapter(@NonNull Context context, @NonNull List<Bank> bankList) {
         super(context, 0, (Object[]) bankList.toArray());
         layoutInflater = LayoutInflater.from(context);
     }
@@ -31,11 +32,11 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view;
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.item_spinner, parent, false);
+            view = layoutInflater.inflate(R.layout.item_bank_spinner, parent, false);
         } else {
             view = convertView;
         }
-        setBank(view, getItem(position));
+        setBank(view, (Bank) getItem(position));
         return view;
     }
 
@@ -43,15 +44,15 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
     public View getDropDownView(int position, @Nullable @org.jetbrains.annotations.Nullable View convertView, @NonNull @NotNull ViewGroup parent) {
         View view;
         if (position == 0) {
-            view = layoutInflater.inflate(R.layout.item_spinner_header, parent, false);
+            view = layoutInflater.inflate(R.layout.item_bank_spinner_header, parent, false);
             view.setOnClickListener((View v) -> {
                 View root = parent.getRootView();
                 root.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
                 root.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
             });
         } else {
-            view = layoutInflater.inflate(R.layout.item_spinner_dropdown, parent, false);
-            setBank(view, getItem(position));
+            view = layoutInflater.inflate(R.layout.item_bank_spinner_dropdown, parent, false);
+            setBank(view, (Bank) getItem(position));
         }
         return view;
     }
@@ -76,12 +77,13 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
         return position != 0;
     }
 
-    private void setBank(View view, Object bank) {
+    private void setBank(View view, Bank bank) {
         TextView bankTv = view.findViewById(R.id.item_bank_spinner_tv);
         ImageView bankImg = view.findViewById(R.id.item_bank_spinner_img_bank);
+
         if (bank != null) {
             bankTv.setText(bank.getName());
-            bankImg.setImageDrawable(bank.getLogo);
+            bankImg.setImageDrawable(bank.getLogo());
         } else {
             bankImg.setImageDrawable(null);
             bankTv.setText("Kies een bank");

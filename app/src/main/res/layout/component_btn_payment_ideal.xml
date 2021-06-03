@@ -44,7 +44,7 @@
             android:background="@drawable/edittext_default"
             android:popupBackground="@drawable/edittext_focused"
             android:spinnerMode="dropdown"
-            tools:listitem="@layout/item_spinner"
+            tools:listitem="@layout/item_bank_spinner"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 

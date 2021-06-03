@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Bank;
+
+import java.util.ArrayList;
 
 public class SummaryLayoutTestActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout mPaymentMethodsLl;
@@ -37,7 +40,11 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
         mPaymentIdealBtn = findViewById(R.id.activity_summary_btn_ideal);
 
         mIdealSpnr = findViewById(R.id.component_btn_payment_spnr_ideal);
-        //mIdealSpnr.setAdapter(new WorkshopArrayAdapter(this, new String[]{"ABN Amro", "ASN Bank"}));
+
+        ArrayList<Bank> bankList = new ArrayList<>();
+        bankList.add(new Bank("ideal_ABNANL2A", "ABNA AMRO", "https://mollie.com/external/icons/ideal-issuers/ABNANL2A.svg"));
+
+        mIdealSpnr.setAdapter(new BankArrayAdapter(this, bankList));
 
         mPaymentTransferBtn.setOnClickListener(this);
         mPaymentCjpBtn.setOnClickListener(this);

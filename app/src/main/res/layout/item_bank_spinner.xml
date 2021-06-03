@@ -23,7 +23,7 @@
         android:layout_marginLeft="25dp" />
 
     <TextView
-        android:id="@+id/item_spinner_tv"
+        android:id="@+id/item_bank_spinner_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/item_bank_spinner_img_bank"
