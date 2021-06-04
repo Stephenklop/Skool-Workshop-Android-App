@@ -18,11 +18,11 @@
             android:padding="25dp">
 
             <TextView
-                android:id="@+id/activity_account_data_tv_shopping_cart"
+                android:id="@+id/activity_account_data_tv_my_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova_semibold"
-                android:text="Winkelmand"
+                android:text="Mijn Account"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="22sp"
@@ -36,9 +36,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_arrow_left"
                 android:backgroundTint="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/activity_account_data_tv_shopping_cart"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_account_data_tv_my_account"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/activity_account_data_tv_shopping_cart" />
+                app:layout_constraintTop_toTopOf="@+id/activity_account_data_tv_my_account" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="25dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_account_data_tv_shopping_cart">
+                app:layout_constraintTop_toBottomOf="@+id/activity_account_data_tv_my_account">
 
                 <TextView
                     android:layout_width="match_parent"
