@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         apidaoFactory = new APIDAOFactory();
 
         Thread loadProducts = new Thread(() -> {
-            workshops = apidaoFactory.getProductDAO().getAllProducts();
-            localAppStorage.createList("products", workshops);
+            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
+            localAppStorage.createList("workshops", workshops);
         });
 
         try {

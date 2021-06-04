@@ -48,12 +48,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         menu.getMenu().getItem(1).setChecked(true);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
-        mWorkshops = localAppStorage.getList("products");
+        mWorkshops = localAppStorage.getList("workshops");
 
-        // Add data to workshops
-//        mWorkshops.add(new Workshop(1, "Graffiti", "Hoi", 55.55, "11-11-2021", 25, Category.DS));
-//        mWorkshops.add(new Workshop(1, "T-shirt Ontwerpen", "Hallo",55.55, "11-11-2021", 25, Category.BK));
-//        mWorkshops.add(new Workshop(1, "Result", "Hoi", 55.55, "11-11-2021", 25, Category.DS));
         // Add enum list with data
         mEnumCategories.addAll(addCategories());
         // Radiobutton

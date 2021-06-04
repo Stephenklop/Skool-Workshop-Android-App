@@ -53,6 +53,32 @@ public class APIProductDAO implements ProductDAO {
     }
 
     @Override
+    public List<Workshop> getAllProductsByCategory(int id) {
+        final String PATH = "product?category=" + id;
+        List<Workshop> result = new ArrayList<>();
+
+        try {
+            connect(BASE_URL + PATH);
+            connection.setRequestMethod("GET");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                JSONObject response = new JSONObject(inputLine);
+                JSONArray workshops = response.getJSONArray("result");
+
+                Type listType = new TypeToken<List<Workshop>>(){}.getType();
+                result = new Gson().fromJson(workshops.toString(), listType);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
     public Workshop getProduct(int id) {
         final String PATH = "product/" + id;
         Workshop result = null;
@@ -69,31 +95,6 @@ public class APIProductDAO implements ProductDAO {
                 JSONObject workshop = response.getJSONObject("result");
 
                 result = new Gson().fromJson(workshop.toString(), Workshop.class);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    public List<Workshop> getProductsByCategory(int id) {
-        final String PATH = "product/" + id;
-        List<Workshop> result = new ArrayList<>();
-
-        try {
-            connect(BASE_URL + PATH);
-            connection.setRequestMethod("GET");
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-
-            while ((inputLine = in.readLine()) != null) {
-                JSONObject response = new JSONObject(inputLine);
-                JSONArray workshops = response.getJSONArray("result");
-
-                Type listType = new TypeToken<List<Workshop>>(){}.getType();
-                result = new Gson().fromJson(workshops.toString(), listType);
             }
         } catch (Exception e) {
             e.printStackTrace();
