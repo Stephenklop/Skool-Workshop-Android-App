@@ -7,7 +7,7 @@ import android.util.Log;
 public class CultureDayParticipantsValidator implements ParticipantsValidatorInterface {
 
     private String LOG_TAG = getClass().getSimpleName();
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
 
     public boolean isValid() {

@@ -39,6 +39,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'io.github.pilgr:paperdb:2.7.1'
+    implementation 'com.tomergoldst.android:tooltips:1.0.10'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
 //    testImplementation 'org.junit.jupiter:junit-jupiter'

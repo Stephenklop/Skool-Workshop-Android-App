@@ -35,6 +35,8 @@ import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.ShoppingCartLayoutTestActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
+import com.tomergoldst.tooltips.ToolTip;
+import com.tomergoldst.tooltips.ToolTipsManager;
 
 import org.w3c.dom.Text;
 
@@ -43,7 +45,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, ToolTipsManager.TipListener {
 
     private String LOG_TAG = getClass().getSimpleName();
     private ImageButton mBackButton;
@@ -81,6 +83,11 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
 
+    //Imagebutton
+    private ImageButton mScheduleInfoBtn;
+    private ImageButton mParticipantInfoBtn;
+    private ImageButton mParticipantItemInfoBtn;
+
     private DatePickerDialog datePickerDialog;
 
     private int maxParticipants;
@@ -104,6 +111,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
     //cost
     private DecimalFormat df = new DecimalFormat("###.##");
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -144,6 +153,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
         mParticipantsEditText = mParticipantsLayout.findViewById(R.id.number_edit_text);
+        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
@@ -155,14 +165,17 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Scheme
         mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_schedule);
+        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
 //        // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
+
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
         // item participants
         mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
         mParticipantsItemEditText = mItemParticipantsLayout.findViewById(R.id.number_edit_text);
+        mParticipantItemInfoBtn = mItemParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
 
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
 
@@ -181,6 +194,33 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
         mCategorieSpinner.setAdapter(categorieArrayAdapter);
+
+
+        //Info buttons tooltips
+        //tooltip manager
+
+
+
+        mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan 100 zijn.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mScheduleInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Zet je tijd schema hier.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mParticipantItemInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Aantal items mag niet meer dan deelnemers zijn.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Use validator
         // Date Validator
@@ -231,7 +271,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                 if (CultureDayParticipantsValidator.isValidMaxParticipant(editable.toString())){
                     mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     maxParticipants = Integer.valueOf(editable.toString());
-                    participantsItemValidator.mIsValid = true;
+                    cultureDayParticipantsValidator.mIsValid = true;
                 } else {
                     maxParticipants = 0;
                 }
@@ -498,6 +538,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
     }
 
+
+
     @Override
     public void onClick(View v) {
 
@@ -515,5 +557,14 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
         }
         datePickerDialog.cancel();
+    }
+
+
+    @Override
+    public void onTipDismissed(View view, int anchorViewId, boolean byUser) {
+        if (byUser){
+            Toast.makeText(getApplicationContext()
+            , "Dismissed", Toast.LENGTH_SHORT).show();
+        }
     }
 }
