@@ -9,8 +9,9 @@
 
     <ImageView
         android:id="@+id/item_blog_post_img"
-        android:layout_width="143dp"
+        android:layout_width="0dp"
         android:layout_height="126dp"
+        app:layout_constraintWidth_percent=".35"
         android:background="@drawable/item_workshop_container"
         android:src="@drawable/home_banner_placeholder"
         android:scaleType="centerCrop"
@@ -25,7 +26,6 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/item_blog_post_img"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,7 +37,10 @@
             android:text="Cultuureducatie op school"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:hyphenationFrequency="full"/>
 
         <TextView
             android:id="@+id/item_blog_post_tv_link"
