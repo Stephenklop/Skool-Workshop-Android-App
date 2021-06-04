@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.SearchView;
 
+import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.ui.CategoryAdapter;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Category;
@@ -29,7 +30,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mCategoryRecyclerView;
     private RadioButton radioButton;
     private RecyclerView mRecyclerView;
-    private ArrayList<Workshop> mWorkshops = new ArrayList<>();
+    private LocalAppStorage localAppStorage;
+    private List<Workshop> mWorkshops;
     private ArrayList<String> mCategories = new ArrayList<>();
     private ArrayList<String> mEnumCategories = new ArrayList<>();
 
@@ -41,10 +43,13 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         setContentView(R.layout.activity_workshops);
         View root = findViewById(R.id.activity_workshops);
 
-        MenuController mc = new MenuController(root);
-
+        MenuController menuController = new MenuController(root);
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(1).setChecked(true);
+
+        localAppStorage = new LocalAppStorage(getBaseContext());
+        mWorkshops = localAppStorage.getList("products");
+
         // Add data to workshops
 //        mWorkshops.add(new Workshop(1, "Graffiti", "Hoi", 55.55, "11-11-2021", 25, Category.DS));
 //        mWorkshops.add(new Workshop(1, "T-shirt Ontwerpen", "Hallo",55.55, "11-11-2021", 25, Category.BK));
@@ -56,7 +61,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshop_workshops);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mWorkshopAdapter = new WorkshopAdapter(mWorkshops, this);
+        mWorkshopAdapter = new WorkshopAdapter((ArrayList<Workshop>) mWorkshops, this);
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {

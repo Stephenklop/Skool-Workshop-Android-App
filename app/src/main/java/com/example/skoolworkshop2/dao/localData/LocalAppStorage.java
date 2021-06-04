@@ -19,6 +19,10 @@ public class LocalAppStorage {
         Paper.init(context);
     }
 
+    public void createList(String key, Object object) {
+        Paper.book().write(key, object);
+    }
+
     public void addToList(String key, Object value) {
         List<Object> list = Paper.book().read(key, new ArrayList<>());
         list.add(value);

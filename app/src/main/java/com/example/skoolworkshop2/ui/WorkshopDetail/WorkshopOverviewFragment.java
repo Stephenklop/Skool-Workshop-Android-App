@@ -35,8 +35,8 @@ public class WorkshopOverviewFragment extends Fragment {
         mInfoBn = root.findViewById(R.id.fragment_workshop_overview_btn_info);
 
 //        mParticipants.setText("60 minuten | Maximaal " + workshop.getMaxParticipants() + " deelnemers");
-//        mPriceTv.setText(workshop.getPrice() + ",-");
-//        mDescriptionTv.setText(workshop.getDescription()[0]);
+       mPriceTv.setText((int) workshop.getPrices().getPrice() + ",-");
+        mDescriptionTv.setText(workshop.getDescription());
 
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
@@ -46,7 +46,7 @@ public class WorkshopOverviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkshopBookingActivity.class);
-                intent.putExtra("NAME", workshop.getName());
+                intent.putExtra("workshop", workshop);
                 startActivity(intent);
             }
         });

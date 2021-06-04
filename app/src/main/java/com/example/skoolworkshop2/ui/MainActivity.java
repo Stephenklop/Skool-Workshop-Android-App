@@ -26,19 +26,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         View root = (View) findViewById(R.id.activity_home);
+        localAppStorage = new LocalAppStorage(getBaseContext());
 
         String[] shopDesc = {"Desc 1", "Desc 2", "Desc 3", "Desc 4"};
 
         APIDAOFactory apidaoFactory = new APIDAOFactory();
 
-        Thread t1 = new Thread(() -> {
-//            System.out.println(apidaoFactory.getProductDAO().getAllProducts());
-            System.out.println(apidaoFactory.getUserDAO().signUserIn("bbuijsen@gmail.com", "1gCA&cC1ArczV(#wsd8iOmV3"));
+        Thread loadProducts = new Thread(() -> {
+            workshopArrayList = (ArrayList<Workshop>) apidaoFactory.getProductDAO().getAllProducts();
+            localAppStorage.createList("products", workshopArrayList);
+            List<Workshop> workshopsLocal = localAppStorage.getList("products");
+            System.out.println("PRODUCTS: " + workshopsLocal);
+
+
+//            System.out.println(apidaoFactory.getUserDAO().signUserIn("bbuijsen@gmail.com", "1gCA&cC1ArczV(#wsd8iOmV3"));
         });
 
         try {
-            t1.join();
-            t1.start();
+            loadProducts.join();
+            loadProducts.start();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 //        localAppStorage.addToList("cartItems", new Workshop(4, "Workshop 4", shopDesc, 92.12, "Today", 10, Category.DS));
 
         MenuController mc = new MenuController(root);
-        this.workshopArrayList = new ArrayList<>();
+//        this.workshopArrayList = new ArrayList<>();
 //        String[] desc = {"blabla", "test", "info", "price"};
 //        workshopArrayList.add(new Workshop(1, "Graffiti", "desc",55.55, "Test", 60, Category.DS));
 //        workshopArrayList.add(new Workshop(2, "T-shirt Ontwerpen", "desc",55.55, "Test", 60, Category.BK));
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
-                intent.putExtra("Cultureday", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"}, workshopArrayList, 4, 1650,"5/28/2021", 100));
+                intent.putExtra("Cultureday", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"}, new ArrayList<>(), 4, 1650,"5/28/2021", 100));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
             }
