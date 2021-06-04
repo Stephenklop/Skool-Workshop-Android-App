@@ -23,7 +23,7 @@ public class WorkshopContentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_content, container, false);
         mContentTv = root.findViewById(R.id.fragment_workshop_content_tv_txt);
-        mContentTv.setText(workshop.getDescription()[1]);
+//        mContentTv.setText(workshop.getDescription()[1]);
         // Inflate the layout for this fragment
         return root;
     }

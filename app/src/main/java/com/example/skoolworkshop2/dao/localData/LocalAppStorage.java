@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.dao;
+package com.example.skoolworkshop2.dao.localData;
 
 import android.content.Context;
 

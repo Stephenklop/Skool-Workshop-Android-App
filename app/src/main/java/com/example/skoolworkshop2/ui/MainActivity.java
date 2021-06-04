@@ -7,10 +7,9 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.LocalAppStorage;
-import com.example.skoolworkshop2.domain.Category;
+import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.CultureDay;
-import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
@@ -30,19 +29,33 @@ public class MainActivity extends AppCompatActivity {
 
         String[] shopDesc = {"Desc 1", "Desc 2", "Desc 3", "Desc 4"};
 
-        localAppStorage = new LocalAppStorage(getApplicationContext());
-        localAppStorage.deleteKey("cartItems");
-        localAppStorage.addToList("cartItems", new Workshop(1, "Workshop 1", shopDesc, 10.011, "Today", 10, Category.DS));
-        localAppStorage.addToList("cartItems", new Workshop(2, "Workshop 2", shopDesc, 121.39, "Today", 10, Category.DS));
-        localAppStorage.addToList("cartItems", new Workshop(3, "Workshop 3", shopDesc, 10.99, "Today", 10, Category.DS));
-        localAppStorage.addToList("cartItems", new Workshop(4, "Workshop 4", shopDesc, 92.12, "Today", 10, Category.DS));
+        APIDAOFactory apidaoFactory = new APIDAOFactory();
+
+        Thread t1 = new Thread(() -> {
+//            System.out.println(apidaoFactory.getProductDAO().getAllProducts());
+            System.out.println(apidaoFactory.getUserDAO().signUserIn("bbuijsen@gmail.com", "1gCA&cC1ArczV(#wsd8iOmV3"));
+        });
+
+        try {
+            t1.join();
+            t1.start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        localAppStorage = new LocalAppStorage(getApplicationContext());
+//        localAppStorage.deleteKey("cartItems");
+//        localAppStorage.addToList("cartItems", new Workshop(1, "Workshop 1", shopDesc, 10.011, "Today", 10, Category.DS));
+//        localAppStorage.addToList("cartItems", new Workshop(2, "Workshop 2", shopDesc, 121.39, "Today", 10, Category.DS));
+//        localAppStorage.addToList("cartItems", new Workshop(3, "Workshop 3", shopDesc, 10.99, "Today", 10, Category.DS));
+//        localAppStorage.addToList("cartItems", new Workshop(4, "Workshop 4", shopDesc, 92.12, "Today", 10, Category.DS));
 
         MenuController mc = new MenuController(root);
         this.workshopArrayList = new ArrayList<>();
-        String[] desc = {"blabla", "test", "info", "price"};
-        workshopArrayList.add(new Workshop(1, "Graffiti", desc,55.55, "Test", 60, Category.DS));
-        workshopArrayList.add(new Workshop(2, "T-shirt Ontwerpen", desc,55.55, "Test", 60, Category.BK));
-        workshopArrayList.add(new Workshop(3, "Test", desc,55.55, "Test", 60, Category.MA));
+//        String[] desc = {"blabla", "test", "info", "price"};
+//        workshopArrayList.add(new Workshop(1, "Graffiti", "desc",55.55, "Test", 60, Category.DS));
+//        workshopArrayList.add(new Workshop(2, "T-shirt Ontwerpen", "desc",55.55, "Test", 60, Category.BK));
+//        workshopArrayList.add(new Workshop(3, "Test", "desc"));
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         searchPage.setOnClickListener(new View.OnClickListener() {

@@ -21,7 +21,7 @@ public class WorkshopCostFragment extends Fragment {
                                  Bundle savedInstanceState) {
             View root = inflater.inflate(R.layout.fragment_workshop_costs, container, false);
             mDescriptionTv = root.findViewById(R.id.fragment_workshop_costs_tv_txt);
-            mDescriptionTv.setText(workshop.getDescription()[3]);
+//            mDescriptionTv.setText(workshop.getDescription()[3]);
 
             return root;
         }

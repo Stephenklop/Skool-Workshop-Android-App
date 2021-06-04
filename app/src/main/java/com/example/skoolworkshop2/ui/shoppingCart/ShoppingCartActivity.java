@@ -8,15 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.List;
-import java.util.Locale;
 
 public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView shoppingCartRecyclerView;
