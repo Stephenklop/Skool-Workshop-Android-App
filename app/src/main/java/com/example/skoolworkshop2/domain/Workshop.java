@@ -1,89 +1,91 @@
 package com.example.skoolworkshop2.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class Workshop implements Product, Serializable {
-    private int id;
+public class Workshop implements Serializable {
+    private double id;
     private String name;
-    private String[] description;
-    private double price;
-    private String date; // Might be changed to Timestamp later (depends on whether that's useful)
-    private int maxParticipants;
-    private Category category;
+    private String permaLink;
+    private String shortDescription;
+    private String description;
+    private boolean onSale;
+    private Price prices;
+    private List<Image> images;
 
-    public Workshop(int id, String name, String[] description, double price, String date, int maxParticipants, Category category) {
+    public Workshop(double id, String name, String permaLink, String shortDescription, String description, boolean onSale, Price prices, List<Image> images) {
         this.id = id;
         this.name = name;
+        this.permaLink = permaLink;
+        this.shortDescription = shortDescription;
         this.description = description;
-        this.price = price;
-        this.date = date;
-        this.maxParticipants = maxParticipants;
-        this.category = category;
+        this.onSale = onSale;
+        this.prices = prices;
+        this.images = images;
     }
 
-    @Override
-    public int getId() {
+    public double getId() {
         return id;
     }
 
-    @Override
+    public void setId(double id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
-    public String[] getDescription() {
-        return description;
-    }
-
-    @Override
-    public double getPrice() {
-        return price;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public int getMaxParticipants() {
-        return maxParticipants;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
-    public void setDescription(String[] description) {
+    public String getPermaLink() {
+        return permaLink;
+    }
+
+    public void setPermaLink(String permaLink) {
+        this.permaLink = permaLink;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    @Override
-    public void setPrice(double price) {
-        this.price = price;
+    public boolean isOnSale() {
+        return onSale;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setOnSale(boolean onSale) {
+        this.onSale = onSale;
     }
 
-    public void setMaxParticipants(int maxParticipants) {
-        this.maxParticipants = maxParticipants;
+    public Price getPrices() {
+        return prices;
     }
 
-    public Category getCategory() {
-        return category;
+    public void setPrices(Price prices) {
+        this.prices = prices;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     @Override

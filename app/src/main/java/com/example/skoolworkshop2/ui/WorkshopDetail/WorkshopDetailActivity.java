@@ -81,8 +81,8 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mParticipantsBn = findViewById(R.id.activity_workshop_detail_button_participants);
 //        mDurationBn = findViewById(R.id.activity_workshop_detail_button_duration);
 
-        mPriceBn.setText("€" + workshop.getPrice() + ",-");
-        mParticipantsBn.setText(workshop.getMaxParticipants() + " deelnemers");
+//        mPriceBn.setText("€" + workshop.getPrice() + ",-");
+//        mParticipantsBn.setText(workshop.getMaxParticipants() + " deelnemers");
 //        mDurationBn.setText(workshop. + " minuten");
     }
 

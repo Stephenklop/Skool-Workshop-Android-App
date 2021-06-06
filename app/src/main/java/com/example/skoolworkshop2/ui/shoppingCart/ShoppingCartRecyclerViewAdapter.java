@@ -16,15 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.Workshop;
 
 
 import java.util.List;
 
 public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingCartRecyclerViewAdapter.ViewHolder> {
-    List<Product> shoppingCartItems;
+    List<Workshop> shoppingCartItems;
     Context context;
 
-    public ShoppingCartRecyclerViewAdapter(List<Product> shoppingCartItems, Context context) {
+    public ShoppingCartRecyclerViewAdapter(List<Workshop> shoppingCartItems, Context context) {
         this.shoppingCartItems = shoppingCartItems;
         this.context = context;
     }
@@ -40,7 +41,8 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mWorkshopTitle.setText(shoppingCartItems.get(position).getName());
-        holder.mWorkshopPrice.setText("€ " + String.format("%.2f", shoppingCartItems.get(position).getPrice()).replace(".", ","));
+        // TODO: Add price
+        holder.mWorkshopPrice.setText("€ " + String.format("%.2f", 0.0).replace(".", ","));
         holder.mDetailButton.setText("Details");
         holder.mDetailButton.setOnClickListener(v -> {
             if (holder.mDetailButton.getText().equals("Details")) {

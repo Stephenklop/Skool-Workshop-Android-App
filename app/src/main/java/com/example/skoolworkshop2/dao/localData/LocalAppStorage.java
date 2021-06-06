@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.dao;
+package com.example.skoolworkshop2.dao.localData;
 
 import android.content.Context;
 
@@ -17,6 +17,10 @@ public class LocalAppStorage {
 
     private void initDatabase() {
         Paper.init(context);
+    }
+
+    public void createList(String key, Object object) {
+        Paper.book().write(key, object);
     }
 
     public void addToList(String key, Object value) {

@@ -56,6 +56,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private EditText mRoundsEditText;
     private EditText mSchemeEditText;
     // Textviews
+    private TextView mTitle;
     private TextView mResultWorkshopRoundsTextView;
     private TextView mResultWorkshopMinutesPerRoundTextView;
     private TextView mResultWorkshopSchemeTextView;
@@ -68,13 +69,18 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     // Totalcost
     private DecimalFormat df = new DecimalFormat("###.##");
     // Workshop name
-    private String workshop;
+    private Workshop workshop;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_booking);
+
+        workshop = (Workshop) getIntent().getSerializableExtra("workshop");
+
+        mTitle = findViewById(R.id.activity_workshop_booking_tv_title);
+        mTitle.setText(workshop.getName());
 
         datePickerDialog = new DatePickerDialog(this, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         //assign id
@@ -102,8 +108,6 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_schedule);
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_subtotal);
-        // Workshop name
-        workshop = getIntent().getStringExtra("NAME");
         // Total time
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_duration);
 
