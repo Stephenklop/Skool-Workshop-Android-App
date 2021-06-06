@@ -5,14 +5,11 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Transition;
-import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.ui.AccountActivity;
+import com.example.skoolworkshop2.ui.User.AccountActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
