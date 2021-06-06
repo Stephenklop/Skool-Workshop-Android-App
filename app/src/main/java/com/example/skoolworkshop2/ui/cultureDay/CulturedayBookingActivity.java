@@ -7,13 +7,18 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,6 +66,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private RelativeLayout mItemParticipantsLayout;
     private RelativeLayout mResultWorkshopPerRoundLayout;
     private RelativeLayout mResultWorkshopSchemeLayout;
+    private RelativeLayout mItemsLinearLayout;
     // Edit texts
     private EditText mDateEditText;
     private EditText mParticipantsEditText;
@@ -78,30 +84,34 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
 
+    private HorizontalScrollView mHzItemsView;
     private DatePickerDialog datePickerDialog;
 
     private int maxParticipants;
     //Total time variables;
     private int minuteT;
     private int roundT;
-
-    // Workshop name
-    private String workshop;
+    private int totalItemsSelected;
+    private int times = 0;
 
     private Spinner mCategorieSpinner;
     private Spinner mWorkshopSpinner;
     private ArrayAdapter<CharSequence> categorieArrayAdapter;
     private ArrayAdapter<Workshop> workshopArrayAdapter;
     private ArrayList<Workshop> workshopDummylist;
-    private ArrayList<Workshop> selectedWorkshops;
+    private ArrayList<String> workshopNames;
+    private ArrayList<String> selectedCategories;
 
     //cost
     private DecimalFormat df = new DecimalFormat("###.##");
 
     // Spinner
     private String item;
-    private RecyclerView mWorkshopItemsRecyclerView;
+    private ArrayList<String> names = new ArrayList<>();
 
+    private RadioGroup mRadioGroup;
+    private RadioButton mRadioButton;
+    private boolean name;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -110,11 +120,20 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         setContentView(R.layout.activity_cultureday_booking);
 
         workshopDummylist = new ArrayList<>();
+        selectedCategories = new ArrayList<>();
 
         //add dummylist
         workshopDummylist.add(new Workshop(1, "Graffiti", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
         workshopDummylist.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
         workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
+
+        // Variabelen voor workshopnamen voor spinner
+        workshopNames = new ArrayList<>();
+        workshopNames.add(0, "Kies een workshop");
+        for (int i = 0; i < workshopDummylist.size(); i++){
+            workshopNames.add(workshopDummylist.get(i).getName());
+        }
+        Log.d(LOG_TAG, "onCreate: workshopnames" + workshopNames);
 
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
@@ -172,15 +191,19 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Everything for spinner
         categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
+
+
+        // Workshop spinner
+        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workshopNames);
         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-        mCategorieSpinner.setAdapter(categorieArrayAdapter);
-        mCategorieSpinner.setOnItemSelectedListener(this);
+        mWorkshopSpinner.setSelection(mWorkshopSpinner.getSelectedItemPosition(), false);
         mWorkshopSpinner.setOnItemSelectedListener(this);
-        mWorkshopItemsRecyclerView = (RecyclerView) findViewById(R.id.activity_cultureday_booking_rv_workshops);
-        selectedWorkshops = new ArrayList<>();
-
-
+        // Workshop categorie spinner
+        mCategorieSpinner.setAdapter(categorieArrayAdapter);
+        mCategorieSpinner.setSelection(mCategorieSpinner.getSelectedItemPosition(), false);
+        mCategorieSpinner.setOnItemSelectedListener(this);
+        // Radiogroup
+        mRadioGroup = findViewById(R.id.activity_cultureday_booking_rg_workshops);
 
         //Use validator
         // Date Validator
@@ -465,87 +488,195 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             case R.id.activity_cultureday_booking_spnr_category:
                 Log.d(LOG_TAG, "onItemSelected: Selected category spinner");
                 ArrayList<Workshop> categoryWorkshops = new ArrayList<>();
+                selectedCategories = new ArrayList<>();
                 item = mCategorieSpinner.getSelectedItem().toString();
                 switch (item) {
+                    case "Kies een categorie":
+                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
+                        break;
                     case "Meest gekozen":
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workshopNames);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
                         break;
                     case "Beeldende Kunst":
+                        selectedCategories.add(workshopNames.get(0));
+
                         for (Workshop workshop : workshopDummylist) {
                             if (workshop.getCategory().label.equals("Beeldende Kunst")) {
-                                categoryWorkshops.add(workshop);
+                                selectedCategories.add(workshop.getName());
+                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
                             }
-                        }
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                            }
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
                         break;
                     case "Dans":
+                        selectedCategories.add(workshopNames.get(0));
+
                         for (Workshop workshop : workshopDummylist) {
                             if (workshop.getCategory().label.equals("Dans")) {
-                                categoryWorkshops.add(workshop);
+                                selectedCategories.add(workshop.getName());
+                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
                             }
                         }
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
                         break;
                     case "Media":
+                        selectedCategories.add(workshopNames.get(0));
+
                         for (Workshop workshop : workshopDummylist) {
                             if (workshop.getCategory().label.equals("Media")) {
-                                categoryWorkshops.add(workshop);
+                                selectedCategories.add(workshop.getName());
+                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
                             }
                         }
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
                         break;
                     case "Muziek":
+                        selectedCategories.add(workshopNames.get(0));
+
                         for (Workshop workshop : workshopDummylist) {
                             if (workshop.getCategory().label.equals("Muziek")) {
-                                categoryWorkshops.add(workshop);
+                                selectedCategories.add(workshop.getName());
+                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
                             }
                         }
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
                         break;
                     case "Sport":
+                        selectedCategories.add(workshopNames.get(0));
+
                         for (Workshop workshop : workshopDummylist) {
                             if (workshop.getCategory().label.equals("Sport")) {
-                                categoryWorkshops.add(workshop);
+                                selectedCategories.add(workshop.getName());
+                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
                             }
                         }
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-                        break;
                     case "Theater":
+                        selectedCategories.add(workshopNames.get(0));
+
                         for (Workshop workshop : workshopDummylist) {
                             if (workshop.getCategory().label.equals("Theater")) {
-                                categoryWorkshops.add(workshop);
+                                selectedCategories.add(workshop.getName());
+                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
                             }
                         }
-                        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, categoryWorkshops);
+                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
                         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
                         break;
                 }
                 break;
             case R.id.activity_cultureday_booking_spnr_workshop:
-                i++;
-                if (i <= 1){
-                    Log.d(LOG_TAG, "onItemSelected: Nothing for now");
+                if (totalItemsSelected >= 3) {
+                    Toast.makeText(getApplicationContext(), "Error: you already have 3 workshops", Toast.LENGTH_SHORT).show();
+                    break;
                 } else {
-                    Log.d(LOG_TAG, "onItemSelected: Selected workshop spinner");
+                    Log.d(LOG_TAG, "onItemSelected: Selected workshop spinner on position: " + mWorkshopSpinner.getSelectedItem());
                     String workshopName = mWorkshopSpinner.getSelectedItem().toString();
                     Log.d(LOG_TAG, "onItemSelected: workshopName: " + workshopName);
-                    for (Workshop workshop: workshopDummylist){
-                        Log.d(LOG_TAG, "onItemSelected: item name: " + workshop.getName());
-                        if (workshop.getName().equals(workshopName)) {
-                            selectedWorkshops.add(workshop);
+                    // Gaat door lijst van dummyworkshop
+                    for (Workshop workshop : workshopDummylist) {
+                        // Kijk of workshop geen default is en geselecteerde workshop uit lijst pakken
+                        if (!workshop.getName().equals("Default") && workshop.getName().equals(workshopName)) {
+                            // Kijkt of naam zelfde is als gegeven workshop
+                            if (names.size() != 0) {
+                                for (int d = 0; d < names.size(); d++) {
+                                    Log.d(LOG_TAG, "onItemSelected: name: " + names);
+                                    if (names.get(d).equals(workshopName)) {
+                                        Toast.makeText(getApplicationContext(), "Error: you already selected this one", Toast.LENGTH_SHORT).show();
+                                        Log.d(LOG_TAG, "onItemSelected: Workshop is already in here");
+                                        name = true;
+                                    }
+                                }
+                                    if (!name){
+                                        // Voor validatie of workshop niet al toegevoegd is
+                                        names.add(workshopName);
+                                        // Opzetten van radiogroup en button
+                                        mRadioButton = new RadioButton(getApplicationContext());
+                                        mRadioButton.setText(workshopName);
+                                        mRadioButton.setBackgroundResource(R.drawable.btn_orange);
+                                        mRadioButton.setButtonDrawable(null);
+                                        mRadioButton.setTag(workshopName);
+                                        mRadioGroup.addView(mRadioButton);
+
+                                        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                                                // kijken of naam overeenkomt met button.gettext
+
+                                                i = times + mRadioGroup.getCheckedRadioButtonId();
+                                                Log.d(LOG_TAG, "onCheckedChanged: id: " + i);
+                                                // remove van lijst en group
+                                                totalItemsSelected--;
+
+                                                RadioButton button = findViewById(mRadioGroup.getCheckedRadioButtonId());
+                                                mRadioGroup.removeView(button);
+                                                String text = button.getText().toString();
+                                                for (int d = 0; d < names.size(); d++) {
+                                                    if (names.get(d).equals(text)) {
+                                                        names.remove(d);
+                                                    }
+                                                }
+                                                Log.d(LOG_TAG, "onCheckedChanged: names: " + names);
+                                                times++;
+                                            }
+                                        });
+
+                                        // Er mogen maar 3 items toegevoegd worden.
+                                        totalItemsSelected++;
+                                        name = false;
+                                        break;
+                                    }
+                            } else {
+                                // Voor validatie of workshop niet al toegevoegd is
+                                names.add(workshopName);
+                                // Opzetten van radiogroup en button
+                                mRadioButton = new RadioButton(getApplicationContext());
+                                mRadioButton.setText(workshopName);
+                                mRadioButton.setBackgroundResource(R.drawable.btn_orange);
+                                mRadioButton.setButtonDrawable(null);
+                                mRadioButton.setTag(workshopName);
+                                mRadioGroup.addView(mRadioButton);
+
+                                mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                                        // kijken of naam overeenkomt met button.gettext
+
+                                        i = times + mRadioGroup.getCheckedRadioButtonId();
+                                        Log.d(LOG_TAG, "onCheckedChanged: id: " + i);
+                                        // remove van lijst en group
+                                        totalItemsSelected--;
+
+                                        RadioButton button = findViewById(mRadioGroup.getCheckedRadioButtonId());
+                                        mRadioGroup.removeView(button);
+                                        String text = button.getText().toString();
+                                        for (int d = 0; d < names.size(); d++) {
+                                            if (names.get(d).equals(text)) {
+                                                names.remove(d);
+                                            }
+                                        }
+                                        Log.d(LOG_TAG, "onCheckedChanged: names: " + names);
+                                        times++;
+                                    }
+                                });
+
+                                // Er mogen maar 3 items toegevoegd worden.
+                                totalItemsSelected++;
+                                break;
+                            }
                         }
                     }
-                    Log.d(LOG_TAG, "onItemSelected: selected workshop size: " + selectedWorkshops.size());
-                    break;
                 }
                 }
-            }
+        }
+
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {

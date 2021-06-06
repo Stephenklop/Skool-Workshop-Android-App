@@ -9,6 +9,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:id="@+id/activity_shopping_view"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
         app:layout_constraintTop_toTopOf="parent">
 

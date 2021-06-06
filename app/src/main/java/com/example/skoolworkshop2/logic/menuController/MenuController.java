@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.ui.AccountActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
@@ -92,7 +93,11 @@ public class MenuController {
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, " Redirecting to account page");
+                Intent toAccount = new Intent(context, AccountActivity.class);
+                Bundle bundle = ActivityOptions
+                        .makeSceneTransitionAnimation((Activity) context).toBundle();
                 menu.getMenu().getItem(4).setChecked(true);
+                context.startActivity(toAccount);
             }
         });
 

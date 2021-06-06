@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/enes1/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.24547101449275363" />
         <entry key="..\:/skool-workshop/app/src/main/res/drawable/edittext_default.xml" value="0.1796875" />
         <entry key="..\:/skool-workshop/app/src/main/res/drawable/edittext_disabled_et.xml" value="0.1796875" />
         <entry key="..\:/skool-workshop/app/src/main/res/drawable/edittext_error.xml" value="0.1796875" />
@@ -20,10 +21,19 @@
         <entry key="..\:/skool-workshop/app/src/main/res/layout/component_edittext_number_info.xml" value="0.16354166666666667" />
         <entry key="..\:/skool-workshop/app/src/main/res/layout/component_edittext_plaintext.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/app/src/main/res/layout/fragment_workshop_info.xml" value="0.13125" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/btn_orange.xml" value="0.2574074074074074" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/btn_payment_container_selected.xml" value="0.14010416666666667" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/btn_payment_container_unselected.xml" value="0.14010416666666667" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/ic_info.xml" value="0.128125" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/ic_user.xml" value="0.14010416666666667" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/ic_x.xml" value="0.14010416666666667" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/drawable/tabs_selector.xml" value="0.14010416666666667" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_cultureday_booking.xml" value="0.2581664910432034" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_shopping_cart.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_workshop_booking.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_workshops.xml" value="0.25416666666666665" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/component_button_tag_detail.xml" value="0.264" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/component_edittext_email.xml" value="0.12395833333333334" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/component_edittext_number.xml" value="0.12760416666666666" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/component_edittext_number_info.xml" value="0.12395833333333334" />
@@ -32,7 +42,7 @@
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_country_spinner_dropdown.xml" value="0.2536231884057971" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_country_spinner_header.xml" value="0.2536231884057971" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_points.xml" value="0.12395833333333334" />
-        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_shopping_cart.xml" value="0.12395833333333334" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_shopping_cart.xml" value="0.4" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_spinner.xml" value="0.11197916666666667" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_spinner_dropdown.xml" value="0.2536231884057971" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/item_spinner_header.xml" value="0.2" />

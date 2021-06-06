@@ -24,6 +24,8 @@
             android:name=".ui.cultureDay.CulturedayBookingActivity" />
         <activity
             android:name=".ui.cultureDay.CulturedayQuestionActivity" />
+        <activity android:name=".ui.AccountActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
         <activity

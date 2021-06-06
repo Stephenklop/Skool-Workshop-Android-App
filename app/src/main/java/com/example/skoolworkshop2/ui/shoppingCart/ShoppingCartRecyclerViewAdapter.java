@@ -70,7 +70,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            mWorkshopImage = itemView.findViewById(R.id.item_shopping_cart_iv_workshop);
+            mWorkshopImage = itemView.findViewById(R.id.item_shopping_cart_img_workshop);
             mWorkshopTitle = itemView.findViewById(R.id.item_shopping_cart_tv_workshop);
             mWorkshopPrice = itemView.findViewById(R.id.item_shopping_cart_tv_price);
             mDetailButton = itemView.findViewById(R.id.item_shopping_cart_btn_details);
