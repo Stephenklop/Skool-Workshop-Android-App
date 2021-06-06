@@ -14,6 +14,7 @@ import com.example.skoolworkshop2.domain.Workshop;
 public class WorkshopContentFragment extends Fragment {
     private Workshop workshop;
     private TextView mContentTv;
+
     public WorkshopContentFragment(Workshop workshop) {
        this.workshop = workshop;
     }

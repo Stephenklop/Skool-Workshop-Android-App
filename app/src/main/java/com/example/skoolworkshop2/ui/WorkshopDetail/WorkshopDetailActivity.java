@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
@@ -25,7 +27,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
 
     private ImageButton mBackButton;
-
+    private ImageView mWorkshopBanner;
     private TextView mTitleTV;
 
     private Workshop workshop;
@@ -40,8 +42,9 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_details);
 
-        mTitleTV = findViewById(R.id.activity_workshop_details_tv_title);
         mBackButton = findViewById(R.id.activity_details_details_btn_back);
+        mWorkshopBanner = findViewById(R.id.activity_workshop_details_img_banner);
+        mTitleTV = findViewById(R.id.activity_workshop_details_tv_title);
 
         workshop = (Workshop) getIntent().getSerializableExtra("Workshop");
 
@@ -61,6 +64,8 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.activity_workshop_details_fragment_txt, new WorkshopOverviewFragment(workshop))
                 .commit();
+
+        Glide.with(getBaseContext()).load(workshop.getSourceImage()).centerCrop().into(mWorkshopBanner);
 
         mTabsOverviewTv.setOnClickListener(this);
         mTabsContentTv.setOnClickListener(this);

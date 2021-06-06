@@ -14,6 +14,7 @@ import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCartActivity extends AppCompatActivity {
@@ -51,14 +52,14 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_value);
         // TODO: Add price
-        totalPriceTextView.setText("€ " + String.format("%.2f", 0.0).replace(".", ","));
+        totalPriceTextView.setText("€" + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
     }
 
     private double calculateTotalPrice() {
         double total = 0;
 
-        for (Workshop workshops : shoppingCartItems) {
-            total += workshops.getPrices().getPrice();
+        for (Workshop workshop : shoppingCartItems) {
+            total += workshop.getPrice();
         }
 
         return total;

@@ -17,6 +17,8 @@ import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
+
 public class MainActivity extends AppCompatActivity {
     private APIDAOFactory apidaoFactory;
     private LocalAppStorage localAppStorage;
@@ -33,9 +35,12 @@ public class MainActivity extends AppCompatActivity {
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
+        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
+
         Thread loadProducts = new Thread(() -> {
             workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
             localAppStorage.createList("workshops", workshops);
+            System.out.println(localAppStorage.getList("workshops"));
         });
 
         try {

@@ -67,7 +67,7 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         cultureDay = new CultureDay(1, "Cultuurdag", new String[]{"test", "test", "test", "test"}, workshops, 1, 100, "12/12/2021", 10);
 
         mTitleTV.setText(cultureDay.getName());
-        mPriceBn.setText(cultureDay.getPrice() + ",-");
+        mPriceBn.setText("€" + ((int) cultureDay.getPrice()) + ",-");
         mParticipantsBn.setText(cultureDay.getMaxParticipants() + " Deelnemers");
         mWorkshopsBn.setText(cultureDay.getWorkshops().size() + " Workshops");
         mRoundsBn.setText(cultureDay.getRounds() + " Rounds");
