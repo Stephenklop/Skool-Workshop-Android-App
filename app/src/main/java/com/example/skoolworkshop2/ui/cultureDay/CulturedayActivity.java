@@ -64,7 +64,7 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
 
         ArrayList<Workshop> workshops = new ArrayList<>();
         workshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
-        cultureDay = new CultureDay(1, "Cultuurdag", new String[]{"test", "test", "test", "test"}, workshops, 1, 100, "12/12/2021", 10);
+        cultureDay = new CultureDay(1, "Cultuurdag", new String[]{"test", "test", "test", "test"}, workshops, 3, 1674, "12/12/2021", 100);
 
         mTitleTV.setText(cultureDay.getName());
         mPriceBn.setText(cultureDay.getPrice() + ",-");

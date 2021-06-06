@@ -33,7 +33,8 @@ public class CulturedayOverviewFragment extends Fragment {
         mInfoBn = root.findViewById(R.id.fragment_workshop_overview_btn_info);
 
         mParticipants.setText(cultureDay.getWorkshops().size() + " Workshops, " + cultureDay.getRounds() + " Rondes | Maximaal " + cultureDay.getMaxParticipants() + " Deelnemers");
-        mPriceTv.setText(cultureDay.getPrice() + ",-");
+        int price = (int) cultureDay.getPrice();
+        mPriceTv.setText(Integer.valueOf(price) + ",-");
         mDescriptionTv.setText(cultureDay.getDescription()[0]);
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
