@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.Workshop;
@@ -40,9 +41,9 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Glide.with(context).load(shoppingCartItems.get(position).getSourceImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopTitle.setText(shoppingCartItems.get(position).getName());
-        // TODO: Add price
-        holder.mWorkshopPrice.setText("€ " + String.format("%.2f", 0.0).replace(".", ","));
+        holder.mWorkshopPrice.setText("€" + String.format("%.2f", shoppingCartItems.get(position).getPrice()).replace(".", ","));
         holder.mDetailButton.setText("Details");
         holder.mDetailButton.setOnClickListener(v -> {
             if (holder.mDetailButton.getText().equals("Details")) {

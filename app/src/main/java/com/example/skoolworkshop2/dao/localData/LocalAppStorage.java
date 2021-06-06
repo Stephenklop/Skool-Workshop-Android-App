@@ -36,7 +36,7 @@ public class LocalAppStorage {
     }
 
     public <T> List<T> getList(String key) {
-        return Paper.book().read(key);
+        return Paper.book().read(key, new ArrayList<>());
     }
 
     public void deleteKey(String key) {

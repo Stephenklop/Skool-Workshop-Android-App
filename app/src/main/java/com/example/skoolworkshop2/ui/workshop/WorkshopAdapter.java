@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui.workshop;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
@@ -25,13 +27,15 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final ArrayList<Workshop> workshopArrayList;
     private OnWorkshopSelectionListener listener;
+    private Context context;
 
 
-    public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener) {
+    public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener, Context context) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
         this.workshopArrayList = new ArrayList<>(workshopArrayList);
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
         this.listener = listener;
+        this.context = context;
     }
 
     public void setWorkshopList(List<Workshop> workshops) {
@@ -42,16 +46,15 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     }
 
     public class WorkshopGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+        public ImageView mWorkshopImage;
         public TextView mWorkshopName;
         public TextView mWorkshopCategory;
-        public ImageView mWorkshopImage;
 
         public WorkshopGridViewHolder(@NonNull View itemView) {
             super(itemView);
-            mWorkshopName = (TextView) itemView.findViewById(R.id.tv_workshop_title);
             mWorkshopImage = (ImageView) itemView.findViewById(R.id.img_workshop_card);
             mWorkshopImage.setClipToOutline(true);
+            mWorkshopName = (TextView) itemView.findViewById(R.id.tv_workshop_title);
             mWorkshopCategory = (TextView) itemView.findViewById(R.id.tv_workshop_category);
             itemView.setOnClickListener(this);
         }
@@ -111,8 +114,10 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         Workshop workshop = workshopArrayList.get(position);
         Log.d(LOG_TAG, "onBindViewHolder - " + workshop.toString());
 
+        Glide.with(context).load(workshop.getThumbnailImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopName.setText(workshop.getName());
-//        holder.mWorkshopCategory.setText(workshop.getCategory().label);
+        // TODO: Fix category
+        holder.mWorkshopCategory.setText("");
     }
 
     @Override

@@ -260,22 +260,22 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/activity_cultureday_booking_tv_schedule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/proxima_nova_regular"
-                    android:text="Tijdschema:"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
                     android:id="@+id/activity_cultureday_booking_tv_duration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/proxima_nova_regular"
                     android:text="Totale duur:"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/activity_cultureday_booking_tv_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:text="Tijdschema:"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 

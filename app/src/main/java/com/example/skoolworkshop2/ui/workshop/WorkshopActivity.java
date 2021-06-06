@@ -57,7 +57,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshop_workshops);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mWorkshopAdapter = new WorkshopAdapter((ArrayList<Workshop>) mWorkshops, this);
+        mWorkshopAdapter = new WorkshopAdapter((ArrayList<Workshop>) mWorkshops, this, getBaseContext());
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {

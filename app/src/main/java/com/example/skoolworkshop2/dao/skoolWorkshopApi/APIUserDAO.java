@@ -2,7 +2,6 @@ package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
 import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.domain.User;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -55,7 +54,8 @@ public class APIUserDAO implements UserDAO {
                 JSONObject response = new JSONObject(inputLine);
                 JSONObject user = response.getJSONObject("result");
 
-                result = new Gson().fromJson(user.toString(), User.class);
+                // TODO: Parse user object
+                //result = new Gson().fromJson(user.toString(), User.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
