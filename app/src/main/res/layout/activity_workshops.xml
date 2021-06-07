@@ -78,13 +78,11 @@
 
     <!-- Include Icon Menu -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_workshop_workshops"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
         android:paddingHorizontal="25dp"
         android:id="@+id/activity_workshop_workshops"
-        android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
