@@ -88,8 +88,8 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
             bankTv.setText(bank.getName());
             Glide.with(context).load(bank.getSvg()).into(bankImg);
         } else {
-            bankImg.setImageDrawable(null);
-            bankTv.setText("Kies een bank");
+            Glide.with(context).load("https://www.mollie.com/external/icons/payment-methods/ideal.png").into(bankImg);
+            bankTv.setText("Kies uw bank");
         }
     }
 }

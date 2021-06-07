@@ -10,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shopping_cart_container"
-        android:elevation="20dp"
+        android:elevation="10dp"
         android:scaleY="1">
 
         <ImageView
             android:id="@+id/item_shopping_cart_img_workshop"
-            android:layout_width="189dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintWidth_percent=".45"
             android:background="@drawable/shopping_cart_container"
             android:scaleType="centerCrop"
             android:src="@drawable/testimage"
@@ -38,7 +39,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/item_shopping_cart_img_workshop"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:hyphenationFrequency="full"/>
 
         <TextView
             android:id="@+id/item_shopping_cart_tv_price"
@@ -70,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shopping_cart_detail_container"
-        android:elevation="10dp"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:paddingTop="25dp"
         android:paddingHorizontal="15dp"

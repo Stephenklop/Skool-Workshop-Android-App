@@ -15,22 +15,23 @@
 
     <ImageView
         android:id="@+id/item_bank_spinner_img_bank"
-        android:layout_width="25dp"
+        android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="25dp" />
 
     <TextView
-        android:id="@+id/item_spinner_tv"
+        android:id="@+id/item_bank_spinner_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/item_bank_spinner_img_bank"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginRight="25dp"
         android:layout_toStartOf="@+id/item_bank_spinner_header_img_chevron"
         android:fontFamily="@font/proxima_nova_semibold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:text="Kies uw bank"/>
 </RelativeLayout>

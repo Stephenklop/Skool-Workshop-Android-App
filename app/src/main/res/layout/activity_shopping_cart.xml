@@ -16,7 +16,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingHorizontal="25dp"
             android:paddingVertical="25dp"
             app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +26,7 @@
                 android:id="@+id/activity_shopping_cart_tv_shopping_cart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
                 android:fontFamily="@font/proxima_nova_semibold"
                 android:text="Winkelmand"
                 android:textAlignment="center"
@@ -42,7 +42,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="25dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="25dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_item_promo"
                 app:layout_constraintTop_toBottomOf="@+id/activity_shopping_cart_tv_shopping_cart"
@@ -54,6 +57,7 @@
                 layout="@layout/component_promo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
                 android:layout_marginBottom="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_tv_total_cost_key" />
 
@@ -61,6 +65,7 @@
                 android:id="@+id/activity_shopping_cart_tv_total_cost_key"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/proxima_nova_regular"
                 android:text="Subtotaal(_):"
@@ -74,6 +79,7 @@
                 android:id="@+id/activity_shopping_cart_tv_total_cost_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
                 android:layout_marginBottom="25dp"
                 android:fontFamily="@font/proxima_nova_semibold"
                 android:text="€__,__"
@@ -87,6 +93,7 @@
                 android:id="@+id/activity_shopping_cart_div"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginHorizontal="25dp"
                 android:layout_marginBottom="50dp"
                 android:background="@color/dark_grey"
                 app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_btn_confirm" />
@@ -96,11 +103,13 @@
                 layout="@layout/component_button_large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
     <include
         android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"

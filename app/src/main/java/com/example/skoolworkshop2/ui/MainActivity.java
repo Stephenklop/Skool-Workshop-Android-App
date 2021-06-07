@@ -2,9 +2,16 @@ package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
@@ -13,6 +20,8 @@ import com.example.skoolworkshop2.domain.CultureDay;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
+        ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
+        TextView searchPageTv = searchPage.findViewById(R.id.item_dashboard_tv_txt);
+
+        searchPageImg.setImageDrawable(getDrawable(R.drawable.ic_search));
+        searchPageTv.setText("Workshops zoeken");
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         View cultureDay = findViewById(R.id.activity_home_item_account);
+        ImageView cultureDayImg = cultureDay.findViewById(R.id.item_dashboard_img_icon);
+        TextView cultureDayTv = cultureDay.findViewById(R.id.item_dashboard_tv_txt);
+
+        cultureDayImg.setImageDrawable(getDrawable(R.drawable.ic_sun));
+        cultureDayTv.setText("Cultuurdag bekijken");
         cultureDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,5 +87,37 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext().startActivity(intent);
             }
         });
+
+
+        // example newsfeed implementation
+        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
+        NewsFeedRv.setAdapter(new RecyclerView.Adapter() {
+            class BlogPostViewHolder extends RecyclerView.ViewHolder {
+                public BlogPostViewHolder(@NonNull @NotNull View itemView) {
+                    super(itemView);
+                    ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
+                    blogPostImg.setClipToOutline(true);
+                }
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+                return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_blog_post, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 5;
+            }
+        });
+        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
     }
 }
