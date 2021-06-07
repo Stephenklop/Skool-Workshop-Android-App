@@ -11,23 +11,25 @@ public class Workshop implements Serializable {
     private String description;
     private String sourceImage;
     private String thumbnailImage;
+    private String imageName;
     private int rounds;
     private int roundDuration;
     private int participants;
     private String timeSchedule;
     private String learningLevel;
 
-    public Workshop(double id, String name, String permalink, String shortDescription, String description, String sourceImage, String thumbnailImage) {
+    public Workshop(double id, String name, String permalink, String shortDescription, String description, String sourceImage, String imageName) {
         this.id = id;
         this.name = name;
         this.permalink = permalink;
         this.shortDescription = shortDescription;
         this.description = description;
         this.sourceImage = sourceImage;
-        this.thumbnailImage = thumbnailImage;
+        this.thumbnailImage = sourceImage.replace(".jpg", "-300x300.jpg");
+        this.imageName = imageName;
         this.rounds = 1;
         this.roundDuration = 60;
-        this.participants = 1;
+        this.participants = 0;
     }
 
     public double getId() {
@@ -56,6 +58,10 @@ public class Workshop implements Serializable {
 
     public String getThumbnailImage() {
         return thumbnailImage;
+    }
+
+    public String getImageName() {
+        return imageName;
     }
 
     public int getRounds() {
@@ -134,6 +140,10 @@ public class Workshop implements Serializable {
         this.thumbnailImage = thumbnailImage;
     }
 
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
     public void setTimeSchedule(String timeSchedule) {
         this.timeSchedule = timeSchedule;
     }
@@ -144,19 +154,6 @@ public class Workshop implements Serializable {
 
     @Override
     public String toString() {
-        return "Workshop{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", permalink='" + permalink + '\'' +
-                ", shortDescription='" + shortDescription + '\'' +
-                ", description='" + description + '\'' +
-                ", sourceImage='" + sourceImage + '\'' +
-                ", thumbnailImage='" + thumbnailImage + '\'' +
-                ", rounds=" + rounds +
-                ", roundDuration=" + roundDuration +
-                ", participants=" + participants +
-                ", timeSchedule='" + timeSchedule + '\'' +
-                ", learningLevel='" + learningLevel + '\'' +
-                '}';
+        return name;
     }
 }
