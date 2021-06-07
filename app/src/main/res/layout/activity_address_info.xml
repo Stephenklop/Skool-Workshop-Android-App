@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/activity_address_info_btn_back_cart"
+                android:id="@+id/activity_address_info_btn_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_arrow_left"
@@ -150,7 +150,7 @@
 
                     <include
                         android:id="@+id/activity_address_info_et_postalcode"
-                        layout="@layout/component_edittext_plaintext"
+                        layout="@layout/component_edittext_postalcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -503,7 +503,7 @@
 
                     <include
                         android:id="@+id/activity_address_info_et_workshop_postalcode"
-                        layout="@layout/component_edittext_plaintext"
+                        layout="@layout/component_edittext_postalcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

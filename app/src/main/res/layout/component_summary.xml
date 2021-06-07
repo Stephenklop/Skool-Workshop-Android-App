@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/summary_container"
+    android:orientation="vertical"
+    android:paddingVertical="25dp"
+    android:paddingLeft="45dp"
+    android:paddingRight="25dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Op adres:"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/comonent_summary_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Naam"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/comonent_summary_street_housenr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Straatnaam Huisnummer"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/comonent_summary_postalcode_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Postcode Stad"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Factuuradres:"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/comonent_summary_invoice_street_housenr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Straatnaam Huisnummer"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/comonent_summary_invoice_postalcode_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Postcode Stad"
+        android:textSize="18sp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/black" />
+</LinearLayout>

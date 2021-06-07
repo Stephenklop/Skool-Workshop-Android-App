@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -50,28 +51,11 @@ public class CategoryAdapter{
         for (int i = 0; i < categorieArray.length; i++) {
             int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));
 
-            RadioButton rb = new RadioButton(activity);
+            RadioButton rb = (RadioButton) LayoutInflater.from(context).inflate(R.layout.component_button_categories, mCategoriesRadiogroup, false);
 
-            rb.setBackgroundResource(R.drawable.btn_categories_states);
             rb.setText(categorieArray[i]);
             rb.setTag(categorieArray[i]);
             rb.setId(i);
-            rb.setButtonDrawable(android.R.color.transparent);
-            rb.setPadding(paddingDp, 0, paddingDp, 0);
-            rb.setHeight(Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, activity.getResources().getDisplayMetrics())));
-
-            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
-                    RadioGroup.LayoutParams.WRAP_CONTENT,
-                    RadioGroup.LayoutParams.WRAP_CONTENT
-            );
-
-
-//            Typeface typeface = activity.getResources().getFont(R.font.proxima_nova);
-//            rb.setTypeface(typeface);
-
-            params.setMargins(0, 0, paddingDp, 0);
-            rb.setLayoutParams(params);
-            rb.setTextColor(Color.BLACK);
 
             mCategoriesRadiogroup.setOnCheckedChangeListener((group, checkedId) -> {
                 RadioButton radioButton = activity.findViewById(checkedId);

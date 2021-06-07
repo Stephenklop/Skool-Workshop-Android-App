@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="13dp">
+
+    <ImageView
+        android:id="@+id/item_bank_spinner_img_bank"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp" />
+
+    <TextView
+        android:id="@+id/item_bank_spinner_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/item_bank_spinner_img_bank"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="25dp"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+</RelativeLayout>

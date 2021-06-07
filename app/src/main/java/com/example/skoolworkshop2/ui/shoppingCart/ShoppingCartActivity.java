@@ -31,7 +31,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
-        View root = (View) findViewById(R.id.activity_shopping_cart);
+        View root = (View) findViewById(R.id.activity_shopping_view);
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
 
@@ -48,10 +48,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         shoppingCartRecyclerView.setAdapter(mAdapter);
 
-        totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_key);
+        totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_travel_cost_key);
         totalPriceTitleTextView.setText("Totaal (" + shoppingCartItems.size() + ")");
 
-        totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_value);
+        totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_travel_cost_value);
         totalPriceTextView.setText("€ " + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
     }
 

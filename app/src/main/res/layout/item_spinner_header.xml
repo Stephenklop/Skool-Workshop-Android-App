@@ -5,7 +5,7 @@
     android:paddingVertical="13dp">
 
     <ImageView
-        android:id="@+id/item_spinner_dropdown_img_chevron"
+        android:id="@+id/item_spinner_img_chevron"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
