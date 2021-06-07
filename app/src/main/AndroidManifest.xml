@@ -20,6 +20,8 @@
         <activity
             android:name=".ui.cultureDay.CulturedayActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".ui.MoreMenuActivity"
+                android:launchMode="singleTop"/>
         <activity
             android:name=".ui.cultureDay.CulturedayBookingActivity" />
         <activity

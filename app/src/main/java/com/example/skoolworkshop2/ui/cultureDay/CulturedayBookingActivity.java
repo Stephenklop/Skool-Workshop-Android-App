@@ -137,7 +137,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         selectedCategories = new ArrayList<>();
 
         //add dummylist
-        workshopDummylist.add(new Workshop(1, "Graffiti", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
+        workshopDummylist.add(new Workshop(1, "Graffiti", "link", "shortdesc", "desc", "img", "img", "11-11-2021", 25, Category.DS));
         workshopDummylist.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
         workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
 
