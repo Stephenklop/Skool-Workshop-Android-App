@@ -14,17 +14,18 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
-
+import com.example.skoolworkshop2.domain.Workshop;
 
 import java.util.List;
 
 public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingCartRecyclerViewAdapter.ViewHolder> {
-    List<Product> shoppingCartItems;
+    List<Workshop> shoppingCartItems;
     Context context;
 
-    public ShoppingCartRecyclerViewAdapter(List<Product> shoppingCartItems, Context context) {
+    public ShoppingCartRecyclerViewAdapter(List<Workshop> shoppingCartItems, Context context) {
         this.shoppingCartItems = shoppingCartItems;
         this.context = context;
     }
@@ -39,8 +40,9 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Glide.with(context).load(shoppingCartItems.get(position).getSourceImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopTitle.setText(shoppingCartItems.get(position).getName());
-        holder.mWorkshopPrice.setText("€ " + String.format("%.2f", shoppingCartItems.get(position).getPrice()).replace(".", ","));
+        holder.mWorkshopPrice.setText("€" + String.format("%.2f", shoppingCartItems.get(position).getPrice()).replace(".", ","));
         holder.mDetailButton.setText("Details");
         holder.mDetailButton.setOnClickListener(v -> {
             if (holder.mDetailButton.getText().equals("Details")) {

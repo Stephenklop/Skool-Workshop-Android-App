@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.domain.Category;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.CultureDay;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.Workshop;
@@ -27,9 +28,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
+
 public class MainActivity extends AppCompatActivity {
-    private List<Workshop> workshopArrayList;
     private LocalAppStorage localAppStorage;
+    private APIDAOFactory apidaoFactory;
+    private MenuController menuController;
+    private List<Workshop> workshops;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +42,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         View root = (View) findViewById(R.id.activity_home);
 
-        String[] shopDesc = {"Desc 1", "Desc 2", "Desc 3", "Desc 4"};
+        localAppStorage = new LocalAppStorage(getBaseContext());
+        menuController = new MenuController(root);
+        apidaoFactory = new APIDAOFactory();
 
-        localAppStorage = new LocalAppStorage(getApplicationContext());
-        localAppStorage.deleteKey("cartItems");
-        localAppStorage.addToList("cartItems", new Workshop(1, "Workshop 1", shopDesc, 10.011, "Today", 10, Category.DS));
-        localAppStorage.addToList("cartItems", new Workshop(2, "Workshop 2", shopDesc, 121.39, "Today", 10, Category.DS));
-        localAppStorage.addToList("cartItems", new Workshop(3, "Workshop 3", shopDesc, 10.99, "Today", 10, Category.DS));
-        localAppStorage.addToList("cartItems", new Workshop(4, "Workshop 4", shopDesc, 92.12, "Today", 10, Category.DS));
+        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
-        MenuController mc = new MenuController(root);
-        this.workshopArrayList = new ArrayList<>();
-        String[] desc = {"blabla", "test", "info", "price"};
-        workshopArrayList.add(new Workshop(1, "Graffiti", desc,55.55, "Test", 60, Category.DS));
-        workshopArrayList.add(new Workshop(2, "T-shirt Ontwerpen", desc,55.55, "Test", 60, Category.BK));
-        workshopArrayList.add(new Workshop(3, "Test", desc,55.55, "Test", 60, Category.MA));
+        Thread loadProducts = new Thread(() -> {
+            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
+            localAppStorage.createList("workshops", workshops);
+            System.out.println(localAppStorage.getList("workshops"));
+        });
+
+        try {
+            loadProducts.join();
+            loadProducts.start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
@@ -62,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mc.sendToSearch();
+                menuController.sendToSearch();
             }
         });
 
@@ -78,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
                 intent.putExtra("CULTUREDAY", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"}, workshopArrayList, 4, 1650,"5/28/2021", 100));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+              
                 getApplicationContext().startActivity(intent);
             }
         });

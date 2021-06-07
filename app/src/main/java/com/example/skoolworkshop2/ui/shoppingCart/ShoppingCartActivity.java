@@ -8,22 +8,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView shoppingCartRecyclerView;
     private ShoppingCartRecyclerViewAdapter mAdapter;
     private LocalAppStorage localAppStorage;
     private MenuController menuController;
-    private List<Product> shoppingCartItems;
+    private List<Workshop> shoppingCartItems;
     private TextView totalPriceTitleTextView;
     private TextView totalPriceTextView;
 
@@ -31,7 +30,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
-        View root = (View) findViewById(R.id.activity_shopping_view);
+        View root = (View) findViewById(R.id.activity_shopping_cart);
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
 
@@ -48,18 +47,19 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         shoppingCartRecyclerView.setAdapter(mAdapter);
 
-        totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_travel_cost_key);
+        totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_key);
         totalPriceTitleTextView.setText("Totaal (" + shoppingCartItems.size() + ")");
 
-        totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_travel_cost_value);
-        totalPriceTextView.setText("€ " + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
+        totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_value);
+        // TODO: Add price
+        totalPriceTextView.setText("€" + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
     }
 
     private double calculateTotalPrice() {
         double total = 0;
 
-        for (Product product : shoppingCartItems) {
-            total += product.getPrice();
+        for (Workshop workshop : shoppingCartItems) {
+            total += workshop.getPrice();
         }
 
         return total;

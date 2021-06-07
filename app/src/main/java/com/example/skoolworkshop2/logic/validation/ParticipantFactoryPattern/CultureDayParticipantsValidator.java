@@ -1,5 +1,9 @@
 package com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+
 public class CultureDayParticipantsValidator implements ParticipantsValidatorInterface {
 
     private String LOG_TAG = getClass().getSimpleName();

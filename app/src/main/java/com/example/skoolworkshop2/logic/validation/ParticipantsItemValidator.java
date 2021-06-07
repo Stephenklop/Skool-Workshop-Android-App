@@ -19,8 +19,6 @@ public class ParticipantsItemValidator {
             } else {
             return false;
         }
-
-
     }
 }
 
