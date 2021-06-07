@@ -9,14 +9,14 @@ import java.util.regex.Pattern;
 public class LearningLevelValidator{
 
 
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;
     }
 
     public static boolean isValidLearningLevels(CharSequence learns) {
-        return learns != null && learns != "";
+        return learns != null;
     }
 
 }

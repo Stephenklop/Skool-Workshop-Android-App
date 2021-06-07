@@ -30,12 +30,12 @@ public class WorkshopParticipantsValidatorTest {
     }
 
     @Test
-    public void minuteValidator_InvalidParticipant130Given_ReturnsFalse() {
+    public void participantValidator_InvalidParticipant130Given_ReturnsFalse() {
         assertFalse(WorkshopParticipantsValidator.isValidMaxParticipant("130"));
     }
 
     @Test
-    public void minuteValidator_InvalidParticipant0Given_ReturnsFalse() {
+    public void participantValidator_InvalidParticipant0Given_ReturnsFalse() {
         assertFalse(WorkshopParticipantsValidator.isValidMaxParticipant("0"));
     }
 }

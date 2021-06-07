@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.ShoppingCartLayoutTestActivity">
+        <activity android:name=".ui.shoppingCart.ShoppingCartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

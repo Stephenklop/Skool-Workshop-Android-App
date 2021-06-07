@@ -18,13 +18,8 @@ public class TelValidatorTest {
     }
 
     @Test
-    public void telValidator_CorrectPhoneWith11Numbers_ReturnsTrue() {
-        assertTrue(TelValidator.isValidTelNumber("06222222221"));
-    }
-
-    @Test
-    public void telValidator_CorrectPhoneWith15Numbers_ReturnsTrue() {
-        assertTrue(TelValidator.isValidTelNumber("062222222212312"));
+    public void telValidator_CorrectPhoneWith10Numbers_ReturnsTrue() {
+        assertTrue(TelValidator.isValidTelNumber("0622222222"));
     }
 
     @Test

@@ -13,7 +13,7 @@ public class TelValidator implements TextWatcher {
     public static final Pattern TELPATTERN = Pattern.compile(
             "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{1})(?: *x(\\d+))?\\s*$");
 
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;

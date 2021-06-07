@@ -14,6 +14,7 @@ import com.example.skoolworkshop2.domain.Workshop;
 public class WorkshopContentFragment extends Fragment {
     private Workshop workshop;
     private TextView mContentTv;
+
     public WorkshopContentFragment(Workshop workshop) {
        this.workshop = workshop;
     }
@@ -23,7 +24,8 @@ public class WorkshopContentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_content, container, false);
         mContentTv = root.findViewById(R.id.fragment_workshop_content_tv_txt);
-        mContentTv.setText(workshop.getDescription()[1]);
+        // TODO: Add text
+        mContentTv.setText("WORDT LATER GEIMPLEMENTEERD");
         // Inflate the layout for this fragment
         return root;
     }

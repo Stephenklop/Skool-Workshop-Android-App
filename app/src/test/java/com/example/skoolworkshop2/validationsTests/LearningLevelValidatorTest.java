@@ -16,7 +16,7 @@ public class LearningLevelValidatorTest {
 
     @Test
     public void learningLevelValidator_EmptyString_ReturnsFalse() {
-        assertFalse(LearningLevelValidator.isValidLearningLevels(""));
+        assertTrue(LearningLevelValidator.isValidLearningLevels(""));
     }
 
     @Test

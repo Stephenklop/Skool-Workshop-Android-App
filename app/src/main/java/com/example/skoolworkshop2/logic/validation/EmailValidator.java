@@ -18,7 +18,7 @@ public class EmailValidator implements TextWatcher {
                     "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                     ")+");
 
-    private static boolean mIsValid = false;
+    public static boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;

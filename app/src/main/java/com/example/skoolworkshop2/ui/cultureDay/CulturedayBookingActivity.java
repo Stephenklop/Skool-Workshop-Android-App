@@ -32,6 +32,7 @@ import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     // Layout
     private RelativeLayout mDateLayout;
     private RelativeLayout mParticipantsLayout;
+    private RelativeLayout mItemParticipantsLayout;
     private RelativeLayout mResultWorkshopPerRoundLayout;
     private RelativeLayout mResultWorkshopSchemeLayout;
     // Edit texts
@@ -71,18 +73,30 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private TextView mResultWorkshopSchemeTextView;
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
+    private TextView mTotalCostTextView;
 
     private DatePickerDialog datePickerDialog;
 
+    private int maxParticipants;
     //Total time variables;
     private int minuteT;
     private int roundT;
+    private int totalTime;
+    // Total Cost
+    private Double totalCost;
+    private Double totalPartCost;
+
+    // Workshop name
+    private String workshop;
 
     private Spinner mCategorieSpinner;
     private Spinner mWorkshopSpinner;
     private ArrayAdapter<CharSequence> categorieArrayAdapter;
     private ArrayAdapter<Workshop> workshopArrayAdapter;
     private List<Workshop> workshopDummylist;
+
+    //cost
+    private DecimalFormat df = new DecimalFormat("###.##");
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -93,9 +107,9 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         workshopDummylist = new ArrayList<>();
 
         //add dummylist
-        workshopDummylist.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
-        workshopDummylist.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
-        workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.MK));
+//        workshopDummylist.add(new Workshop(1, "Graffiti", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
+//        workshopDummylist.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
+//        workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.MK));
 
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
@@ -127,8 +141,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
 //        //Workshops per workshoprounds
-//        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
-//        mResultWorkshopPerRoundLayout = findViewById(R.id.edit_text_workshops_per_rounds);
+        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
         // minutes
         mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
         mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_mins);
@@ -138,16 +151,33 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 //        // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
+        // Total cost
+        mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
+        // item participants
+        mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
+        mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
+
+        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+
         //Total time
         this.minuteT = 0;
         this.roundT = 0 ;
-        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+        this.totalTime = 0;
+        this.totalCost = 0.0;
+        this.maxParticipants = 0;
+        categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
+        categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        workshopArrayAdapter = new ArrayAdapter<Workshop>(this, android.R.layout.simple_spinner_item, workshopDummylist);
 
-        WorkshopArrayAdapter workshopArrayAdapter = new WorkshopArrayAdapter(this, workshopDummylist);
-        CategoryArrayAdapter categoryArrayAdapter = new CategoryArrayAdapter(this, getResources().getStringArray(R.array.category));
+//=======
+//        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+//
+//        WorkshopArrayAdapter workshopArrayAdapter = new WorkshopArrayAdapter(this, workshopDummylist);
+//        CategoryArrayAdapter categoryArrayAdapter = new CategoryArrayAdapter(this, getResources().getStringArray(R.array.category));
+//>>>>>>> feat/ui-components
 
         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-        mCategorieSpinner.setAdapter(categoryArrayAdapter);
+        mCategorieSpinner.setAdapter(categorieArrayAdapter);
 
         //Use validator
         // Date Validator
@@ -171,7 +201,6 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if (DateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
                 }
             }
         });
@@ -197,39 +226,48 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if (CultureDayParticipantsValidator.isValidMaxParticipant(editable.toString())){
                     mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    maxParticipants = Integer.valueOf(editable.toString());
                 }
             }
         });
 
-//        // workshop per Rounds
-//        mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!RoundsValidator.isValidWorkshopRounds(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//                if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-//                    int rounds = Integer.parseInt(editable.toString());
-//                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//
-//                } else {
-//
-//                }
-//            }
-//        });
+        // workshop per Rounds
+        mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if(!RoundsValidator.isValidWorkshopRounds(charSequence.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
+                    int rounds = Integer.parseInt(editable.toString());
+                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    // totalCosts
+                    int roundss = Integer.valueOf(0 +mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*roundss*workshops*minute));
+
+                } else {
+                    mTotalCostTextView.setText("Subtotaal: ");
+
+
+                }
+            }
+        });
         // rounds
         mRoundsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -251,18 +289,26 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
 
                 if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-                    int rounds = Integer.parseInt(editable.toString());
+                    int rounds = 0 +Integer.parseInt(editable.toString()) ;
                     mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
                     roundT = rounds;
                     mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
+                    // totalCosts
+//                    int rounds = Integer.valueOf(mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
                 } else {
+                    mTotalCostTextView.setText("Subtotaal: ");
+
                     mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
                 }
             }
         });
         //Total time
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
         // Minutes
         mMinuteEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -277,6 +323,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                 if(!MinuteValidator.isValidMinute(charSequence.toString())){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+
                 }
             }
 
@@ -288,11 +335,19 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                     mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
                     minuteT = minutes;
                     mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
+                    // totalCosts
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
                 } else {
+                    mTotalCostTextView.setText("Subtotaal: ");
                     mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
                 }
             }
         });
+
         //Schedule scheme
         mSchemeEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -304,16 +359,17 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 String scheme = s.toString();
-                mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                if (!scheme.isEmpty()){
+                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                } else {
+                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
                 mResultWorkshopSchemeTextView.setText("Tijdschema: " + scheme);
-
             }
         });
 
@@ -327,23 +383,42 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!LearningLevelValidator.isValidLearningLevels(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (LearningLevelValidator.isValidLearningLevels(s.toString())){
-
+                if(!LearningLevelValidator.isValidLearningLevels(s.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                } else if (LearningLevelValidator.isValidLearningLevels(s.toString())) {
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + s.toString());
                 } else {
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
-
                 }
 
+            }
+        });
+
+        // item Participants
+        mParticipantsItemEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(LOG_TAG, "onTextChanged: text changed");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)){
+                    mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                } else if (!ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)) {
+                    mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
         });
 

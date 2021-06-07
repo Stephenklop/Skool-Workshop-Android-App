@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_shopping_cart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -45,8 +46,11 @@
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 android:paddingHorizontal="25dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_item_promo"
-                app:layout_constraintTop_toBottomOf="@+id/activity_shopping_cart_tv_shopping_cart" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_shopping_cart_tv_shopping_cart"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="25dp" />
 
             <include
                 android:id="@+id/activity_shopping_cart_item_promo"
@@ -55,10 +59,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginBottom="25dp"
-                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_tv_travel_cost_key" />
+                app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_tv_total_cost_key" />
 
             <TextView
-                android:id="@+id/activity_shopping_cart_tv_travel_cost_key"
+                android:id="@+id/activity_shopping_cart_tv_total_cost_key"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -67,12 +71,12 @@
                 android:text="Subtotaal(_):"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@id/activity_shopping_cart_tv_travel_cost_value"
+                app:layout_constraintEnd_toStartOf="@id/activity_shopping_cart_tv_total_cost_value"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/activity_shopping_cart_tv_travel_cost_value" />
+                app:layout_constraintTop_toTopOf="@+id/activity_shopping_cart_tv_total_cost_value" />
 
             <TextView
-                android:id="@+id/activity_shopping_cart_tv_travel_cost_value"
+                android:id="@+id/activity_shopping_cart_tv_total_cost_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"

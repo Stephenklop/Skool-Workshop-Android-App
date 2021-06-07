@@ -10,7 +10,7 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Par
 public class WorkshopParticipantsValidator implements ParticipantsValidatorInterface {
 
     private String LOG_TAG = getClass().getSimpleName();
-    private boolean mIsValid = false;
+    public boolean mIsValid = false;
 
     public boolean isValid() {
         return mIsValid;

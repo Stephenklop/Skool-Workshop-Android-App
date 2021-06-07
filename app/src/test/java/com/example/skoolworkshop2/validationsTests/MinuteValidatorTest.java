@@ -11,12 +11,12 @@ public class MinuteValidatorTest {
 
     @Test
     public void minuteValidator_CorrectMinutesGiven_ReturnsTrue() {
-        assertTrue(MinuteValidator.isValidMinute("50"));
+        assertTrue(MinuteValidator.isValidMinute("70"));
     }
 
     @Test
     public void minuteValidator_CorrectMinimumMinutesGiven_ReturnsTrue() {
-        assertTrue(MinuteValidator.isValidMinute("45"));
+        assertTrue(MinuteValidator.isValidMinute("60"));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class MinuteValidatorTest {
 
     @Test
     public void minuteValidator_InvalidMinutesMinimumGiven_ReturnsTrue() {
-        assertFalse(MinuteValidator.isValidMinute("44"));
+        assertFalse(MinuteValidator.isValidMinute("59"));
     }
 
     @Test

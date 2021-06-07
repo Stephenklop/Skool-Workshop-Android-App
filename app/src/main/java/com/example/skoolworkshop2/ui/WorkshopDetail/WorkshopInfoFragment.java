@@ -16,12 +16,16 @@ public class WorkshopInfoFragment extends Fragment {
     private TextView mDescriptionTv;
     private Workshop workshop;
 
+    // The constructor is required for a fragment
+    public WorkshopInfoFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_info, container, false);
         mDescriptionTv = root.findViewById(R.id.fragment_workshop_info_tv_txt);
-        mDescriptionTv.setText(workshop.getDescription()[2]);
+        // TODO: Add text
+        mDescriptionTv.setText("WORDT LATER GEIMPLEMENTEERD");
 
         return root;
     }

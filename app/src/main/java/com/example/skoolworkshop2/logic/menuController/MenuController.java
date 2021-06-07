@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
@@ -107,6 +108,15 @@ public class MenuController {
                 context.startActivity(toCultureDay);
             }
         });
+
+        shoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG_TAG, " Redirecting to shopping cart page");
+                Intent toShoppingCart = new Intent(context, ShoppingCartActivity.class);
+                context.startActivity(toShoppingCart);
+            }
+        });
     }
 
     public void sendToHome(){
@@ -124,5 +134,8 @@ public class MenuController {
         context.startActivity(toCultureDay);
     }
 
-
+    public void sendToShoppingCart() {
+        Intent toShoppingCart = new Intent(context, ShoppingCartActivity.class);
+        context.startActivity(toShoppingCart);
+    }
 }
