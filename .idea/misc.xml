@@ -21,6 +21,7 @@
         <entry key="..\:/skool-workshop/app/src/main/res/layout/component_edittext_plaintext.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/app/src/main/res/layout/fragment_workshop_info.xml" value="0.13125" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_cultureday_booking.xml" value="0.2581664910432034" />
+        <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_more.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_shopping_cart.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_workshop_booking.xml" value="0.25416666666666665" />
         <entry key="..\:/skool-workshop/skool-workshop/app/src/main/res/layout/activity_workshops.xml" value="0.25416666666666665" />
@@ -40,7 +41,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.2" />
+        <option name="scale" value="0.264" />
       </ProjectState>
     </option>
   </component>

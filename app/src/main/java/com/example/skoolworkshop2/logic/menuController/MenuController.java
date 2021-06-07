@@ -83,6 +83,7 @@ public class MenuController {
         shoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.d(LOG_TAG, " Redirecting to shoppingcart page");
                 menu.getMenu().getItem(3).setChecked(true);
 
