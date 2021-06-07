@@ -109,7 +109,7 @@ public class APIProductDAO implements ProductDAO {
         Workshop result = null;
 
         try {
-            result = new Workshop(jsonObject.getDouble("id"), jsonObject.getString("name").replace("Workshop ", ""), jsonObject.getString("permalink"), jsonObject.getString("short_description"), jsonObject.getString("description"), jsonObject.getJSONArray("images").getJSONObject(0).getString("src"), jsonObject.getJSONArray("images").getJSONObject(0).getString("thumbnail"));
+            result = new Workshop(jsonObject.getDouble("id"), jsonObject.getString("name").replace("Workshop ", ""), jsonObject.getString("permalink"), jsonObject.getString("short_description"), jsonObject.getString("description"), jsonObject.getJSONObject("image").getString("src"), jsonObject.getJSONObject("image").getString("name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
