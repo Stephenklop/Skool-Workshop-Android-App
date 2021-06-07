@@ -25,6 +25,7 @@ import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 
 import java.time.LocalDate;
 
@@ -56,9 +57,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_question);
 
-        if(getIntent().getSerializableExtra("workshop") != null){
-            this.workshop = (Workshop) getIntent().getSerializableExtra("workshop");
-        }
+        workshop = (Workshop) getIntent().getSerializableExtra("Workshop");
 
         datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
@@ -188,8 +187,9 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
+                Intent backIntent = new Intent(getApplicationContext(), WorkshopDetailActivity.class);
+                backIntent.putExtra("Workshop", workshop);
+                startActivity(backIntent);
             }
         });
 

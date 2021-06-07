@@ -35,6 +35,7 @@ import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.ShoppingCartLayoutTestActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.tomergoldst.tooltips.ToolTip;
 import com.tomergoldst.tooltips.ToolTipsManager;
 
@@ -531,7 +532,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent backIntent = new Intent(getApplicationContext(), CulturedayActivity.class);
                 startActivity(backIntent);
             }
         });

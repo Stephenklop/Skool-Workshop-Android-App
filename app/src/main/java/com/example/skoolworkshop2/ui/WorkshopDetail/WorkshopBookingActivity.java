@@ -28,6 +28,7 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Wor
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.ShoppingCartLayoutTestActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 
 import org.w3c.dom.Text;
 
@@ -68,7 +69,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     // Totalcost
     private DecimalFormat df = new DecimalFormat("###.##");
     // Workshop name
-    private String workshop;
+    private Workshop workshop;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -103,7 +104,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_subtotal);
         // Workshop name
-        workshop = getIntent().getStringExtra("NAME");
+        workshop = (Workshop) getIntent().getSerializableExtra("Workshop");
         // Total time
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_duration);
 
@@ -342,7 +343,8 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent backIntent = new Intent(getApplicationContext(), WorkshopDetailActivity.class);
+                backIntent.putExtra("Workshop", workshop);
                 startActivity(backIntent);
             }
         });
