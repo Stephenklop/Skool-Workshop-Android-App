@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_my_account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Mijn Account"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/activity_change_invoice_address_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_arrow_left"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_change_invoice_address_tv_my_account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/activity_change_invoice_address_tv_my_account" />
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="Factuurgegevens - Factuuradres"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_my_account" />
+
+        <LinearLayout
+            android:id="@+id/activity_change_invoice_address_ll_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_header"
+            tools:layout_editor_absoluteX="25dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Voornaam"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <include
+                    android:id="@+id/activity_change_invoice_address_et_firstname"
+                    layout="@layout/component_edittext_plaintext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="25dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Achternaam"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <include
+                    android:id="@+id/activity_change_invoice_address_et_lastname"
+                    layout="@layout/component_edittext_plaintext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Bedrijfsnaam (optioneel)"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_ll_name" />
+
+        <include
+            android:id="@+id/activity_change_invoice_address_et_company"
+            layout="@layout/component_edittext_plaintext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_company" />
+
+        <Spinner
+            android:id="@+id/activity_change_invoice_address_spnr_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:popupBackground="@android:color/transparent"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_change_invoice_address_ll_address"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_country_spinner" />
+
+        <LinearLayout
+            android:id="@+id/activity_change_invoice_address_ll_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/activity_change_invoice_address_spnr_country"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_company">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Postcode"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <include
+                    android:id="@+id/activity_change_invoice_address_et_postalcode"
+                    layout="@layout/component_edittext_postalcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="25dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="HuisNr &amp; toevoeging"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <include
+                    android:id="@+id/activity_change_invoice_address_housenr"
+                    layout="@layout/component_edittext_plaintext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Plaats"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_ll_address" />
+
+        <include
+            android:id="@+id/activity_change_invoice_address_et_place"
+            layout="@layout/component_edittext_plaintext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_place" />
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_street"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Straatnaam"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_place" />
+
+        <include
+            android:id="@+id/activity_change_invoice_address_et_street"
+            layout="@layout/component_edittext_plaintext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_street" />
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Telefoon"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_street" />
+
+        <include
+            android:id="@+id/activity_change_invoice_address_et_tel"
+            layout="@layout/component_edittext_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_tel" />
+
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="E-mailadres"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_tel" />
+
+        <include
+            android:id="@+id/activity_change_invoice_address_et_email"
+            layout="@layout/component_edittext_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_email" />
+
+        <include
+            layout="@layout/component_button_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_email"
+            android:layout_marginTop="25dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
