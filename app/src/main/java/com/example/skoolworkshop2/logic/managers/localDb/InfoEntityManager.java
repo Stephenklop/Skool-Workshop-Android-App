@@ -23,12 +23,14 @@ public class InfoEntityManager {
     public InfoEntity getInfo(){
         InfoEntity ie = infoDAO.getInfo();
         ie.setPassword(EncryptionLogic.decrypt(ie.getPassword(), "secretKey"));
+        ie.setToken(EncryptionLogic.decrypt(ie.getToken(), "secretKey"));
         return infoDAO.getInfo();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertInfo(InfoEntity infoEntity){
         infoEntity.setPassword(EncryptionLogic.encrypt(infoEntity.getPassword(), "secretKey"));
+        infoEntity.setToken(EncryptionLogic.encrypt(infoEntity.getToken(), "secretKey"));
         infoDAO.insertInfo(infoEntity);
     }
 
