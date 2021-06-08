@@ -21,10 +21,14 @@
         <activity
             android:name=".ui.cultureDay.CulturedayActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".ui.MoreMenuActivity"
+                android:launchMode="singleTop"/>
         <activity
             android:name=".ui.cultureDay.CulturedayBookingActivity" />
         <activity
             android:name=".ui.cultureDay.CulturedayQuestionActivity" />
+        <activity android:name=".ui.User.AccountActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
         <activity
