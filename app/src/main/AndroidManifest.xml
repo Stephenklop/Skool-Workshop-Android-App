@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SkoolWorkshop2">
+        android:theme="@style/Theme.SkoolWorkshop2"
+        android:name=".logic.application">
         <activity
             android:name=".ui.workshop.WorkshopActivity"
             android:launchMode="singleTop"/>
@@ -20,10 +21,14 @@
         <activity
             android:name=".ui.cultureDay.CulturedayActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".ui.MoreMenuActivity"
+                android:launchMode="singleTop"/>
         <activity
             android:name=".ui.cultureDay.CulturedayBookingActivity" />
         <activity
             android:name=".ui.cultureDay.CulturedayQuestionActivity" />
+        <activity android:name=".ui.User.AccountActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
         <activity

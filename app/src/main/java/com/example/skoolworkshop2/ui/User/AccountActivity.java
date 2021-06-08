@@ -36,7 +36,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        mForgotPasswordTextView = findViewById(R.id.activity_login_et_password);
+        mForgotPasswordTextView = findViewById(R.id.activity_login_forgot_password_txt);
         mForgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

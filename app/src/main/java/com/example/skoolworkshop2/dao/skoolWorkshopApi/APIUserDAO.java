@@ -55,7 +55,7 @@ public class APIUserDAO implements UserDAO {
                 JSONObject user = response.getJSONObject("result");
 
                 // TODO: Parse user object
-                //result = new Gson().fromJson(user.toString(), User.class);
+//                result = new Gson().fromJson(user.toString(), User.class);
             }
         } catch (Exception e) {
             e.printStackTrace();

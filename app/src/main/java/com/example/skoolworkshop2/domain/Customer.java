@@ -1,17 +1,42 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Customer implements Serializable {
+    @PrimaryKey @NonNull
     private int id;
+
+    @ColumnInfo
     private String firstName;
+
+    @ColumnInfo
     private String lastName;
+
+    @ColumnInfo
     private String email;
+
+    @ColumnInfo
     private String street;
+
+    @ColumnInfo
     private int houseNumber;
+
+    @ColumnInfo
     private String postcode;
+
+    @ColumnInfo
     private String city;
+
+    @ColumnInfo
     private String state;
+
+    @ColumnInfo
     private String country;
 
     public Customer(int id, String firstName, String lastName, String email, String street, int houseNumber, String postcode, String city, String state, String country) {

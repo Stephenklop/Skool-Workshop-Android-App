@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.ui.MoreMenuActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Product;
@@ -115,6 +116,15 @@ public class MenuController {
                 Log.d(LOG_TAG, " Redirecting to shopping cart page");
                 Intent toShoppingCart = new Intent(context, ShoppingCartActivity.class);
                 context.startActivity(toShoppingCart);
+            }
+        });
+
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(LOG_TAG, " Redirecting to more page");
+                Intent toMoreMenu = new Intent(context, MoreMenuActivity.class);
+                context.startActivity(toMoreMenu);
             }
         });
     }
