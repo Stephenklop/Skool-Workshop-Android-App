@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.logic.notifications;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -20,6 +21,8 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
+        System.out.println("Notification received");
 
         Log.d(TAG, "Message: " + remoteMessage.toString());
     }
