@@ -2,6 +2,7 @@ package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class CulturedayOverviewFragment extends Fragment {
 
 //        mParticipants.setText(cultureDay.getWorkshops().size() + " Workshops, " + cultureDay.getRounds() + " Rondes | Maximaal " + cultureDay.getMaxParticipants() + " Deelnemers");
         mPriceTv.setText("€" + ((int) cultureDay.getPrice()) + ",-");
-        mDescriptionTv.setText(cultureDay.getDescription());
+        mDescriptionTv.setText( Html.fromHtml(cultureDay.getDescription(), Html.FROM_HTML_MODE_COMPACT));
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
 
