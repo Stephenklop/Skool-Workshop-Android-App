@@ -15,13 +15,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+//import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private MenuController menuController;
     private List<Product> workshops;
     private Product cultureDay;
+    private List<NewsArticle> newsArticles;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -105,34 +110,69 @@ public class MainActivity extends AppCompatActivity {
 
 
         // example newsfeed implementation
-        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
-        NewsFeedRv.setAdapter(new RecyclerView.Adapter() {
-            class BlogPostViewHolder extends RecyclerView.ViewHolder {
-                public BlogPostViewHolder(@NonNull @NotNull View itemView) {
-                    super(itemView);
-                    ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
-                    blogPostImg.setClipToOutline(true);
-                }
-            }
 
-            @NonNull
-            @NotNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-                return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_blog_post, parent, false));
-            }
 
-            @Override
-            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+//        btn_addOne = findViewById(R.id.btn_addOne);
+//
+//        btn_addOne.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent (MainActivity.this, AddEditOne.class);
+//                startActivity(intent);
+//            }
+//        });
 
-            }
 
-            @Override
-            public int getItemCount() {
-                return 5;
-            }
-        });
-        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
+        newsArticles = new ArrayList<NewsArticle>();
+
+        recyclerView = findViewById(R.id.activity_home_rv_news_feed);
+
+        fillNewsArticles();
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new NewsArticleAdapter(newsArticles, this);
+        recyclerView.setAdapter(mAdapter);
+
+
+
+//        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
+//        NewsFeedRv.setAdapter(new NewsArticleAdapter());
+
+//            new RecyclerView.Adapter() {
+//                class BlogPostViewHolder extends RecyclerView.ViewHolder {
+//                    public BlogPostViewHolder(@NonNull @NotNull View itemView) {
+//                        super(itemView);
+//                        ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
+//                        blogPostImg.setClipToOutline(true);
+//                    }
+//                }
+//
+//                @NonNull
+//                @NotNull
+//                @Override
+//                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+//                    return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
+//                    .inflate(R.layout.item_blog_post, parent, false));
+//                }
+//
+//                @Override
+//                public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+//
+//                }
+//
+//                @Override
+//                public int getItemCount() {
+//                    return 5;
+//                }
+//            }
+//        );
+//        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void fillNewsArticles(){
+        newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten"));
+        newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten2"));
     }
 }
