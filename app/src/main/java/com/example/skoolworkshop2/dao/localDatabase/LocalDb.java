@@ -6,10 +6,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.skoolworkshop2.domain.Customer;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {InfoEntity.class}, version = 1)
+@Database(entities = {InfoEntity.class, Customer.class}, version = 1)
 public abstract class LocalDb extends RoomDatabase {
 
     private static volatile LocalDb INSTANCE;

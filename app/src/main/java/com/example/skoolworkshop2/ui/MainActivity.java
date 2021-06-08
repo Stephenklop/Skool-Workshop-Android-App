@@ -1,7 +1,9 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Product> workshops;
     private Product cultureDay;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
         InfoEntityManager iem = new InfoEntityManager(this.getApplication());
 
         //insert test information into db
-        iem.insertInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "blabla"));
+        iem.updateInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "blabla"));
+
+        Log.d("MAINACTIVITY", iem.getInfo().getPassword());
 
 
         View root = (View) findViewById(R.id.activity_home);
