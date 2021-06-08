@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "501614465650",
+    "firebase_url": "https://skoolworkshop-b414d-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "skoolworkshop-b414d",
+    "storage_bucket": "skoolworkshop-b414d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501614465650:android:46c4c78eab608b2bcb68eb",
+        "android_client_info": {
+          "package_name": "com.example.skoolworkshop2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113256327064734743924",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyGq9zWeFQZXJC6dNhwYLT5ETT-ur90WE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "113256327064734743924",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
