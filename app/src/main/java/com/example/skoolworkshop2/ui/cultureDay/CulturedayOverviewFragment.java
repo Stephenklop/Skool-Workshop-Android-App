@@ -37,14 +37,15 @@ public class CulturedayOverviewFragment extends Fragment {
 //        mParticipants.setText(cultureDay.getWorkshops().size() + " Workshops, " + cultureDay.getRounds() + " Rondes | Maximaal " + cultureDay.getMaxParticipants() + " Deelnemers");
         mPriceTv.setText("€1674,-");
         mDescriptionTv.setText(Html.fromHtml(cultureDay.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
 
         mBookingBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CulturedayBookingActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), CulturedayBookingActivity.class);
+//                startActivity(intent);
             }
         });
         mInfoBn.setOnClickListener(new View.OnClickListener() {
