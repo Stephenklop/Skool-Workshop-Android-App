@@ -29,6 +29,7 @@ import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,28 +55,41 @@ public class MainActivity extends AppCompatActivity {
 
         View root = (View) findViewById(R.id.activity_home);
 
+        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
+
+        View points = findViewById(R.id.activity_home_item_points);
+        TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
+        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
+
+        TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
+        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
+
+
+
+
+
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
         System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
-        Thread loadProducts = new Thread(() -> {
-            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
-            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
-
-            localAppStorage.createList("workshops", workshops);
-            System.out.println(localAppStorage.getList("workshops"));
-
-            localAppStorage.createList("cultureDay", cultureDay);
-        });
-
-        try {
-            loadProducts.join();
-            loadProducts.start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        Thread loadProducts = new Thread(() -> {
+//            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
+//            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
+//
+//            localAppStorage.createList("workshops", workshops);
+//            System.out.println(localAppStorage.getList("workshops"));
+//
+//            localAppStorage.createList("cultureDay", cultureDay);
+//        });
+//
+//        try {
+//            loadProducts.join();
+//            loadProducts.start();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
@@ -136,5 +150,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
+
     }
+
+
 }

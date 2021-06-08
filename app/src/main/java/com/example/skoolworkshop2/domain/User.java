@@ -6,12 +6,22 @@ public class User implements Serializable {
     private String token;
     private int id;
     private String username;
+    private int points;
     //private String registrationDate; // Might be changed to Timestamp later (depends on whether that's useful)
 
-    public User(String token, int id, String username) {
+    public User(String token, int id, String username, int points) {
         this.token = token;
         this.id = id;
         this.username = username;
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public String getToken() {
@@ -44,6 +54,7 @@ public class User implements Serializable {
                 "token='" + token + '\'' +
                 ", id=" + id +
                 ", username='" + username + '\'' +
+                ", points=" + points +
                 '}';
     }
 }
