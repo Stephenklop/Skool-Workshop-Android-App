@@ -13,9 +13,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.example.skoolworkshop2.domain.Product;
-
+import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 
 public class WorkshopDetailActivity extends FragmentActivity implements View.OnClickListener {
     LinearLayout mDetailTabsLl;

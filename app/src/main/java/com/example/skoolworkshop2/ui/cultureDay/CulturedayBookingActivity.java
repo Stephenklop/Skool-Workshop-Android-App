@@ -29,8 +29,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Category;
-import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.CultureDayItem;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
@@ -100,13 +100,15 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     // Total Cost
     private Double totalCost;
     private Double totalPartCost;
+    // CultureDay
+    private CultureDayItem cultureDay;
     private int items;
 
     private Spinner mCategorieSpinner;
     private Spinner mWorkshopSpinner;
     private ArrayAdapter<CharSequence> categorieArrayAdapter;
-    private ArrayAdapter<Product> workshopArrayAdapter;
-    private List<Product> workshopDummylist;
+    private ArrayAdapter<WorkshopItem> workshopArrayAdapter;
+    private List<WorkshopItem> workshopDummylist;
 
     //cost
     private DecimalFormat df = new DecimalFormat("###.##");
@@ -130,6 +132,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_booking);
+
+
 
         workshopDummylist = new ArrayList<>();
         selectedCategories = new ArrayList<>();
@@ -209,7 +213,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Everything for spinner
         categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        workshopArrayAdapter = new ArrayAdapter<Product>(this, android.R.layout.simple_spinner_item, workshopDummylist);
+        workshopArrayAdapter = new ArrayAdapter<WorkshopItem>(this, android.R.layout.simple_spinner_item, workshopDummylist);
 
 
         // Workshop spinner
@@ -269,6 +273,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if (DateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
                     dateValidation.mIsValid = true;
                 }
             }

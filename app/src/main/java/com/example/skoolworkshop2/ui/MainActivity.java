@@ -22,7 +22,9 @@ import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -31,7 +33,7 @@ import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
