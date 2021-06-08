@@ -188,21 +188,15 @@
                     android:spinnerMode="dropdown"
                     tools:listitem="@layout/item_spinner" />
 
-                <HorizontalScrollView
-                    android:id="@+id/activity_cultureday_booking_sv_workshops"
+                <RadioGroup
+                    android:id="@+id/activity_cultureday_booking_rg_workshops"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     android:scrollbars="none">
 
-                    <LinearLayout
-                        android:id="@+id/activity_cultureday_booking_ll_workshops"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" />
-
-
-                </HorizontalScrollView>
+                </RadioGroup>
 
                 <TextView
                     android:layout_width="match_parent"
