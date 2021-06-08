@@ -17,16 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.domain.Workshop;
 
 
 import java.util.List;
 
 public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingCartRecyclerViewAdapter.ViewHolder> {
-    List<Workshop> shoppingCartItems;
+    List<Product> shoppingCartItems;
     Context context;
 
-    public ShoppingCartRecyclerViewAdapter(List<Workshop> shoppingCartItems, Context context) {
+    public ShoppingCartRecyclerViewAdapter(List<Product> shoppingCartItems, Context context) {
         this.shoppingCartItems = shoppingCartItems;
         this.context = context;
     }

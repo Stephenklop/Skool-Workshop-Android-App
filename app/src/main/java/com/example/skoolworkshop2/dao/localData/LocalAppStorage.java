@@ -2,6 +2,8 @@ package com.example.skoolworkshop2.dao.localData;
 
 import android.content.Context;
 
+import com.example.skoolworkshop2.domain.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ public class LocalAppStorage {
 
     public void createList(String key, Object object) {
         Paper.book().write(key, object);
+    }
+
+    public Product getObject(String key){
+        return Paper.book().read(key);
     }
 
     public void addToList(String key, Object value) {

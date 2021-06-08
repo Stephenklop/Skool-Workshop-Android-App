@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 
 public class WorkshopDetailActivity extends FragmentActivity implements View.OnClickListener {
@@ -30,7 +30,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
     private ImageView mWorkshopBanner;
     private TextView mTitleTV;
 
-    private Workshop workshop;
+    private Product workshop;
 
     private Button mPriceBn;
     private Button mParticipantsBn;
@@ -46,7 +46,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mWorkshopBanner = findViewById(R.id.activity_workshop_details_img_banner);
         mTitleTV = findViewById(R.id.activity_workshop_details_tv_title);
 
-        workshop = (Workshop) getIntent().getSerializableExtra("Workshop");
+        workshop = (Product) getIntent().getSerializableExtra("Workshop");
 
         mTitleTV.setText(workshop.getName());
 

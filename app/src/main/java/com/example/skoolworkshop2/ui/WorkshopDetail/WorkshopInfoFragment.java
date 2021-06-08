@@ -9,12 +9,12 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 public class WorkshopInfoFragment extends Fragment {
 
     private TextView mDescriptionTv;
-    private Workshop workshop;
+    private Product workshop;
 
     // The constructor is required for a fragment
     public WorkshopInfoFragment() {}
@@ -30,7 +30,7 @@ public class WorkshopInfoFragment extends Fragment {
         return root;
     }
 
-    public WorkshopInfoFragment(Workshop workshop){
+    public WorkshopInfoFragment(Product workshop){
         this.workshop = workshop;
     }
 }

@@ -19,7 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
@@ -49,7 +49,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
     private DatePickerDialog datePickerDialog;
 
-    private Workshop workshop;
+    private Product workshop;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         setContentView(R.layout.activity_workshop_question);
 
         if(getIntent().getSerializableExtra("workshop") != null){
-            this.workshop = (Workshop) getIntent().getSerializableExtra("workshop");
+            this.workshop = (Product) getIntent().getSerializableExtra("workshop");
         }
 
         datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
