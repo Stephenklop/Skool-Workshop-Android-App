@@ -12,11 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
@@ -38,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //start the db
+        Room.databaseBuilder(this, LocalDb.class, "LocalDb");
+
+        //make manager for the entity
+        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
+
+        //insert test information into db
+        iem.insertInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "blabla"));
+
+
         View root = (View) findViewById(R.id.activity_home);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
