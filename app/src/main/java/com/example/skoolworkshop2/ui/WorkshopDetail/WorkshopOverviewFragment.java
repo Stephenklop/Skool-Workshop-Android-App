@@ -14,13 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 public class WorkshopOverviewFragment extends Fragment {
     private TextView mDescriptionTv;
     private TextView mPriceTv;
     private TextView mParticipants;
-    private Workshop workshop;
+    private Product workshop;
 
     private Button mBookingBn;
     private Button mInfoBn;
@@ -67,7 +67,7 @@ public class WorkshopOverviewFragment extends Fragment {
         return root;
     }
 
-    public WorkshopOverviewFragment(Workshop workshop){
+    public WorkshopOverviewFragment(Product workshop){
         this.workshop = workshop;
     }
 

@@ -3,7 +3,7 @@ package com.example.skoolworkshop2.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class Workshop implements Serializable {
+public class Product implements Serializable {
     private double id;
     private String name;
     private String permalink;
@@ -18,7 +18,7 @@ public class Workshop implements Serializable {
     private String timeSchedule;
     private String learningLevel;
 
-    public Workshop(double id, String name, String permalink, String shortDescription, String description, String sourceImage, String imageName) {
+    public Product(double id, String name, String permalink, String shortDescription, String description, String sourceImage, String imageName) {
         this.id = id;
         this.name = name;
         this.permalink = permalink;
