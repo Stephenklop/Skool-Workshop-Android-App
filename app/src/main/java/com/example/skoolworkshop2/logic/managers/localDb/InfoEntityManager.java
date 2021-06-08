@@ -24,6 +24,7 @@ public class InfoEntityManager {
         InfoEntity ie = infoDAO.getInfo();
         ie.setPassword(EncryptionLogic.decrypt(ie.getPassword(), "secretKey"));
         ie.setToken(EncryptionLogic.decrypt(ie.getToken(), "secretKey"));
+        ie.setEmail(EncryptionLogic.decrypt(ie.getEmail(), "secretKey"));
         return infoDAO.getInfo();
     }
 
@@ -31,6 +32,7 @@ public class InfoEntityManager {
     public void insertInfo(InfoEntity infoEntity){
         infoEntity.setPassword(EncryptionLogic.encrypt(infoEntity.getPassword(), "secretKey"));
         infoEntity.setToken(EncryptionLogic.encrypt(infoEntity.getToken(), "secretKey"));
+        infoEntity.setEmail(EncryptionLogic.encrypt(infoEntity.getEmail(), "secretKey"));
         infoDAO.insertInfo(infoEntity);
     }
 
@@ -38,8 +40,12 @@ public class InfoEntityManager {
         return infoDAO.getInfo() != null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void updateInfo(InfoEntity updatedInfoEntity){
         infoDAO.deleteInfo();
+        updatedInfoEntity.setPassword(EncryptionLogic.encrypt(updatedInfoEntity.getPassword(), "secretKey"));
+        updatedInfoEntity.setToken(EncryptionLogic.encrypt(updatedInfoEntity.getToken(), "secretKey"));
+        updatedInfoEntity.setEmail(EncryptionLogic.encrypt(updatedInfoEntity.getEmail(), "secretKey"));
         infoDAO.insertInfo(updatedInfoEntity);
     }
 }
