@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/component_row_points_tv_date"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:text="Datum"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/component_row_points_tv_action"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:text="Actie"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/component_row_points_tv_amount"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:text="Punten"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+</TableRow>

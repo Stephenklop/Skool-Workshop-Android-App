@@ -9,13 +9,13 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 public class WorkshopContentFragment extends Fragment {
-    private Workshop workshop;
+    private Product workshop;
     private TextView mContentTv;
 
-    public WorkshopContentFragment(Workshop workshop) {
+    public WorkshopContentFragment(Product workshop) {
        this.workshop = workshop;
     }
 

@@ -12,11 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class CategoryArrayAdapter extends ArrayAdapter<String> {
     LayoutInflater layoutInflater;

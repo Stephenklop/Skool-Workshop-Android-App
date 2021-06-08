@@ -12,10 +12,10 @@ import android.widget.RadioButton;
 import android.widget.SearchView;
 
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.CategoryAdapter;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Category;
-import com.example.skoolworkshop2.domain.Workshop;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,7 +31,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RadioButton radioButton;
     private RecyclerView mRecyclerView;
     private LocalAppStorage localAppStorage;
-    private List<Workshop> mWorkshops;
+    private List<Product> mWorkshops;
     private ArrayList<String> mCategories = new ArrayList<>();
     private ArrayList<String> mEnumCategories = new ArrayList<>();
 
@@ -57,18 +57,18 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         // RecyclerView for whole activity
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_workshop_workshops);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mWorkshopAdapter = new WorkshopAdapter((ArrayList<Workshop>) mWorkshops, this, getBaseContext());
+        mWorkshopAdapter = new WorkshopAdapter((ArrayList<Product>) mWorkshops, this, getBaseContext());
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
             @Override
             public void onChange(String filterLabel) {
-                List<Workshop> workshops = new ArrayList<>();
+                List<Product> workshops = new ArrayList<>();
 
                 if (filterLabel.equals("Meest gekozen") || filterLabel.equals("Alles")) {
                     mWorkshopAdapter.setWorkshopList(mWorkshops);
                 } else {
-                    for (Workshop workshop : mWorkshops) {
+                    for (Product workshop : mWorkshops) {
 //                        if (workshop.getCategory().label.equals(filterLabel)) {
 //                            workshops.add(workshop);
 //                        }

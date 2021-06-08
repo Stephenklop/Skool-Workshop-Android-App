@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class WorkshopArrayAdapter extends ArrayAdapter<Object> {
     LayoutInflater layoutInflater;
 
-    public WorkshopArrayAdapter(@NonNull Context context, @NonNull List<Workshop> workshopList) {
+    public WorkshopArrayAdapter(@NonNull Context context, @NonNull List<Product> workshopList) {
         super(context, 0, (Object[]) workshopList.toArray());
         layoutInflater = LayoutInflater.from(context);
     }
@@ -35,7 +35,7 @@ public class WorkshopArrayAdapter extends ArrayAdapter<Object> {
         } else {
             view = convertView;
         }
-        setWorkshop(view, (Workshop) getItem(position));
+        setWorkshop(view, (Product) getItem(position));
         return view;
     }
 
@@ -51,7 +51,7 @@ public class WorkshopArrayAdapter extends ArrayAdapter<Object> {
             });
         } else {
             view = layoutInflater.inflate(R.layout.item_spinner_dropdown, parent, false);
-            setWorkshop(view, (Workshop) getItem(position));
+            setWorkshop(view, (Product) getItem(position));
         }
         return view;
     }
@@ -76,7 +76,7 @@ public class WorkshopArrayAdapter extends ArrayAdapter<Object> {
         return position != 0;
     }
 
-    private void setWorkshop(View view, Workshop workshop) {
+    private void setWorkshop(View view, Product workshop) {
         TextView workshopTv = view.findViewById(R.id.item_spinner_tv);
         if (workshop != null) {
             workshopTv.setText(workshop.getName());

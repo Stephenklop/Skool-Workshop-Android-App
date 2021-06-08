@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 
 import java.util.ArrayList;
@@ -25,12 +26,12 @@ import java.util.List;
 public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopGridViewHolder> implements Filterable{
 
     private final String LOG_TAG = this.getClass().getSimpleName();
-    private final ArrayList<Workshop> workshopArrayList;
+    private final List<Product> workshopArrayList;
     private OnWorkshopSelectionListener listener;
     private Context context;
 
 
-    public WorkshopAdapter(ArrayList<Workshop> workshopArrayList, OnWorkshopSelectionListener listener, Context context) {
+    public WorkshopAdapter(List<Product> workshopArrayList, OnWorkshopSelectionListener listener, Context context) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
         this.workshopArrayList = new ArrayList<>(workshopArrayList);
         Log.d(LOG_TAG, "WorkshopAdapter: Size" + workshopArrayList.size());
@@ -38,7 +39,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         this.context = context;
     }
 
-    public void setWorkshopList(List<Workshop> workshops) {
+    public void setWorkshopList(List<Product> workshops) {
         Log.d(LOG_TAG, "setMovieList");
         this.workshopArrayList.clear();
         this.workshopArrayList.addAll(workshops);
@@ -78,9 +79,9 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Workshop> filteredList = new ArrayList<>();
+            List<Product> filteredList = new ArrayList<>();
             String filterPattern = constraint.toString().toLowerCase().trim();
-            for (Workshop workshop : workshopArrayList) {
+            for (Product workshop : workshopArrayList) {
                 if (workshop.getName().toLowerCase().contains(filterPattern)) {
                     filteredList.add(workshop);
                 }
@@ -111,10 +112,10 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     @Override
     public void onBindViewHolder(@NonNull WorkshopGridViewHolder holder, int position) {
 
-        Workshop workshop = workshopArrayList.get(position);
+        Product workshop = workshopArrayList.get(position);
         Log.d(LOG_TAG, "onBindViewHolder - " + workshop.toString());
 
-        Glide.with(context).load(workshop.getThumbnailImage()).centerCrop().into(holder.mWorkshopImage);
+        Glide.with(context).load(workshop.getSourceImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopName.setText(workshop.getName());
         // TODO: Fix category
         holder.mWorkshopCategory.setText("");

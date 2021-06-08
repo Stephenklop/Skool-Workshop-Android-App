@@ -9,24 +9,24 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.CultureDay;
+import com.example.skoolworkshop2.domain.Product;
 
 
 public class CulturedayInfoFragment extends Fragment {
     private TextView mDescriptionTv;
-    private CultureDay cultureDay;
+    private Product cultureDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_info, container, false);
         mDescriptionTv = root.findViewById(R.id.fragment_workshop_info_tv_txt);
-        mDescriptionTv.setText(cultureDay.getDescription()[2]);
+        mDescriptionTv.setText(cultureDay.getDescription());
 
         return root;
     }
 
-    public CulturedayInfoFragment(CultureDay cultureDay){
+    public CulturedayInfoFragment(Product cultureDay){
         this.cultureDay = cultureDay;
     }
 }
