@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 import org.jetbrains.annotations.NotNull;
 

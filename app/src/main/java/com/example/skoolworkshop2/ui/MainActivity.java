@@ -1,7 +1,9 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
-import com.example.skoolworkshop2.domain.CultureDay;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
+import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
@@ -32,12 +39,19 @@ public class MainActivity extends AppCompatActivity {
     private APIDAOFactory apidaoFactory;
     private LocalAppStorage localAppStorage;
     private MenuController menuController;
-    private List<Workshop> workshops;
+    private List<Product> workshops;
+    private Product cultureDay;
 
+    public static String adminToken;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
+
         View root = (View) findViewById(R.id.activity_home);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
@@ -48,8 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         Thread loadProducts = new Thread(() -> {
             workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
+            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
+
             localAppStorage.createList("workshops", workshops);
             System.out.println(localAppStorage.getList("workshops"));
+
+            localAppStorage.createList("cultureDay", cultureDay);
         });
 
         try {
@@ -82,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
-                intent.putExtra("Cultureday", new CultureDay(1, "Cultureday", new String[]{"String", "Description", "Info", "Price"}, new ArrayList<>(), 4, 1650,"5/28/2021", 100));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
             }

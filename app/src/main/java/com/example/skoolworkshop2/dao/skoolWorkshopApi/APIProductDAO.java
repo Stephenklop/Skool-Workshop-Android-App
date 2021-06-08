@@ -1,7 +1,7 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
 import com.example.skoolworkshop2.dao.ProductDAO;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,9 +25,9 @@ public class APIProductDAO implements ProductDAO {
     }
 
     @Override
-    public List<Workshop> getAllProducts() {
+    public List<Product> getAllProducts() {
         final String PATH = "product";
-        List<Workshop> result = new ArrayList<>();
+        List<Product> result = new ArrayList<>();
 
         try {
             connect(BASE_URL + PATH);
@@ -42,7 +42,7 @@ public class APIProductDAO implements ProductDAO {
 
                 for (int i = 0; i < workshops.length(); i++) {
                     JSONObject jsonObject = (JSONObject) workshops.get(i);
-                    result.add(parseWorkshop(jsonObject));
+                    result.add(parseProduct(jsonObject));
                 }
             }
         } catch (Exception e) {
@@ -53,9 +53,9 @@ public class APIProductDAO implements ProductDAO {
     }
 
     @Override
-    public List<Workshop> getAllProductsByCategory(int id) {
+    public List<Product> getAllProductsByCategory(int id) {
         final String PATH = "product?category=" + id;
-        List<Workshop> result = new ArrayList<>();
+        List<Product> result = new ArrayList<>();
 
         try {
             connect(BASE_URL + PATH);
@@ -70,7 +70,7 @@ public class APIProductDAO implements ProductDAO {
 
                 for (int i = 0; i < workshops.length(); i++) {
                     JSONObject jsonObject = (JSONObject) workshops.get(i);
-                    result.add(parseWorkshop(jsonObject));
+                    result.add(parseProduct(jsonObject));
                 }
             }
         } catch (Exception e) {
@@ -81,9 +81,9 @@ public class APIProductDAO implements ProductDAO {
     }
 
     @Override
-    public Workshop getProduct(int id) {
+    public Product getProduct(int id) {
         final String PATH = "product/" + id;
-        Workshop result = null;
+        Product result = null;
 
         try {
             connect(BASE_URL + PATH);
@@ -95,7 +95,7 @@ public class APIProductDAO implements ProductDAO {
             while ((inputLine = in.readLine()) != null) {
                 JSONObject response = new JSONObject(inputLine);
                 JSONObject workshop = response.getJSONObject("result");
-                result = parseWorkshop(workshop);
+                result = parseProduct(workshop);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,11 +105,11 @@ public class APIProductDAO implements ProductDAO {
     }
 
     @Override
-    public Workshop parseWorkshop(JSONObject jsonObject) {
-        Workshop result = null;
+    public Product parseProduct(JSONObject jsonObject) {
+        Product result = null;
 
         try {
-            result = new Workshop(jsonObject.getDouble("id"), jsonObject.getString("name").replace("Workshop ", ""), jsonObject.getString("permalink"), jsonObject.getString("short_description"), jsonObject.getString("description"), jsonObject.getJSONArray("images").getJSONObject(0).getString("src"), jsonObject.getJSONArray("images").getJSONObject(0).getString("thumbnail"));
+            result = new Product(jsonObject.getDouble("id"), jsonObject.getString("name").replace("Workshop ", ""), jsonObject.getString("permalink"), jsonObject.getString("short_description"), jsonObject.getString("description"), jsonObject.getJSONObject("image").getString("src"), jsonObject.getJSONObject("image").getString("name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Bank;
-import com.example.skoolworkshop2.domain.Workshop;
 
 import org.jetbrains.annotations.NotNull;
 

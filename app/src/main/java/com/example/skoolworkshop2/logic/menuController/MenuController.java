@@ -15,7 +15,7 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.ui.MoreMenuActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
-import com.example.skoolworkshop2.domain.Workshop;
+import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -35,7 +35,7 @@ public class MenuController {
     private BottomNavigationItemView account;
     private BottomNavigationItemView sun;
 
-    private List<Workshop> workshopArrayList;
+    private List<Product> workshopArrayList;
 
 
     private Context context;
