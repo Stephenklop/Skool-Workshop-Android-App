@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.workshop.WorkshopAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class CategoryAdapter{
 
     private RadioGroup mCategoriesRadiogroup;
     private AppCompatActivity activity;
-    private ArrayList<Product> mWorkshops;
+    private ArrayList<WorkshopItem> mWorkshops;
     private WorkshopAdapter mWorkshopAdapter;
     private Listener listener;
     private Context context;

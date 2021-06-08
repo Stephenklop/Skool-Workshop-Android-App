@@ -2,12 +2,14 @@ package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
@@ -33,8 +35,8 @@ public class CulturedayOverviewFragment extends Fragment {
         mInfoBn = root.findViewById(R.id.fragment_workshop_overview_btn_info);
 
 //        mParticipants.setText(cultureDay.getWorkshops().size() + " Workshops, " + cultureDay.getRounds() + " Rondes | Maximaal " + cultureDay.getMaxParticipants() + " Deelnemers");
-        mPriceTv.setText("€" + ((int) cultureDay.getPrice()) + ",-");
-        mDescriptionTv.setText(cultureDay.getDescription());
+        mPriceTv.setText("€1674,-");
+        mDescriptionTv.setText(Html.fromHtml(cultureDay.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
 

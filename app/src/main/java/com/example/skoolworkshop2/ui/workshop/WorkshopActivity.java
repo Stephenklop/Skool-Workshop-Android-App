@@ -13,9 +13,9 @@ import android.widget.SearchView;
 
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.CategoryAdapter;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

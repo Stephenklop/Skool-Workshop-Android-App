@@ -1,159 +1,140 @@
 package com.example.skoolworkshop2.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Product implements Serializable {
-    private double id;
+    private int id;
     private String name;
     private String permalink;
-    private String shortDescription;
+    private String type;
+    private String status;
     private String description;
+    private String shortDescription;
+    private String buildupDescription;
+    private String practicalInformation;
+    private String costsInfo;
+    // TODO: Add category
     private String sourceImage;
-    private String thumbnailImage;
     private String imageName;
-    private int rounds;
-    private int roundDuration;
-    private int participants;
-    private String timeSchedule;
-    private String learningLevel;
+    private String video;
 
-    public Product(double id, String name, String permalink, String shortDescription, String description, String sourceImage, String imageName) {
+    public Product(int id, String name, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
         this.id = id;
         this.name = name;
         this.permalink = permalink;
-        this.shortDescription = shortDescription;
+        this.type = type;
+        this.status = status;
         this.description = description;
+        this.shortDescription = shortDescription;
+        this.buildupDescription = buildupDescription;
+        this.practicalInformation = practicalInformation;
+        this.costsInfo = costsInfo;
         this.sourceImage = sourceImage;
-        this.thumbnailImage = sourceImage.replace(".jpg", "-300x300.jpg");
         this.imageName = imageName;
-        this.rounds = 1;
-        this.roundDuration = 60;
-        this.participants = 0;
+        this.video = video;
     }
 
-    public double getId() {
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPermalink() {
-        return permalink;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getSourceImage() {
-        return sourceImage;
-    }
-
-    public String getThumbnailImage() {
-        return thumbnailImage;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public int getRounds() {
-        return rounds;
-    }
-
-    public int getRoundDuration() {
-        return roundDuration;
-    }
-
-    public int getParticipants() {
-        return participants;
-    }
-
-    public int getTotalDuration() {
-        return rounds * roundDuration;
-    }
-
-    public String getTimeSchedule() {
-        return timeSchedule;
-    }
-
-    public String getLearningLevel() {
-        return learningLevel;
-    }
-
-    public double getPrice() {
-        double result;
-
-        if (name.toLowerCase().contains("graffiti") || name.toLowerCase().contains("t-shirt")) {
-            result = (participants * 7.50) + ((roundDuration * rounds) * 2.50);
-        } else {
-            result = (roundDuration * rounds) * 2.50;
-        }
-
-        return result;
-    }
-
-    public void setId(double id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPermalink() {
+        return permalink;
     }
 
     public void setPermalink(String permalink) {
         this.permalink = permalink;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
+    public String getShortDescription() {
+        return shortDescription;
     }
 
-    public void setRoundDuration(int duration) {
-        this.roundDuration = duration;
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
-    public void setParticipants(int participants) {
-        this.participants = participants;
+    public String getBuildupDescription() {
+        return buildupDescription;
+    }
+
+    public void setBuildupDescription(String buildupDescription) {
+        this.buildupDescription = buildupDescription;
+    }
+
+    public String getPracticalInformation() {
+        return practicalInformation;
+    }
+
+    public void setPracticalInformation(String practicalInformation) {
+        this.practicalInformation = practicalInformation;
+    }
+
+    public String getCostsInfo() {
+        return costsInfo;
+    }
+
+    public void setCostsInfo(String costsInfo) {
+        this.costsInfo = costsInfo;
+    }
+
+    public String getSourceImage() {
+        return sourceImage;
     }
 
     public void setSourceImage(String sourceImage) {
         this.sourceImage = sourceImage;
     }
 
-    public void setThumbnailImage(String thumbnailImage) {
-        this.thumbnailImage = thumbnailImage;
+    public String getImageName() {
+        return imageName;
     }
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
 
-    public void setTimeSchedule(String timeSchedule) {
-        this.timeSchedule = timeSchedule;
+    public String getVideo() {
+        return video;
     }
 
-    public void setLearningLevel(String learningLevel) {
-        this.learningLevel = learningLevel;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

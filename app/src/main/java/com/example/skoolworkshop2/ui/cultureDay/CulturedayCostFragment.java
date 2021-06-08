@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
 
 public class CulturedayCostFragment extends Fragment {

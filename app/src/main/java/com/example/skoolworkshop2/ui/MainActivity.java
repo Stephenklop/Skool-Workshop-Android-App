@@ -16,13 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -47,13 +49,19 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
         Thread loadProducts = new Thread(() -> {
+            // TODO: Add error handling for api calls
             workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
             cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
 
-            localAppStorage.createList("workshops", workshops);
-            System.out.println(localAppStorage.getList("workshops"));
 
-            localAppStorage.createList("cultureDay", cultureDay);
+            if (workshops != null) {
+                localAppStorage.createList("workshops", workshops);
+                System.out.println(localAppStorage.getList("workshops"));
+            }
+
+            if (cultureDay != null) {
+                localAppStorage.createList("cultureDay", cultureDay);
+            }
         });
 
         try {
