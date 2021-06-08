@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -22,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPasswordEditText;
     private Button mSubmitButton;
     private TextView mLoginTextView;
+    private TextInputLayout mTextLayout;
     private final String LOG_TAG = getClass().getSimpleName();
 
     @Override
@@ -30,7 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mEmailEditText = findViewById(R.id.activity_register_et_email);
-        mPasswordEditText = findViewById(R.id.activity_register_et_password);
+        mTextLayout = findViewById(R.id.activity_register_et_password);
+        mPasswordEditText = mTextLayout.findViewById(R.id.component_edittext_password);
         mSubmitButton = findViewById(R.id.activity_register_btn_register);
         mLoginTextView = findViewById(R.id.activity_register_txt_log_in);
 
@@ -74,23 +77,6 @@ public class RegisterActivity extends AppCompatActivity {
                     mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     EmailValidator.mIsValid = true;
                 }
-            }
-        });
-
-        mPasswordEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mPasswordEditText.setBackgroundResource(R.drawable.edittext_focused);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
     }
