@@ -63,6 +63,11 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
+    private TextView mTitleTextView;
+
+    //Imagebutton
+    private ImageButton mScheduleInfoBtn;
+    private ImageButton mParticipantInfoBtn;
 
     private DatePickerDialog datePickerDialog;
 
@@ -79,6 +84,8 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
         datePickerDialog = new DatePickerDialog(this, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         //assign id
+        //title
+        mTitleTextView = findViewById(R.id.activity_workshop_booking_tv_title);
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
         mBackButton = findViewById(R.id.activity_workshop_booking_btn_back);
@@ -95,12 +102,14 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_workshop_booking_et_amount);
         mParticipantsEditText = findViewById(R.id.number_edit_text);
+        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_rounds);
         // Scheme
         mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_schedule);
+        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_subtotal);
         // Workshop name
@@ -112,6 +121,20 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
+            }
+        });
+
+        mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + workshop.getMaxParticipants()+ " deelnemers zijn.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mScheduleInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Zet uw tijd schema hier.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -144,6 +167,9 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
         //Total time
         mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
+
+        //Title
+        mTitleTextView.setText(workshop.getName());
 
         // Minutes
         mMinuteEditText.addTextChangedListener(new TextWatcher() {

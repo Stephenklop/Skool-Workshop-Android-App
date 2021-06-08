@@ -89,6 +89,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
+    private TextView mTitleTextView;
 
     //Imagebutton
     private ImageButton mScheduleInfoBtn;
@@ -163,6 +164,10 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
         mCategorieSpinner = findViewById(R.id.activity_cultureday_booking_spnr_category);
         mWorkshopSpinner = findViewById(R.id.activity_cultureday_booking_spnr_workshop);
+
+        //Title
+        mTitleTextView = findViewById(R.id.activity_cultureday_booking_tv_title);
+        mTitleTextView.setText("Cultuurdag");
 
 
         // Date

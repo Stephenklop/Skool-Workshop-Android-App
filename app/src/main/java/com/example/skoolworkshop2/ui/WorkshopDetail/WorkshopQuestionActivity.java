@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -44,6 +45,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     private EditText mCJPEditText;
     private EditText mMessageEditText;
     private EditText mNameEditText;
+    private TextView mTitleTextView;
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
@@ -62,6 +64,10 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
         // Set up IDS
+        //Title
+        mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
+        mTitleTextView.setText(workshop.getName());
+
         mSendBn = findViewById(R.id.activity_workshop_question_btn_send);
         mBackButton = findViewById(R.id.activity_workshop_question_btn_back);
         mEmailEditText = (EditText) findViewById(R.id.activity_workshop_question_et_email);
