@@ -9,12 +9,17 @@ public class ParticipantsItemValidator {
     }
 
     public static boolean isValidParticipantsItemValidator(CharSequence items, int maxParticipants) {
-        if (items.length() != 0){
+        if (items.length() != 0) {
             int item = Integer.valueOf(items.toString());
+
             return item <= maxParticipants && item >= 0;
+        } else if (items.length() == 0) {
+
+            return true;
         } else {
             return false;
         }
+
+
     }
 }
-

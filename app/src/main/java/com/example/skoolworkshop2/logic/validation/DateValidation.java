@@ -15,7 +15,8 @@ public class DateValidation {
     public boolean mIsValid = false;
 
 
-    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    public static String regex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
 
 
     public boolean isValid() {
@@ -23,14 +24,18 @@ public class DateValidation {
     }
 
     public static boolean isValidDate(CharSequence date) {
-        DateFormat date1 = new SimpleDateFormat("dd/MM/yyyy");
-        date1.setLenient(false);
-
-        try {
-            date1.parse(date.toString());
-        } catch (Exception e){
+//        DateFormat date1 = new SimpleDateFormat("dd/MM/yyyy");
+//        date1.setLenient(false);
+        if(date == null || !date.toString().matches(regex)) {
             return false;
         }
-        return true;
+        simpleDateFormat.setLenient(false);
+        try {
+            simpleDateFormat.parse(date.toString());
+            return true;
+        } catch (ParseException ex){
+            return false;
+        }
+
     }
 }

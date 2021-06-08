@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -25,6 +26,7 @@ import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.cultureDay.CulturedayBookingActivity;
 
 import java.time.LocalDate;
 
@@ -46,6 +48,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
+    private TextView mTitleTextView;
 
     private DatePickerDialog datePickerDialog;
 
@@ -56,8 +59,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_question);
 
-        if(getIntent().getSerializableExtra("workshop") != null){
-            this.workshop = (Product) getIntent().getSerializableExtra("workshop");
+        if(getIntent().getSerializableExtra("Workshop") != null){
+            this.workshop = (Product) getIntent().getSerializableExtra("Workshop");
         }
 
         datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
@@ -76,6 +79,9 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mCJPEditText = (EditText) findViewById(R.id.activity_workshop_question_et_cjp);
         mMessageEditText = (EditText) findViewById(R.id.activity_workshop_question_et_message);
         mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
+        //Title
+        mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
+        mTitleTextView.setText(workshop.getName());
 
         // Set up validations
         mEmailEditText.addTextChangedListener(emailValidator);
@@ -188,7 +194,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), WorkshopDetailActivity.class);
+                intent.putExtra("Workshop", workshop);
                 startActivity(intent);
             }
         });

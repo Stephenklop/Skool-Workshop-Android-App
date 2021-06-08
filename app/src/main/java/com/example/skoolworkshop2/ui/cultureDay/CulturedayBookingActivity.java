@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -31,6 +32,7 @@ import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.ShoppingCartLayoutTestActivity;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -75,6 +77,11 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
 
+    //Imagebutton
+    private ImageButton mScheduleInfoBtn;
+    private ImageButton mParticipantInfoBtn;
+    private ImageButton mParticipantItemInfoBtn;
+
     private DatePickerDialog datePickerDialog;
 
     private int maxParticipants;
@@ -85,6 +92,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     // Total Cost
     private Double totalCost;
     private Double totalPartCost;
+    private int items;
 
     // Workshop name
     private String workshop;
@@ -137,6 +145,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
         mParticipantsEditText = findViewById(R.id.number_edit_text);
+        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
@@ -148,6 +157,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // Scheme
         mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_schedule);
+        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
 //        // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
         mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
@@ -156,6 +166,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         // item participants
         mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
         mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
+        mParticipantItemInfoBtn = mItemParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
 
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
 
@@ -165,6 +176,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         this.totalTime = 0;
         this.totalCost = 0.0;
         this.maxParticipants = 0;
+        this.items = 0;
         categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workshopArrayAdapter = new ArrayAdapter<Product>(this, android.R.layout.simple_spinner_item, workshopDummylist);
@@ -178,6 +190,27 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 
         mWorkshopSpinner.setAdapter(workshopArrayAdapter);
         mCategorieSpinner.setAdapter(categorieArrayAdapter);
+
+        mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan 100 zijn.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mScheduleInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Zet uw tijd schema hier.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mParticipantItemInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Aantal items mag niet meer dan deelnemers zijn.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Use validator
         // Date Validator
@@ -201,9 +234,11 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if (DateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    dateValidation.mIsValid = true;
                 }
             }
         });
+
 
         // Participants
         mParticipantsEditText.addTextChangedListener(new TextWatcher() {
@@ -227,6 +262,9 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                 if (CultureDayParticipantsValidator.isValidMaxParticipant(editable.toString())){
                     mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     maxParticipants = Integer.valueOf(editable.toString());
+                    cultureDayParticipantsValidator.mIsValid = true;
+                } else {
+                    maxParticipants = 0;
                 }
             }
         });
@@ -259,6 +297,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                     int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
                     int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
 
+                    Double itemsPrice = 7.50 * items;
+                    workshopsPerRoundValidator.mIsValid = true;
                     mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*roundss*workshops*minute));
 
                 } else {
@@ -295,9 +335,10 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                     roundT = rounds;
                     mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
                     // totalCosts
-//                    int rounds = Integer.valueOf(mRoundsEditText.getText().toString());
                     int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
                     int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+                    Double itemsPrice = 7.50 * items;
+                    roundsValidator.mIsValid = true;
 
                     mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
                 } else {
@@ -339,6 +380,8 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
                     int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
                     int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
                     int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+                    Double itemsPrice = 7.50 * items;
+                    minuteValidator.mIsValid = true;
 
                     mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
                 } else {
@@ -383,16 +426,19 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!learningLevelValidator.isValidLearningLevels(s.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!LearningLevelValidator.isValidLearningLevels(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else if (LearningLevelValidator.isValidLearningLevels(s.toString())) {
+                if (learningLevelValidator.isValidLearningLevels(s.toString())){
+
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + s.toString());
+                    learningLevelValidator.mIsValid = true;
                 } else {
                     mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
                 }
@@ -416,13 +462,37 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             public void afterTextChanged(Editable editable) {
                 if(ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)){
                     mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    // totalCosts
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+                    items = Integer.valueOf(0 + editable.toString());
+                    Double itemsPrice = 7.50 * items;
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format((2.33*rounds*workshops*minute) + itemsPrice));
                 } else if (!ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)) {
                     mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_error);
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+                    items = 0;
+                    Double itemsPrice = 7.50 * items;
+
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format((2.33*rounds*workshops*minute) + itemsPrice));
+
+                } else {
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
+                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
+                    items = 0;
+                    Double itemsPrice = 7.50 * items;
+
+
+                    mTotalCostTextView.setText("Subtotaal: €" + df.format((2.33*rounds*workshops*minute) + itemsPrice));
                 }
             }
         });
-
-        mSendBn.setText("Boek nu");
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -432,7 +502,41 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
             }
         });
 
+        mSendBn.setText("Boek nu");
+        mSendBn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Datum, deelnemers, rondes,workshopsperrondes, minuten, learning levels niet leeg, rest wel
+                if(dateValidation.isValid() && cultureDayParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid() && workshopsPerRoundValidator.isValid()){
+                    Intent intent = new Intent(getApplicationContext(), ShoppingCartLayoutTestActivity.class);
+                    StringBuilder stb = new StringBuilder();
+                    stb.append(mDateEditText.getText());
+                    stb.append(mParticipantsEditText.getText());
+                    stb.append(mRoundsEditText.getText());
+                    stb.append(mMinuteEditText.getText());
+                    stb.append(mLevelEditText.getText());
+                    stb.append(mWorkshopsPerRoundEditText.getText());
+                    stb.append(mParticipantsItemEditText.getText());
+
+                    intent.putExtra(Intent.EXTRA_TEXT, stb.toString());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Een van uw verplichte velden is nog leeg!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backIntent = new Intent(getApplicationContext(), CulturedayActivity.class);
+                startActivity(backIntent);
+            }
+        });
+
     }
+
 
     @Override
     public void onClick(View v) {

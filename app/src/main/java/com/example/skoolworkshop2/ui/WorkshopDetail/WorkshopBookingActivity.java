@@ -63,6 +63,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
     private Button mSendBn;
+    //Imagebutton
+    private ImageButton mScheduleInfoBtn;
+    private ImageButton mParticipantInfoBtn;
+
+
+    // Totalcost
+    private DecimalFormat df = new DecimalFormat("###.##");
 
     // Validators
     private DateValidation dateValidation = new DateValidation();
@@ -80,7 +87,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         localAppStorage = new LocalAppStorage(getBaseContext());
 
         // Initialize workshop
-        product = (Product) getIntent().getSerializableExtra("workshop");
+        product = (Product) getIntent().getSerializableExtra("Workshop");
 
         // Set title
         mTitle = findViewById(R.id.activity_workshop_booking_tv_title);
@@ -110,30 +117,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_workshop_booking_et_amount);
         mParticipantsEditText = findViewById(R.id.number_edit_text);
-        mParticipantsEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                product.setParticipants(Integer.parseInt(charSequence.toString()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                if (workshopParticipantsValidator.isValidMaxParticipant(editable.toString())) {
-                    updateOrderOverview();
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    workshopParticipantsValidator.mIsValid = true;
-                } else if (!workshopParticipantsValidator.isValidMaxParticipant(editable.toString())) {
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
-                }
-            }
-        });
+        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
 
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_rounds);
@@ -141,6 +125,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Scheme
         mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_schedule);
+        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_subtotal);
         // Total time
@@ -153,6 +138,19 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             }
         });
 
+        mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + product.getParticipants()+ " deelnemers zijn.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mScheduleInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Zet uw tijd schema hier.", Toast.LENGTH_SHORT).show();
+            }
+        });
         //Use validator
         // Date Validator
         mDateEditText.addTextChangedListener(new TextWatcher() {
@@ -180,8 +178,11 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             }
         });
 
-        // Rounds
-        mRoundsEditText.addTextChangedListener(new TextWatcher() {
+        //Total time
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
+
+        // Minutes
+        mMinuteEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -189,48 +190,23 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                product.setRounds(Integer.parseInt(charSequence.toString()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                if (roundsValidator.isValidWorkshopRounds(editable.toString())) {
-                    updateOrderOverview();
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    roundsValidator.mIsValid = true;
-                } else if (!roundsValidator.isValidWorkshopRounds(editable.toString())) {
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    mTotalCostTextView.setText("Subtotaal: €");
-                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
-                } else {
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
-                    mTotalCostTextView.setText("Subtotaal: €");
-                }
-            }
-        });
-
-        //Total time
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-
-        // Minutes
-        mMinuteEditText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 if (minuteValidator.isValidMinute(editable.toString())) {
-                    updateOrderOverview();
+                    int participants = Integer.valueOf(0 + mParticipantsEditText.getText().toString());
+                    int minutes = Integer.valueOf(0 + mMinuteEditText.getText().toString());
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    if (product.equals("Graffiti") || product.equals("T-shirt Ontwerpen")) {
+                        mTotalCostTextView.setText("Subtotaal: €" + df.format((participants * 7.50) + ((minutes * rounds) * 2.50)));
+                    } else {
+                        mTotalCostTextView.setText("Subtotaal: €" + df.format(((minutes * rounds) * 2.50)));
+                    }
+                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + (minutes * rounds) + " minuten");
+                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
+                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     minuteValidator.mIsValid = true;
                 } else if (!minuteValidator.isValidMinute(editable.toString())){
@@ -246,6 +222,81 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         });
 
         // Participants
+        mParticipantsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (workshopParticipantsValidator.isValidMaxParticipant(editable.toString())) {
+                    int participants = Integer.valueOf(0 + mParticipantsEditText.getText().toString());
+                    int minutes = Integer.valueOf(0 + mMinuteEditText.getText().toString());
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    if (product.equals("Graffiti") || product.equals("T-shirt Ontwerpen")) {
+                        mTotalCostTextView.setText("Subtotaal: €" + df.format((participants * 7.50) + ((minutes * rounds) * 2.50)));
+                    } else {
+                        mTotalCostTextView.setText("Subtotaal: €" + df.format(((minutes * rounds) * 2.50)));
+                    }
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + (minutes * rounds) + " minuten");
+                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
+                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
+                    workshopParticipantsValidator.mIsValid = true;
+                } else if (!workshopParticipantsValidator.isValidMaxParticipant(editable.toString())) {
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+                    mTotalCostTextView.setText("Subtotaal: €");
+                } else {
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    mTotalCostTextView.setText("Subtotaal: €");
+                }
+            }
+        });
+
+        // Rounds
+        mRoundsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (roundsValidator.isValidWorkshopRounds(editable.toString())) {
+                    int participants = Integer.valueOf(0 + mParticipantsEditText.getText().toString());
+                    int minutes = Integer.valueOf(0 + mMinuteEditText.getText().toString());
+                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
+                    if (product.equals("Graffiti") || product.equals("T-shirt Ontwerpen")) {
+                        mTotalCostTextView.setText("Subtotaal: €" + df.format((participants * 7.50) + ((minutes * rounds) * 2.50)));
+                    } else {
+                        mTotalCostTextView.setText("Subtotaal: €" + df.format(((minutes * rounds) * 2.50)));
+                    }
+                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + (minutes * rounds) + " minuten");
+                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
+                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
+                    roundsValidator.mIsValid = true;
+                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                } else if (!roundsValidator.isValidWorkshopRounds(editable.toString())) {
+                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+                    mTotalCostTextView.setText("Subtotaal: €");
+                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
+                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
+                } else {
+                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    mTotalCostTextView.setText("Subtotaal: €");
+                }
+            }
+        });
 
         //Schedule scheme
         mSchemeEditText.addTextChangedListener(new TextWatcher() {
@@ -257,14 +308,16 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-                product.setTimeSchedule(s.toString());
+
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateOrderOverview();
+
+                String scheme = s.toString();
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                mResultWorkshopSchemeTextView.setText("Tijdschema: " + scheme);
             }
         });
 
@@ -281,20 +334,23 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 if(!learningLevelValidator.isValidLearningLevels(s.toString())){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    product.setLearningLevel(s.toString());
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (learningLevelValidator.isValidLearningLevels(s.toString())){
-                    updateOrderOverview();
-                    learningLevelValidator.mIsValid = true;
+
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + s.toString());
+                    learningLevelValidator.mIsValid = true;
+                } else {
+                    mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
                 }
+
             }
         });
+
 
         // Set texts
         mSendBn.setText("Boek nu");
@@ -321,8 +377,10 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent backIntent = new Intent(getApplicationContext(), WorkshopDetailActivity.class);
+                backIntent.putExtra("Workshop", product);
                 startActivity(backIntent);
+
             }
         });
     }
