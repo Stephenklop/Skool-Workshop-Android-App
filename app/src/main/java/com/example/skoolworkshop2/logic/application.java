@@ -36,7 +36,7 @@ public class application extends Application {
             public void run() {
                 InfoEntity updatedInfoEntity = iem.getInfo();
                 User user = userDAO.signUserIn(iem.getInfo().getEmail(), iem.getInfo().getPassword());
-                updatedInfoEntity.setToken(user.getToken());
+//                updatedInfoEntity.setToken(user.getToken());
                 iem.updateInfo(updatedInfoEntity);
             }
         }).start();
