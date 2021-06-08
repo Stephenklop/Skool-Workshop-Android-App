@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
@@ -34,16 +35,17 @@ public class CulturedayOverviewFragment extends Fragment {
         mInfoBn = root.findViewById(R.id.fragment_workshop_overview_btn_info);
 
 //        mParticipants.setText(cultureDay.getWorkshops().size() + " Workshops, " + cultureDay.getRounds() + " Rondes | Maximaal " + cultureDay.getMaxParticipants() + " Deelnemers");
-        mPriceTv.setText("€" + ((int) cultureDay.getPrice()) + ",-");
-        mDescriptionTv.setText( Html.fromHtml(cultureDay.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+        mPriceTv.setText("€1674,-");
+        mDescriptionTv.setText(Html.fromHtml(cultureDay.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
 
         mBookingBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CulturedayBookingActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), CulturedayBookingActivity.class);
+//                startActivity(intent);
             }
         });
         mInfoBn.setOnClickListener(new View.OnClickListener() {

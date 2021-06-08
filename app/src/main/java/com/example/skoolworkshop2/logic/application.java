@@ -24,21 +24,6 @@ public class application extends Application {
         Room.databaseBuilder(this, LocalDb.class, "LocalDb");
 
         //make manager for the entity
-        InfoEntityManager iem = new InfoEntityManager(this);
 
-        //insert test information into db
-        iem.updateInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "1gCA&cC1ArczV(#wsd8iOmV3"));
-
-        UserDAO userDAO = new APIUserDAO();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                InfoEntity updatedInfoEntity = iem.getInfo();
-                User user = userDAO.signUserIn(iem.getInfo().getEmail(), iem.getInfo().getPassword());
-//                updatedInfoEntity.setToken(user.getToken());
-                iem.updateInfo(updatedInfoEntity);
-            }
-        }).start();
     }
 }

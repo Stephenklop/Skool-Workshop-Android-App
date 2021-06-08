@@ -1,8 +1,11 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
+import android.util.Log;
+
 import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.domain.User;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -54,8 +57,21 @@ public class APIUserDAO implements UserDAO {
                 JSONObject response = new JSONObject(inputLine);
                 JSONObject user = response.getJSONObject("result");
 
-                // TODO: Parse user object
-//                result = new Gson().fromJson(user.toString(), User.class);
+                JSONArray metaData = user.getJSONArray("meta_data");
+                int points = 0;
+                for(int i = 0; i < metaData.length(); i++){
+                    JSONObject object = metaData.getJSONObject(i);
+                    if ( object.get("key").equals("_ywpar_user_total_points")){
+                        points = Integer.parseInt(object.get("value").toString());
+                        Log.d("POINTS", points + "");
+                    }
+                }
+                String token = user.get("token").toString();
+                int id = Integer.parseInt(user.get("id").toString());
+                String userName = user.get("username").toString();
+
+                Log.d("POINTS", points + "");
+                result = new User(token, id, userName, points);
             }
         } catch (Exception e) {
             e.printStackTrace();
