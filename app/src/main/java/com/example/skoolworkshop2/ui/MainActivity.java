@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
+//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
         Thread loadProducts = new Thread(() -> {
             workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
