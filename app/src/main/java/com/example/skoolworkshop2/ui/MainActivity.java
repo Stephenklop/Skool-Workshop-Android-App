@@ -47,16 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //start the db
-        Room.databaseBuilder(this, LocalDb.class, "LocalDb");
 
-        //make manager for the entity
-        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
-
-        //insert test information into db
-        iem.updateInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "blabla"));
-
-        Log.d("MAINACTIVITY", iem.getInfo().getPassword());
 
 
         View root = (View) findViewById(R.id.activity_home);
