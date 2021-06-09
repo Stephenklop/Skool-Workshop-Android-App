@@ -6,7 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.skoolworkshop2.dao.localDatabase.dao.BankDAO;
+import com.example.skoolworkshop2.dao.localDatabase.dao.CustomerDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.InfoDAO;
+import com.example.skoolworkshop2.dao.localDatabase.dao.ProductDAO;
+import com.example.skoolworkshop2.dao.localDatabase.dao.QuizDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.ShoppingCartDAO;
 import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
@@ -26,6 +30,10 @@ public abstract class LocalDb extends RoomDatabase {
 
     abstract public InfoDAO getInfoDAO();
     abstract public ShoppingCartDAO getShoppingCartDAO();
+    abstract public ProductDAO getProductDAO();
+    abstract public BankDAO getBankDAO();
+    abstract public QuizDAO getQuizDAO();
+    abstract public CustomerDAO getCustomerDAO();
 
     public static LocalDb getDatabase(final Context context){
         if(INSTANCE == null){
