@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,7 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsArticleAdapter.OnNoteListener {
     private APIDAOFactory apidaoFactory;
     private LocalAppStorage localAppStorage;
     private MenuController menuController;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new NewsArticleAdapter(newsArticles, this);
+        mAdapter = new NewsArticleAdapter(newsArticles, this, this);
         recyclerView.setAdapter(mAdapter);
 
 
@@ -173,6 +174,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillNewsArticles(){
         newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten"));
-        newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten2"));
+        newsArticles.add(new NewsArticle("https://www.google.nl", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten2"));
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
+        startActivity(browserIntent);
     }
 }
