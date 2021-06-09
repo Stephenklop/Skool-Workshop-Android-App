@@ -1,208 +1,197 @@
-//package com.example.skoolworkshop2.ui.cultureDay;
-//
-//import android.app.DatePickerDialog;
-//import android.content.Intent;
-//import android.os.Build;
-//import android.os.Bundle;
-//import android.text.Editable;
-//import android.text.TextWatcher;
-//import android.util.Log;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.widget.AdapterView;
-//import android.widget.ArrayAdapter;
-//import android.widget.Button;
-//import android.widget.DatePicker;
-//import android.widget.EditText;
-//import android.widget.HorizontalScrollView;
-//import android.widget.ImageButton;
-//import android.widget.LinearLayout;
-//import android.widget.RadioButton;
-//import android.widget.RadioGroup;
-//import android.widget.RelativeLayout;
-//import android.widget.Spinner;
-//import android.widget.TextView;
-//import android.widget.Toast;
-//
-//import androidx.annotation.RequiresApi;
-//import androidx.fragment.app.FragmentActivity;
-//import androidx.recyclerview.widget.RecyclerView;
-//
-//import com.example.skoolworkshop2.R;
-//import com.example.skoolworkshop2.domain.CultureDayItem;
-//import com.example.skoolworkshop2.domain.WorkshopItem;
-//import com.example.skoolworkshop2.logic.validation.DateValidation;
-//import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
-//import com.example.skoolworkshop2.logic.validation.MinuteValidator;
-//import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
-//import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
-//import com.example.skoolworkshop2.logic.validation.RoundsValidator;
-//import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
-//import com.example.skoolworkshop2.ui.MainActivity;
-//import com.example.skoolworkshop2.ui.ShoppingCartLayoutTestActivity;
-//import com.example.skoolworkshop2.ui.workshop.WorkshopAdapter;
-//import com.tomergoldst.tooltips.ToolTipsManager;
-//
-//import java.text.DecimalFormat;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, ToolTipsManager.TipListener{
-//
-//    private final String LOG_TAG = getClass().getSimpleName();
-//    private ImageButton mBackButton;
-//    private Button mSendBn;
-//
-//    // Validations
-//    private DateValidation dateValidation = new DateValidation();
-//    private CultureDayParticipantsValidator cultureDayParticipantsValidator = new CultureDayParticipantsValidator();
-//    private RoundsValidator roundsValidator = new RoundsValidator();
-//    private WorkshopsPerRoundValidator workshopsPerRoundValidator = new WorkshopsPerRoundValidator();
-//    private MinuteValidator minuteValidator = new MinuteValidator();
-//    private LearningLevelValidator learningLevelValidator = new LearningLevelValidator();
-//    private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
-//
-//    // Layout
-//    private RelativeLayout mDateLayout;
-//    private RelativeLayout mParticipantsLayout;
-//    private RelativeLayout mItemParticipantsLayout;
-//    private RelativeLayout mResultWorkshopPerRoundLayout;
-//    private RelativeLayout mResultWorkshopSchemeLayout;
-//    private RelativeLayout mItemsLinearLayout;
-//    // Edit texts
-//    private EditText mDateEditText;
-//    private EditText mParticipantsEditText;
-//    private EditText mRoundsEditText;
-//    private EditText mWorkshopsPerRoundEditText;
-//    private EditText mMinuteEditText;
-//    private EditText mLevelEditText;
-//    private EditText mParticipantsItemEditText;
-//    private EditText mSchemeEditText;
-//    // Textviews
-//    private TextView mResultWorkshopRoundsTextView;
-//    private TextView mResultWorkshopMinutesPerRoundTextView;
-//    private TextView mResultWorkshopSchemeTextView;
-//    private TextView mResultWorkshopTotalMinutesTextView;
-//    private TextView mResultWorkshopLearningLevelTextView;
-//    private TextView mTotalCostTextView;
-//
-//    private HorizontalScrollView mHzItemsView;
-//    private DatePickerDialog datePickerDialog;
-//
-//    private int maxParticipants;
-//    //Total time variables;
-//    private int minuteT;
-//    private int roundT;
-//    private int totalTime;
-//    private int times = 0;
-//    // total items selected
-//    private int totalItemsSelected;
-//    // Total Cost
-//    private Double totalCost;
-//    private Double totalPartCost;
-//    // CultureDay
-//    private CultureDayItem cultureDay;
-//    private int items;
-//
-//    private Spinner mCategorieSpinner;
-//    private Spinner mWorkshopSpinner;
-//    private ArrayAdapter<CharSequence> categorieArrayAdapter;
-//    private ArrayAdapter<WorkshopItem> workshopArrayAdapter;
-//    private List<WorkshopItem> workshopDummylist;
-//
-//    //cost
-//    private DecimalFormat df = new DecimalFormat("###.##");
-//
-//    // Spinner
-//    private String item;
-//    private ArrayList<String> names = new ArrayList<>();
-//
-//    // Radiogroup
-//    private RadioGroup mRadioGroup;
-//    private RadioButton mRadioButton;
-//    private boolean name;
-//
-//    //Imagebutton
-//    private ImageButton mScheduleInfoBtn;
-//    private ImageButton mParticipantInfoBtn;
-//    private ImageButton mParticipantItemInfoBtn;
-//
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    @Override
-//    public void onCreate( Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_cultureday_booking);
-//
-//
-//
-//        workshopDummylist = new ArrayList<>();
+package com.example.skoolworkshop2.ui.cultureDay;
+
+import android.app.DatePickerDialog;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.CultureDayItem;
+import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.logic.validation.DateValidation;
+import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
+import com.example.skoolworkshop2.logic.validation.MinuteValidator;
+import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
+import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
+import com.example.skoolworkshop2.logic.validation.RoundsValidator;
+import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+
+    private final String LOG_TAG = getClass().getSimpleName();
+    private ImageButton mBackButton;
+    private Button mSendBn;
+
+    // Validations
+    private DateValidation dateValidation = new DateValidation();
+    private CultureDayParticipantsValidator cultureDayParticipantsValidator = new CultureDayParticipantsValidator();
+    private RoundsValidator roundsValidator = new RoundsValidator();
+    private WorkshopsPerRoundValidator workshopsPerRoundValidator = new WorkshopsPerRoundValidator();
+    private MinuteValidator minuteValidator = new MinuteValidator();
+    private LearningLevelValidator learningLevelValidator = new LearningLevelValidator();
+    private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
+
+    // Layout
+    private RelativeLayout mDateLayout;
+    private RelativeLayout mParticipantsLayout;
+    private RelativeLayout mItemParticipantsLayout;
+    private RelativeLayout mResultWorkshopPerRoundLayout;
+    private RelativeLayout mResultWorkshopSchemeLayout;
+    private RelativeLayout mItemsLinearLayout;
+    // Edit texts
+    private EditText mDateEditText;
+    private EditText mParticipantsEditText;
+    private EditText mRoundsEditText;
+    private EditText mWorkshopsPerRoundEditText;
+    private EditText mMinuteEditText;
+    private EditText mLevelEditText;
+    private EditText mParticipantsItemEditText;
+    private EditText mSchemeEditText;
+    // Textviews
+    private TextView mResultWorkshopRoundsTextView;
+    private TextView mResultWorkshopMinutesPerRoundTextView;
+    private TextView mResultWorkshopSchemeTextView;
+    private TextView mResultWorkshopTotalMinutesTextView;
+    private TextView mResultWorkshopLearningLevelTextView;
+    private TextView mTotalCostTextView;
+
+    private HorizontalScrollView mHzItemsView;
+    private DatePickerDialog datePickerDialog;
+
+    private int maxParticipants;
+    //Total time variables;
+    private int minuteT;
+    private int roundT;
+    private int totalTime;
+    private int times = 0;
+    // total items selected
+    private int totalItemsSelected;
+    // Total Cost
+    private Double totalCost;
+    private Double totalPartCost;
+    // CultureDay
+    private CultureDayItem cultureDay;
+    private int items;
+
+    private Spinner mCategorieSpinner;
+    private Spinner mWorkshopSpinner;
+    private ArrayAdapter<CharSequence> categorieArrayAdapter;
+    private ArrayAdapter<WorkshopItem> workshopArrayAdapter;
+    private List<Product> workshopDummylist;
+    private List<String> workshopNames;
+
+    //cost
+    private DecimalFormat df = new DecimalFormat("###.##");
+
+    // Spinner
+    private String item;
+    private ArrayList<String> names = new ArrayList<>();
+
+    // Radiogroup
+    private RadioGroup mRadioGroup;
+    private RadioButton mRadioButton;
+    private boolean name;
+
+    //Imagebutton
+    private ImageButton mScheduleInfoBtn;
+    private ImageButton mParticipantInfoBtn;
+    private ImageButton mParticipantItemInfoBtn;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cultureday_booking);
+
+
+
+        workshopDummylist = new ArrayList<>();
 //        selectedCategories = new ArrayList<>();
-//
-//        //add dummylist
-//        workshopDummylist.add(new Workshop(1, "Graffiti", "link", "shortdesc", "desc", "img", "img", "11-11-2021", 25, Category.DS));
-//        workshopDummylist.add(new Workshop(1, "T-shirt Ontwerpen", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
-//        workshopDummylist.add(new Workshop(1, "Result", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.BK));
-//
-//        // Variabelen voor workshopnamen voor spinner
-//        workshopNames = new ArrayList<>();
-//        workshopNames.add(0, "Kies een workshop");
-//        for (int i = 0; i < workshopDummylist.size(); i++){
-//            workshopNames.add(workshopDummylist.get(i).getName());
-//        }
-//        Log.d(LOG_TAG, "onCreate: workshopnames" + workshopNames);
-//
-//        // Buttons
-//        mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
-//        mBackButton = findViewById(R.id.activity_workshop_booking_btn_back);
-//
-//
-//        // Setting up IDS
-//        mSendBn = findViewById(R.id.activity_cultureday_booking_btn_book);
-//        mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
-//        mCategorieSpinner = findViewById(R.id.activity_cultureday_booking_spnr_category);
-//        mWorkshopSpinner = findViewById(R.id.activity_cultureday_booking_spnr_workshop);
-//
-//
-//        // Date
-//        mDateLayout = findViewById(R.id.activity_cultureday_booking_et_date);
-//        mDateEditText = findViewById(R.id.date_picker_edit_text);
-//        ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
-////        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
-//        datePickerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                datePickerDialog.show();
-//            }
-//        });
-//        // Workshop Participants
-//        mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
-//        mParticipantsEditText = findViewById(R.id.number_edit_text);
-//        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
-//        // Rounds
-//        mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
-//        mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
-//        //Workshops per workshoprounds
-//        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
-//        // minutes
-//        mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
-//        mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_mins);
-//        // Scheme
-//        mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
-//        mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_schedule);
-//        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
-//        // Learning Level
-//        mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
-//        mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
-//        // Total cost
-//        mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
-//        // item participants
-//        mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
-//        mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
-//        mParticipantItemInfoBtn = mItemParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
-//
-//        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
-//
-//        //Total time
+
+        //add dummylist
+        workshopDummylist.add(new Product(1, "test", "test", "booking", "test desc", "status", "hoi", "buildup", "desc", "cost info", "srcImage", "ImageName", "video"));
+
+        // Variabelen voor workshopnamen voor spinner
+        workshopNames = new ArrayList<>();
+        workshopNames.add(0, "Kies een workshop");
+        for (int i = 0; i < workshopDummylist.size(); i++){
+            workshopNames.add(workshopDummylist.get(i).getName());
+        }
+        Log.d(LOG_TAG, "onCreate: workshopnames" + workshopNames);
+
+        // Buttons
+        mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
+        mBackButton = findViewById(R.id.activity_workshop_booking_btn_back);
+
+
+        // Setting up IDS
+        mSendBn = findViewById(R.id.activity_cultureday_booking_btn_book);
+        mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
+        mCategorieSpinner = findViewById(R.id.activity_cultureday_booking_spnr_category);
+        mWorkshopSpinner = findViewById(R.id.activity_cultureday_booking_spnr_workshop);
+
+
+        // Date
+        mDateLayout = findViewById(R.id.activity_cultureday_booking_et_date);
+        mDateEditText = findViewById(R.id.date_picker_edit_text);
+        ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
+//        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+        // Workshop Participants
+        mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
+        mParticipantsEditText = findViewById(R.id.number_edit_text);
+        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
+        // Rounds
+        mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
+        mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
+        //Workshops per workshoprounds
+        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
+        // minutes
+        mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
+        mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_mins);
+        // Scheme
+        mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
+        mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_schedule);
+        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
+        // Learning Level
+        mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
+        mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
+        // Total cost
+        mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
+        // item participants
+        mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
+        mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
+        mParticipantItemInfoBtn = mItemParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
+
+        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+
+        //Total time
 //        this.minuteT = 0;
 //        this.roundT = 0 ;
 //        this.totalTime = 0;
@@ -797,5 +786,25 @@
 //            Toast.makeText(getApplicationContext()
 //                    , "Dismissed", Toast.LENGTH_SHORT).show();
 //        }
-//    }
-//}
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="35dp"
+    android:height="100dp"
+    android:viewportWidth="35"
+    android:viewportHeight="100">
+    <group android:name="loading_indicator">
+        <path
+            android:pathData="M 17.5 47.5 C 13.523 47.5 9.705 45.919 6.893 43.107 C 4.081 40.295 2.5 36.477 2.5 32.5 C 2.5 28.523 4.081 24.705 6.893 21.893 C 9.705 19.081 13.523 17.5 17.5 17.5 "
+            android:name="curve_left"
+            android:fillColor="@android:color/transparent"
+            android:strokeWidth="5"
+            android:trimPathEnd="0.015"
+            android:strokeColor="@color/main_orange"
+            android:strokeLineCap="round" />
+
+        <path
+            android:pathData="M 17.5 32.5 C 21.477 32.5 25.295 30.919 28.107 28.107 C 30.919 25.295 32.5 21.477 32.5 17.5 C 32.5 13.523 30.919 9.705 28.107 6.893 C 25.295 4.081 21.477 2.5 17.5 2.5"
+            android:name="curve_right"
+            android:fillColor="@android:color/transparent"
+            android:strokeWidth="5"
+            android:trimPathEnd="0.015"
+            android:strokeColor="@color/main_orange"
+            android:strokeLineCap="round" />
+    </group>
+</vector>
