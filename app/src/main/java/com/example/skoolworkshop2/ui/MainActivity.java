@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             APIDAOFactory apidaoFactory= new APIDAOFactory();
             NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
             newsArticles = newsArticleDAO.getAllArticles();
-            System.out.println(newsArticles);
+            System.out.println("LOADED ARTICLES: " + newsArticles);
         });
         Thread recyclerViewThread = new Thread(() -> {
             // Calling the method to build the recyclerview

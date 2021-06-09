@@ -41,9 +41,11 @@ public class APINewsArticleDAO implements NewsArticleDAO {
 
             while ((inputLine = in.readLine()) != null) {
                 JSONArray response = new JSONArray(inputLine);
+                System.out.println("ARTICLES: " + response.length());
 
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject jsonListObject = (JSONObject) response.get(i);
+                    System.out.println("SINGLE ARTICLE: " + parseArticle(jsonListObject));
                     resultList.add(parseArticle(jsonListObject));
                 }
             }
@@ -103,9 +105,9 @@ public class APINewsArticleDAO implements NewsArticleDAO {
         }
         System.out.println(pics);
 
-        url = pics.get(0);
+        imgUrl = ((pics.size() > 0) ? pics.get(0) : "https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool-homepage-1-300x300.jpg");
 
-        result = new NewsArticle(imgUrl, url, name);
+        result = new NewsArticle(url, imgUrl, name);
 
 
         return result;
