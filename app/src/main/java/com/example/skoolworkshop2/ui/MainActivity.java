@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
-        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
+//        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
 
         TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
+//        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);

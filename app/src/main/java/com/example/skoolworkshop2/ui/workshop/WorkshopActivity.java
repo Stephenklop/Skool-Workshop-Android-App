@@ -65,7 +65,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             public void onChange(String filterLabel) {
                 List<Product> workshops = new ArrayList<>();
 
-                if (filterLabel.equals("Meest gekozen")) {
+                if (filterLabel.equals("Meest gekozen") || filterLabel.equals("Alles")) {
                     mWorkshopAdapter.setWorkshopList(mWorkshops);
                 } else {
                     for (Product workshop : mWorkshops) {
