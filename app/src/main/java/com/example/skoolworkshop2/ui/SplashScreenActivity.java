@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.UserDAO;
-import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
+import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;

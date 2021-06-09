@@ -14,18 +14,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
-import com.example.skoolworkshop2.dao.payment.BankDAO;
-import com.example.skoolworkshop2.dao.payment.MollieBankDAO;
-import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
-import com.example.skoolworkshop2.dao.payment.MolliePaymentDAO;
-import com.example.skoolworkshop2.dao.payment.PaymentDAO;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
-import com.example.skoolworkshop2.domain.Bank;
-import com.example.skoolworkshop2.domain.Payment;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -35,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
     private APIDAOFactory apidaoFactory;
@@ -69,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
+//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
 //        Thread loadProducts = new Thread(() -> {
 //            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
