@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.SplashScreenActivity">
 
+    <ImageView
+        android:id="@+id/cock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_loading_indicator"
+        android:scaleType="fitCenter"
+        android:padding="150dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
