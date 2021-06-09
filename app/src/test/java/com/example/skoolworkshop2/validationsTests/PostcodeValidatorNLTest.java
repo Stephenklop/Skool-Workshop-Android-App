@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.validationsTests;
 
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,32 +9,32 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 public class PostcodeValidatorNLTest {
     @Test
-    public void culturedayParticipantValidator_CorrectAmountGiven_ReturnsTrue() {
-        assertTrue(CultureDayParticipantsValidator.isValidMaxParticipant("20"));
+    public void postcodeValidatorNL_CorrectInfoGiven_ReturnsTrue() {
+        assertTrue(PostcodeValidatorNL.isValidPostcode("2020RB"));
     }
 
     @Test
-    public void culturedayParticipantValidator_CorrectMinimumAmountGiven_ReturnsTrue() {
-        assertTrue(CultureDayParticipantsValidator.isValidMaxParticipant("1"));
+    public void postcodeValidatorNL_CorrectInfoWithSpace_ReturnsTrue() {
+        assertTrue(PostcodeValidatorNL.isValidPostcode("2020 RB"));
     }
 
     @Test
-    public void culturedayParticipantValidator_CorrectMaximumAmountGiven_ReturnsTrue() {
-        assertTrue(CultureDayParticipantsValidator.isValidMaxParticipant("100"));
+    public void postcodeValidatorNL_CorrectInfoGivenWithSmallLetter_ReturnsTrue() {
+        assertTrue(PostcodeValidatorNL.isValidPostcode("2020rb"));
     }
 
     @Test
-    public void culturedayParticipantValidator_InvalidParticipantMaximumGiven_ReturnsFalse() {
-        assertFalse(CultureDayParticipantsValidator.isValidMaxParticipant("101"));
+    public void postcodeValidatorNL_InvalidInfoNoLetter_ReturnsFalse() {
+        assertFalse(PostcodeValidatorNL.isValidPostcode("1011"));
     }
 
     @Test
-    public void culturedayParticipantValidator_InvalidParticipant130Given_ReturnsFalse() {
-        assertFalse(CultureDayParticipantsValidator.isValidMaxParticipant("130"));
+    public void postcodeValidatorNL_InvalidInfoNoNumber_ReturnsFalse() {
+        assertFalse(PostcodeValidatorNL.isValidPostcode("RB"));
     }
 
     @Test
-    public void culturedayParticipantValidator_InvalidParticipant0Given_ReturnsFalse() {
-        assertFalse(CultureDayParticipantsValidator.isValidMaxParticipant("0"));
+    public void postcodeValidatorNL_InvalidInfoOnlyLetter_ReturnsFalse() {
+        assertFalse(PostcodeValidatorNL.isValidPostcode("RBeB"));
     }
 }
