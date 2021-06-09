@@ -64,7 +64,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
-        ImageView mLoadingImg = findViewById(R.id.acivity_splash_screen_img_loading_indicator);
+        ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
