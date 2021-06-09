@@ -15,7 +15,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
@@ -61,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
-        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
+//        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
 
         TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
+//        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
 
 
 
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
+//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
 //        Thread loadProducts = new Thread(() -> {
 //            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
