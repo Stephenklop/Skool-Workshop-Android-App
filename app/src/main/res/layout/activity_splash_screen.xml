@@ -7,7 +7,7 @@
     tools:context=".ui.SplashScreenActivity">
 
     <ImageView
-        android:id="@+id/cock"
+        android:id="@+id/acivity_splash_screen_img_loading_indicator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/ic_loading_indicator"

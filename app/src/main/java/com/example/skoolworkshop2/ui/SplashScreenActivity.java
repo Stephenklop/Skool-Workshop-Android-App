@@ -9,19 +9,16 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.UserDAO;
-import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
-import com.example.skoolworkshop2.logic.menuController.MenuController;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -67,7 +64,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
-        ImageView mLoadingImg = findViewById(R.id.cock);
+        ImageView mLoadingImg = findViewById(R.id.acivity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
