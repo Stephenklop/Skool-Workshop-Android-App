@@ -51,7 +51,7 @@ public class WorkshopOverviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkshopBookingActivity.class);
-                intent.putExtra("Workshop", workshop);
+                intent.putExtra("workshop", workshop);
                 startActivity(intent);
             }
         });

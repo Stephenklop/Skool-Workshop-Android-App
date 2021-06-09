@@ -30,5 +30,4 @@ public class WorkshopCostFragment extends Fragment {
         public WorkshopCostFragment(Product workshop){
             this.workshop = workshop;
         }
-
 }
