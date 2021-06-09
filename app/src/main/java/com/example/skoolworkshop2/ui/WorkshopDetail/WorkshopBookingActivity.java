@@ -141,7 +141,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + product.getParticipants()+ " deelnemers zijn.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + product.get()+ " deelnemers zijn.", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -187,7 +187,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                product.setRounds(Integer.parseInt(charSequence.toString()));
+//                product.setRounds(Integer.parseInt(charSequence.toString()));
             }
 
             @Override
@@ -340,7 +340,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-                product.setTimeSchedule(s.toString());
+//                product.setTimeSchedule(s.toString());
 
             }
 
@@ -367,7 +367,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
                 } else {
-                    product.setLearningLevel(s.toString());
+//                    product.setLearningLevel(s.toString());
                 }
             }
 
@@ -440,13 +440,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     }
 
     private void updateOrderOverview() {
-        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + product.getRounds());
-        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + product.getRoundDuration() + " min");
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + product.getTotalDuration() + " min");
-        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((product.getTimeSchedule() == null || product.getTimeSchedule().equals("")) ? "n.n.g." : product.getTimeSchedule()));
-        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((product.getLearningLevel() == null || product.getLearningLevel().equals("")) ? "n.n.b." : product.getLearningLevel()));
-        System.out.println("TOTALE PRIJS: " + product.getPrice());
-        mTotalCostTextView.setText("Subtotaal: €" + (int) product.getPrice());
+//        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + product.getRounds());
+//        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + product.getRoundDuration() + " min");
+//        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + product.getTotalDuration() + " min");
+//        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((product.getTimeSchedule() == null || product.getTimeSchedule().equals("")) ? "n.n.g." : product.getTimeSchedule()));
+//        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((product.getLearningLevel() == null || product.getLearningLevel().equals("")) ? "n.n.b." : product.getLearningLevel()));
+//        System.out.println("TOTALE PRIJS: " + product.getPrice());
+//        mTotalCostTextView.setText("Subtotaal: €" + (int) product.getPrice());
     }
 }
 

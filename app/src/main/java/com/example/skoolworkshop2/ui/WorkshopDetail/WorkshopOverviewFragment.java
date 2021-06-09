@@ -40,7 +40,7 @@ public class WorkshopOverviewFragment extends Fragment {
         mInfoBn = root.findViewById(R.id.fragment_workshop_overview_btn_info);
 
 //        mParticipants.setText("60 minuten | Maximaal " + workshop.getMaxParticipants() + " deelnemers");
-       mPriceTv.setText("€" + ((int) workshop.getPrice()) + ",-");
+//       mPriceTv.setText("€" + ((int) workshop.getPrice()) + ",-");
         mDescriptionTv.setText(Html.fromHtml(workshop.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         mBookingBn.setText("Boek Direct Online");
