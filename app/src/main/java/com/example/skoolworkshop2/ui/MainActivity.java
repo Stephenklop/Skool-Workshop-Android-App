@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 //import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
@@ -124,17 +125,83 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 //        });
 
 
-        newsArticles = new ArrayList<NewsArticle>();
 
-        recyclerView = findViewById(R.id.activity_home_rv_news_feed);
+//        Thread APIThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                APIDAOFactory apidaoFactory= new APIDAOFactory();
+//                NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
+//                newsArticles = newsArticleDAO.getAllArticles();
+//                System.out.println(newsArticles);
+//            }
+//        });
 
-        fillNewsArticles();
+
+
+
+        Thread APIThread = new Thread(() -> {
+            APIDAOFactory apidaoFactory= new APIDAOFactory();
+            NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
+            newsArticles = newsArticleDAO.getAllArticles();
+            System.out.println(newsArticles);
+        });
+        Thread recyclerViewThread = new Thread(() -> {
+            // Calling the method to build the recyclerview
+            recyclerView = findViewById(R.id.activity_home_rv_news_feed);
+        });
+        Thread adapterThread = new Thread(() -> {
+            mAdapter = new NewsArticleAdapter(newsArticles, MainActivity.this, MainActivity.this);
+            recyclerView.setAdapter(mAdapter);
+        });
+        // Start and join the threads.
+        try {
+            APIThread.start();
+            APIThread.join();
+            recyclerViewThread.start();
+            recyclerViewThread.join();
+            adapterThread.start();
+            adapterThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new NewsArticleAdapter(newsArticles, this, this);
-        recyclerView.setAdapter(mAdapter);
+
+
+
+
+//
+//        // Create threads
+//        Thread cinemaDatabaseThread = new Thread(() -> databaseIdsResult = cinemaDatabaseService.getAllMovieIds());
+//        Thread movieAPIThread = new Thread(() -> {
+//            mMovies = movieAPIService.getMoviesByIds(databaseIdsResult);
+//            localAppStorage.setMovies(mMovies);
+//        });
+//        Thread adapterThread = new Thread(() -> {
+//            // Calling the method to build the recyclerview
+//            buildRecyclerView();
+//        });
+//        // Start and join the threads.
+//        try {
+//            cinemaDatabaseThread.start();
+//            cinemaDatabaseThread.join();
+//            movieAPIThread.start();
+//            movieAPIThread.join();
+//            adapterThread.start();
+//            adapterThread.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+
+
+
+
+
+
+
 
 
 
@@ -172,10 +239,10 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 //        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void fillNewsArticles(){
-        newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten"));
-        newsArticles.add(new NewsArticle("https://www.google.nl", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten2"));
-    }
+//    private void fillNewsArticles(){
+//        newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten"));
+//        newsArticles.add(new NewsArticle("https://www.google.nl", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten2"));
+//    }
 
     @Override
     public void onNoteClick(int position) {
