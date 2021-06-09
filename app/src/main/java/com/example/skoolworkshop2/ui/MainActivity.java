@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -28,12 +31,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsArticleAdapter.OnNoteListener {
     private APIDAOFactory apidaoFactory;
     private LocalAppStorage localAppStorage;
     private MenuController menuController;
     private List<Product> workshops;
     private Product cultureDay;
+    private List<NewsArticle> newsArticles;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     public static String adminToken;
 
@@ -109,40 +116,72 @@ public class MainActivity extends AppCompatActivity {
 
 
         // example newsfeed implementation
-        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
-        NewsFeedRv.setAdapter(new RecyclerView.Adapter() {
-            class BlogPostViewHolder extends RecyclerView.ViewHolder {
-                public BlogPostViewHolder(@NonNull @NotNull View itemView) {
-                    super(itemView);
-                    ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
-                    blogPostImg.setClipToOutline(true);
-                }
-            }
 
-            @NonNull
-            @NotNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-                return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_blog_post, parent, false));
-            }
 
-            @Override
-            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+//        btn_addOne = findViewById(R.id.btn_addOne);
+//
+//        btn_addOne.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent (MainActivity.this, AddEditOne.class);
+//                startActivity(intent);
+//            }
+//        });
 
-            }
 
-            @Override
-            public int getItemCount() {
-                return 5;
-            }
+
+//        Thread APIThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                APIDAOFactory apidaoFactory= new APIDAOFactory();
+//                NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
+//                newsArticles = newsArticleDAO.getAllArticles();
+//                System.out.println(newsArticles);
+//            }
+//        });
+
+
+
+
+        Thread APIThread = new Thread(() -> {
+            APIDAOFactory apidaoFactory= new APIDAOFactory();
+            NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
+            newsArticles = newsArticleDAO.getAllArticles();
+            System.out.println("LOADED ARTICLES: " + newsArticles);
         });
-        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
+        Thread recyclerViewThread = new Thread(() -> {
+            // Calling the method to build the recyclerview
+            recyclerView = findViewById(R.id.activity_home_rv_news_feed);
+        });
+        Thread adapterThread = new Thread(() -> {
+            mAdapter = new NewsArticleAdapter(newsArticles, MainActivity.this, MainActivity.this);
+            recyclerView.setAdapter(mAdapter);
+        });
+        // Start and join the threads.
+        try {
+            APIThread.start();
+            APIThread.join();
+            recyclerViewThread.start();
+            recyclerViewThread.join();
+            adapterThread.start();
+            adapterThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
 
+//        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
+//        NewsFeedRv.setAdapter(new NewsArticleAdapter());
 
+//            new RecyclerView.Adapter() {
 
-
+    @Override
+    public void onNoteClick(int position) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
+        startActivity(browserIntent);
     }
 
 
