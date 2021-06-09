@@ -55,22 +55,22 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
-        Thread loadProducts = new Thread(() -> {
-            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
-            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
+//        Thread loadProducts = new Thread(() -> {
+//            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
+//            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
+//
+//            localAppStorage.createList("workshops", workshops);
+//            System.out.println(localAppStorage.getList("workshops"));
+//
+//            localAppStorage.createList("cultureDay", cultureDay);
+//        });
 
-            localAppStorage.createList("workshops", workshops);
-            System.out.println(localAppStorage.getList("workshops"));
-
-            localAppStorage.createList("cultureDay", cultureDay);
-        });
-
-        try {
-            loadProducts.join();
-            loadProducts.start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            loadProducts.join();
+//            loadProducts.start();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         handleNotificationData();
         getToken();
+        subscribeToTopic("stefklop18-gmail.com".toLowerCase());
     }
 
     public void getToken() {
