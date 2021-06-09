@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.workshop.WorkshopAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class CategoryAdapter{
 
     private RadioGroup mCategoriesRadiogroup;
     private AppCompatActivity activity;
-    private ArrayList<Product> mWorkshops;
+    private ArrayList<WorkshopItem> mWorkshops;
     private WorkshopAdapter mWorkshopAdapter;
     private Listener listener;
     private Context context;
@@ -46,7 +46,7 @@ public class CategoryAdapter{
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void addCategoriesToGroup() {
-        String[] categorieArray = context.getResources().getStringArray(R.array.category);
+        String[] categorieArray = context.getResources().getStringArray(R.array.workshopCategory);
 
         for (int i = 0; i < categorieArray.length; i++) {
             int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));

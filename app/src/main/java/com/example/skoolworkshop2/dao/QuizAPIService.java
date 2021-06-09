@@ -1,8 +1,9 @@
-package com.example.skoolworkshop2.dao.mollie;
+package com.example.skoolworkshop2.dao;
 
-import com.example.skoolworkshop2.domain.Bank;
+import android.os.AsyncTask;
 
-import org.json.JSONArray;
+import com.example.skoolworkshop2.domain.Quiz;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MollieAPIService {
+public class QuizAPIService{
     private HttpURLConnection conn;
 
     private void connect(String url) throws IOException {
@@ -26,11 +27,11 @@ public class MollieAPIService {
         conn.disconnect();
     }
 
-    public List<Bank> getAllIdealBanks() {
-        List<Bank> result = new ArrayList<>();
+    public List<Quiz> getAllQuizzes() {
+        List<Quiz> result = new ArrayList<>();
 
         try {
-            connect("/payment/ideal");
+            connect("/quiz");
             conn.setRequestMethod("GET");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -38,24 +39,19 @@ public class MollieAPIService {
 
             while((inputLine = in.readLine()) != null) {
                 JSONObject jsonObject = new JSONObject(inputLine);
-                for(int i = 0; i < jsonObject.getJSONArray("issuers").length(); i++) {
-                    String id = jsonObject.getJSONArray("issuers").getJSONObject(i).getString("id");
-                    String name = jsonObject.getJSONArray("issuers").getJSONObject(i).getString("name");
-                    String svg = jsonObject.getJSONArray("issuers").getJSONObject(i).getJSONObject("image").getString("size1x");
+                for(int i = 0; i < jsonObject.getJSONArray("quiz").length(); i++) {
+                    String title = jsonObject.getJSONArray("quiz").getJSONObject(i).getString("title");
+                    String url = jsonObject.getJSONArray("quiz").getJSONObject(i).getString("url");
+                    boolean status = Boolean.parseBoolean((jsonObject.getJSONArray("quiz").getJSONObject(i).getString("status")));
 
-
-                    result.add(new Bank(id, name, svg));
+                    result.add(new Quiz(title, url, status));
                 }
             }
 
-        } catch (IOException | JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return result;
-    }
-
-    public void createPayment() {
-        
     }
 }

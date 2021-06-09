@@ -5,6 +5,19 @@
     <string name="title_notifications">Notifications</string>
 
     <string-array name="category">
+        <item>Kies een categorie</item>
+        <item>Meest gekozen</item>
+        <item>Beeldende Kunst</item>
+        <item>Dans</item>
+        <item>Media</item>
+        <item>Muziek</item>
+        <item>Sport</item>
+        <item>Theater</item>
+
+    </string-array>
+
+    <string-array name="workshopCategory">
+        <item>Alles</item>
         <item>Meest gekozen</item>
         <item>Beeldende Kunst</item>
         <item>Dans</item>
@@ -13,6 +26,7 @@
         <item>Sport</item>
         <item>Theater</item>
     </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

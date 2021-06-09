@@ -5,16 +5,14 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Transition;
-import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.ui.MoreMenuActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
-import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -34,7 +32,7 @@ public class MenuController {
     private BottomNavigationItemView account;
     private BottomNavigationItemView sun;
 
-    private List<Product> workshopArrayList;
+    private List<WorkshopItem> workshopArrayList;
 
 
     private Context context;
@@ -115,6 +113,15 @@ public class MenuController {
                 Log.d(LOG_TAG, " Redirecting to shopping cart page");
                 Intent toShoppingCart = new Intent(context, ShoppingCartActivity.class);
                 context.startActivity(toShoppingCart);
+            }
+        });
+
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(LOG_TAG, " Redirecting to more page");
+                Intent toMoreMenu = new Intent(context, MoreMenuActivity.class);
+                context.startActivity(toMoreMenu);
             }
         });
     }

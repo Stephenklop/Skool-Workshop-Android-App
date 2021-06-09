@@ -23,19 +23,15 @@ import androidx.fragment.app.FragmentActivity;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
-import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
-import com.example.skoolworkshop2.ui.ShoppingCartLayoutTestActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
-import org.w3c.dom.Text;
-
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 import io.paperdb.Paper;
@@ -43,7 +39,7 @@ import io.paperdb.Paper;
 public class WorkshopBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private String LOG_TAG = getClass().getSimpleName();
     private LocalAppStorage localAppStorage;
-    private Product product;
+    private WorkshopItem workshop;
     private ImageButton mBackButton;
     private ImageView mWorkshopBanner;
     private TextView mTitle;
@@ -80,14 +76,14 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         localAppStorage = new LocalAppStorage(getBaseContext());
 
         // Initialize workshop
-        product = (Product) getIntent().getSerializableExtra("workshop");
+        workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");
 
         // Set title
         mTitle = findViewById(R.id.activity_workshop_booking_tv_title);
-        mTitle.setText(product.getName());
+        mTitle.setText(workshop.getProduct().getName());
 
         mWorkshopBanner = findViewById(R.id.activity_workshop_booking_img_banner);
-        Glide.with(getBaseContext()).load(product.getSourceImage()).centerCrop().into(mWorkshopBanner);
+        Glide.with(getBaseContext()).load(workshop.getProduct().getSourceImage()).centerCrop().into(mWorkshopBanner);
 
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
@@ -117,7 +113,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                product.setParticipants(Integer.parseInt(charSequence.toString()));
+                workshop.setParticipants(Integer.parseInt(charSequence.toString()));
             }
 
             @Override
@@ -189,7 +185,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                product.setRounds(Integer.parseInt(charSequence.toString()));
+                workshop.setRounds(Integer.parseInt(charSequence.toString()));
             }
 
             @Override
@@ -257,7 +253,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-                product.setTimeSchedule(s.toString());
+                workshop.setTimeSchedule(s.toString());
 
             }
 
@@ -282,7 +278,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
                 } else {
-                    product.setLearningLevel(s.toString());
+                    workshop.setLearningLevel(s.toString());
                 }
             }
 
@@ -304,7 +300,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 // Datum, deelnemers, rondes, minuten, learning levels niet leeg, rest wel
                 if(dateValidation.isValid() && workshopParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid()){
                     // Add workshop to local storage
-                    localAppStorage.addToList("cartItems", product);
+                    localAppStorage.addToList("cartItems", workshop);
                     System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));
 
                     // Initiate and start intent
@@ -349,13 +345,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     }
 
     private void updateOrderOverview() {
-        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + product.getRounds());
-        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + product.getRoundDuration() + " min");
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + product.getTotalDuration() + " min");
-        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((product.getTimeSchedule() == null || product.getTimeSchedule().equals("")) ? "n.n.g." : product.getTimeSchedule()));
-        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((product.getLearningLevel() == null || product.getLearningLevel().equals("")) ? "n.n.b." : product.getLearningLevel()));
-        System.out.println("TOTALE PRIJS: " + product.getPrice());
-        mTotalCostTextView.setText("Subtotaal: €" + (int) product.getPrice());
+        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + workshop.getRounds());
+        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + workshop.getRoundDuration() + " min");
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + workshop.getRoundDuration() + " min");
+        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((workshop.getTimeSchedule() == null || workshop.getTimeSchedule().equals("")) ? "n.n.g." : workshop.getTimeSchedule()));
+        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((workshop.getLearningLevel() == null || workshop.getLearningLevel().equals("")) ? "n.n.b." : workshop.getLearningLevel()));
+        System.out.println("TOTALE PRIJS: " + workshop.getPrice());
+        mTotalCostTextView.setText("Subtotaal: €" + (int) workshop.getPrice());
     }
 }
 

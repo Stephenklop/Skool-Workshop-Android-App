@@ -13,9 +13,9 @@ import android.widget.SearchView;
 
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.CategoryAdapter;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Category;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -65,7 +65,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             public void onChange(String filterLabel) {
                 List<Product> workshops = new ArrayList<>();
 
-                if (filterLabel.equals("Meest gekozen")) {
+                if (filterLabel.equals("Meest gekozen") || filterLabel.equals("Alles")) {
                     mWorkshopAdapter.setWorkshopList(mWorkshops);
                 } else {
                     for (Product workshop : mWorkshops) {

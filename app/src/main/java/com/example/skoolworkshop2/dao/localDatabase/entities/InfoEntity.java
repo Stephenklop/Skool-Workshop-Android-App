@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.dao.localDatabase;
+package com.example.skoolworkshop2.dao.localDatabase.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -20,11 +20,22 @@ public class InfoEntity {
     @ColumnInfo
     public String password;
 
-    public InfoEntity(String name, String email, String token, String password) {
+    @ColumnInfo int points;
+
+    public InfoEntity(String name, String email, String token, String password, int points) {
         this.name = name;
         this.email = email;
         this.token = token;
         this.password = password;
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public String getName() {

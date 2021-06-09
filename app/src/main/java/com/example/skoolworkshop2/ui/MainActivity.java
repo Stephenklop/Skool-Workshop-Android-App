@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-//import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
-import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
-import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
@@ -32,10 +28,8 @@ import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity implements NewsArticleAdapter.OnNoteListener {
     private APIDAOFactory apidaoFactory;
@@ -48,39 +42,49 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    public static String adminToken;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
+        adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
         View root = (View) findViewById(R.id.activity_home);
+
+        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
+
+        View points = findViewById(R.id.activity_home_item_points);
+        TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
+//        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
+
+        TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
+//        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
+//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
-        Thread loadProducts = new Thread(() -> {
-            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
-            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
-
-            localAppStorage.createList("workshops", workshops);
-            System.out.println(localAppStorage.getList("workshops"));
-
-            localAppStorage.createList("cultureDay", cultureDay);
-        });
-
-        try {
-            loadProducts.join();
-            loadProducts.start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        Thread loadProducts = new Thread(() -> {
+//            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
+//            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
+//
+//            localAppStorage.createList("workshops", workshops);
+//            System.out.println(localAppStorage.getList("workshops"));
+//
+//            localAppStorage.createList("cultureDay", cultureDay);
+//        });
+//
+//        try {
+//            loadProducts.join();
+//            loadProducts.start();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
@@ -169,84 +173,16 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         recyclerView.setLayoutManager(layoutManager);
 
 
-
-
-
-//
-//        // Create threads
-//        Thread cinemaDatabaseThread = new Thread(() -> databaseIdsResult = cinemaDatabaseService.getAllMovieIds());
-//        Thread movieAPIThread = new Thread(() -> {
-//            mMovies = movieAPIService.getMoviesByIds(databaseIdsResult);
-//            localAppStorage.setMovies(mMovies);
-//        });
-//        Thread adapterThread = new Thread(() -> {
-//            // Calling the method to build the recyclerview
-//            buildRecyclerView();
-//        });
-//        // Start and join the threads.
-//        try {
-//            cinemaDatabaseThread.start();
-//            cinemaDatabaseThread.join();
-//            movieAPIThread.start();
-//            movieAPIThread.join();
-//            adapterThread.start();
-//            adapterThread.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-
-
-
-
-
-
-
-
-
-
 //        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
 //        NewsFeedRv.setAdapter(new NewsArticleAdapter());
 
 //            new RecyclerView.Adapter() {
-//                class BlogPostViewHolder extends RecyclerView.ViewHolder {
-//                    public BlogPostViewHolder(@NonNull @NotNull View itemView) {
-//                        super(itemView);
-//                        ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
-//                        blogPostImg.setClipToOutline(true);
-//                    }
-//                }
-//
-//                @NonNull
-//                @NotNull
-//                @Override
-//                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-//                    return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.item_blog_post, parent, false));
-//                }
-//
-//                @Override
-//                public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-//
-//                }
-//
-//                @Override
-//                public int getItemCount() {
-//                    return 5;
-//                }
-//            }
-//        );
-//        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-//    private void fillNewsArticles(){
-//        newsArticles.add(new NewsArticle("https://skoolworkshop.nl/jongeren-activiteiten/", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten"));
-//        newsArticles.add(new NewsArticle("https://www.google.nl", "https://cdn-bnege.nitrocdn.com/MVgfApSlnIZMEMtTrPfeVWWDRvGvEHus/assets/static/optimized/rev-23fdb00/wp-content/uploads/2020/09/Dans-1024x517.jpg", "Jongeren activiteiten2"));
-//    }
 
     @Override
     public void onNoteClick(int position) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
         startActivity(browserIntent);
     }
+
+
 }
