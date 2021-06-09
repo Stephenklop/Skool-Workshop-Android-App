@@ -1,9 +1,13 @@
 package com.example.skoolworkshop2.ui.User;
 
 import android.content.Intent;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -44,5 +48,18 @@ public class AccountActivity extends AppCompatActivity {
                 startActivity(forgotPassIntent);
             }
         });
+    }
+
+    private void enableLoadingIndicator() {
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        avd.start();
+        loadingIndicator.setVisibility(View.VISIBLE);
     }
 }
