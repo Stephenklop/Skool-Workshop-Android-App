@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.mollie.MollieAPIService;
+import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
 import com.example.skoolworkshop2.domain.Bank;
 
 import java.util.List;
@@ -102,8 +102,8 @@ public class SummaryLayoutTestActivity extends AppCompatActivity implements View
     }
 
     private void getBanks() {
-        MollieAPIService api = new MollieAPIService();
+        MollieDAOFactory mollieDAOFactory = new MollieDAOFactory();
 
-        this.banks = api.getAllIdealBanks();
+        this.banks = mollieDAOFactory.getBankDAO().getAllBanks();
     }
 }

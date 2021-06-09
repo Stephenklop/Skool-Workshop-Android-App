@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_loading_indicator_base">
+    <target
+        android:animation="@animator/ic_loading_indicator_trim_l_animator"
+        android:name="curve_left" />
+    <target
+        android:animation="@animator/ic_loading_indicator_trim_r_animator"
+        android:name="curve_right" />
+    <target
+        android:animation="@animator/ic_loading_indicator_translate_animator"
+        android:name="loading_indicator" />
+</animated-vector>
