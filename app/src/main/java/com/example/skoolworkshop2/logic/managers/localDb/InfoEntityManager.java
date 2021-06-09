@@ -5,8 +5,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.skoolworkshop2.dao.localDatabase.InfoDAO;
-import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
+import com.example.skoolworkshop2.dao.localDatabase.dao.InfoDAO;
+import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 

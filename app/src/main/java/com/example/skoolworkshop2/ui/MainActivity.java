@@ -3,7 +3,6 @@ package com.example.skoolworkshop2.ui;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,28 +14,19 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
-import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
-import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
-import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.domain.WorkshopItem;
-import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
-import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
     private APIDAOFactory apidaoFactory;
@@ -74,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
+//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
 
 //        Thread loadProducts = new Thread(() -> {
 //            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
