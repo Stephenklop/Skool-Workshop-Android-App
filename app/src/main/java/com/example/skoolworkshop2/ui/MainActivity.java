@@ -18,8 +18,14 @@ import androidx.room.Room;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.payment.BankDAO;
+import com.example.skoolworkshop2.dao.payment.MollieBankDAO;
 import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
+import com.example.skoolworkshop2.dao.payment.MolliePaymentDAO;
+import com.example.skoolworkshop2.dao.payment.PaymentDAO;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Bank;
+import com.example.skoolworkshop2.domain.Payment;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
         moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
-        
+
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
@@ -81,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);

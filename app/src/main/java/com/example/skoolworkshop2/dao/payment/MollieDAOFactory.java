@@ -6,4 +6,9 @@ public class MollieDAOFactory implements DAOFactory {
     public BankDAO getBankDAO() {
         return new MollieBankDAO();
     }
+
+    @Override
+    public PaymentDAO getPaymentDAO() {
+        return new MolliePaymentDAO();
+    }
 }
