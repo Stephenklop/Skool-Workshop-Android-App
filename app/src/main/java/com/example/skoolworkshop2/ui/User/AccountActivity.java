@@ -125,6 +125,7 @@ public class AccountActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enableLoadingIndicator();
                 APIUserDAO apiUserDAO = new APIUserDAO();
 
                 if(emailValidator.isValid() && passwordValidator.isValid()){
@@ -141,6 +142,7 @@ public class AccountActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
+                    disableLoadingIndicator();
                     if(!emailValidator.isValid() && !passwordValidator.isValid()){
                         Toast.makeText(getApplicationContext(), "Email and password are incorrect given", Toast.LENGTH_SHORT).show();
                     } else if (!emailValidator.isValid() && passwordValidator.isValid()){
