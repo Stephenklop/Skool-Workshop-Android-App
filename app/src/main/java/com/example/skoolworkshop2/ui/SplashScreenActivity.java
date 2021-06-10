@@ -49,11 +49,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
+            LocalDb.getDatabase(getBaseContext()).getProductDAO().deleteProductTable();
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProducts());
             toMainActivity.start();
         });
 
         Thread APIThread = new Thread(() -> {
+            LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().deleteNewsArticleTable();
             APIDAOFactory apiDaoFactoryNewsArticles = new APIDAOFactory();
             NewsArticleDAO newsArticleDAO = apiDaoFactoryNewsArticles.getNewsArticleDAO();
             LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());

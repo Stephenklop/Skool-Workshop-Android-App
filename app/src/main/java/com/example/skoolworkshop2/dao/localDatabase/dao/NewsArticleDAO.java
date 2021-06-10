@@ -16,4 +16,7 @@ public interface NewsArticleDAO {
 
     @Query("SELECT * FROM NewsArticle ORDER BY dateTime(date) DESC")
     public List<NewsArticle> getAllNewsArticlesOrderedByDate();
+
+    @Query("DELETE FROM NewsArticle")
+    public void deleteNewsArticleTable();
 }
