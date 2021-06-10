@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 //        });
 
 
-
 //        Thread APIThread = new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -141,10 +140,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 //        });
 
 
-
-
         Thread APIThread = new Thread(() -> {
-            APIDAOFactory apidaoFactory= new APIDAOFactory();
+            APIDAOFactory apidaoFactory = new APIDAOFactory();
             NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
             newsArticles = newsArticleDAO.getAllArticles();
             System.out.println("LOADED ARTICLES: " + newsArticles);
@@ -177,12 +174,11 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 //        NewsFeedRv.setAdapter(new NewsArticleAdapter());
 
 //            new RecyclerView.Adapter() {
+    }
 
     @Override
     public void onNoteClick(int position) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
         startActivity(browserIntent);
     }
-
-
 }
