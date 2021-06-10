@@ -72,17 +72,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                 List<Product> workshops = new ArrayList<>();
                 categorySelected = filterLabel;
                 filter();
-//                if (filterLabel.equals("Meest gekozen") || filterLabel.equals("Alles")) {
-//                    mWorkshopAdapter.setWorkshopList(mWorkshops);
-//                } else {
-//                    for (Product workshop : mWorkshops) {
-//                        if(workshop.getCategory().toString().equals(filterLabel)){
-//                            workshops.add(workshop);
-//                        }
-//                    }
-//
-//                    mWorkshopAdapter.setWorkshopList(workshops);
-//                }
             }
         });
 
@@ -96,7 +85,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
             @Override
             public boolean onQueryTextChange(String s) {
-//                mWorkshopAdapter.getFilter().filter(s);
                 searchValue = s;
                 filter();
                 return false;
