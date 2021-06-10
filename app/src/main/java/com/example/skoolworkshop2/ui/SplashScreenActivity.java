@@ -48,10 +48,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
-            LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
-
-
-            System.out.println(apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0));
+            LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProducts());
             toMainActivity.start();
         });
         Thread t = new Thread(new Runnable() {

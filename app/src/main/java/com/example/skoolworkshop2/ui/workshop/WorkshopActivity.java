@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.SearchView;
 
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.CategoryAdapter;
@@ -48,7 +49,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         menu.getMenu().getItem(1).setChecked(true);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
-        mWorkshops = localAppStorage.getList("workshops");
+//        mWorkshops = localAppStorage.getList("workshops");
+        mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
 
         // Add enum list with data
         mEnumCategories.addAll(addCategories());

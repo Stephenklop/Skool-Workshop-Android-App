@@ -23,4 +23,7 @@ public interface ProductDAO {
     @Query("DELETE FROM Product")
     public void deleteAllProducts();
 
+    @Query("SELECT * FROM Product WHERE productType = :type")
+    public List<Product> getAllProductsByType(String type);
+
 }

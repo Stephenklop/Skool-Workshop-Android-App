@@ -156,6 +156,18 @@ public class APIProductDAO implements ProductDAO {
         }
 
         try {
+            description = jsonObject.getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            buildupDescription = jsonObject.getString("buildup_workshop");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             type = jsonObject.getString("type");
         } catch (JSONException e) {
             e.printStackTrace();

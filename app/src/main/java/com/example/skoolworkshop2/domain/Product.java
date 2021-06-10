@@ -14,7 +14,7 @@ public class Product implements Serializable {
     @ColumnInfo @PrimaryKey @NonNull
     private int id;
 
-    @ColumnInfo
+    @ColumnInfo @NonNull
     private String name;
 
     @ColumnInfo
