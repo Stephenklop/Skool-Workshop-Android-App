@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         TextView searchPageTv = searchPage.findViewById(R.id.item_dashboard_tv_txt);
 
         searchPageImg.setImageDrawable(getDrawable(R.drawable.ic_search));
-        searchPageTv.setText("Workshops zoeken");
+        searchPageTv.setText("Zoeken");
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         TextView cultureDayTv = cultureDay.findViewById(R.id.item_dashboard_tv_txt);
 
         cultureDayImg.setImageDrawable(getDrawable(R.drawable.ic_sun));
-        cultureDayTv.setText("Cultuurdag bekijken");
+        cultureDayTv.setText("Cultuurdag");
         cultureDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext().startActivity(intent);
             }
         });
+
+        Button registerBtn = findViewById(R.id.activity_home_btn_register);
+        Button loginBtn = findViewById(R.id.activity_home_btn_log_in);
+        registerBtn.setText("Maak nu een account");
+        loginBtn.setText("Log in");
 
 
         // example newsfeed implementation
