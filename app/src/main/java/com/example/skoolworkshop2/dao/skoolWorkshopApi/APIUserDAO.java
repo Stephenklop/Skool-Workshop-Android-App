@@ -40,8 +40,6 @@ public class APIUserDAO implements UserDAO {
             String jsonInput = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
             System.out.println("JSON STRING: " + jsonInput);
 
-            System.out.println("PROPERTIES: " + connection.getRequestProperties());
-
             OutputStream os = connection.getOutputStream();
             os.write(jsonInput.getBytes());
             os.flush();
@@ -77,6 +75,48 @@ public class APIUserDAO implements UserDAO {
             e.printStackTrace();
         }
 
+        return result;
+    }
+
+    @Override
+    public User registerUser(String username, String email, String password) {
+        final String PATH = "account/register";
+        User result = null;
+
+        try{
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            String jsonInput = "{\"username\": \"" + username + "\", \"email\": \"" + email + "\", \"password\": \"" + password + "\"}";
+            System.out.println("JSON STRING: " + jsonInput);
+
+            System.out.println("PROPERTIES: " + connection.getRequestProperties());
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("RESPONSE: " + inputLine);
+                JSONObject response = new JSONObject(inputLine);
+                JSONObject user = response.getJSONObject("result");
+
+                username = user.get("username").toString();
+                email = user.get("email").toString();
+
+                result = new User(username, email, password);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 }

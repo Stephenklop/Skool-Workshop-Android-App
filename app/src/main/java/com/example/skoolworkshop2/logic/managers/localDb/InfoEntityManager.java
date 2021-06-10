@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.logic.managers.localDb;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -9,6 +10,8 @@ import com.example.skoolworkshop2.dao.localDatabase.dao.InfoDAO;
 import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
+
+import java.security.KeyStore;
 
 public class InfoEntityManager {
     private LocalDb localDb;
@@ -22,6 +25,8 @@ public class InfoEntityManager {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public InfoEntity getInfo(){
         InfoEntity ie = infoDAO.getInfo();
+
+
         ie.setPassword(EncryptionLogic.decrypt(ie.getPassword(), "secretKey"));
         ie.setToken(EncryptionLogic.decrypt(ie.getToken(), "secretKey"));
         ie.setEmail(EncryptionLogic.decrypt(ie.getEmail(), "secretKey"));

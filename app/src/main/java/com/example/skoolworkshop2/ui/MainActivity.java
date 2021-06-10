@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -28,12 +32,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsArticleAdapter.OnNoteListener {
     private APIDAOFactory apidaoFactory;
     private LocalAppStorage localAppStorage;
     private MenuController menuController;
     private List<Product> workshops;
     private Product cultureDay;
+    private List<NewsArticle> newsArticles;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     public static String adminToken;
 
@@ -51,33 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
-        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
+//        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
 
         TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
+//        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
-
-//        Thread loadProducts = new Thread(() -> {
-//            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
-//            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
-//
-//            localAppStorage.createList("workshops", workshops);
-//            System.out.println(localAppStorage.getList("workshops"));
-//
-//            localAppStorage.createList("cultureDay", cultureDay);
-//        });
-//
-//        try {
-//            loadProducts.join();
-//            loadProducts.start();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
@@ -107,43 +97,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
 
-        // example newsfeed implementation
-        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
-        NewsFeedRv.setAdapter(new RecyclerView.Adapter() {
-            class BlogPostViewHolder extends RecyclerView.ViewHolder {
-                public BlogPostViewHolder(@NonNull @NotNull View itemView) {
-                    super(itemView);
-                    ImageView blogPostImg = itemView.findViewById(R.id.item_blog_post_img);
-                    blogPostImg.setClipToOutline(true);
-                }
-            }
-
-            @NonNull
-            @NotNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-                return new BlogPostViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_blog_post, parent, false));
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-
-            }
-
-            @Override
-            public int getItemCount() {
-                return 5;
-            }
-        });
-        NewsFeedRv.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = findViewById(R.id.activity_home_rv_news_feed);
 
 
+        mAdapter = new NewsArticleAdapter(newsArticles, MainActivity.this, MainActivity.this);
+        recyclerView.setAdapter(mAdapter);
 
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
 
     }
 
-
+    @Override
+    public void onNoteClick(int position) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
+        startActivity(browserIntent);
+    }
 }

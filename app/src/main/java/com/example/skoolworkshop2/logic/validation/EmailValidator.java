@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.regex.Pattern;
 
-public class EmailValidator implements TextWatcher {
+public class EmailValidator{
 
     private String LOG_TAG = getClass().getSimpleName();
 
@@ -27,26 +27,4 @@ public class EmailValidator implements TextWatcher {
     public static boolean isValidEmail(CharSequence email) {
     return email != null && EMAILPATTERN.matcher(email).matches();
     }
-
-     @Override
-     final public void afterTextChanged(Editable editableText) {
-         if (editableText.length() != 0 ) {
-
-             mIsValid = isValidEmail(editableText);
-             if (mIsValid == true) {
-                 Log.d(LOG_TAG, "afterTextChanged: email is valid");
-             } else {
-                 Log.d(LOG_TAG, "afterTextChanged: email is invalid");
-             }
-         }
-     }
-
-     @Override
-     final public void beforeTextChanged(CharSequence s, int start, int count, int after){
-
-     }
-
-     @Override
-     final public void onTextChanged(CharSequence s, int start, int before, int count){
-     }
 }

@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class CulturedayCostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_costs, container, false);
         mDescriptionTv = root.findViewById(R.id.fragment_workshop_costs_tv_txt);
-        mDescriptionTv.setText(cultureDay.getDescription());
+        mDescriptionTv.setText(Html.fromHtml(cultureDay.getCostsInfo(), Html.FROM_HTML_MODE_COMPACT));
 
         return root;
     }

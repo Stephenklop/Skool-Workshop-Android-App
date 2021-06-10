@@ -18,15 +18,27 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.workshop.WorkshopActivity"
-            android:launchMode="singleTop" />
-        <activity android:name=".ui.WorkshopDetail.WorkshopDetailActivity" />
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".ui.WorkshopDetail.WorkshopDetailActivity" />
+        <activity android:name=".ui.User.RegisterActivity"/>
+        <activity android:name=".ui.User.ForgotPasswordActivity"/>
         <activity
             android:name=".ui.cultureDay.CulturedayActivity"
-            android:launchMode="singleTop" />
-        <activity android:name=".ui.cultureDay.CulturedayBookingActivity" />
-        <activity android:name=".ui.cultureDay.CulturedayQuestionActivity" />
-        <activity android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
-        <activity android:name=".ui.WorkshopDetail.WorkshopBookingActivity" />
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.MoreMenuActivity"
+                android:launchMode="singleTop"/>
+        <activity
+            android:name=".ui.cultureDay.CulturedayBookingActivity" />
+        <activity android:name=".ui.User.MyAccountActivity"/>
+        <activity
+            android:name=".ui.cultureDay.CulturedayQuestionActivity" />
+        <activity android:name=".ui.User.AccountActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
+        <activity
+            android:name=".ui.WorkshopDetail.WorkshopBookingActivity" />
         <activity
             android:name=".ui.SplashScreenActivity"
             android:label="@string/app_name"

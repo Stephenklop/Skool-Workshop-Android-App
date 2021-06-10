@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 
 public class WorkshopOverviewFragment extends Fragment {
     private TextView mDescriptionTv;
@@ -40,8 +41,8 @@ public class WorkshopOverviewFragment extends Fragment {
         mInfoBn = root.findViewById(R.id.fragment_workshop_overview_btn_info);
 
 //        mParticipants.setText("60 minuten | Maximaal " + workshop.getMaxParticipants() + " deelnemers");
-//       mPriceTv.setText("€" + ((int) workshop.getPrice()) + ",-");
-        mDescriptionTv.setText(Html.fromHtml(workshop.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+       mPriceTv.setText("€150,-");
+        mDescriptionTv.setText(Html.fromHtml(workshop.getShortDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");
@@ -51,7 +52,7 @@ public class WorkshopOverviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkshopBookingActivity.class);
-                intent.putExtra("workshop", workshop);
+                intent.putExtra("workshop", new WorkshopItem(workshop));
                 startActivity(intent);
             }
         });
@@ -59,7 +60,6 @@ public class WorkshopOverviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkshopQuestionActivity.class);
-                intent.putExtra("Workshop", workshop);
                 startActivity(intent);
             }
         });

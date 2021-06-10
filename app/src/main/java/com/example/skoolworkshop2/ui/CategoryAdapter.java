@@ -46,7 +46,7 @@ public class CategoryAdapter{
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void addCategoriesToGroup() {
-        String[] categorieArray = context.getResources().getStringArray(R.array.category);
+        String[] categorieArray = context.getResources().getStringArray(R.array.workshopCategory);
 
         for (int i = 0; i < categorieArray.length; i++) {
             int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));

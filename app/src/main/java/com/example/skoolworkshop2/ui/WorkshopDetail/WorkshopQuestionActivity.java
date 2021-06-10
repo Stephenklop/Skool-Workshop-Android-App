@@ -83,7 +83,29 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mTitleTextView.setText(workshop.getName());
 
         // Set up validations
-        mEmailEditText.addTextChangedListener(emailValidator);
+        mEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if(!emailValidator.isValidEmail(charSequence.toString())){
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (emailValidator.isValidEmail(editable.toString())) {
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    emailValidator.mIsValid = true;
+                }
+            }
+        });
         mTelEditText.addTextChangedListener(telValidator);
 
         mDatePopUpImageButton.setOnClickListener(new View.OnClickListener() {
