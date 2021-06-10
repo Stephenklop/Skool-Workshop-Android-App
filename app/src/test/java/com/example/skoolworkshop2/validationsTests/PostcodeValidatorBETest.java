@@ -15,27 +15,27 @@ public class PostcodeValidatorBETest {
     }
 
     @Test
-    public void postcodeValidatorBE_CorrectInfoWithSpace_ReturnsTrue() {
-        assertTrue(PostcodeValidatorNL.isValidPostcode("2020 RB"));
+    public void postcodeValidatorBE_CorrectInfoRandomNumber_ReturnsTrue() {
+        assertTrue(PostcodeValidatorBE.isValidPostcode("1231"));
     }
 
     @Test
-    public void postcodeValidatorBE_CorrectInfoGivenWithSmallLetter_ReturnsTrue() {
-        assertTrue(PostcodeValidatorNL.isValidPostcode("2020rb"));
+    public void postcodeValidatorBE_CorrectInfoGivenMax_ReturnsTrue() {
+        assertTrue(PostcodeValidatorBE.isValidPostcode("9999"));
     }
 
     @Test
-    public void postcodeValidatorBE_InvalidInfoNoLetter_ReturnsFalse() {
-        assertFalse(PostcodeValidatorNL.isValidPostcode("1011"));
+    public void postcodeValidatorBE_InvalidInfoLetter_ReturnsFalse() {
+        assertFalse(PostcodeValidatorBE.isValidPostcode("1011BB"));
     }
 
     @Test
     public void postcodeValidatorBE_InvalidInfoNoNumber_ReturnsFalse() {
-        assertFalse(PostcodeValidatorNL.isValidPostcode("RB"));
+        assertFalse(PostcodeValidatorBE.isValidPostcode("RB"));
     }
 
     @Test
     public void postcodeValidatorBE_InvalidInfoOnlyLetter_ReturnsFalse() {
-        assertFalse(PostcodeValidatorNL.isValidPostcode("RBeB"));
+        assertFalse(PostcodeValidatorBE.isValidPostcode("RBeB"));
     }
 }
