@@ -64,6 +64,9 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         public MyViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
             image = itemView.findViewById(R.id.item_blog_post_img);
+
+            image.setClipToOutline(true);
+
             title = itemView.findViewById(R.id.item_blog_post_tv_title);
             url = itemView.findViewById(R.id.activity_home_rv_news_feed);
 

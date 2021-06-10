@@ -165,4 +165,41 @@
         android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/activity_register_ll_loading_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_workshop_container"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="25dp"
+        android:layout_margin="25dp"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/activity_register_img_loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_loading_indicator"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Wij proberen u te registreren"
+            android:textSize="18sp"
+            android:fontFamily="@font/proxima_nova_extrabold"
+            android:textColor="@color/black"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

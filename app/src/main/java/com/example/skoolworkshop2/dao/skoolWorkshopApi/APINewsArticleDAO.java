@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
 
 public class APINewsArticleDAO implements NewsArticleDAO {
-    private final String BASE_URL = "https://skoolworkshop.nl/wp-json/wp/v2/";
+    private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api";
     private HttpsURLConnection connection;
 
     private void connect(String url) throws Exception {
@@ -30,7 +30,7 @@ public class APINewsArticleDAO implements NewsArticleDAO {
 
     public List<NewsArticle> getAllArticles() {
         List<NewsArticle> resultList = new ArrayList<>();
-        final String PATH = "posts";
+        final String PATH = "/news";
 
         try {
             connect(BASE_URL + PATH);
@@ -40,7 +40,9 @@ public class APINewsArticleDAO implements NewsArticleDAO {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                JSONArray response = new JSONArray(inputLine);
+                System.out.println("INPUT" + inputLine);
+                JSONObject input = new JSONObject(inputLine);
+                JSONArray response = input.getJSONArray("result");
                 System.out.println("ARTICLES: " + response.length());
 
                 for (int i = 0; i < response.length(); i++) {
@@ -113,7 +115,6 @@ public class APINewsArticleDAO implements NewsArticleDAO {
         imgUrl = ((pics.size() > 0) ? pics.get(0) : "https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool-homepage-1-300x300.jpg");
 
         result = new NewsArticle(id, url, imgUrl, name, date);
-
 
         return result;
 
