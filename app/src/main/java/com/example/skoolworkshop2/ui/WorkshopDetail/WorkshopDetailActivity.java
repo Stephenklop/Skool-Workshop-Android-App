@@ -17,6 +17,8 @@ import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 
+import org.w3c.dom.Text;
+
 public class WorkshopDetailActivity extends FragmentActivity implements View.OnClickListener {
     LinearLayout mDetailTabsLl;
     View mTabsSelector;
@@ -57,8 +59,6 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mTabsContentTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_content);
         mTabsInfoTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_info);
         mTabsCostTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_costs);
-
-
 
 
         getSupportFragmentManager().beginTransaction()
