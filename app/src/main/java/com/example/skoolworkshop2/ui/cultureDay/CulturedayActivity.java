@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
@@ -51,7 +52,8 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         MenuController mc = new MenuController(root);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
-        cultureDay = localAppStorage.getObject("cultureDay");
+//        cultureDay = localAppStorage.getObject("cultureDay");
+        cultureDay = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Cultuurdag").get(0);
 
         BottomNavigationView menu = findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(2).setChecked(true);

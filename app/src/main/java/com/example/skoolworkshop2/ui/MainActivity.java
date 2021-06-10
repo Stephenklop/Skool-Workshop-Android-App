@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
@@ -67,24 +68,6 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
 
-//        System.out.println("SHOPPING CART: " + Paper.book().read("cartItems"));
-
-//        Thread loadProducts = new Thread(() -> {
-//            workshops = apidaoFactory.getProductDAO().getAllProductsByCategory(23);
-//            cultureDay = apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0);
-//
-//            localAppStorage.createList("workshops", workshops);
-//            System.out.println(localAppStorage.getList("workshops"));
-//
-//            localAppStorage.createList("cultureDay", cultureDay);
-//        });
-//
-//        try {
-//            loadProducts.join();
-//            loadProducts.start();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         View searchPage = findViewById(R.id.activity_home_item_reservation);
         ImageView searchPageImg = searchPage.findViewById(R.id.item_dashboard_img_icon);
@@ -114,66 +97,18 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             }
         });
 
+        newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
 
-        // example newsfeed implementation
-
-
-//        btn_addOne = findViewById(R.id.btn_addOne);
-//
-//        btn_addOne.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent (MainActivity.this, AddEditOne.class);
-//                startActivity(intent);
-//            }
-//        });
+        recyclerView = findViewById(R.id.activity_home_rv_news_feed);
 
 
-//        Thread APIThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                APIDAOFactory apidaoFactory= new APIDAOFactory();
-//                NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
-//                newsArticles = newsArticleDAO.getAllArticles();
-//                System.out.println(newsArticles);
-//            }
-//        });
-
-
-        Thread APIThread = new Thread(() -> {
-            APIDAOFactory apidaoFactory = new APIDAOFactory();
-            NewsArticleDAO newsArticleDAO = apidaoFactory.getNewsArticleDAO();
-            newsArticles = newsArticleDAO.getAllArticles();
-            System.out.println("LOADED ARTICLES: " + newsArticles);
-        });
-        Thread recyclerViewThread = new Thread(() -> {
-            // Calling the method to build the recyclerview
-            recyclerView = findViewById(R.id.activity_home_rv_news_feed);
-        });
-        Thread adapterThread = new Thread(() -> {
-            mAdapter = new NewsArticleAdapter(newsArticles, MainActivity.this, MainActivity.this);
-            recyclerView.setAdapter(mAdapter);
-        });
-        // Start and join the threads.
-        try {
-            APIThread.start();
-            APIThread.join();
-            recyclerViewThread.start();
-            recyclerViewThread.join();
-            adapterThread.start();
-            adapterThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        mAdapter = new NewsArticleAdapter(newsArticles, MainActivity.this, MainActivity.this);
+        recyclerView.setAdapter(mAdapter);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
 
-//        RecyclerView NewsFeedRv = findViewById(R.id.activity_home_rv_news_feed);
-//        NewsFeedRv.setAdapter(new NewsArticleAdapter());
-
-//            new RecyclerView.Adapter() {
     }
 
     @Override

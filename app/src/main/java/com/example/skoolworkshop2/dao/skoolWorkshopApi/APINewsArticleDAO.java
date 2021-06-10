@@ -69,18 +69,23 @@ public class APINewsArticleDAO implements NewsArticleDAO {
 
         NewsArticle result;
 
+        int id = -1;
         String url = "";
         String imgUrlHTML = "";
         String imgUrl = "";
         String name = "";
+        String date = "";
 
         //Get url, imgUrlHTML and name from objects json
         try {
-            System.out.println("OBJECT" + jsonObject);
-            url = jsonObject.getString("site_url");
-            imgUrlHTML = jsonObject.getString("content");
-            name = jsonObject.getString("title");
-            imgUrl = jsonObject.getString("img_url");
+            id = jsonObject.getInt("id");
+            url = jsonObject.getString("link");
+            JSONObject imgUrlHTMLObject = jsonObject.getJSONObject("content");
+            imgUrlHTML = imgUrlHTMLObject.getString("rendered");
+            JSONObject titleObject = jsonObject.getJSONObject("title");
+            name = titleObject.getString("rendered");
+            date = jsonObject.getString("date").replace("T", " ") + ".000";
+            System.out.println(date);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -107,8 +112,9 @@ public class APINewsArticleDAO implements NewsArticleDAO {
         }
         System.out.println(pics);
 
-        result = new NewsArticle(url, imgUrl, name);
+        imgUrl = ((pics.size() > 0) ? pics.get(0) : "https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool-homepage-1-300x300.jpg");
 
+        result = new NewsArticle(id, url, imgUrl, name, date);
 
         return result;
 
