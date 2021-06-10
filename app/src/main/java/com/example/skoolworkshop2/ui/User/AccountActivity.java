@@ -163,7 +163,9 @@ public class AccountActivity extends AppCompatActivity {
                 avd.start();
             }
         });
+        loadingAlert.setAlpha(0);
         loadingAlert.setVisibility(View.VISIBLE);
+        loadingAlert.animate().alpha(1).setDuration(200).start();
         avd.start();
     }
 
@@ -171,7 +173,10 @@ public class AccountActivity extends AppCompatActivity {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
-        loadingAlert.setVisibility(View.GONE);
+        loadingAlert.setAlpha(1);
+        loadingAlert.animate().alpha(0).setDuration(200).setStartDelay(2000).withEndAction(() ->
+                loadingIndicator.setVisibility(View.GONE)
+        ).start();
         avd.stop();
     }
 }

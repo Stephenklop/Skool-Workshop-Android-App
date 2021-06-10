@@ -165,15 +165,16 @@
         android:id="@+id/activity_login_ll_loading_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         android:background="@drawable/item_workshop_container"
+        android:elevation="5dp"
         android:orientation="vertical"
+        android:padding="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="25dp"
-        android:layout_margin="25dp"
-        android:elevation="5dp">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/activity_login_img_loading_indicator"
@@ -192,10 +193,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Wij proberen u in te loggen"
-            android:textSize="18sp"
             android:fontFamily="@font/proxima_nova_extrabold"
-            android:textColor="@color/black"/>
+            android:text="Wij proberen u in te loggen"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
