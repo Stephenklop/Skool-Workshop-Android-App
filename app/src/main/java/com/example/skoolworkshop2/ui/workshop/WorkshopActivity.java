@@ -35,6 +35,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private LocalAppStorage localAppStorage;
     private List<Product> mWorkshops;
 
+    private String searchValue = "";
+    private String categorySelected = "Alles";
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -61,27 +64,30 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mWorkshopAdapter = new WorkshopAdapter((ArrayList<Product>) mWorkshops, this, getBaseContext());
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
+        SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
+
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
             @Override
             public void onChange(String filterLabel) {
                 List<Product> workshops = new ArrayList<>();
-
-                if (filterLabel.equals("Meest gekozen") || filterLabel.equals("Alles")) {
-                    mWorkshopAdapter.setWorkshopList(mWorkshops);
-                } else {
-                    for (Product workshop : mWorkshops) {
-                        if(workshop.getCategory().toString().equals(filterLabel)){
-                            workshops.add(workshop);
-                        }
-                    }
-
-                    mWorkshopAdapter.setWorkshopList(workshops);
-                }
+                categorySelected = filterLabel;
+                filter();
+//                if (filterLabel.equals("Meest gekozen") || filterLabel.equals("Alles")) {
+//                    mWorkshopAdapter.setWorkshopList(mWorkshops);
+//                } else {
+//                    for (Product workshop : mWorkshops) {
+//                        if(workshop.getCategory().toString().equals(filterLabel)){
+//                            workshops.add(workshop);
+//                        }
+//                    }
+//
+//                    mWorkshopAdapter.setWorkshopList(workshops);
+//                }
             }
         });
 
         // SearchView
-        SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -90,7 +96,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
             @Override
             public boolean onQueryTextChange(String s) {
-                mWorkshopAdapter.getFilter().filter(s);
+//                mWorkshopAdapter.getFilter().filter(s);
+                searchValue = s;
+                filter();
                 return false;
             }
         });
@@ -102,6 +110,35 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     @Override
     public void onWorkshopSelected(int position) {
 
+    }
+
+    public List<Product> filter(){
+        List<Product> filteredList = new ArrayList<>();
+        if(searchValue.isEmpty() && (categorySelected.equals("Alles") || categorySelected.equals("Meest gekozen"))){
+            filteredList = mWorkshops;
+        } else if(!searchValue.isEmpty()){
+            if(categorySelected.equals("Alles") || categorySelected.equals("Meest gekozen")){
+                for (Product workshop: mWorkshops) {
+                    if(workshop.getName().toLowerCase().contains(searchValue)){
+                        filteredList.add(workshop);
+                    }
+                }
+            } else {
+                for (Product workshop: mWorkshops){
+                    if(workshop.getName().toLowerCase().contains(searchValue) && workshop.getCategory().equals(categorySelected)){
+                        filteredList.add(workshop);
+                    }
+                }
+            }
+        } else {
+            for (Product workshop: mWorkshops) {
+                if(workshop.getCategory().equals(categorySelected)){
+                    filteredList.add(workshop);
+                }
+            }
+        }
+        mWorkshopAdapter.setWorkshopList(filteredList);
+        return filteredList;
     }
 
 }
