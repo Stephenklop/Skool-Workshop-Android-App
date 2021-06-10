@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
 
 public class APINewsArticleDAO implements NewsArticleDAO {
-    private final String BASE_URL = "https://skoolworkshop.nl/wp-json/wp/v2/";
+    private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api";
     private HttpsURLConnection connection;
 
     private void connect(String url) throws Exception {
@@ -30,7 +30,7 @@ public class APINewsArticleDAO implements NewsArticleDAO {
 
     public List<NewsArticle> getAllArticles() {
         List<NewsArticle> resultList = new ArrayList<>();
-        final String PATH = "posts";
+        final String PATH = "/news";
 
         try {
             connect(BASE_URL + PATH);
@@ -40,7 +40,9 @@ public class APINewsArticleDAO implements NewsArticleDAO {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                JSONArray response = new JSONArray(inputLine);
+                System.out.println("INPUT" + inputLine);
+                JSONObject input = new JSONObject(inputLine);
+                JSONArray response = input.getJSONArray("result");
                 System.out.println("ARTICLES: " + response.length());
 
                 for (int i = 0; i < response.length(); i++) {
@@ -74,11 +76,11 @@ public class APINewsArticleDAO implements NewsArticleDAO {
 
         //Get url, imgUrlHTML and name from objects json
         try {
-            url = jsonObject.getString("link");
-            JSONObject imgUrlHTMLObject = jsonObject.getJSONObject("content");
-            imgUrlHTML = imgUrlHTMLObject.getString("rendered");
-            JSONObject titleObject = jsonObject.getJSONObject("title");
-            name = titleObject.getString("rendered");
+            System.out.println("OBJECT" + jsonObject);
+            url = jsonObject.getString("site_url");
+            imgUrlHTML = jsonObject.getString("content");
+            name = jsonObject.getString("title");
+            imgUrl = jsonObject.getString("img_url");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,8 +106,6 @@ public class APINewsArticleDAO implements NewsArticleDAO {
             }
         }
         System.out.println(pics);
-
-        imgUrl = ((pics.size() > 0) ? pics.get(0) : "https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool-homepage-1-300x300.jpg");
 
         result = new NewsArticle(url, imgUrl, name);
 
