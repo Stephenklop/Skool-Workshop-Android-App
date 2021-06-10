@@ -6,11 +6,9 @@ import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.domain.User;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
