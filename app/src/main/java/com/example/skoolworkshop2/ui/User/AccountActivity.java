@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -153,6 +154,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void enableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
@@ -161,7 +163,15 @@ public class AccountActivity extends AppCompatActivity {
                 avd.start();
             }
         });
+        loadingAlert.setVisibility(View.VISIBLE);
         avd.start();
-        loadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void disableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        loadingAlert.setVisibility(View.GONE);
+        avd.stop();
     }
 }

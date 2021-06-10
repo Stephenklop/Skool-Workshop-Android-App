@@ -7,21 +7,6 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/activity_login_img_loading_indicator"
-        android:visibility="visible"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_loading_indicator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".3" />
-
-
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
@@ -175,4 +160,42 @@
         android:id="@+id/activity_login_txt_forgot_password"
         layout="@layout/component_menu_icons"
         tools:layout_editor_absoluteY="793dp" />
+
+    <LinearLayout
+        android:id="@+id/activity_login_ll_loading_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_workshop_container"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="25dp"
+        android:layout_margin="25dp"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/activity_login_img_loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_loading_indicator"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Wij proberen u in te loggen"
+            android:textSize="18sp"
+            android:fontFamily="@font/proxima_nova_extrabold"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
