@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.UserDAO;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
@@ -47,7 +48,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
-            System.out.println(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
+            LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
+
+
             System.out.println(apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0));
             toMainActivity.start();
         });

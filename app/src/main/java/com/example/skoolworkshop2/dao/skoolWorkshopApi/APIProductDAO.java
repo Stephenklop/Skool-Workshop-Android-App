@@ -108,21 +108,118 @@ public class APIProductDAO implements ProductDAO {
     public Product parseProduct(JSONObject jsonObject) {
         Product result = null;
 
+//        int id = 999999;
+        String name = "";
+        String productType = "";
+        String category = "";
+        String permaLink = "";
+        String type = "";
+        String status = "";
+        String description = "";
+        String shortDescription = "";
+        String buildupDescription = "";
+        String practicalInformation = "";
+        String costsInfo = "";
+        String image = "";
+        String imageName = "";
+        String video = "";
+
+//        try {
+//            id = jsonObject.getInt("id");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+        try {
+            name = jsonObject.getString("name").replace("Workshop ", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray categories = jsonObject.getJSONArray("categories");
+            for (int i = 0; i < categories.length(); i++) {
+                if (categories.getJSONObject(i).getString("name").toLowerCase().contains("workshop") || categories.getJSONObject(i).getString("name").toLowerCase().contains("cultuurdag")) {
+                    productType = categories.getJSONObject(i).getString("name");
+                } else {
+                    category = categories.getJSONObject(i).getString("name");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            permaLink = jsonObject.getString("permalink");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            type = jsonObject.getString("type");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            status = jsonObject.getString("status");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            shortDescription = jsonObject.getString("short_description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            practicalInformation = jsonObject.getString("practical_information");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            costsInfo = jsonObject.getString("costs_info");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            image = jsonObject.getJSONObject("image").getString("src");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            imageName = jsonObject.getJSONObject("image").getString("name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            video = jsonObject.getString("video");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         try {
             result = new Product(
                     jsonObject.getInt("id"),
-                    jsonObject.getString("name").replace("Workshop ", ""),
-                    jsonObject.getString("permalink"),
-                    jsonObject.getString("type"),
-                    jsonObject.getString("status"),
-                    jsonObject.getString("description"),
-                    jsonObject.getString("short_description"),
-                    "",
-                    "",
-                    "",
-                    jsonObject.getJSONObject("image").getString("src"),
-                    jsonObject.getJSONObject("image").getString("name"),
-                    jsonObject.getString("video")
+                    name,
+                    productType,
+                    category,
+                    permaLink,
+                    type,
+                    status,
+                    description,
+                    shortDescription,
+                    buildupDescription,
+                    practicalInformation,
+                    costsInfo,
+                    image,
+                    imageName,
+                    video
             );
         } catch (JSONException e) {
             e.printStackTrace();

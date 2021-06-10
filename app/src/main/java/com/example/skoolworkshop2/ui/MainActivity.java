@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
@@ -113,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
                 getApplicationContext().startActivity(intent);
             }
         });
-
 
         // example newsfeed implementation
 

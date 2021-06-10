@@ -130,7 +130,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
 //        selectedCategories = new ArrayList<>();
 
         //add dummylist
-        workshopDummylist.add(new Product(1, "test", "test", "booking", "test desc", "status", "hoi", "buildup", "desc", "cost info", "srcImage", "ImageName", "video"));
+        //workshopDummylist.add(new Product(1, "test", "test", "booking", "test desc", "status", "hoi", "buildup", "desc", "cost info", "srcImage", "ImageName", "video"));
 
         // Variabelen voor workshopnamen voor spinner
         workshopNames = new ArrayList<>();
