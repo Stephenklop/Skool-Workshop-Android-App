@@ -167,7 +167,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <LinearLayout
-        android:id="@+id/activity_login_ll_loading_alert"
+        android:id="@+id/activity_register_ll_loading_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/item_workshop_container"
@@ -181,7 +181,7 @@
         android:elevation="5dp">
 
         <ImageView
-            android:id="@+id/activity_login_img_loading_indicator"
+            android:id="@+id/activity_register_img_loading_indicator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
@@ -197,7 +197,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Wij proberen u in te loggen"
+            android:text="Wij proberen u in te registreren"
             android:textSize="18sp"
             android:fontFamily="@font/proxima_nova_extrabold"
             android:textColor="@color/black"/>

@@ -174,7 +174,7 @@ public class AccountActivity extends AppCompatActivity {
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         loadingAlert.setAlpha(1);
-        loadingAlert.animate().alpha(0).setDuration(200).setStartDelay(2000).withEndAction(() ->
+        loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
                 loadingIndicator.setVisibility(View.GONE)
         ).start();
         avd.stop();
