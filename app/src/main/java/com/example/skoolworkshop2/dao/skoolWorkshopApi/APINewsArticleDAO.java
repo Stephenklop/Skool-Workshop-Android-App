@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
 
 public class APINewsArticleDAO implements NewsArticleDAO {
-    private final String BASE_URL = "https://skoolworkshop.nl/wp-json/wp/v2/";
+    private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api";
     private HttpsURLConnection connection;
 
     private void connect(String url) throws Exception {
@@ -30,7 +30,7 @@ public class APINewsArticleDAO implements NewsArticleDAO {
 
     public List<NewsArticle> getAllArticles() {
         List<NewsArticle> resultList = new ArrayList<>();
-        final String PATH = "posts";
+        final String PATH = "/news";
 
         try {
             connect(BASE_URL + PATH);
@@ -40,7 +40,8 @@ public class APINewsArticleDAO implements NewsArticleDAO {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                JSONArray response = new JSONArray(inputLine);
+                JSONObject input = new JSONObject(inputLine);
+                JSONArray response = input.getJSONArray("result");
                 System.out.println("ARTICLES: " + response.length());
 
                 for (int i = 0; i < response.length(); i++) {
@@ -49,12 +50,6 @@ public class APINewsArticleDAO implements NewsArticleDAO {
                     resultList.add(parseArticle(jsonListObject));
                 }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,43 +72,18 @@ public class APINewsArticleDAO implements NewsArticleDAO {
         //Get url, imgUrlHTML and name from objects json
         try {
             id = jsonObject.getInt("id");
-            url = jsonObject.getString("link");
-            JSONObject imgUrlHTMLObject = jsonObject.getJSONObject("content");
-            imgUrlHTML = imgUrlHTMLObject.getString("rendered");
-            JSONObject titleObject = jsonObject.getJSONObject("title");
-            name = titleObject.getString("rendered");
+            url = jsonObject.getString("site_url");
+            imgUrlHTML = jsonObject.getString("img_url");
+            name = jsonObject.getString("title");
             date = jsonObject.getString("date").replace("T", " ") + ".000";
             System.out.println(date);
+            imgUrl = jsonObject.getString("img_url");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        //use Regex to search for image URL's in HTML text
-        //all URL's are stored in this list
-        List<String> pics = new ArrayList<String>();
-        String img = "";
-        Pattern pattern;
-        Matcher matcher;
-
-        String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
-        pattern = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(imgUrlHTML);
-
-        while (matcher.find()) {
-            // get <img /> data
-            img = matcher.group();
-            // match the src data in <img>
-            Matcher m = Pattern.compile("src\\s*=\\s*\"?(.*?)(\"|>|\\s+)").matcher(img);
-            while (m.find()) {
-                pics.add(m.group(1));
-            }
-        }
-        System.out.println(pics);
-
-        imgUrl = ((pics.size() > 0) ? pics.get(0) : "https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool-homepage-1-300x300.jpg");
-
         result = new NewsArticle(id, url, imgUrl, name, date);
-
+        System.out.println(result);
 
         return result;
 

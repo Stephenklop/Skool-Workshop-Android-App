@@ -72,6 +72,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 updatedInfoEntity.setToken(user.getToken());
                 updatedInfoEntity.setPoints(user.getPoints());
                 iem.updateInfo(updatedInfoEntity);
+//                loadProducts.start();
                 APIThread.start();
             }
         });

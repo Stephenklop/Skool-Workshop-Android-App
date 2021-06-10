@@ -52,6 +52,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mTitleTV.setText(workshop.getName());
 
+
         mDetailTabsLl = findViewById(R.id.activity_workshop_details_ll_tabs);
         mTabsSelector = mDetailTabsLl.findViewById(R.id.component_tabs_selector);
 
@@ -84,11 +85,12 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mPriceBn = findViewById(R.id.activity_workshop_detail_button_price);
         mParticipantsBn = findViewById(R.id.activity_workshop_detail_button_participants);
-//        mDurationBn = findViewById(R.id.activity_workshop_detail_button_duration);
+        mDurationBn = findViewById(R.id.activity_workshop_detail_button_duration);
 
-//        mPriceBn.setText("€" + workshop.getPrice() + ",-");
-//        mParticipantsBn.setText(workshop.getMaxParticipants() + " deelnemers");
-//        mDurationBn.setText(workshop. + " minuten");
+        mPriceBn.setText("€150,-");
+        mParticipantsBn.setText("25 deelnemers");
+        mDurationBn.setText("60 min");
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.SearchView;
 
@@ -33,8 +34,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mRecyclerView;
     private LocalAppStorage localAppStorage;
     private List<Product> mWorkshops;
-    private ArrayList<String> mCategories = new ArrayList<>();
-    private ArrayList<String> mEnumCategories = new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -49,11 +48,11 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         menu.getMenu().getItem(1).setChecked(true);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
-//        mWorkshops = localAppStorage.getList("workshops");
         mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
 
-        // Add enum list with data
-        mEnumCategories.addAll(addCategories());
+
+
+
         // Radiobutton
 
         // RecyclerView for whole activity
@@ -71,9 +70,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                     mWorkshopAdapter.setWorkshopList(mWorkshops);
                 } else {
                     for (Product workshop : mWorkshops) {
-//                        if (workshop.getCategory().label.equals(filterLabel)) {
-//                            workshops.add(workshop);
-//                        }
+                        if(workshop.getCategory().toString().equals(filterLabel)){
+                            workshops.add(workshop);
+                        }
                     }
 
                     mWorkshopAdapter.setWorkshopList(workshops);
@@ -99,18 +98,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mWorkshopAdapter.notifyDataSetChanged();
     }
 
-    // Hard-coded categories
-    public ArrayList<String> addCategories(){
-        ArrayList<String> list = new ArrayList<>();
-        mEnumCategories.add("Meest gekozen");
-        mEnumCategories.add("BK");
-        mEnumCategories.add("DS");
-        mEnumCategories.add("MA");
-        mEnumCategories.add("MK");
-        mEnumCategories.add("ST");
-        mEnumCategories.add("TR");
-        return list;
-    }
 
     @Override
     public void onWorkshopSelected(int position) {
