@@ -10,7 +10,7 @@ public class PlaceValidator {
         return mIsValid;
     }
 
-    public static boolean isValidPlaceValidator(CharSequence learns) {
+    public static boolean isValidPlace(CharSequence learns) {
         if(learns != null && !learns.toString().equals("")) {
             String regx = "^[\\p{L} .'-]+$";
             Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);

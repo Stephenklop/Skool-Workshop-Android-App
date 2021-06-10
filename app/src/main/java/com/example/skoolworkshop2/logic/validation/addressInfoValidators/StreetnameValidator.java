@@ -10,7 +10,7 @@ public class StreetnameValidator {
         return mIsValid;
     }
 
-    public static boolean isValidStreetnameValidator(CharSequence learns) {
+    public static boolean isValidStreetname(CharSequence learns) {
         if(learns != null && !learns.toString().equals("")) {
             String regx = "^[\\p{L} .'-]+$";
             Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);

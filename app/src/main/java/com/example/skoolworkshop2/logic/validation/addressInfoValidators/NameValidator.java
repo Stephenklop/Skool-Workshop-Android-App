@@ -12,7 +12,7 @@ public class NameValidator {
         return mIsValid;
     }
 
-    public static boolean isValidNameValidator(CharSequence learns) {
+    public static boolean isValidName(CharSequence learns) {
         if(learns != null && !learns.toString().equals("")) {
             String regx = "^[\\p{L} .'-]+$";
             Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
