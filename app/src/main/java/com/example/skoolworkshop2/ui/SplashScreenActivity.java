@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
@@ -51,6 +52,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProducts());
             toMainActivity.start();
         });
+
+        Thread APIThread = new Thread(() -> {
+            APIDAOFactory apiDaoFactoryNewsArticles = new APIDAOFactory();
+            NewsArticleDAO newsArticleDAO = apiDaoFactoryNewsArticles.getNewsArticleDAO();
+            LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());
+
+            loadProducts.start();
+        });
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -60,7 +70,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 updatedInfoEntity.setToken(user.getToken());
                 updatedInfoEntity.setPoints(user.getPoints());
                 iem.updateInfo(updatedInfoEntity);
-                loadProducts.start();
+                APIThread.start();
             }
         });
 
