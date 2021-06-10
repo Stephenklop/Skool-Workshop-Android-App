@@ -103,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enableLoadingIndicator();
                 APIUserDAO apiUserDAO = new APIUserDAO();
 
                 if(emailValidator.isValid() && passwordValidator.isValid()){
@@ -122,6 +123,8 @@ public class RegisterActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    disableLoadingIndicator();
                 }
             }
         });
