@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuController menuController;
     private List<Product> workshops;
     private Product cultureDay;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         View root = (View) findViewById(R.id.activity_home);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
@@ -134,7 +137,11 @@ public class MainActivity extends AppCompatActivity {
 
         handleNotificationData();
         getToken();
-        subscribeToTopic("stefklop18-gmail.com".toLowerCase());
+        subscribeToTopic("main");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("test_event", "test_event_id");
+        mFirebaseAnalytics.logEvent("eventTest", bundle);
     }
 
     public void getToken() {
