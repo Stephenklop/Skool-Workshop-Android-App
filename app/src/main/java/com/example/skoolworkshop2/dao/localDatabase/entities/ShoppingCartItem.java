@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 public class ShoppingCartItem {
-    @ColumnInfo @PrimaryKey @NonNull
+    @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
     private int id;
 
     @ColumnInfo
@@ -48,8 +48,10 @@ public class ShoppingCartItem {
     @ColumnInfo
     private String learningLevel;
 
-    public ShoppingCartItem(int id, int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String productIds, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
-        this.id = id;
+    @ColumnInfo
+    private double totalPrice;
+
+    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String productIds, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel, double totalPrice) {
         this.productId = productId;
         this.workshop = workshop;
         this.date = date;
@@ -61,6 +63,7 @@ public class ShoppingCartItem {
         this.participants = participants;
         this.amountOfParticipantsGraffitiTshirt = amountOfParticipantsGraffitiTshirt;
         this.learningLevel = learningLevel;
+        this.totalPrice = totalPrice;
     }
 
 //    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, List<Integer> productIds, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
@@ -96,6 +99,10 @@ public class ShoppingCartItem {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getProductId() {
@@ -200,5 +207,13 @@ public class ShoppingCartItem {
 
     public void setLearningLevel(String learningLevel) {
         this.learningLevel = learningLevel;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
     }
 }

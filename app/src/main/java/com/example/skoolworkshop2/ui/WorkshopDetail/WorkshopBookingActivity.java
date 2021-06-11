@@ -27,6 +27,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -180,6 +182,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             public void afterTextChanged(Editable editable) {
                 if (dateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    workshopItem.setDate(editable.toString());
                     dateValidation.mIsValid = true;
                 }
             }
@@ -194,7 +197,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                workshopItem.setRounds(Integer.parseInt((charSequence.toString() == "") ? "0" : charSequence.toString()));
+                workshopItem.setRounds(Integer.parseInt((charSequence.toString().equals("")) ? "0" : charSequence.toString()));
             }
 
             @Override
@@ -235,6 +238,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void afterTextChanged(Editable editable) {
                 if (minuteValidator.isValidMinute(editable.toString())) {
+                    workshopItem.setRoundDuration(Integer.valueOf(editable.toString()));
                     updateOrderOverview();
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     minuteValidator.mIsValid = true;
@@ -333,6 +337,26 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
 
         mSendBn.setOnClickListener(v -> {
             System.out.println("ORDER: " + workshopItem);
+            // Save the item in the shopping cart
+            LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(
+                    new ShoppingCartItem(
+                            workshopItem.getProduct().getId(),
+                            true, workshopItem.getDate(),
+                            workshopItem.getRounds(),
+                            -1,
+                            workshopItem.getRoundDuration(),
+                            null,
+                            workshopItem.getTimeSchedule(),
+                            workshopItem.getParticipants(),
+                            0,
+                            workshopItem.getLearningLevel(),
+                            workshopItem.getPrice()
+                    )
+            );
+
+            // Redirect to shopping cart
+            Intent intent = new Intent(this, ShoppingCartActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -353,8 +377,8 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
     private void updateOrderOverview() {
         mResultWorkshopRoundsTextView.setText("Workshoprondes: " + workshopItem.getRounds());
         mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + workshopItem.getRoundDuration() + " min");
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + workshopItem.getRoundDuration() * workshopItem.getRounds() + " min");
         mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((workshopItem.getTimeSchedule() == null || workshopItem.getTimeSchedule().equals("")) ? "n.n.g." : workshopItem.getTimeSchedule()));
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + workshopItem.getRoundDuration() * workshopItem.getRounds() + " min");
         mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((workshopItem.getLearningLevel() == null || workshopItem.getLearningLevel().equals("")) ? "n.n.b." : workshopItem.getLearningLevel()));
         System.out.println("TOTALE PRIJS: " + workshopItem.getPrice());
         mTotalCostTextView.setText("Subtotaal: €" + (int) workshopItem.getPrice());

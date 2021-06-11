@@ -16,7 +16,7 @@ public class CultureDayItem implements Serializable, ProductItem {
     private int amountOfParticipantsGraffitiTshirt;
     private String learningLevel;
 
-    public CultureDayItem(String date, int workshopRounds, int workshopPerWorkshopRound, int roundDuration, List<Product> products, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
+    public CultureDayItem(String date, int rounds, int workshopPerWorkshopRound, int roundDuration, List<Product> products, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
         this.date = date;
         this.rounds = rounds;
         this.workshopPerWorkshopRound = workshopPerWorkshopRound;

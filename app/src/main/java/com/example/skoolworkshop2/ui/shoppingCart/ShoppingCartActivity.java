@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.ProductItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,9 +20,8 @@ import java.util.List;
 public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView shoppingCartRecyclerView;
     private ShoppingCartRecyclerViewAdapter mAdapter;
-    private LocalAppStorage localAppStorage;
     private MenuController menuController;
-    private List<ProductItem> shoppingCartItems;
+    private List<ShoppingCartItem> shoppingCartItems;
     private TextView totalPriceTitleTextView;
     private TextView totalPriceTextView;
 
@@ -29,7 +30,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
         View root = (View) findViewById(R.id.activity_shopping_cart);
-        localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
 
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
@@ -37,7 +37,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         // Read the shopping cart items.
         // If there are no shopping cart items an empty ArrayList is initialized.
-        shoppingCartItems = localAppStorage.getList("cartItems");
+
+        shoppingCartItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getItemsInShoppingCart();
 
         shoppingCartRecyclerView = findViewById(R.id.activity_shopping_cart_rv);
 
@@ -56,8 +57,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private double calculateTotalPrice() {
         double total = 0;
 
-        for (ProductItem product : shoppingCartItems) {
-            total += product.getPrice();
+        for (ShoppingCartItem product : shoppingCartItems) {
+            total += product.getTotalPrice();
         }
 
         return total;

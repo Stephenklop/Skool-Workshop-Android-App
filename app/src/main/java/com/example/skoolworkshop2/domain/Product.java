@@ -46,7 +46,6 @@ public class Product implements Serializable {
 
     @ColumnInfo
     private String costsInfo;
-    // TODO: Add category
 
     @ColumnInfo
     private String sourceImage;

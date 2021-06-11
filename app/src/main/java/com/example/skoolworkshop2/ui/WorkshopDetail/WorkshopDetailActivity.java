@@ -48,7 +48,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mWorkshopBanner = findViewById(R.id.activity_workshop_details_img_banner);
         mTitleTV = findViewById(R.id.activity_workshop_details_tv_title);
 
-        workshop = (Product) getIntent().getSerializableExtra("Workshop");
+        workshop = (Product) getIntent().getSerializableExtra("workshop");
 
         mTitleTV.setText(workshop.getName());
 
