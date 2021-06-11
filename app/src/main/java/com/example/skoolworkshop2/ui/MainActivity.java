@@ -28,6 +28,7 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
     public static String adminToken;
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static String androidToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -75,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
+
+        if(!iem.hasInfo()){
+            iem.insertInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "wachtwoord", 500, 70));
+        }
 
         String pointsStrStart = "Je hebt ";
         String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
@@ -154,12 +160,17 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         recyclerView.setLayoutManager(layoutManager);
 
 
-        handleNotificationData();
-        getToken();
-        subscribeToTopic("main");
+//        handleNotificationData();
+//        getToken();
+//
+//        subscribeToTopic("main");
         Bundle bundle = new Bundle();
         bundle.putString("test_event", "test_event_id");
         mFirebaseAnalytics.logEvent("eventTest", bundle);
+
+
+
+//        LocalDb.getDatabase(getBaseContext()).getInfoDAO().getInfo().getUserId();
     }
 
     @Override
@@ -168,86 +179,86 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         startActivity(browserIntent);
     }
 
-    public void getToken() {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-
-                if (!task.isSuccessful()) {
-                    Log.e(TAG, "Failed to get the token.");
-                    return;
-                }
-
-                //get the token from task
-                String token = task.getResult();
-
-                Log.d(TAG, "Token : " + token);
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
-            }
-        });
-    }
-
-    private void handleNotificationData() {
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if(bundle.containsKey("data1")) {
-                Log.d(TAG, "Data1: " + bundle.getString("data1"));
-            }
-            if(bundle.containsKey("data2")) {
-                Log.d(TAG, "Data2: " + bundle.getString("data2"));
-            }
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d(TAG, "On New Intent called");
-    }
-
-    /**
-     * method to subscribe to topic
-     *
-     * @param topic to which subscribe
-     */
-    private void subscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(MainActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /**
-     * method to unsubscribe to topic
-     *
-     * @param topic to which unsubscribe
-     */
-    private void unsubscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(MainActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public void getToken() {
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+//            @Override
+//            public void onComplete(@NonNull Task<String> task) {
+//
+//                if (!task.isSuccessful()) {
+//                    Log.e(TAG, "Failed to get the token.");
+//                    return;
+//                }
+//
+//                //get the token from task
+//                String token = task.getResult();
+//
+//                Log.d(TAG, "Token : " + token);
+//
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
+//            }
+//        });
+//    }
+//
+//    private void handleNotificationData() {
+//        Bundle bundle = getIntent().getExtras();
+//        if(bundle != null) {
+//            if(bundle.containsKey("data1")) {
+//                Log.d(TAG, "Data1: " + bundle.getString("data1"));
+//            }
+//            if(bundle.containsKey("data2")) {
+//                Log.d(TAG, "Data2: " + bundle.getString("data2"));
+//            }
+//        }
+//    }
+//
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        Log.d(TAG, "On New Intent called");
+//    }
+//
+//    /**
+//     * method to subscribe to topic
+//     *
+//     * @param topic to which subscribe
+//     */
+//    private void subscribeToTopic(String topic) {
+//        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Toast.makeText(MainActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MainActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    /**
+//     * method to unsubscribe to topic
+//     *
+//     * @param topic to which unsubscribe
+//     */
+//    private void unsubscribeToTopic(String topic) {
+//        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Toast.makeText(MainActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MainActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }
