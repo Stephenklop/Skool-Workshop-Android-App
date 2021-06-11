@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class WorkshopContentFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_workshop_content, container, false);
         mContentTv = root.findViewById(R.id.fragment_workshop_content_tv_txt);
         // TODO: Add text
-        mContentTv.setText("WORDT LATER GEIMPLEMENTEERD");
+        mContentTv.setText(Html.fromHtml(workshop.getPracticalInformation(), Html.FROM_HTML_MODE_COMPACT));
         // Inflate the layout for this fragment
         return root;
     }

@@ -1,26 +1,67 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NonNls;
+
 import java.io.Serializable;
 
+@Entity
 public class Product implements Serializable {
+    @ColumnInfo @PrimaryKey @NonNull
     private int id;
+
+    @ColumnInfo @NonNull
     private String name;
+
+    @ColumnInfo
+    private String productType;
+
+    @ColumnInfo
+    private String category;
+
+    @ColumnInfo
     private String permalink;
+
+    @ColumnInfo
     private String type;
+
+    @ColumnInfo
     private String status;
+
+    @ColumnInfo
     private String description;
+
+    @ColumnInfo
     private String shortDescription;
+
+    @ColumnInfo
     private String buildupDescription;
+
+    @ColumnInfo
     private String practicalInformation;
+
+    @ColumnInfo
     private String costsInfo;
     // TODO: Add category
+
+    @ColumnInfo
     private String sourceImage;
+
+    @ColumnInfo
     private String imageName;
+
+    @ColumnInfo
     private String video;
 
-    public Product(int id, String name, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
+    public Product(int id, String name, String productType, String category, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
         this.id = id;
         this.name = name;
+        this.productType = productType;
+        this.category = category;
         this.permalink = permalink;
         this.type = type;
         this.status = status;
@@ -48,6 +89,22 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getPermalink() {

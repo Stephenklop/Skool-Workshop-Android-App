@@ -42,7 +42,7 @@ public class WorkshopOverviewFragment extends Fragment {
 
 //        mParticipants.setText("60 minuten | Maximaal " + workshop.getMaxParticipants() + " deelnemers");
        mPriceTv.setText("€150,-");
-        mDescriptionTv.setText(Html.fromHtml(workshop.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+        mDescriptionTv.setText(Html.fromHtml(workshop.getShortDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         mBookingBn.setText("Boek Direct Online");
         mInfoBn.setText("Vraag Meer Informatie Aan");

@@ -17,6 +17,8 @@ import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 
+import org.w3c.dom.Text;
+
 public class WorkshopDetailActivity extends FragmentActivity implements View.OnClickListener {
     LinearLayout mDetailTabsLl;
     View mTabsSelector;
@@ -50,6 +52,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mTitleTV.setText(workshop.getName());
 
+
         mDetailTabsLl = findViewById(R.id.activity_workshop_details_ll_tabs);
         mTabsSelector = mDetailTabsLl.findViewById(R.id.component_tabs_selector);
 
@@ -57,8 +60,6 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mTabsContentTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_content);
         mTabsInfoTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_info);
         mTabsCostTv = mDetailTabsLl.findViewById(R.id.component_tabs_tv_costs);
-
-
 
 
         getSupportFragmentManager().beginTransaction()
@@ -83,11 +84,12 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mPriceBn = findViewById(R.id.activity_workshop_detail_button_price);
         mParticipantsBn = findViewById(R.id.activity_workshop_detail_button_participants);
-//        mDurationBn = findViewById(R.id.activity_workshop_detail_button_duration);
+        mDurationBn = findViewById(R.id.activity_workshop_detail_button_duration);
 
-//        mPriceBn.setText("€" + workshop.getPrice() + ",-");
-//        mParticipantsBn.setText(workshop.getMaxParticipants() + " deelnemers");
-//        mDurationBn.setText(workshop. + " minuten");
+        mPriceBn.setText("€150,-");
+        mParticipantsBn.setText("25 deelnemers");
+        mDurationBn.setText("60 min");
+
     }
 
     @Override

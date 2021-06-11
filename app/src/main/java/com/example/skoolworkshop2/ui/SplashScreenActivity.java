@@ -15,8 +15,10 @@ import android.widget.ImageView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.UserDAO;
-import com.example.skoolworkshop2.dao.localDatabase.InfoEntity;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
@@ -63,10 +65,21 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
-            System.out.println(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
-            System.out.println(apidaoFactory.getProductDAO().getAllProductsByCategory(28).get(0));
+            LocalDb.getDatabase(getBaseContext()).getProductDAO().deleteProductTable();
+            LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
+            LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(28));
             toMainActivity.start();
         });
+
+        Thread APIThread = new Thread(() -> {
+            LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().deleteNewsArticleTable();
+            APIDAOFactory apiDaoFactoryNewsArticles = new APIDAOFactory();
+            NewsArticleDAO newsArticleDAO = apiDaoFactoryNewsArticles.getNewsArticleDAO();
+            LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());
+
+            loadProducts.start();
+        });
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -76,7 +89,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 updatedInfoEntity.setToken(user.getToken());
                 updatedInfoEntity.setPoints(user.getPoints());
                 iem.updateInfo(updatedInfoEntity);
-                loadProducts.start();
+//                loadProducts.start();
+                APIThread.start();
             }
         });
 

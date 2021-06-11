@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.dao.localDatabase;
+package com.example.skoolworkshop2.dao.localDatabase.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

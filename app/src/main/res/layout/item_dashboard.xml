@@ -5,6 +5,7 @@
     android:background="@drawable/item_dashboard_container">
 
     <LinearLayout
+        android:id="@+id/item_dashboard_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
