@@ -123,6 +123,7 @@ public class APIProductDAO implements ProductDAO {
         String image = "";
         String imageName = "";
         String video = "";
+        boolean highlighted = false;
 
 //        try {
 //            id = jsonObject.getInt("id");
@@ -141,6 +142,8 @@ public class APIProductDAO implements ProductDAO {
             for (int i = 0; i < categories.length(); i++) {
                 if (categories.getJSONObject(i).getString("name").toLowerCase().contains("workshop") || categories.getJSONObject(i).getString("name").toLowerCase().contains("cultuurdag")) {
                     productType = categories.getJSONObject(i).getString("name");
+                } else if (categories.getJSONObject(i).getString("name").toLowerCase().contains("uitgelicht")) {
+                    highlighted = true;
                 } else {
                     category = categories.getJSONObject(i).getString("name");
                 }
@@ -221,6 +224,7 @@ public class APIProductDAO implements ProductDAO {
                     name,
                     productType,
                     category,
+                    highlighted,
                     permaLink,
                     type,
                     status,

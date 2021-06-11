@@ -80,6 +80,11 @@ public class CategoryAdapter{
         }
     }
 
+    public void setChecked(){
+        RadioButton rb = (RadioButton) mCategoriesRadiogroup.findViewById(0);
+        rb.setChecked(true);
+    }
+
 
 
     public interface Listener {
