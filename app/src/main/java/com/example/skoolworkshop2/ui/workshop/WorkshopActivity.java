@@ -38,7 +38,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mCategoryRecyclerView;
     private RadioButton radioButton;
     private RecyclerView mRecyclerView;
-    TextView mCategoryTitleTv;
+    private TextView mCategoryTitleTv;
     private LocalAppStorage localAppStorage;
     private List<Product> mWorkshops;
 
