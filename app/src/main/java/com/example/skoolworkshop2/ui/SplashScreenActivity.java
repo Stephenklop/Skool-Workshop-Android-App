@@ -32,14 +32,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
-
-        //insert test information into db
-        iem.updateInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "1gCA&cC1ArczV(#wsd8iOmV3", 0));
-
-        UserDAO userDAO = new APIUserDAO();
-
-        DAOFactory apidaoFactory = new APIDAOFactory();
 
         ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
@@ -50,6 +42,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
         avd.start();
+
+
+        DAOFactory apidaoFactory = new APIDAOFactory();
 
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
@@ -80,20 +75,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             loadProducts.start();
         });
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("THREAD 1");
-                InfoEntity updatedInfoEntity = iem.getInfo();
-                User user = userDAO.signUserIn("bbuijsen@gmail.com", "1gCA&cC1ArczV(#wsd8iOmV3");
-                updatedInfoEntity.setToken(user.getToken());
-                updatedInfoEntity.setPoints(user.getPoints());
-                iem.updateInfo(updatedInfoEntity);
-//                loadProducts.start();
-                APIThread.start();
-            }
-        });
-
-        t.start();
+        APIThread.start();
     }
 }

@@ -90,7 +90,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         Glide.with(context).load(workshop.getSourceImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopName.setText(workshop.getName());
         // TODO: Fix category
-        holder.mWorkshopCategory.setText("");
+        holder.mWorkshopCategory.setText(workshop.getCategory());
     }
 
     @Override
