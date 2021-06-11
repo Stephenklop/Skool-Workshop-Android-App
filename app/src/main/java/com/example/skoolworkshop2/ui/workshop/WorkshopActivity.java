@@ -38,6 +38,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mCategoryRecyclerView;
     private RadioButton radioButton;
     private RecyclerView mRecyclerView;
+    private TextView mCategoryTitleTv;
     private LocalAppStorage localAppStorage;
     private List<Product> mWorkshops;
 
@@ -62,6 +63,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         TextView categoryTitle = findViewById(R.id.activity_workshops_txt_category_title);
 
 
+        mCategoryTitleTv = findViewById(R.id.activity_workshops_txt_category_title);
+        mCategoryTitleTv.setText(categorySelected);
 
 
         // Radiobutton
@@ -73,6 +76,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
         SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
+        searchView.setQueryHint("Zoeken");
 
         final boolean[] automaticChangedCategory = {false};
         final boolean[] automaticChangedSearch = {false};
@@ -80,6 +84,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
             @Override
             public void onChange(String filterLabel) {
+
                 if(!automaticChangedCategory[0]){
                     searchValue = "";
                     categoryTitle.setText(filterLabel);
@@ -91,6 +96,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                     categorySelected = filterLabel;
                     filter();
                 }
+
             }
         });
 

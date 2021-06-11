@@ -74,22 +74,22 @@ workshop. De korting kan worden toegepast bij
 een volgend boeking door de persoonlijke
 couponcode in te voeren tijdens het afrekenen." />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/proxima_nova_regular"
-                android:text="Puntengeschiedenis"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginTop="25dp"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/proxima_nova_regular"-->
+<!--                android:text="Puntengeschiedenis"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="22sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_marginTop="25dp"/>-->
 
-            <include
-                android:id="@+id/activity_points_tbl_point_history"
-                layout="@layout/component_table_points"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp" />
+<!--            <include-->
+<!--                android:id="@+id/activity_points_tbl_point_history"-->
+<!--                layout="@layout/component_table_points"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="25dp" />-->
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
