@@ -141,7 +141,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + product.getParticipants()+ " deelnemers zijn.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + " deelnemers zijn.", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -407,13 +407,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     }
 
     private void updateOrderOverview() {
-        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + product.getRounds());
-        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + product.getRoundDuration() + " min");
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + product.getTotalDuration() + " min");
-        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((product.getTimeSchedule() == null || product.getTimeSchedule().equals("")) ? "n.n.g." : product.getTimeSchedule()));
-        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((product.getLearningLevel() == null || product.getLearningLevel().equals("")) ? "n.n.b." : product.getLearningLevel()));
-        System.out.println("TOTALE PRIJS: " + product.getPrice());
-        mTotalCostTextView.setText("Subtotaal: €" + (int) product.getPrice());
+//        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + product.getRounds());
+//        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + product.getRoundDuration() + " min");
+//        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + product.getTotalDuration() + " min");
+//        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((product.getTimeSchedule() == null || product.getTimeSchedule().equals("")) ? "n.n.g." : product.getTimeSchedule()));
+//        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((product.getLearningLevel() == null || product.getLearningLevel().equals("")) ? "n.n.b." : product.getLearningLevel()));
+//        System.out.println("TOTALE PRIJS: " + product.getPrice());
+//        mTotalCostTextView.setText("Subtotaal: €" + (int) product.getPrice());
     }
 }
 

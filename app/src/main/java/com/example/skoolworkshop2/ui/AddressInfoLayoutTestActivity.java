@@ -46,6 +46,10 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
     private EmailValidator emailValidator = new EmailValidator();
     private CJPValidator cjpValidator = new CJPValidator();
 
+    private TextWatcher nlTextWatcher;
+    private TextWatcher beTextWatcher;
+
+
     //Edit text
     private EditText mFirstNameEditText;
     private EditText mLastNameEditText;
@@ -111,6 +115,59 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
                 mWorkshopLocationCl.setVisibility(View.VISIBLE);
             }
         });
+
+        // Textwatchers
+        nlTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if (!PostcodeValidatorNL.isValidPostcode(s.toString())) {
+                    Log.d(LOG_TAG, "onTextChanged: verkeerde nederlandse postcode!!");
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (PostcodeValidatorNL.isValidPostcode(s.toString())) {
+
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
+                }
+            }
+        };
+        beTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if (!PostcodeValidatorBE.isValidPostcode(s.toString())) {
+                    Log.d(LOG_TAG, "onTextChanged: verkeerde belgische postcode");
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
+
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
+                }
+            }
+        };
+
 
         //validations
         mFirstNameEditText.addTextChangedListener(new TextWatcher() {
@@ -313,60 +370,21 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object item = mLocationCountrySpnr.getSelectedItem();
 
-        if (item == BE) {
-            Log.d(LOG_TAG, "onItemSelected: postcode validation now in: " + item);
-            mPostCodeEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                    if (!PostcodeValidatorNL.isValidPostcode(s.toString())) {
-                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (PostcodeValidatorNL.isValidPostcode(s.toString())) {
-
-                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
-                    }
-                }
-            });
-        } else if (item == NL) {
+        if (item == NL) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
-            mPostCodeEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                    if (!PostcodeValidatorBE.isValidPostcode(s.toString())) {
-                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
-
-                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
-                    }
-                }
-            });
+            if (!mPostCodeEditText.getText().toString().isEmpty()) {
+                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            mPostCodeEditText.removeTextChangedListener(beTextWatcher);
+            mPostCodeEditText.addTextChangedListener(nlTextWatcher);
+        } else if (item == BE) {
+            Log.d(LOG_TAG, "onItemSelected: selected belgium");
+            if (!mPostCodeEditText.getText().toString().isEmpty()) {
+                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+            mPostCodeEditText.removeTextChangedListener(nlTextWatcher);
+            mPostCodeEditText.addTextChangedListener(beTextWatcher);
         }
     }
 
