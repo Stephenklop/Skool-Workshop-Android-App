@@ -70,6 +70,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
         SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
+        searchView.setQueryHint("Zoeken");
 
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
             @Override
