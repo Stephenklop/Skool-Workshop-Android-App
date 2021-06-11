@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
@@ -37,6 +38,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mCategoryRecyclerView;
     private RadioButton radioButton;
     private RecyclerView mRecyclerView;
+    TextView mCategoryTitleTv;
     private LocalAppStorage localAppStorage;
     private List<Product> mWorkshops;
 
@@ -59,6 +61,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
 
 
+        mCategoryTitleTv = findViewById(R.id.activity_workshops_txt_category_title);
+        mCategoryTitleTv.setText(categorySelected);
 
 
         // Radiobutton
@@ -76,7 +80,9 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             @Override
             public void onChange(String filterLabel) {
                 List<Product> workshops = new ArrayList<>();
+                mCategoryTitleTv.setText(filterLabel);
                 categorySelected = filterLabel;
+
                 filter();
             }
         });
