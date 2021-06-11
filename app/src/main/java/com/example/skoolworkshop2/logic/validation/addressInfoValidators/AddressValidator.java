@@ -13,7 +13,7 @@ public class AddressValidator {
 
     public static boolean isValidAdressValidator(CharSequence learns) {
         if(learns != null && !learns.toString().equals("")) {
-            String regx = "^[\\p{L} .'-]+$";
+            String regx = "^\\d{1,3}[a-zA-Z]{0,1}$";
             Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(learns.toString());
             return matcher.find();

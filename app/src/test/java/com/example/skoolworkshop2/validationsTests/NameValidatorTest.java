@@ -11,33 +11,33 @@ import static org.junit.Assert.assertTrue;
 public class NameValidatorTest {
     @Test
     public void nameValidator_CorrectNameGiven_ReturnsTrue() {
-        assertTrue(NameValidator.isValidNameValidator("Pieter"));
+        assertTrue(NameValidator.isValidName("Pieter"));
     }
 
     @Test
     public void nameValidator_CorrectNameGivenWithAllowedSymbol_ReturnsTrue() {
-        assertTrue(NameValidator.isValidNameValidator("O'Neal"));
+        assertTrue(NameValidator.isValidName("O'Neal"));
     }
 
     @Test
     public void nameValidator_CorrectNameGivenWithMultipleAllowedSymbol_ReturnsTrue() {
-        assertTrue(NameValidator.isValidNameValidator("O'Neal-o"));
+        assertTrue(NameValidator.isValidName("O'Neal-o"));
     }
 
     @Test
     public void nameValidator_IncorrectNameWrongSymbol_ReturnsFalse() {
-        assertFalse(NameValidator.isValidNameValidator("Ar@a"));
+        assertFalse(NameValidator.isValidName("Ar@a"));
     }
 
     @Test
     public void nameValidator_IncorrectNameEmpty_ReturnsFalse() {
-        assertFalse(NameValidator.isValidNameValidator(""));
+        assertFalse(NameValidator.isValidName(""));
     }
 
 
     @Test
     public void nameValidator_NullName_ReturnsFalse() {
-        assertFalse(NameValidator.isValidNameValidator(null));
+        assertFalse(NameValidator.isValidName(null));
     }
 
 }
