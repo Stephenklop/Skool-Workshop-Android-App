@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,10 +65,34 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
-//        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
+
+        String pointsStrStart = "Je hebt ";
+        String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
+        Spannable pointsSpannable = new SpannableString(pointsStr);
+        pointsSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                pointsStrStart.length(),
+                pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pointsSpannable.setSpan(new RelativeSizeSpan(1.2f),
+                pointsStrStart.length(),
+                pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pointsTv.setText(pointsSpannable, TextView.BufferType.SPANNABLE);
 
         TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-//        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
+
+        String moneyStrStart = "Waarde ";
+        String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
+        Spannable moneySpannable = new SpannableString(moneyStr);
+        moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                moneyStrStart.length(),
+                moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
+                moneyStrStart.length(),
+                moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
