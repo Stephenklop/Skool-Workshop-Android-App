@@ -154,29 +154,13 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <include
+                    android:id="@+id/activity_account_data_btn_password"
+                    layout="@layout/component_button_large_border"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" />
 
-                    <include
-                        android:id="@+id/activity_account_data_et_password_display"
-                        layout="@layout/component_edittext_plaintext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <Space
-                        android:layout_width="25dp"
-                        android:layout_height="match_parent" />
-
-                    <include
-                        android:id="@+id/activity_account_data_btn_password"
-                        layout="@layout/component_button_large"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2" />
-                </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

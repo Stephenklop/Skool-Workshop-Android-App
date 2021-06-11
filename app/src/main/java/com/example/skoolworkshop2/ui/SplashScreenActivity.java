@@ -9,6 +9,8 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ImageView;
 
 import com.example.skoolworkshop2.R;
@@ -39,12 +41,26 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         DAOFactory apidaoFactory = new APIDAOFactory();
 
+        ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        avd.start();
+
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("THREAD 3");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    mLoadingImg.animate().alpha(0).setDuration(500).withEndAction(() -> {
+                        System.out.println("THREAD 3");
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }).start();
+                });
             }
         });
         Thread loadProducts = new Thread(() -> {
@@ -78,18 +94,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
-        ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
-        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
-        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
-            @Override
-            public void onAnimationEnd(Drawable drawable) {
-                avd.start();
-            }
-        });
-        avd.start();
-
         t.start();
-
-
     }
 }
