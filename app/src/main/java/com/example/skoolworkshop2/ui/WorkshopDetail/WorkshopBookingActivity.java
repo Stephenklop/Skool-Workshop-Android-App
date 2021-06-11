@@ -1,17 +1,13 @@
 package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -145,7 +141,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + product.get()+ " deelnemers zijn.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan " + " deelnemers zijn.", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -182,43 +178,11 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             }
         });
 
-        // Rounds
-        mRoundsEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                product.setRounds(Integer.parseInt(charSequence.toString()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                if (roundsValidator.isValidWorkshopRounds(editable.toString())) {
-                    updateOrderOverview();
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    roundsValidator.mIsValid = true;
-                } else if (!roundsValidator.isValidWorkshopRounds(editable.toString())) {
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    mTotalCostTextView.setText("Subtotaal: €");
-                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
-                } else {
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
-                    mTotalCostTextView.setText("Subtotaal: €");
-                }
-            }
-        });
-
         //Total time
         mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
 
         // Minutes
         mMinuteEditText.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -344,7 +308,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-//                product.setTimeSchedule(s.toString());
+
 
             }
 
@@ -370,8 +334,6 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 if(!learningLevelValidator.isValidLearningLevels(s.toString())){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-//                    product.setLearningLevel(s.toString());
                 }
             }
 
@@ -418,6 +380,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 Intent backIntent = new Intent(getApplicationContext(), WorkshopDetailActivity.class);
                 backIntent.putExtra("Workshop", product);
                 startActivity(backIntent);
+
             }
         });
     }
@@ -452,23 +415,5 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 //        System.out.println("TOTALE PRIJS: " + product.getPrice());
 //        mTotalCostTextView.setText("Subtotaal: €" + (int) product.getPrice());
     }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (v instanceof EditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
 }
 
