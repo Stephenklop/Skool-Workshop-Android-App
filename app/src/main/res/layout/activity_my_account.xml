@@ -39,7 +39,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_my_account_tv_my_account">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
@@ -47,10 +47,10 @@
                         android:id="@+id/activity_my_account_item_account_data"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
-                    <Space
+                    <View
                         android:layout_width="25dp"
                         android:layout_height="match_parent" />
 
@@ -58,21 +58,22 @@
                         android:id="@+id/activity_my_account_item_invoice_data"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <include
                         android:id="@+id/activity_my_account_item_reservations"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
                     <Space
@@ -83,7 +84,7 @@
                         android:id="@+id/activity_my_account_item_skoolpartner"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
