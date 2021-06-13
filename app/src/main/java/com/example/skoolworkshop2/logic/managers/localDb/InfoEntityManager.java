@@ -24,6 +24,7 @@ public class InfoEntityManager {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public InfoEntity getInfo(){
+
         InfoEntity ie = infoDAO.getInfo();
 
 

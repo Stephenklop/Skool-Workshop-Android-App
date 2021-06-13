@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MyAccountActivity extends AppCompatActivity {
 
@@ -26,6 +28,12 @@ public class MyAccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
+
+        View root = findViewById(R.id.activity_my_account);
+        MenuController menuController = new MenuController(root);
+        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(4).setChecked(true);
+
         // Successfully logged in
         Toast.makeText(this, "You have successfully logged in as "+this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
         // First Row

@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,8 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class AccountActivity extends AppCompatActivity {
@@ -50,6 +51,11 @@ public class AccountActivity extends AppCompatActivity {
         // Button
         mLoginButton = findViewById(R.id.activity_login_btn_login);
         mLoginButton.setText("Login");
+
+        View root = findViewById(R.id.activity_login);
+        MenuController menuController = new MenuController(root);
+        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(4).setChecked(true);
 
         // Validators
         passwordValidator = new PasswordValidator();
