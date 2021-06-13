@@ -9,40 +9,27 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
-import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -79,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
         if(!iem.hasInfo()){
-            iem.insertInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "wachtwoord", 500, 70));
+            iem.insertInfo(new User(70, "bbuijsen@gmail.com", "Bas Buijsen", 70));
         }
 
         String pointsStrStart = "Je hebt ";

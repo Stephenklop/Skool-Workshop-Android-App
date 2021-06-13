@@ -1,57 +1,44 @@
 package com.example.skoolworkshop2.logic.managers.localDb;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.skoolworkshop2.dao.localDatabase.dao.InfoDAO;
-import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
+import com.example.skoolworkshop2.dao.localDatabase.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
-
-import java.security.KeyStore;
 
 public class InfoEntityManager {
     private LocalDb localDb;
-    private InfoDAO infoDAO;
+    private UserDAO userDAO;
 
     public InfoEntityManager(Application application){
         localDb = LocalDb.getDatabase(application);
-        infoDAO = localDb.getInfoDAO();
+        userDAO = localDb.getUserDAO();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public InfoEntity getInfo(){
+    public User getInfo(){
 
-        InfoEntity ie = infoDAO.getInfo();
+        User user = userDAO.getInfo();
 
-
-        ie.setPassword(EncryptionLogic.decrypt(ie.getPassword(), "secretKey"));
-        ie.setToken(EncryptionLogic.decrypt(ie.getToken(), "secretKey"));
-        ie.setEmail(EncryptionLogic.decrypt(ie.getEmail(), "secretKey"));
-        return infoDAO.getInfo();
+        return userDAO.getInfo();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void insertInfo(InfoEntity infoEntity){
-        infoEntity.setPassword(EncryptionLogic.encrypt(infoEntity.getPassword(), "secretKey"));
-        infoEntity.setToken(EncryptionLogic.encrypt(infoEntity.getToken(), "secretKey"));
-        infoEntity.setEmail(EncryptionLogic.encrypt(infoEntity.getEmail(), "secretKey"));
-        infoDAO.insertInfo(infoEntity);
+    public void insertInfo(User user){
+        userDAO.insertInfo(user);
     }
 
     public boolean hasInfo(){
-        return infoDAO.getInfo() != null;
+        return userDAO.getInfo() != null;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void updateInfo(InfoEntity updatedInfoEntity){
-        infoDAO.deleteInfo();
-        updatedInfoEntity.setPassword(EncryptionLogic.encrypt(updatedInfoEntity.getPassword(), "secretKey"));
-        updatedInfoEntity.setToken(EncryptionLogic.encrypt(updatedInfoEntity.getToken(), "secretKey"));
-        updatedInfoEntity.setEmail(EncryptionLogic.encrypt(updatedInfoEntity.getEmail(), "secretKey"));
-        infoDAO.insertInfo(updatedInfoEntity);
+    public void updateInfo(User user){
+        userDAO.deleteInfo();
+        userDAO.insertInfo(user);
     }
 }

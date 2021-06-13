@@ -145,6 +145,7 @@ public class AccountActivity extends AppCompatActivity {
                         User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME", user.getUsername());
+
                         startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
                     });
                     try {
