@@ -29,6 +29,8 @@ import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.User.AccountActivity;
+import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -137,6 +139,20 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         Button loginBtn = findViewById(R.id.activity_home_btn_log_in);
         registerBtn.setText("Maak nu een account");
         loginBtn.setText("Log in");
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+            }
+        });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
 
         newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
 
