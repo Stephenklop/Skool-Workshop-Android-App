@@ -15,6 +15,7 @@ import com.example.skoolworkshop2.dao.localDatabase.dao.QuizDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.ShoppingCartDAO;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.Bank;
+import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
@@ -24,7 +25,7 @@ import com.example.skoolworkshop2.domain.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Customer.class, Product.class, Quiz.class, Bank.class, ShoppingCartItem.class, NewsArticle.class}, version = 1)
+@Database(entities = {User.class, Customer.class, Product.class, Quiz.class, Bank.class, ShoppingCartItem.class, NewsArticle.class, BillingAddress.class}, version = 1)
 public abstract class LocalDb extends RoomDatabase {
 
     private static volatile LocalDb INSTANCE;

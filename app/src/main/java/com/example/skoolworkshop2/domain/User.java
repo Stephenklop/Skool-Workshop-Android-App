@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class User implements Serializable {
@@ -23,12 +26,23 @@ public class User implements Serializable {
     private int points;
     //private String registrationDate; // Might be changed to Timestamp later (depends on whether that's useful)
 
+    private BillingAddress billingAddress;
+
+    private ShippingAddress shippingAddress;
 
     public User(int id, String email, String username, int points) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.points = points;
+    }
+
+    public BillingAddress getBillingAddress() {
+        return billingAddress;
+    }
+
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
     }
 
     public String getEmail() {
