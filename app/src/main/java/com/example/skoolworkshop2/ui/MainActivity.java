@@ -168,7 +168,17 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         bundle.putString("test_event", "test_event_id");
         mFirebaseAnalytics.logEvent("eventTest", bundle);
 
+        Bundle loginEvent = new Bundle();
+        loginEvent.putString("login_event_id", "login_event_id");
+        mFirebaseAnalytics.logEvent("login_event", loginEvent);
 
+        Bundle appOpenEvent = new Bundle();
+        appOpenEvent.putString("app_open_event_id", "app_open_event_id");
+        mFirebaseAnalytics.logEvent("app_open_event", appOpenEvent);
+
+        Bundle ordersEvent = new Bundle();
+        ordersEvent.putString("orders_event_id", "orders_event_id");
+        mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
 //        LocalDb.getDatabase(getBaseContext()).getInfoDAO().getInfo().getUserId();
     }
