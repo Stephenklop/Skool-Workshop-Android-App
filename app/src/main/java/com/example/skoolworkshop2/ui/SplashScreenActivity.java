@@ -98,7 +98,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread tokenThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                apidaoFactory.getFireBaseTokenDAO().addToken(getToken(), LocalDb.getDatabase(getApplicationContext()).getInfoDAO().getInfo().getUserId());
+                InfoEntityManager iem = new InfoEntityManager(getApplication());
+                if(iem.hasInfo()){
+                    apidaoFactory.getFireBaseTokenDAO().addToken(getToken(), LocalDb.getDatabase(getApplicationContext()).getInfoDAO().getInfo().getUserId());
+                }
                 APIThread.start();
             }
         });
