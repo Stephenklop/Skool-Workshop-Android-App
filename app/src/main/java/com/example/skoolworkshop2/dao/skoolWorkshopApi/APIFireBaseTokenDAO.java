@@ -8,6 +8,8 @@ import com.example.skoolworkshop2.dao.FireBaseTokenDAO;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.ui.MainActivity;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -30,11 +32,15 @@ public class APIFireBaseTokenDAO implements FireBaseTokenDAO {
         try{
             connect(BASE_URL + "/customer/" + id + "/firebase");
             connection.setRequestMethod("DELETE");
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            connection.setRequestProperty("Authorization", "Bearer " + EncryptionLogic.decrypt(MainActivity.androidToken, "secretKey"));
-            String inputJson = "{ firebase_token:" + token + "}";
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+            String jsonInput = "{\"firebase_token\": \"" + token + "\"}";
+            System.out.println("JSON STRING: " + jsonInput);
+
             OutputStream os = connection.getOutputStream();
-            os.write(inputJson.getBytes("utf-8"), 0, inputJson.length());
+            os.write(jsonInput.getBytes());
+            os.flush();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
@@ -46,21 +52,28 @@ public class APIFireBaseTokenDAO implements FireBaseTokenDAO {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void addToken(String token, int id) {
         try{
             connect(BASE_URL + "/customer/" + id + "/firebase");
             connection.setRequestMethod("PUT");
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            String inputJson = "{ firebase_token:" + token + "}";
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+            String jsonInput = "{\"firebase_token\": \"" + token + "\"}";
+            System.out.println("JSON STRING: " + jsonInput);
+
             OutputStream os = connection.getOutputStream();
-            os.write(inputJson.getBytes("utf-8"), 0, inputJson.length());
+            os.write(jsonInput.getBytes());
+            os.flush();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
-            while ((inputLine = in.readLine()) != null){
-                System.out.println(inputLine);
-            }
+            System.out.println("INPUT" + in.readLine());
+//            while ((inputLine = in.readLine()) != null){
+//                System.out.println(inputLine);
+//            }
         } catch (Exception e){
             System.out.println("FAILED");
             e.printStackTrace();
