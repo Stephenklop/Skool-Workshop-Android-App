@@ -66,38 +66,39 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
         //TODO remove this part when not logged in homepage is fixed
-        if(!iem.hasInfo()){
-            iem.insertInfo(new User(70, "bbuijsen@gmail.com", "Bas Buijsen", 70));
+//        if(!iem.hasInfo()){
+//            iem.insertInfo(new User(70, "bbuijsen@gmail.com", "Bas Buijsen", 70));
+//        }
+
+        if(iem.hasInfo()) {
+            String pointsStrStart = "Je hebt ";
+            String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
+            Spannable pointsSpannable = new SpannableString(pointsStr);
+            pointsSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                    pointsStrStart.length(),
+                    pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pointsSpannable.setSpan(new RelativeSizeSpan(1.2f),
+                    pointsStrStart.length(),
+                    pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pointsTv.setText(pointsSpannable, TextView.BufferType.SPANNABLE);
+
+            TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
+
+            String moneyStrStart = "Waarde ";
+            String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
+            Spannable moneySpannable = new SpannableString(moneyStr);
+            moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                    moneyStrStart.length(),
+                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
+                    moneyStrStart.length(),
+                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
         }
-
-        String pointsStrStart = "Je hebt ";
-        String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
-        Spannable pointsSpannable = new SpannableString(pointsStr);
-        pointsSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
-                pointsStrStart.length(),
-                pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        pointsSpannable.setSpan(new RelativeSizeSpan(1.2f),
-                pointsStrStart.length(),
-                pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        pointsTv.setText(pointsSpannable, TextView.BufferType.SPANNABLE);
-
-        TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-
-        String moneyStrStart = "Waarde ";
-        String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
-        Spannable moneySpannable = new SpannableString(moneyStr);
-        moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
-                moneyStrStart.length(),
-                moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
-                moneyStrStart.length(),
-                moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
-
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
