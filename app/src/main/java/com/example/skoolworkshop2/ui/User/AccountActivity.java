@@ -48,10 +48,18 @@ public class AccountActivity extends AppCompatActivity {
     private PasswordValidator passwordValidator;
     private EmailValidator emailValidator;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        UserManager um = new UserManager(getApplication());
+//        if(um.hasInfo()){
+//            Bundle bundle = new Bundle();
+//            bundle.putString("USERNAME", um.getInfo().getUsername());
+//            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
+//        }
         // Button
         mLoginButton = findViewById(R.id.activity_login_btn_login);
         mLoginButton.setText("Login");
@@ -150,7 +158,7 @@ public class AccountActivity extends AppCompatActivity {
                         User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME", user.getUsername());
-                        UserManager um = new UserManager(getApplication());
+
                         um.insertInfo(user);
                         startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
                     });
