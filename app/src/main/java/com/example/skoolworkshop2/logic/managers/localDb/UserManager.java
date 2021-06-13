@@ -10,11 +10,11 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 
-public class InfoEntityManager {
+public class UserManager {
     private LocalDb localDb;
     private UserDAO userDAO;
 
-    public InfoEntityManager(Application application){
+    public UserManager(Application application){
         localDb = LocalDb.getDatabase(application);
         userDAO = localDb.getUserDAO();
     }
@@ -29,6 +29,7 @@ public class InfoEntityManager {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertInfo(User user){
+        userDAO.deleteInfo();
         userDAO.insertInfo(user);
     }
 

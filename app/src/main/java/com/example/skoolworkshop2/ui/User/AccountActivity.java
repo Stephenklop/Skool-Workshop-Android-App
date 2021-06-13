@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui.User;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.graphics.drawable.Animatable2;
@@ -20,11 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
@@ -135,6 +139,7 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 enableLoadingIndicator();
@@ -145,7 +150,8 @@ public class AccountActivity extends AppCompatActivity {
                         User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME", user.getUsername());
-
+                        UserManager um = new UserManager(getApplication());
+                        um.insertInfo(user);
                         startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
                     });
                     try {

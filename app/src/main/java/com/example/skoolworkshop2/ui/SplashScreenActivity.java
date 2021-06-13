@@ -21,7 +21,7 @@ import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
-import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -93,7 +93,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread tokenThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                InfoEntityManager iem = new InfoEntityManager(getApplication());
+                UserManager iem = new UserManager(getApplication());
                 if(iem.hasInfo()){
                     apidaoFactory.getFireBaseTokenDAO().addToken(getToken(), LocalDb.getDatabase(getApplicationContext()).getUserDAO().getInfo().getId());
                 }

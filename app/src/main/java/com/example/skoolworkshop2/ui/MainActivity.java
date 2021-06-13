@@ -26,7 +26,7 @@ import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.User;
-import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -60,11 +60,12 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
-        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
+        UserManager iem = new UserManager(this.getApplication());
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
+        //TODO remove this part when not logged in homepage is fixed
         if(!iem.hasInfo()){
             iem.insertInfo(new User(70, "bbuijsen@gmail.com", "Bas Buijsen", 70));
         }
