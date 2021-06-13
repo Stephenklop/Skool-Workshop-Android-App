@@ -3,6 +3,7 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -63,17 +65,47 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // Successfully logged in
-        Toast.makeText(this, "You have successfully logged in as "+this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
-        // First Row
-        mFirstTwoItems = findViewById(R.id.activity_my_account_first_two_items_ll);
-        // Account
-        mRelativeLayout = mFirstTwoItems.findViewById(R.id.activity_my_account_item_account_data);
-        mDashBoardLinearLayout = mRelativeLayout.findViewById(R.id.item_dashboard_ll);
-        // Image
-        mDashBoardImageView = mDashBoardLinearLayout.findViewById(R.id.item_dashboard_img_icon);
-        mDashBoardImageView.setImageResource(R.drawable.ic_user);
-        // Textview
-        mDashBoardTextView = mDashBoardLinearLayout.findViewById(R.id.item_dashboard_tv_txt);
+        Toast.makeText(this, "You have successfully logged in as "+ this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
+
+
+        // first icon
+        View icon1 = findViewById(R.id.activity_my_account_item_account_data);
+        TextView textIcon1 = icon1.findViewById(R.id.item_dashboard_tv_txt);
+        textIcon1.setText("Account");
+        ImageView imageIcon1 = icon1.findViewById(R.id.item_dashboard_img_icon);
+        imageIcon1.setImageResource(R.drawable.ic_user);
+
+
+        //second icon
+        View icon2 = findViewById(R.id.activity_my_account_item_invoice_data);
+        TextView textIcon2 = icon2.findViewById(R.id.item_dashboard_tv_txt);
+        textIcon2.setText("Factuur Gegevens");
+        ImageView imageIcon2 = icon2.findViewById(R.id.item_dashboard_img_icon);
+        imageIcon2.setImageResource(R.drawable.ic_file);
+
+
+
+        //third icon
+        View icon3 = findViewById(R.id.activity_my_account_item_reservations);
+        TextView textIcon3 = icon3.findViewById(R.id.item_dashboard_tv_txt);
+        textIcon3.setText("Reserveringen");
+        ImageView imageIcon3 = icon3.findViewById(R.id.item_dashboard_img_icon);
+        imageIcon3.setImageResource(R.drawable.ic_folder);
+
+
+        //fourth icon
+        View icon4 = findViewById(R.id.activity_my_account_item_skoolpartner);
+        TextView textIcon4 = icon4.findViewById(R.id.item_dashboard_tv_txt);
+        textIcon4.setText("Skoolpartner");
+        ImageView imageIcon4 = icon4.findViewById(R.id.item_dashboard_img_icon);
+        imageIcon4.setImageResource(R.drawable.ic_star);
+        icon4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+            }
+        });
+
     }
 
     private void deleteUser(){
