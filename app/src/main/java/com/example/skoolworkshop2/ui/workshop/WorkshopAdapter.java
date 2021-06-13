@@ -93,6 +93,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         holder.mWorkshopCategory.setText(workshop.getCategory());
     }
 
+
     @Override
     public int getItemCount() {
         return workshopArrayList.size();

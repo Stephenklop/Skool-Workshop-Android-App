@@ -2,20 +2,24 @@ package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.QuizAPIService;
 import com.example.skoolworkshop2.domain.Quiz;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
+import com.example.skoolworkshop2.ui.User.MyAccountActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.net.URL;
@@ -70,10 +74,18 @@ public class MoreMenuActivity extends AppCompatActivity {
         mQuizButton = findViewById(R.id.activity_more_btn_quiz);
 
         mAccountbutton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                Intent accountIntent = new Intent(getApplicationContext(), AccountActivity.class);
-                startActivity(accountIntent);
+                UserManager um = new UserManager(getApplication());
+                if(um.hasInfo()){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("USERNAME", um.getInfo().getUsername());
+                    startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
+                } else {
+                    Intent accountIntent = new Intent(getApplicationContext(), AccountActivity.class);
+                    startActivity(accountIntent);
+                }
             }
         });
 
