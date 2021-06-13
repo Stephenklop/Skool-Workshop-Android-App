@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,13 +19,9 @@ import android.widget.Toast;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
-import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
-import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
-import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
-import com.example.skoolworkshop2.domain.User;
-import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -98,9 +93,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread tokenThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                InfoEntityManager iem = new InfoEntityManager(getApplication());
+                UserManager iem = new UserManager(getApplication());
                 if(iem.hasInfo()){
-                    apidaoFactory.getFireBaseTokenDAO().addToken(getToken(), LocalDb.getDatabase(getApplicationContext()).getInfoDAO().getInfo().getUserId());
+
                 }
                 APIThread.start();
             }
