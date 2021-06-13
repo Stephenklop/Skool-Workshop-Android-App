@@ -12,6 +12,7 @@ import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -65,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
-        //TODO remove this part when not logged in homepage is fixed
-//        if(!iem.hasInfo()){
-//            iem.insertInfo(new User(70, "bbuijsen@gmail.com", "Bas Buijsen", 70));
-//        }
-
         if(iem.hasInfo()) {
+            LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
+            noAccount.setVisibility(View.GONE);
+
+            points.setVisibility(View.VISIBLE);
+
             String pointsStrStart = "Je hebt ";
             String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
             Spannable pointsSpannable = new SpannableString(pointsStr);

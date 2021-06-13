@@ -1,5 +1,8 @@
 package com.example.skoolworkshop2.ui.User;
 import android.content.Intent;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +37,8 @@ public class MyAccountActivity extends AppCompatActivity {
     private ImageView mDashBoardImageView;
     private TextView mDashBoardTextView;
 
+    private LinearLayout mLoader;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +52,13 @@ public class MyAccountActivity extends AppCompatActivity {
         Button logOutButton = findViewById(R.id.activity_my_account_btn_log_out);
         logOutButton.setText("Log uit");
 
+        mLoader = findViewById(R.id.activity_login_ll_loading_alert);
+
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                enableLoadingIndicator();
                 deleteUser();
-                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
             }
         });
 
@@ -84,10 +91,37 @@ public class MyAccountActivity extends AppCompatActivity {
                         System.out.println("added token");
                         LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
                         System.out.println("deleted user");
-
+                        startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     }
                 }).start();
             }
         });
+    }
+
+    private void enableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        loadingAlert.setAlpha(0);
+        loadingAlert.setVisibility(View.VISIBLE);
+        loadingAlert.animate().alpha(1).setDuration(200).start();
+        avd.start();
+    }
+
+    private void disableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        loadingAlert.setAlpha(1);
+        loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
+                loadingIndicator.setVisibility(View.GONE)
+        ).start();
+        avd.stop();
     }
 }
