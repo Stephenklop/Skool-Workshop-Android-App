@@ -22,6 +22,7 @@ import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -98,6 +99,12 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon4.setText("Skoolpartner");
         ImageView imageIcon4 = icon4.findViewById(R.id.item_dashboard_img_icon);
         imageIcon4.setImageResource(R.drawable.ic_star);
+        icon4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+            }
+        });
 
     }
 
