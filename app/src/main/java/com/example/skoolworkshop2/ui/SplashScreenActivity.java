@@ -95,7 +95,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 UserManager iem = new UserManager(getApplication());
                 if(iem.hasInfo()){
-                    apidaoFactory.getFireBaseTokenDAO().addToken(getToken(), LocalDb.getDatabase(getApplicationContext()).getUserDAO().getInfo().getId());
+
                 }
                 APIThread.start();
             }
