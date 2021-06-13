@@ -65,7 +65,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // Successfully logged in
-        Toast.makeText(this, "You have successfully logged in as "+this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You have successfully logged in as "+ this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
 
 
         // first icon
