@@ -184,7 +184,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), CulturedayActivity.class);
                 startActivity(intent);
             }
         });
