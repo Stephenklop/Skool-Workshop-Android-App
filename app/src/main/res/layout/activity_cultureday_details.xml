@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_cultureday_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/activity_cultureday_details">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/activity_cultureday_details_img_banner"
@@ -19,13 +19,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:minHeight="50dp">
+            android:minHeight="50dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageButton
                 android:id="@+id/activity_cultureday_details_btn_back"
@@ -34,9 +35,9 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_arrow_left"
                 android:tint="@color/white"
+                app:layout_collapseMode="pin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_collapseMode="pin"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,20 +45,20 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="75dp"
         android:background="@drawable/detail_background"
         android:orientation="vertical"
         android:paddingHorizontal="25dp"
         android:paddingTop="25dp"
-        app:layout_constraintBottom_toTopOf="@id/activity_menu_buttons"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:layout_marginBottom="75dp">
+        app:layout_constraintBottom_toTopOf="@id/activity_menu_buttons"
+        app:layout_constraintTop_toTopOf="parent">
 
         <HorizontalScrollView
+            android:id="@+id/activity_cultureday_details_rv_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:id="@+id/activity_cultureday_details_rv_tags"
             android:scrollbars="none">
 
             <LinearLayout
@@ -66,20 +67,20 @@
                 android:orientation="horizontal">
 
                 <include
-                    layout="@layout/component_button_tag_detail"
-                    android:id="@+id/activity_cultureday_details_btn_price"/>
+                    android:id="@+id/activity_cultureday_details_btn_price"
+                    layout="@layout/component_button_tag_detail" />
 
                 <include
-                    layout="@layout/component_button_tag_detail"
-                    android:id="@+id/activity_cultureday_details_btn_participant"/>
+                    android:id="@+id/activity_cultureday_details_btn_participant"
+                    layout="@layout/component_button_tag_detail" />
 
                 <include
-                    layout="@layout/component_button_tag_detail"
-                    android:id="@+id/activity_cultureday_details_btn_workshop"/>
+                    android:id="@+id/activity_cultureday_details_btn_workshop"
+                    layout="@layout/component_button_tag_detail" />
 
                 <include
-                    layout="@layout/component_button_tag_detail"
-                    android:id="@+id/activity_cultureday_details_btn_round"/>
+                    android:id="@+id/activity_cultureday_details_btn_round"
+                    layout="@layout/component_button_tag_detail" />
             </LinearLayout>
 
         </HorizontalScrollView>
@@ -107,9 +108,9 @@
     </LinearLayout>
 
     <include
-        android:layout_height="75dp"
-        android:layout_width="match_parent"
         android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
         android:layout_gravity="bottom" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
