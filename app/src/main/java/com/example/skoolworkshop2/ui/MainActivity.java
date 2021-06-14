@@ -68,11 +68,16 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
+        TextView greeting = findViewById(R.id.activity_home_tv_greeting);
+        greeting.setText("Goedendag");
+
         if(iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
             noAccount.setVisibility(View.GONE);
 
             points.setVisibility(View.VISIBLE);
+
+            greeting.setText("Goedendag " + iem.getInfo().getUsername());
 
             String pointsStrStart = "Je hebt ";
             String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
@@ -187,6 +192,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
 //        LocalDb.getDatabase(getBaseContext()).getInfoDAO().getInfo().getUserId();
+
+//        startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
     }
 
     @Override
