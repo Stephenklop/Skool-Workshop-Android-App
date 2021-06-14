@@ -30,6 +30,7 @@ import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
 import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         View root = (View) findViewById(R.id.activity_home);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+
         View include = findViewById(R.id.include);
         include.setClipToOutline(true);
         ImageView headerGradient = include.findViewById(R.id.component_home_banner_img_gradient);
@@ -81,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView greeting = findViewById(R.id.activity_home_tv_greeting);
         greeting.setText("Goedendag");
 
-        if(iem.hasInfo()) {
+        if (iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
             noAccount.setVisibility(View.GONE);
 
             points.setVisibility(View.VISIBLE);
 
-            if(!iem.getCustomer().getFirstName().isEmpty()){
+            if (!iem.getCustomer().getFirstName().isEmpty()) {
                 greeting.setText("Goedendag " + iem.getCustomer().getFirstName());
             } else {
                 greeting.setText("Goedendag " + iem.getInfo().getUsername());
@@ -216,87 +218,4 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
         startActivity(browserIntent);
     }
-
-//    public void getToken() {
-//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-//            @Override
-//            public void onComplete(@NonNull Task<String> task) {
-//
-//                if (!task.isSuccessful()) {
-//                    Log.e(TAG, "Failed to get the token.");
-//                    return;
-//                }
-//
-//                //get the token from task
-//                String token = task.getResult();
-//
-//                Log.d(TAG, "Token : " + token);
-//
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
-//            }
-//        });
-//    }
-//
-//    private void handleNotificationData() {
-//        Bundle bundle = getIntent().getExtras();
-//        if(bundle != null) {
-//            if(bundle.containsKey("data1")) {
-//                Log.d(TAG, "Data1: " + bundle.getString("data1"));
-//            }
-//            if(bundle.containsKey("data2")) {
-//                Log.d(TAG, "Data2: " + bundle.getString("data2"));
-//            }
-//        }
-//    }
-//
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        Log.d(TAG, "On New Intent called");
-//    }
-//
-//    /**
-//     * method to subscribe to topic
-//     *
-//     * @param topic to which subscribe
-//     */
-//    private void subscribeToTopic(String topic) {
-//        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(MainActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    /**
-//     * method to unsubscribe to topic
-//     *
-//     * @param topic to which unsubscribe
-//     */
-//    private void unsubscribeToTopic(String topic) {
-//        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(MainActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }

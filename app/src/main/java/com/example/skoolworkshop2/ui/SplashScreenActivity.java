@@ -131,8 +131,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         return token[0];
     }
 
+
     private void handleNotificationData() {
         Bundle bundle = getIntent().getExtras();
+        System.out.println(getIntent().getExtras());
         if(bundle != null) {
             if(bundle.containsKey("data1")) {
                 Log.d(TAG, "Data1: " + bundle.getString("data1"));
