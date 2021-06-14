@@ -158,6 +158,7 @@ public class AccountActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                mLoginButton.setEnabled(false);
                 enableLoadingIndicator();
                 APIUserDAO apiUserDAO = new APIUserDAO();
 
@@ -181,6 +182,7 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 } else {
                     disableLoadingIndicator();
+                    mLoginButton.setEnabled(true);
                     if(!emailValidator.isValid() && !passwordValidator.isValid()){
                         Toast.makeText(getApplicationContext(), "Email and password are incorrect given", Toast.LENGTH_SHORT).show();
                     } else if (!emailValidator.isValid() && passwordValidator.isValid()){
@@ -215,6 +217,8 @@ public class AccountActivity extends AppCompatActivity {
     private void enableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backgroundBlur = findViewById(R.id.activity_login_loading_background);
+        backgroundBlur.setVisibility(View.VISIBLE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -231,6 +235,8 @@ public class AccountActivity extends AppCompatActivity {
     private void disableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backgroundBlur = findViewById(R.id.activity_login_loading_background);
+        backgroundBlur.setVisibility(View.GONE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         loadingAlert.setAlpha(1);
         loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->

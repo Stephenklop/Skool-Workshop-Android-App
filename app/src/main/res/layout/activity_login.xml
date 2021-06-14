@@ -162,13 +162,16 @@
         layout="@layout/component_menu_icons"
         tools:layout_editor_absoluteY="793dp" />
 
+
+
+
     <LinearLayout
         android:id="@+id/activity_login_ll_loading_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:background="@drawable/item_workshop_container"
-        android:elevation="5dp"
+        android:elevation="11dp"
         android:orientation="vertical"
         android:padding="25dp"
         android:visibility="gone"
@@ -199,5 +202,13 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/activity_login_loading_background"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/item_loading_blur"
+        android:visibility="gone"
+        android:elevation="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

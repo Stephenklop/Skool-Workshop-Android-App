@@ -49,6 +49,8 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
 
+        final boolean[] buttonsEnabled = {true};
+
 
         View root = findViewById(R.id.activity_my_account);
         MenuController menuController = new MenuController(root);
@@ -63,6 +65,8 @@ public class MyAccountActivity extends AppCompatActivity {
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logOutButton.setEnabled(false);
+                buttonsEnabled[0] = false;
                 enableLoadingIndicator();
                 deleteUser();
             }
@@ -103,7 +107,9 @@ public class MyAccountActivity extends AppCompatActivity {
         icon4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+                if(buttonsEnabled[0]){
+                    startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+                }
             }
         });
 
@@ -136,6 +142,8 @@ public class MyAccountActivity extends AppCompatActivity {
     private void enableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backgroundBlur = findViewById(R.id.activity_account_loading_background);
+        backgroundBlur.setVisibility(View.VISIBLE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -152,6 +160,8 @@ public class MyAccountActivity extends AppCompatActivity {
     private void disableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backgroundBlur = findViewById(R.id.activity_account_loading_background);
+        backgroundBlur.setVisibility(View.GONE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         loadingAlert.setAlpha(1);
         loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->

@@ -62,6 +62,13 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         View root = (View) findViewById(R.id.activity_home);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        View include = findViewById(R.id.include);
+        include.setClipToOutline(true);
+        ImageView headerGradient = include.findViewById(R.id.component_home_banner_img_gradient);
+        headerGradient.setClipToOutline(true);
+        ImageView headerImage = include.findViewById(R.id.component_home_banner_img_base);
+        headerImage.setClipToOutline(true);
+
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
         EncryptionLogic.decrypt(androidToken, "secretKey");
@@ -80,7 +87,12 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
             points.setVisibility(View.VISIBLE);
 
-            greeting.setText("Goedendag " + iem.getInfo().getUsername());
+            if(!iem.getCustomer().getFirstName().isEmpty()){
+                greeting.setText("Goedendag " + iem.getCustomer().getFirstName());
+            } else {
+                greeting.setText("Goedendag " + iem.getInfo().getUsername());
+            }
+
 
             String pointsStrStart = "Je hebt ";
             String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
