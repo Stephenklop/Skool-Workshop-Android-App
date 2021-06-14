@@ -29,6 +29,7 @@ import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayBookingActivity;
 
@@ -87,6 +88,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
         mTitleTextView.setText(workshop.getProduct().getName());
 
+        mSendBn.setEnabled(false);
+
         // Set up validations
         mEmailEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -119,6 +122,13 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
                 datePickerDialog.show();
             }
         });
+        mDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+        mDateEditText.setFocusable(false);
 
         mDateEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -142,6 +152,34 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
 
                 }
+            }
+        });
+        mNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!NameValidator.isValidName(s.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(NameValidator.isValidName(s.toString())){
+                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                    mNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    if(validate() == true ){
+                        mSendBn.setEnabled(true);
+                    }
+                }
+
             }
         });
 
@@ -212,6 +250,26 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
                 if(CJPValidator.isValidCJP(s)){
                     mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                 }
+            }
+        });
+        mMessageEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+                mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
             }
         });
 
