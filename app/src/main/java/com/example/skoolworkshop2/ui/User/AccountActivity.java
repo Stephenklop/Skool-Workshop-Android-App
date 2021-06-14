@@ -3,8 +3,13 @@ package com.example.skoolworkshop2.ui.User;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -62,12 +67,25 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        TextView tvRegisterAccount = findViewById(R.id.activity_login_txt_create_account);
+
+        String text = "Nog geen account? Maak er een";
+        Spannable textSpannable = new SpannableString(text);
+        textSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)), 18, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvRegisterAccount.setText(textSpannable);
+
+
+        TextView forgotPassword = findViewById(R.id.activity_login_forgot_password_txt);
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent askedAboutIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/account/wachtwoord-vergeten/"));
+                startActivity(askedAboutIntent);
+            }
+        });
+
         UserManager um = new UserManager(getApplication());
-//        if(um.hasInfo()){
-//            Bundle bundle = new Bundle();
-//            bundle.putString("USERNAME", um.getInfo().getUsername());
-//            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
-//        }
+
         // Button
         mLoginButton = findViewById(R.id.activity_login_btn_login);
         mLoginButton.setText("Login");

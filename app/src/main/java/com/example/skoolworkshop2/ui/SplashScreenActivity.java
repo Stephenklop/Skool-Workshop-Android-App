@@ -38,6 +38,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            System.out.println( "DATA BUNDLE" +bundle.toString());
+        }
+
 
         ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();

@@ -34,6 +34,8 @@ import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
 import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
+import com.example.skoolworkshop2.ui.notifications.NotificationsActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
@@ -62,6 +64,16 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         setContentView(R.layout.activity_home);
         View root = (View) findViewById(R.id.activity_home);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
+        View v = findViewById(R.id.activity_home_fragment_notifications);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         View include = findViewById(R.id.include);

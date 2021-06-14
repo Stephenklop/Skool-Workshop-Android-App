@@ -57,9 +57,10 @@
             android:noHistory="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
+                <action android:name=".SplashScreenActivity"/>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
@@ -81,6 +82,8 @@
         </activity>
         <activity
             android:name=".ui.User.AccountDataActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.notifications.NotificationsActivity"
             android:windowSoftInputMode="adjustPan"/>
 
         <service
