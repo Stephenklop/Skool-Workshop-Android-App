@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui.User;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -23,6 +24,7 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,10 +41,6 @@ public class MyAccountActivity extends AppCompatActivity {
     private final String LOG_TAG = this.getClass().getSimpleName();
     private Context context;
 
-
-//    public MyAccountActivity(View root) {
-//        context = root.getContext();
-//    }
 
     private LinearLayout mLoader;
 
@@ -69,9 +67,6 @@ public class MyAccountActivity extends AppCompatActivity {
                 deleteUser();
             }
         });
-
-        // Successfully logged in
-        Toast.makeText(this, "You have successfully logged in as "+ this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
 
 
         // first icon
@@ -129,6 +124,8 @@ public class MyAccountActivity extends AppCompatActivity {
                         System.out.println("added token");
                         LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
                         System.out.println("deleted user");
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted customer");
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     }
                 }).start();

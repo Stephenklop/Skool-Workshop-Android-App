@@ -27,6 +27,7 @@ import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
@@ -63,16 +64,23 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
+        EncryptionLogic.decrypt(androidToken, "secretKey");
+
         UserManager iem = new UserManager(this.getApplication());
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
+
+        TextView greeting = findViewById(R.id.activity_home_tv_greeting);
+        greeting.setText("Goedendag");
 
         if(iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
             noAccount.setVisibility(View.GONE);
 
             points.setVisibility(View.VISIBLE);
+
+            greeting.setText("Goedendag " + iem.getInfo().getUsername());
 
             String pointsStrStart = "Je hebt ";
             String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
@@ -187,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
 //        LocalDb.getDatabase(getBaseContext()).getInfoDAO().getInfo().getUserId();
+
+//        startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
     }
 
     @Override

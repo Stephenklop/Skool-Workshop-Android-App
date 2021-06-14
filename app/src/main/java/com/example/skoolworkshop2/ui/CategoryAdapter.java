@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -51,7 +52,12 @@ public class CategoryAdapter{
         for (int i = 0; i < categorieArray.length; i++) {
             int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));
 
-            RadioButton rb = (RadioButton) LayoutInflater.from(context).inflate(R.layout.component_button_categories, mCategoriesRadiogroup, false);
+            RadioButton rb = null;
+            if (i == categorieArray.length - 1){
+                rb = (RadioButton) LayoutInflater.from(context).inflate(R.layout.component_button_categories_last, mCategoriesRadiogroup, false);
+            } else {
+                rb = (RadioButton) LayoutInflater.from(context).inflate(R.layout.component_button_categories, mCategoriesRadiogroup, false);
+            }
 
             rb.setText(categorieArray[i]);
             rb.setTag(categorieArray[i]);
@@ -62,13 +68,15 @@ public class CategoryAdapter{
                 listener.onChange(radioButton.getTag().toString());
             });
 
+
+            RadioButton finalRb = rb;
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        rb.setTextColor(Color.WHITE);
+                        finalRb.setTextColor(Color.WHITE);
                     } else {
-                        rb.setTextColor(Color.BLACK);
+                        finalRb.setTextColor(Color.BLACK);
                     }
                 }
             });
@@ -81,7 +89,7 @@ public class CategoryAdapter{
     }
 
     public void setChecked(){
-        RadioButton rb = (RadioButton) mCategoriesRadiogroup.findViewById(0);
+        @SuppressLint("ResourceType") RadioButton rb = (RadioButton) mCategoriesRadiogroup.findViewById(1);
         rb.setChecked(true);
     }
 
