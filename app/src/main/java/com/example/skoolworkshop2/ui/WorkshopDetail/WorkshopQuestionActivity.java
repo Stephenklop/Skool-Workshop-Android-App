@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
@@ -55,15 +56,15 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
     private DatePickerDialog datePickerDialog;
 
-    private Product workshop;
+    private WorkshopItem workshop;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_question);
 
-        if(getIntent().getSerializableExtra("Workshop") != null){
-            this.workshop = (Product) getIntent().getSerializableExtra("Workshop");
+        if(getIntent().getSerializableExtra("workshop") != null){
+            this.workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");
         }
 
         datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
@@ -84,7 +85,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
         //Title
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
-        mTitleTextView.setText(workshop.getName());
+        mTitleTextView.setText(workshop.getProduct().getName());
 
         // Set up validations
         mEmailEditText.addTextChangedListener(new TextWatcher() {
