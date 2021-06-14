@@ -6,4 +6,6 @@
     android:clickable="true"
     android:iconifiedByDefault="false"
     android:queryBackground="@android:color/transparent"
-    android:background="@drawable/search_states" />
+    android:background="@drawable/search_states"
+    android:searchIcon="@drawable/ic_search"
+    style="@style/Theme.SkoolWorkshop2.SearchView"/>
