@@ -167,6 +167,7 @@ public class AccountActivity extends AppCompatActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME", user.getUsername());
                         um.insertInfo(user);
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
 
                         setToken();
 

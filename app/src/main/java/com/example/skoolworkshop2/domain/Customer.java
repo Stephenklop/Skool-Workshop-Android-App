@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     private String street;
 
     @ColumnInfo
-    private int houseNumber;
+    private String houseNumber;
 
     @ColumnInfo
     private String postcode;
@@ -39,7 +39,7 @@ public class Customer implements Serializable {
     @ColumnInfo
     private String country;
 
-    public Customer(int id, String firstName, String lastName, String email, String street, int houseNumber, String postcode, String city, String state, String country) {
+    public Customer(int id, String firstName, String lastName, String email, String street, String houseNumber, String postcode, String city, String state, String country) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -72,7 +72,7 @@ public class Customer implements Serializable {
         return street;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
@@ -112,7 +112,7 @@ public class Customer implements Serializable {
         this.street = street;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 
