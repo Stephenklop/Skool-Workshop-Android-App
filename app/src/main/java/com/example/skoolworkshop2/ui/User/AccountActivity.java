@@ -24,12 +24,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
@@ -40,13 +37,9 @@ import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.jetbrains.annotations.NotNull;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -57,9 +50,6 @@ public class AccountActivity extends AppCompatActivity {
     private TextView mForgotPasswordTextView;
     private TextView mSignUpTextView;
 
-    // Validators
-    private PasswordValidator passwordValidator;
-    private EmailValidator emailValidator;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -67,22 +57,14 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        TextView tvRegisterAccount = findViewById(R.id.activity_login_txt_create_account);
+
+        mSignUpTextView = findViewById(R.id.activity_login_txt_create_account);
 
         String text = "Nog geen account? Maak er een";
         Spannable textSpannable = new SpannableString(text);
         textSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)), 18, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tvRegisterAccount.setText(textSpannable);
+        mSignUpTextView.setText(textSpannable);
 
-
-        TextView forgotPassword = findViewById(R.id.activity_login_forgot_password_txt);
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent askedAboutIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/account/wachtwoord-vergeten/"));
-                startActivity(askedAboutIntent);
-            }
-        });
 
         UserManager um = new UserManager(getApplication());
 
@@ -94,10 +76,6 @@ public class AccountActivity extends AppCompatActivity {
         MenuController menuController = new MenuController(root);
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(4).setChecked(true);
-
-        // Validators
-        passwordValidator = new PasswordValidator();
-        emailValidator = new EmailValidator();
 
 
         mEmailEditText = findViewById(R.id.activity_login_et_username);
@@ -111,20 +89,20 @@ public class AccountActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-                if(!emailValidator.isValidEmail(charSequence.toString())){
+                if(!EmailValidator.isValidEmail(charSequence.toString())){
                     mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(emailValidator.isValidEmail(editable.toString())){
+                if(EmailValidator.isValidEmail(editable.toString())){
                     mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    emailValidator.mIsValid = true;
+                    EmailValidator.mIsValid = true;
                 }
             }
         });
-        mEmailEditText.setText("e.aygun1@student.avans.nl");
+        mEmailEditText.setText("bbuijsen@gmail.com");
 
         mPasswordLayout = findViewById(R.id.activity_login_et_password);
         mPasswordEditText = findViewById(R.id.component_edittext_password);
@@ -138,76 +116,68 @@ public class AccountActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mPasswordEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-                if(!passwordValidator.isValidPassword(charSequence.toString())){
+                if(!PasswordValidator.isValidPassword(charSequence.toString())){
                     mPasswordEditText.setBackgroundResource(R.drawable.edittext_error);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(passwordValidator.isValidPassword(editable.toString())){
+                if(PasswordValidator.isValidPassword(editable.toString())){
                     mPasswordEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    passwordValidator.mIsValid = true;
+                    PasswordValidator.mIsValid = true;
                 }
             }
         });
-        mPasswordEditText.setText("61-Trabzon-61");
+        mPasswordEditText.setText("1gCA&cC1ArczV(#wsd8iOmV3");
 
 
-        mSignUpTextView = findViewById(R.id.activity_login_txt_create_account);
-        mSignUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(registerIntent);
-            }
+
+        mSignUpTextView.setOnClickListener(view -> {
+            Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(registerIntent);
         });
 
         mForgotPasswordTextView = findViewById(R.id.activity_login_forgot_password_txt);
         mForgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent forgotPassIntent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
-                startActivity(forgotPassIntent);
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/account/wachtwoord-vergeten/")));
             }
         });
 
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-                mLoginButton.setEnabled(false);
-                enableLoadingIndicator();
-                APIUserDAO apiUserDAO = new APIUserDAO();
+        mLoginButton.setOnClickListener(view -> {
+            mLoginButton.setEnabled(false);
+            enableLoadingIndicator();
+            APIUserDAO apiUserDAO = new APIUserDAO();
 
-                if(emailValidator.isValid() && passwordValidator.isValid()){
-                    Thread loadUser = new Thread(() -> {
-                        User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
-                        Bundle bundle = new Bundle();
-                        bundle.putString("USERNAME", user.getUsername());
-                        um.insertInfo(user);
-                        LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
+            if(EmailValidator.isValid() && PasswordValidator.isValid()){
+                Thread loadUser = new Thread(() -> {
+                    User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("USERNAME", user.getUsername());
+                    um.insertInfo(user);
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
 
-                        setToken();
+                    setToken();
 
-                        startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
-                    });
-                    try {
-                        loadUser.join();
-                        loadUser.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
+                });
+                try {
+                    loadUser.join();
+                    loadUser.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                disableLoadingIndicator();
+                mLoginButton.setEnabled(true);
+                if(!EmailValidator.isValid() && !PasswordValidator.isValid()){
+                    Toast.makeText(getApplicationContext(), "Email and password are incorrect given", Toast.LENGTH_SHORT).show();
+                } else if (!EmailValidator.isValid() && PasswordValidator.isValid()){
+                    Toast.makeText(getApplicationContext(), "Email is incorrect given", Toast.LENGTH_SHORT).show();
                 } else {
-                    disableLoadingIndicator();
-                    mLoginButton.setEnabled(true);
-                    if(!emailValidator.isValid() && !passwordValidator.isValid()){
-                        Toast.makeText(getApplicationContext(), "Email and password are incorrect given", Toast.LENGTH_SHORT).show();
-                    } else if (!emailValidator.isValid() && passwordValidator.isValid()){
-                        Toast.makeText(getApplicationContext(), "Email is incorrect given", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Password is incorrect given", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getApplicationContext(), "Password is incorrect given", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -215,20 +185,12 @@ public class AccountActivity extends AppCompatActivity {
 
     private void setToken(){
         DAOFactory apidaoFactory = new APIDAOFactory();
-        final String[] token = {""};
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<String> task) {
-                token[0] = task.getResult();
-                System.out.println(task.getResult());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        apidaoFactory.getFireBaseTokenDAO().addToken(task.getResult(), LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
-                        System.out.println("added token");
-                    }
-                }).start();
-            }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            System.out.println(task.getResult());
+            new Thread(() -> {
+                apidaoFactory.getFireBaseTokenDAO().addToken(task.getResult(), LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
+                System.out.println("added token");
+            }).start();
         });
     }
 

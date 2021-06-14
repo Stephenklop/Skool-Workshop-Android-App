@@ -92,7 +92,8 @@ public class MoreMenuActivity extends AppCompatActivity {
         mAboutUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent aboutIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/over-ons/"));
+                Intent aboutIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                aboutIntent.putExtra("url", "https://skoolworkshop.nl/over-ons/");
                 startActivity(aboutIntent);
             }
         });
@@ -100,11 +101,16 @@ public class MoreMenuActivity extends AppCompatActivity {
         mAskedQuestionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent askedAboutIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/over-ons/#:~:text=Belangrijke,aanbod"));
-                startActivity(askedAboutIntent);
+                Intent faqIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                faqIntent.putExtra("url", "https://skoolworkshop.nl/over-ons/#:~:text=Belangrijke,aanbod");
+                startActivity(faqIntent);
             }
         });
 
+        if(quizzes.size() == 0){
+            mQuizButton.setEnabled(false);
+            mQuizButton.setBackgroundColor(getResources().getColor(R.color.disabled_grey));
+        }
         mQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

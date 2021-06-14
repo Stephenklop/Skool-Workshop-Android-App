@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SkoolWorkshop2">
+
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
@@ -85,6 +86,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.notifications.NotificationsActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.WebViewActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
             android:name=".logic.notifications.MessagingService"
@@ -103,6 +106,8 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/main_orange"/>
+        <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="false" />
     </application>
 
 </manifest>

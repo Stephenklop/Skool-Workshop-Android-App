@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuController.sendToSearch();
+                startActivity(new Intent(getApplicationContext(), WorkshopActivity.class));
             }
         });
 
@@ -228,14 +228,12 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         ordersEvent.putString("orders_event_id", "orders_event_id");
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
-//        LocalDb.getDatabase(getBaseContext()).getInfoDAO().getInfo().getUserId();
-
-//        startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
     }
 
     @Override
     public void onNoteClick(int position) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
-        startActivity(browserIntent);
+        Intent appBrowserIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+        appBrowserIntent.putExtra("url", newsArticles.get(position).getUrl());
+        startActivity(appBrowserIntent);
     }
 }
