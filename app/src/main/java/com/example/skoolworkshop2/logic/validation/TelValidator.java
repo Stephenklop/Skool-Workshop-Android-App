@@ -11,7 +11,9 @@ public class TelValidator implements TextWatcher {
     private String LOG_TAG = getClass().getSimpleName();
 
     public static final Pattern TELPATTERN = Pattern.compile(
-            "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{1})(?: *x(\\d+))?\\s*$");
+            "^((\\+|00(\\s|\\s?\\-\\s?)?)31(\\s|\\s?\\-\\s?)?(\\(0\\)[\\-\\s]?)?|0)[1-9]((\\s|\\s?\\-\\s?)?[0-9])((\\s|\\s?-\\s?)?[0-9])((\\s|\\s?-\\s?)?[0-9])\\s?[0-9]\\s?[0-9]\\s?[0-9]\\s?[0-9]\\s?[0-9]$");
+    public static final Pattern TELPATTERNBE = Pattern.compile(
+            "^((\\+|00(\\s|\\s?\\-\\s?)?)32(\\s|\\s?\\-\\s?)?(\\(0\\)[\\-\\s]?)?|0)[1-9]((\\s|\\s?\\-\\s?)?[0-9])((\\s|\\s?-\\s?)?[0-9])((\\s|\\s?-\\s?)?[0-9])\\s?[0-9]\\s?[0-9]\\s?[0-9]\\s?[0-9]\\s?[0-9]$");
 
     public boolean mIsValid = false;
 
@@ -20,9 +22,17 @@ public class TelValidator implements TextWatcher {
     }
 
     public static boolean isValidTelNumber(CharSequence tel) {
-        return tel != null && TELPATTERN.matcher(tel).matches();
-    }
 
+        if(tel != null){
+            if(TELPATTERN.matcher(tel).matches() || TELPATTERNBE.matcher(tel).matches()){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
     @Override
     final public void afterTextChanged(Editable editableText) {
         mIsValid = isValidTelNumber(editableText);

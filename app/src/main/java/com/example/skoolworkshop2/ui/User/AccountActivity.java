@@ -106,7 +106,7 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
-        mEmailEditText.setText("e.aygun1@student.avans.nl");
+
 
         mPasswordLayout = findViewById(R.id.activity_login_et_password);
         mPasswordEditText = findViewById(R.id.component_edittext_password);
@@ -133,7 +133,7 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
-        mPasswordEditText.setText("61-Trabzon-61");
+
 
 
         mSignUpTextView = findViewById(R.id.activity_login_txt_create_account);
