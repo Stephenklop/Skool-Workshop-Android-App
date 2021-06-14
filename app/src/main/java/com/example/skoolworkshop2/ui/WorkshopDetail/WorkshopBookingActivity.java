@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
@@ -43,7 +44,7 @@ import io.paperdb.Paper;
 public class WorkshopBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private String LOG_TAG = getClass().getSimpleName();
     private LocalAppStorage localAppStorage;
-    private Product product;
+    private WorkshopItem product;
     private ImageButton mBackButton;
     private ImageView mWorkshopBanner;
     private TextView mTitle;
@@ -87,14 +88,14 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         localAppStorage = new LocalAppStorage(getBaseContext());
 
         // Initialize workshop
-        product = (Product) getIntent().getSerializableExtra("Workshop");
+        product = (WorkshopItem) getIntent().getSerializableExtra("Workshop");
 
         // Set title
         mTitle = findViewById(R.id.activity_workshop_booking_tv_title);
-        mTitle.setText(product.getName());
+        mTitle.setText(product.getProduct().getName());
 
         mWorkshopBanner = findViewById(R.id.activity_workshop_booking_img_banner);
-        Glide.with(getBaseContext()).load(product.getSourceImage()).centerCrop().into(mWorkshopBanner);
+        Glide.with(getBaseContext()).load(product.getProduct().getSourceImage()).centerCrop().into(mWorkshopBanner);
 
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
