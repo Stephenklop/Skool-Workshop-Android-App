@@ -23,6 +23,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     private Context context;
 
     public NotificationsAdapter(List<Notification> notifications, Context context){
+        System.out.println(notifications);
         this.notifications = notifications;
         this.context = context;
     }
@@ -66,6 +67,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public int getItemCount() {
-        return this.notifications.size();
+        return notifications.size();
     }
 }
