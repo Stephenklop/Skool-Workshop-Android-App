@@ -75,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             }
         });
 
+        if(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size() > 0){
+            ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
+            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
+        }
+
 
         View include = findViewById(R.id.include);
         include.setClipToOutline(true);
@@ -98,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         if (iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
             noAccount.setVisibility(View.GONE);
+
+            LinearLayout notifications = findViewById(R.id.activity_home_ll_notifications);
+            notifications.setVisibility(View.VISIBLE);
 
             points.setVisibility(View.VISIBLE);
 

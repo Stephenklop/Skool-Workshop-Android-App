@@ -26,17 +26,6 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:minHeight="50dp">
-
-            <ImageButton
-                android:id="@+id/activity_cultureday_details_btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/ic_arrow_left"
-                android:tint="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_collapseMode="pin"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -78,7 +67,7 @@
                     android:id="@+id/activity_cultureday_details_btn_workshop"/>
 
                 <include
-                    layout="@layout/component_button_tag_detail"
+                    layout="@layout/component_button_tag_detail_last"
                     android:id="@+id/activity_cultureday_details_btn_round"/>
             </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.example.skoolworkshop2.ui.notifications;
 
-import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,49 +18,46 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationViewholder> {
+public class OldNotificationAdapter extends RecyclerView.Adapter<OldNotificationAdapter.OldNotificationViewholder> {
     private List<Notification> notifications;
-    private Application application;
-    private ClickListener listener;
+    private Context context;
 
-    public NotificationsAdapter(List<Notification> notifications, Application application, ClickListener listener){
+    public OldNotificationAdapter(List<Notification> notifications, Context context){
         System.out.println(notifications);
         this.notifications = notifications;
-        this.application = application;
-        this.listener = listener;
+        this.context = context;
     }
 
-    public class NotificationViewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class OldNotificationViewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mNotificationTitle;
         public TextView mNotificationDescription;
         public TextView mNotificationLink;
 
-        public NotificationViewholder(@NonNull @NotNull View itemView) {
+        public OldNotificationViewholder(@NonNull @NotNull View itemView) {
             super(itemView);
-            mNotificationTitle = itemView.findViewById(R.id.item_notification_tv_header);
-            mNotificationDescription = itemView.findViewById(R.id.item_notification_tv_msg);
+            mNotificationTitle = itemView.findViewById(R.id.item_old_notification_tv_header);
+            mNotificationDescription = itemView.findViewById(R.id.item_old_notification_tv_msg);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            LocalDb.getDatabase(application).getNotificationDAO().setNotificationRead(notifications.get(getAdapterPosition()).getId());
-            listener.onClick();
+
         }
     }
 
     @NonNull
     @NotNull
     @Override
-    public NotificationViewholder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        int layoutId = R.layout.item_notification;
+    public OldNotificationViewholder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        int layoutOldId = R.layout.item_old_notification;
         boolean shouldAttachToParent = false;
-        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, shouldAttachToParent);
-        return new NotificationViewholder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutOldId, parent, shouldAttachToParent);
+        return new OldNotificationViewholder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull NotificationViewholder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull OldNotificationViewholder holder, int position) {
 
         Notification notification = notifications.get(position);
         holder.mNotificationTitle.setText(notification.getTitle());
@@ -72,9 +68,5 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     @Override
     public int getItemCount() {
         return notifications.size();
-    }
-
-    public interface ClickListener {
-        void onClick();
     }
 }

@@ -21,4 +21,13 @@ public interface NotificationDAO {
 
     @Query("DELETE FROM Notification WHERE id = :id")
     void deleteNotificationById(int id);
+
+    @Query("SELECT * FROM Notification WHERE status = 1")
+    List<Notification> getAllOldNotifications();
+
+    @Query("SELECT * FROM Notification WHERE status = 0")
+    List<Notification> getAllNewNotifications();
+
+    @Query("UPDATE Notification SET status = 1 WHERE id = :id")
+    void setNotificationRead(int id);
 }

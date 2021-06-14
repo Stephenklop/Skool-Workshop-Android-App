@@ -57,8 +57,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         DAOFactory apidaoFactory = new APIDAOFactory();
 
-
-
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
             public void run() {
