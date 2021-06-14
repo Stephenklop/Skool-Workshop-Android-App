@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class WorkshopCostFragment extends Fragment {
             View root = inflater.inflate(R.layout.fragment_workshop_costs, container, false);
             mDescriptionTv = root.findViewById(R.id.fragment_workshop_costs_tv_txt);
             // TODO: Add text
-            mDescriptionTv.setText("WORDT LATER GEIMPLEMENTEERD");
+            mDescriptionTv.setText(Html.fromHtml(workshop.getCostsInfo(), Html.FROM_HTML_MODE_COMPACT));
 
             return root;
         }
@@ -30,5 +31,4 @@ public class WorkshopCostFragment extends Fragment {
         public WorkshopCostFragment(Product workshop){
             this.workshop = workshop;
         }
-
 }

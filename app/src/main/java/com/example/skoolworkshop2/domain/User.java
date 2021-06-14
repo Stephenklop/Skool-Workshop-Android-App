@@ -1,25 +1,50 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class User implements Serializable {
-    private String token;
+
+    @ColumnInfo @PrimaryKey @NonNull
     private int id;
+
+    @ColumnInfo
+    private String email;
+
+    @ColumnInfo
     private String username;
+
+    @ColumnInfo
+    private int points;
     //private String registrationDate; // Might be changed to Timestamp later (depends on whether that's useful)
 
-    public User(String token, int id, String username) {
-        this.token = token;
+
+    public User(int id, String email, String username, int points) {
         this.id = id;
+        this.email = email;
         this.username = username;
+        this.points = points;
     }
 
-    public String getToken() {
-        return token;
+    public String getEmail() {
+        return email;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public int getId() {
@@ -41,9 +66,9 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "token='" + token + '\'' +
-                ", id=" + id +
+                "id=" + id +
                 ", username='" + username + '\'' +
+                ", points=" + points +
                 '}';
     }
 }

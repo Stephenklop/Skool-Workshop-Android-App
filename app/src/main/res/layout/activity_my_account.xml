@@ -3,16 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:id="@+id/activity_my_account">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/activity_my_account_cl"
             android:layout_height="wrap_content"
             android:paddingHorizontal="25dp"
             android:paddingTop="25dp"
@@ -39,7 +42,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_my_account_tv_my_account">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/activity_my_account_first_two_items_ll"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
@@ -47,10 +51,10 @@
                         android:id="@+id/activity_my_account_item_account_data"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
-                    <Space
+                    <View
                         android:layout_width="25dp"
                         android:layout_height="match_parent" />
 
@@ -58,21 +62,22 @@
                         android:id="@+id/activity_my_account_item_invoice_data"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <include
                         android:id="@+id/activity_my_account_item_reservations"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
                     <Space
@@ -83,7 +88,7 @@
                         android:id="@+id/activity_my_account_item_skoolpartner"
                         layout="@layout/item_dashboard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
@@ -108,4 +113,42 @@
         android:transitionName="menu_bottom_nav"
         android:windowSharedElementsUseOverlay="false"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/activity_login_ll_loading_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:background="@drawable/item_workshop_container"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="25dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/activity_login_img_loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_loading_indicator"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/proxima_nova_extrabold"
+            android:text="U wordt uitgelogd"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

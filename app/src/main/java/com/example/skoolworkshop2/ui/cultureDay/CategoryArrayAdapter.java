@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.domain.Product;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,7 @@ import java.util.List;
 public class CategoryArrayAdapter extends ArrayAdapter<String> {
     LayoutInflater layoutInflater;
 
-    public CategoryArrayAdapter(@NonNull Context context, @NonNull String[] categoryList) {
+    public CategoryArrayAdapter(@NonNull Context context, @NonNull List<String> categoryList) {
         super(context, 0, categoryList);
         layoutInflater = LayoutInflater.from(context);
     }

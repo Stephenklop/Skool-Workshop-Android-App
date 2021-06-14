@@ -6,5 +6,6 @@
     android:textColor="@color/white"
     android:fontFamily="@font/proxima_nova_semibold"
     android:textSize="16sp"
+    android:textAllCaps="false"
     android:paddingHorizontal="10dp"
     android:layout_marginRight="20dp"/>

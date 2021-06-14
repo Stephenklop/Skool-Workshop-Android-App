@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
-import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.ProductItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,7 +20,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private ShoppingCartRecyclerViewAdapter mAdapter;
     private LocalAppStorage localAppStorage;
     private MenuController menuController;
-    private List<Product> shoppingCartItems;
+    private List<ProductItem> shoppingCartItems;
     private TextView totalPriceTitleTextView;
     private TextView totalPriceTextView;
 
@@ -56,8 +56,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private double calculateTotalPrice() {
         double total = 0;
 
-        for (Product workshop : shoppingCartItems) {
-            total += workshop.getPrice();
+        for (ProductItem product : shoppingCartItems) {
+            total += product.getPrice();
         }
 
         return total;

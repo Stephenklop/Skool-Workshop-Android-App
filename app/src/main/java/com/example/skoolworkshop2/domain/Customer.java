@@ -1,20 +1,45 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Customer implements Serializable {
+    @PrimaryKey @NonNull
     private int id;
+
+    @ColumnInfo
     private String firstName;
+
+    @ColumnInfo
     private String lastName;
+
+    @ColumnInfo
     private String email;
+
+    @ColumnInfo
     private String street;
-    private int houseNumber;
+
+    @ColumnInfo
+    private String houseNumber;
+
+    @ColumnInfo
     private String postcode;
+
+    @ColumnInfo
     private String city;
+
+    @ColumnInfo
     private String state;
+
+    @ColumnInfo
     private String country;
 
-    public Customer(int id, String firstName, String lastName, String email, String street, int houseNumber, String postcode, String city, String state, String country) {
+    public Customer(int id, String firstName, String lastName, String email, String street, String houseNumber, String postcode, String city, String state, String country) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,7 +72,7 @@ public class Customer implements Serializable {
         return street;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
@@ -87,7 +112,7 @@ public class Customer implements Serializable {
         this.street = street;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 

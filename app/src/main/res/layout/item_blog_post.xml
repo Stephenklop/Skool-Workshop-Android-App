@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Lees meer"
+            android:text="@string/item_blog_post_read_more"
             android:textColor="@color/dark_grey"
             android:textSize="12sp" />
     </LinearLayout>

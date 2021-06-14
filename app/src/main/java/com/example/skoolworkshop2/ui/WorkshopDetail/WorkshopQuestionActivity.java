@@ -1,14 +1,17 @@
 package com.example.skoolworkshop2.ui.WorkshopDetail;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -84,7 +87,29 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mTitleTextView.setText(workshop.getName());
 
         // Set up validations
-        mEmailEditText.addTextChangedListener(emailValidator);
+        mEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                if(!emailValidator.isValidEmail(charSequence.toString())){
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (emailValidator.isValidEmail(editable.toString())) {
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    emailValidator.mIsValid = true;
+                }
+            }
+        });
         mTelEditText.addTextChangedListener(telValidator);
 
         mDatePopUpImageButton.setOnClickListener(new View.OnClickListener() {
@@ -323,6 +348,23 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
             mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
         }
         datePickerDialog.cancel();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 }
 

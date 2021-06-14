@@ -17,7 +17,7 @@ public class LearningLevelValidator{
 
     public static boolean isValidLearningLevels(CharSequence learns) {
 
-        return learns != null || !learns.toString().equals("");
+        return learns != null || learns.toString().equals("");
     }
 
 }

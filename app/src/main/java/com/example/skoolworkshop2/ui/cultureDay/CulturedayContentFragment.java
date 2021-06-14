@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
 
 public class CulturedayContentFragment extends Fragment {
@@ -24,7 +26,7 @@ public class CulturedayContentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workshop_content, container, false);
         mContentTv = root.findViewById(R.id.fragment_workshop_content_tv_txt);
-        mContentTv.setText("");
+        mContentTv.setText(Html.fromHtml(cultureDay.getBuildupDescription(), Html.FROM_HTML_MODE_COMPACT));
         // Inflate the layout for this fragment
         return root;
     }

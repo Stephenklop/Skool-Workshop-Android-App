@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/activity_login">
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_login_btn_login"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="75dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/proxima_nova"
                 android:text="SkoolPartner portaal"
@@ -109,6 +112,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_login_txt_label_password" />
 
             <TextView
+                android:id="@+id/activity_login_forgot_password_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -150,12 +154,51 @@
         android:textColor="@color/black"
         android:textFontWeight="600"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_login_txt_forgot_password"
+        app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
-        android:id="@+id/activity_login_txt_forgot_password"
+        android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
         tools:layout_editor_absoluteY="793dp" />
+
+    <LinearLayout
+        android:id="@+id/activity_login_ll_loading_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:background="@drawable/item_workshop_container"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="25dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/activity_login_img_loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_loading_indicator"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/proxima_nova_extrabold"
+            android:text="Wij proberen u in te loggen"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

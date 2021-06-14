@@ -12,7 +12,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -50,7 +52,7 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         MenuController mc = new MenuController(root);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
-        cultureDay = localAppStorage.getObject("cultureDay");
+        cultureDay = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Cultuurdag").get(0);
 
         BottomNavigationView menu = findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(2).setChecked(true);
@@ -59,20 +61,20 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
 
         mTitleTV = findViewById(R.id.activity_cultureday_details_tv_title);
         mBackButton = findViewById(R.id.activity_cultureday_details_btn_back);
+
         mPriceBn = findViewById(R.id.activity_cultureday_details_btn_price);
         mParticipantsBn = findViewById(R.id.activity_cultureday_details_btn_participant);
         mWorkshopsBn = findViewById(R.id.activity_cultureday_details_btn_workshop);
         mRoundsBn = findViewById(R.id.activity_cultureday_details_btn_round);
 
-        ArrayList<Product> workshops = new ArrayList<>();
-//        workshops.add(new Workshop(1, "Test", new String[]{"Test", "Inhoud", "Info", "kosten"}, 55.55, "11-11-2021", 25, Category.DS));
-//        cultureDay = new CultureDay(1, "Cultuurdag", new String[]{"test", "test", "test", "test"}, workshops, 1, 100, "12/12/2021", 10);
+        mPriceBn.setText("€1674,-");
+        mParticipantsBn.setText("100 Deelnemers");
+        mWorkshopsBn.setText("4 Workshops");
+        mRoundsBn.setText("3 Rondes");
 
         mTitleTV.setText(cultureDay.getName());
-        mPriceBn.setText("€" + ((int) cultureDay.getPrice()) + ",-");
-//        mParticipantsBn.setText(cultureDay.getMaxParticipants() + " Deelnemers");
-//        mWorkshopsBn.setText(cultureDay.getWorkshops().size() + " Workshops");
-        mRoundsBn.setText(cultureDay.getRounds() + " Rounds");
+        mPriceBn.setText("€1674,-");
+
 
         mDetailTabsLl = findViewById(R.id.activity_cultureday_details_ll_tabs);
         mTabsSelector = mDetailTabsLl.findViewById(R.id.component_tabs_selector);
@@ -98,11 +100,6 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
                 startActivity(backIntent);
             }
         });
-//        View root = findViewById(R.id.activity_cultureday_details_menu_icons);
-//        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
-//        menu.getMenu().getItem(2).setChecked(true);
-//
-//        MenuController mc = new MenuController(root);
 
     }
 
