@@ -111,7 +111,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             @Override
             public boolean onQueryTextChange(String s) {
                 if(!automaticChangedSearch[0]){
-                    categoryTitle.setText("Zoeken op: " + s);
+                    categoryTitle.setText("Zoekresultaten");
                     automaticChangedCategory[0] = true;
                     ca.setChecked();
                     automaticChangedCategory[0] = false;
@@ -155,29 +155,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     public List<Product> filter(){
         List<Product> filteredList = new ArrayList<>();
-//        if(searchValue.isEmpty() && (categorySelected.equals("Alles") || categorySelected.equals("Meest gekozen"))){
-//            filteredList = mWorkshops;
-//        } else if(!searchValue.isEmpty()){
-//            if(categorySelected.equals("Alles") || categorySelected.equals("Meest gekozen")){
-//                for (Product workshop: mWorkshops) {
-//                    if(workshop.getName().toLowerCase().contains(searchValue)){
-//                        filteredList.add(workshop);
-//                    }
-//                }
-//            } else if (categorySelected.isEmpty()) {
-//                for (Product workshop: mWorkshops){
-//                    if(workshop.getName().toLowerCase().contains(searchValue) && workshop.getCategory().equals(categorySelected)){
-//                        filteredList.add(workshop);
-//                    }
-//                }
-//            }
-//        } else {
-//            for (Product workshop: mWorkshops) {
-//                if(workshop.getCategory().equals(categorySelected)){
-//                    filteredList.add(workshop);
-//                }
-//            }
-//        }
 
         if(!searchValue.isEmpty()){
             for (Product workshop: mWorkshops) {

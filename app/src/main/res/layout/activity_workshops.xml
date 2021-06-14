@@ -30,7 +30,7 @@
         android:layout_marginEnd="25dp"
         android:fontFamily="@font/proxima_nova"
         android:letterSpacing="0"
-        android:text="Bladeren door categorieen"
+        android:text="Bladeren door categorieën"
         android:textColor="@color/black"
         android:textFontWeight="700"
         android:textSize="22sp"

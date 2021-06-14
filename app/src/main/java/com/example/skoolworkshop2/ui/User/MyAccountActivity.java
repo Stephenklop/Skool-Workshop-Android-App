@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui.User;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -40,10 +41,6 @@ public class MyAccountActivity extends AppCompatActivity {
     private Context context;
 
 
-//    public MyAccountActivity(View root) {
-//        context = root.getContext();
-//    }
-
     private LinearLayout mLoader;
 
     @Override
@@ -69,9 +66,6 @@ public class MyAccountActivity extends AppCompatActivity {
                 deleteUser();
             }
         });
-
-        // Successfully logged in
-        Toast.makeText(this, "You have successfully logged in as "+ this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
 
 
         // first icon

@@ -158,13 +158,15 @@ public class SplashScreenActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(SplashScreenActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SplashScreenActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Subscribed to " + topic);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SplashScreenActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SplashScreenActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Failed to subscribe");
             }
         });
     }
