@@ -34,6 +34,7 @@ import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
 import java.time.LocalDate;
@@ -51,6 +52,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private EditText mDateEditText;
     private DatePickerDialog datePickerDialog;
     private RelativeLayout mParticipantsLayout;
+    private RelativeLayout mSchemeLayout;
     private EditText mParticipantsEditText;
     private EditText mRoundsEditText;
     private EditText mMinuteEditText;
@@ -109,6 +111,12 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
         // Workshop Participants
         mParticipantsLayout= findViewById(R.id.activity_workshop_booking_et_amount);
+        ImageButton particpantsInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
+        particpantsInfoBtn.setOnClickListener(v -> {
+            String header = "Totaal aantal deelnemers";
+            String content = "Maximaal 25 deelnemers per workshop. \n\n€7,50 extra kosten per deelnemer voor Workshops Graffiti en Workshops T-Shirt Ontwerpen";
+            new RoundedDialog(WorkshopBookingActivity.this, header, content);
+        });
         mParticipantsEditText = findViewById(R.id.number_edit_text);
         mParticipantsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,7 +147,15 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mRoundsEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_rounds);
         mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_rounds);
         // Scheme
+
         mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
+        mSchemeLayout = findViewById(R.id.activity_workshop_booking_et_schedule);
+        ImageButton schemeInfoBtn = mSchemeLayout.findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
+        schemeInfoBtn.setOnClickListener(v -> {
+            String header = "Tijdschema";
+            String content = "Geef hier op hoe jullie het tijdschema willen hebben (aantal rondes met eventueel pauzes)";
+            new RoundedDialog(WorkshopBookingActivity.this, header, content);
+        });
         mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_schedule);
         // Total cost
         mTotalCostTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_subtotal);
