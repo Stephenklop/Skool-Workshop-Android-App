@@ -4,7 +4,10 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.User;
+
+import java.util.List;
 
 @Dao
 public interface UserDAO {
@@ -17,4 +20,16 @@ public interface UserDAO {
 
     @Query("DELETE FROM User")
     void deleteInfo();
+
+    @Query("SELECT * FROM BillingAddress WHERE billingAddress.id = :id")
+    BillingAddress getBillingAddress(int id);
+
+    @Query("SELECT * FROM BillingAddress")
+    List<BillingAddress> getAddresses();
+
+    @Insert
+    void insertBillingaddress(BillingAddress address);
+
+    @Query("DELETE FROM billingaddress")
+    void deleteAdress();
 }

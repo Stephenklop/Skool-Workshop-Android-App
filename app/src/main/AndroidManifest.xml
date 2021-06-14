@@ -33,6 +33,7 @@
         <activity android:name=".ui.User.MyAccountActivity"/>
         <activity
             android:name=".ui.cultureDay.CulturedayQuestionActivity" />
+        <activity android:name=".ui.User.InvoiceAdressActivity"/>
         <activity android:name=".ui.User.AccountActivity"
             android:launchMode="singleTop"/>
         <activity

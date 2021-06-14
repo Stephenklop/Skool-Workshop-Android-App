@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.domain;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
@@ -26,9 +27,14 @@ public class User implements Serializable {
     private int points;
     //private String registrationDate; // Might be changed to Timestamp later (depends on whether that's useful)
 
-    private BillingAddress billingAddress;
-
-    private ShippingAddress shippingAddress;
+    @ForeignKey(entity = BillingAddress.class,
+    parentColumns = "id",
+    childColumns = "billingAddressId")
+    private int billingAddressId;
+    @ForeignKey(entity = ShippingAddress.class,
+            parentColumns = "id",
+            childColumns = "shippingAddressId")
+    private int shippingAddressId;
 
     public User(int id, String email, String username, int points) {
         this.id = id;
@@ -37,12 +43,20 @@ public class User implements Serializable {
         this.points = points;
     }
 
-    public BillingAddress getBillingAddress() {
-        return billingAddress;
+    public int getBillingAddressId() {
+        return billingAddressId;
     }
 
-    public ShippingAddress getShippingAddress() {
-        return shippingAddress;
+    public int getShippingAddressId() {
+        return shippingAddressId;
+    }
+
+    public void setBillingAddressId(int billingAddressId) {
+        this.billingAddressId = billingAddressId;
+    }
+
+    public void setShippingAddressId(int shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
     }
 
     public String getEmail() {

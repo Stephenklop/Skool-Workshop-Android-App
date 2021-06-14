@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,7 +25,9 @@ import java.util.List;
 
 public class InvoiceAdressActivity extends AppCompatActivity {
 
+    private String LOG_TAG = getClass().getSimpleName();
     // BillingAddress
+    private TextView minvoiceBillingTitleTextView;
     private ConstraintLayout mInvoiceAddressLayout;
     private ImageButton mInvoiceBillingAddressImageButton;
     private BillingAddress billingAddress;
@@ -45,6 +48,8 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         mInvoiceAddressLayout = findViewById(R.id.activity_invoice_data_item_invoice_address);
         mInvoiceBillingAddressImageButton = mInvoiceAddressLayout.findViewById(R.id.component_invoice_data_btn_edit);
         mInvoiceBillingTextView = mInvoiceAddressLayout.findViewById(R.id.component_invoice_data_tv_data);
+        minvoiceBillingTitleTextView = mInvoiceAddressLayout.findViewById(R.id.component_invoice_data_tv_header);
+        minvoiceBillingTitleTextView.setText("Factuuradres");
         // Shipping
         mInvoiceShippingAddressLayout = findViewById(R.id.activity_invoice_data_item_workshop_location);
         mInvoiceShippingAddressImageButton = mInvoiceShippingAddressLayout.findViewById(R.id.component_invoice_data_btn_edit);
@@ -53,13 +58,12 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         // Usermanager
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
         // Loading billing addresses
-        billingAddress = iem.getInfo().getBillingAddress();
+        iem.deleteAdress();
+        Log.d(LOG_TAG, "onCreate: " + iem.getAddresses());
         // Loading shipping adresses
-        shippingAddress = iem.getInfo().getShippingAddress();
 
         if (billingAddress != null){
             mInvoiceBillingTextView.setText(billingAddress.toString());
-            mInvoiceAddressLayout.addView(mInvoiceBillingTextView);
             mInvoiceBillingAddressImageButton.setBackgroundResource(R.drawable.ic_edit);
 
             mInvoiceBillingAddressImageButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +75,7 @@ public class InvoiceAdressActivity extends AppCompatActivity {
                 }
             });
         } else {
+            mInvoiceBillingTextView.setText("Dit adres is nog niet ingesteld.");
             mInvoiceBillingAddressImageButton.setBackgroundResource(R.drawable.ic_plus);
             mInvoiceBillingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
