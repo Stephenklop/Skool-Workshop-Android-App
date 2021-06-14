@@ -112,4 +112,42 @@
         android:transitionName="menu_bottom_nav"
         android:windowSharedElementsUseOverlay="false"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/activity_login_ll_loading_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:background="@drawable/item_workshop_container"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="25dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/activity_login_img_loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_loading_indicator"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/proxima_nova_extrabold"
+            android:text="U wordt uitgelogd"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

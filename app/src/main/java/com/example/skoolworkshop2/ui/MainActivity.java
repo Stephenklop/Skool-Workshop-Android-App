@@ -9,40 +9,30 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
-import com.example.skoolworkshop2.dao.localDatabase.entities.InfoEntity;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
+import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.User.AccountActivity;
+import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -73,43 +63,45 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
-        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
+        UserManager iem = new UserManager(this.getApplication());
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
-        if(!iem.hasInfo()){
-            iem.insertInfo(new InfoEntity("Bas Buijsen", "bbuijsen@gmail.com", "token", "wachtwoord", 500, 70));
+        if(iem.hasInfo()) {
+            LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
+            noAccount.setVisibility(View.GONE);
+
+            points.setVisibility(View.VISIBLE);
+
+            String pointsStrStart = "Je hebt ";
+            String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
+            Spannable pointsSpannable = new SpannableString(pointsStr);
+            pointsSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                    pointsStrStart.length(),
+                    pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pointsSpannable.setSpan(new RelativeSizeSpan(1.2f),
+                    pointsStrStart.length(),
+                    pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pointsTv.setText(pointsSpannable, TextView.BufferType.SPANNABLE);
+
+            TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
+
+            String moneyStrStart = "Waarde ";
+            String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
+            Spannable moneySpannable = new SpannableString(moneyStr);
+            moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                    moneyStrStart.length(),
+                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
+                    moneyStrStart.length(),
+                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
         }
-
-        String pointsStrStart = "Je hebt ";
-        String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
-        Spannable pointsSpannable = new SpannableString(pointsStr);
-        pointsSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
-                pointsStrStart.length(),
-                pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        pointsSpannable.setSpan(new RelativeSizeSpan(1.2f),
-                pointsStrStart.length(),
-                pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        pointsTv.setText(pointsSpannable, TextView.BufferType.SPANNABLE);
-
-        TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-
-        String moneyStrStart = "Waarde ";
-        String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
-        Spannable moneySpannable = new SpannableString(moneyStr);
-        moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
-                moneyStrStart.length(),
-                moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
-                moneyStrStart.length(),
-                moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
-
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
@@ -147,6 +139,20 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         Button loginBtn = findViewById(R.id.activity_home_btn_log_in);
         registerBtn.setText("Maak nu een account");
         loginBtn.setText("Log in");
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+            }
+        });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
 
         newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
 

@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui.User;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.graphics.drawable.Animatable2;
@@ -19,17 +20,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.jetbrains.annotations.NotNull;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -44,10 +56,18 @@ public class AccountActivity extends AppCompatActivity {
     private PasswordValidator passwordValidator;
     private EmailValidator emailValidator;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        UserManager um = new UserManager(getApplication());
+//        if(um.hasInfo()){
+//            Bundle bundle = new Bundle();
+//            bundle.putString("USERNAME", um.getInfo().getUsername());
+//            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
+//        }
         // Button
         mLoginButton = findViewById(R.id.activity_login_btn_login);
         mLoginButton.setText("Login");
@@ -135,6 +155,7 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 enableLoadingIndicator();
@@ -145,6 +166,10 @@ public class AccountActivity extends AppCompatActivity {
                         User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME", user.getUsername());
+                        um.insertInfo(user);
+
+                        setToken();
+
                         startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
                     });
                     try {
@@ -163,6 +188,25 @@ public class AccountActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Password is incorrect given", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+    }
+
+    private void setToken(){
+        DAOFactory apidaoFactory = new APIDAOFactory();
+        final String[] token = {""};
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<String> task) {
+                token[0] = task.getResult();
+                System.out.println(task.getResult());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        apidaoFactory.getFireBaseTokenDAO().addToken(task.getResult(), LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
+                        System.out.println("added token");
+                    }
+                }).start();
             }
         });
     }
