@@ -62,6 +62,8 @@
         </activity>
         <activity android:name=".ui.PointsLayoutTestActivity">
         </activity>
+        <activity
+            android:name=".ui.User.AccountDataActivity" />
 
         <service
             android:name=".logic.notifications.MessagingService"

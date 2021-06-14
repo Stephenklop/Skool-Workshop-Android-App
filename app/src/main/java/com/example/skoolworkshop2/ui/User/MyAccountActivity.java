@@ -1,10 +1,12 @@
 package com.example.skoolworkshop2.ui.User;
+
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,12 +34,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class MyAccountActivity extends AppCompatActivity {
 
-    // Account
-    private LinearLayout mFirstTwoItems;
-    private RelativeLayout mRelativeLayout;
-    private LinearLayout mDashBoardLinearLayout;
-    private ImageView mDashBoardImageView;
-    private TextView mDashBoardTextView;
+
+
+    private final String LOG_TAG = this.getClass().getSimpleName();
+    private Context context;
+
+
+//    public MyAccountActivity(View root) {
+//        context = root.getContext();
+//    }
 
     private LinearLayout mLoader;
 
@@ -45,6 +50,7 @@ public class MyAccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
+
 
         View root = findViewById(R.id.activity_my_account);
         MenuController menuController = new MenuController(root);
