@@ -2,6 +2,8 @@ package com.example.skoolworkshop2.ui.User;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -9,6 +11,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.validation.EmailValidator;
 
 public class AccountDataActivity extends AppCompatActivity {
     @Override
@@ -18,6 +21,7 @@ public class AccountDataActivity extends AppCompatActivity {
 
         ImageButton mBackButton;
 
+        EmailValidator emailValidator = new EmailValidator();
 
 
 
@@ -37,8 +41,36 @@ public class AccountDataActivity extends AppCompatActivity {
                 EditText lastNameText = (EditText) findViewById(R.id.activity_account_data_et_last_name);
                 String lastName = lastNameText.getText().toString();
                 //email
-                EditText emailText = (EditText) findViewById(R.id.activity_account_data_et_email);
-                String email = emailText.getText().toString();
+                EditText mEmailEditText = (EditText) findViewById(R.id.activity_account_data_et_email);
+                mEmailEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                        if(!emailValidator.isValidEmail(charSequence.toString())){
+                            mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                        }
+                    }
+                    String email = "";
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        if(emailValidator.isValidEmail(editable.toString())){
+                            mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                            email = mEmailEditText.getText().toString();
+                            System.out.println(email);
+                            emailValidator.mIsValid = true;
+                        }
+                    }
+                });
+
+
+
+
                 //username
                 EditText displayNameText = (EditText) findViewById(R.id.activity_account_data_et_display_name);
                 String displayName = displayNameText.getText().toString();
@@ -47,7 +79,7 @@ public class AccountDataActivity extends AppCompatActivity {
                 System.out.println("firstName: " + firstName);
                 System.out.println("lastName: " + lastName);
                 System.out.println("displayName: " + displayName);
-                System.out.println("email: " + email);
+//                System.out.println("email: " + email);
             }
         });
 

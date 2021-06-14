@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class APIUserDAO implements UserDAO {
@@ -106,6 +107,26 @@ public class APIUserDAO implements UserDAO {
     @Override
     public Customer getLastCustomer() {
         return lastCustomer;
+    }
+
+    @Override
+    public void updateUser(int id, String email, String username) {
+        final String PATH = "account/" + id;
+        User result = null;
+
+        try{
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            String jsonInput = "{\"id\": \"" + id + "\", \"email\": \"" + email + "\", \"username\": \"" + username + "\"}";
+            System.out.println("JSON STRING: " + jsonInput);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

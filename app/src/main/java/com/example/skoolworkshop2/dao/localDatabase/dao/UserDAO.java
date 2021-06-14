@@ -17,4 +17,8 @@ public interface UserDAO {
 
     @Query("DELETE FROM User")
     void deleteInfo();
+
+    //Update User in SQL lite db
+//    @Query("UPDATE User SET username = name)
+//    void updateUser(String name);
 }
