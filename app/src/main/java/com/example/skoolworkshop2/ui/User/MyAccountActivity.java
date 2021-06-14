@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui.User;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -71,7 +72,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // Successfully logged in
-        Toast.makeText(this, "You have successfully logged in as "+ this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "You have successfully logged in as "+ this.getIntent().getExtras().getString("USERNAME"), Toast.LENGTH_LONG).show();
 
 
         // first icon
@@ -80,6 +81,12 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon1.setText("Account");
         ImageView imageIcon1 = icon1.findViewById(R.id.item_dashboard_img_icon);
         imageIcon1.setImageResource(R.drawable.ic_user);
+        icon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AccountDataActivity.class));
+            }
+        });
 
 
         //second icon
