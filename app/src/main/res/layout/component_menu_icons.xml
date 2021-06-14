@@ -11,4 +11,5 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:menu="@menu/menu_bottom_icons" />
+    app:menu="@menu/menu_bottom_icons"
+    app:itemIconTint="@color/icon_menu_states"/>
