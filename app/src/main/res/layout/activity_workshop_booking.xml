@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="never"
     android:orientation="vertical">
 
     <ImageView
@@ -18,12 +19,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:overScrollMode="never"
         android:background="@android:color/transparent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:overScrollMode="never"
             android:minHeight="50dp">
 
             <ImageButton
@@ -50,7 +53,8 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:id="@+id/activity_workshop_booking_rv_tags"
-                    android:scrollbars="none">
+                    android:scrollbars="none"
+                    android:overScrollMode="never">
 
                     <LinearLayout
                         android:id="@+id/activity_workshop_booking_ll_tags"
