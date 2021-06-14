@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 import android.util.Log;
 
 import com.example.skoolworkshop2.dao.UserDAO;
+import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
 
 import org.json.JSONArray;
@@ -17,6 +18,7 @@ import java.net.URL;
 public class APIUserDAO implements UserDAO {
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
+    private Customer lastCustomer;
 
     private void connect(String url) throws Exception {
         URL connectionUrl = new URL(url);
@@ -70,12 +72,40 @@ public class APIUserDAO implements UserDAO {
 
                 Log.d("POINTS", points + "");
                 result = new User(id, email, userName, points);
+
+
+
+                String firstname = user.getString("first_name");
+                String lastName = user.getString("last_name");
+                JSONObject adress = user.getJSONObject("billing");
+                String adress_1 = adress.getString("address_1");
+                String street = "";
+                String number = "";
+                String streetAndNumber[] = adress_1.split(" ");
+                if(streetAndNumber.length > 1){
+                    street = streetAndNumber[0];
+                    number = streetAndNumber[1];
+                }
+                String postCode = adress.getString("postcode");
+                String city = adress.getString("city");
+                String state = adress.getString("state");
+                String country = adress.getString("country");
+
+
+
+                Customer customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
+                lastCustomer = customer;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return result;
+    }
+
+    @Override
+    public Customer getLastCustomer() {
+        return lastCustomer;
     }
 
     @Override

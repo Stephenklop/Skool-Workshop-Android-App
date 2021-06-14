@@ -24,6 +24,7 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -123,6 +124,8 @@ public class MyAccountActivity extends AppCompatActivity {
                         System.out.println("added token");
                         LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
                         System.out.println("deleted user");
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted customer");
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     }
                 }).start();
