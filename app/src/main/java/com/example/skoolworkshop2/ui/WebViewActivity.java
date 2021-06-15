@@ -1,14 +1,21 @@
 package com.example.skoolworkshop2.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,18 +36,100 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
+
+        ImageButton backButton = findViewById(R.id.activity_web_btn_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
         if(getIntent().hasExtra("url")){
             WebView wv = (WebView) findViewById(R.id.activity_webview);
-            wv.setWebViewClient(new WebViewClient());
+            wv.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    TextView tvTitle = findViewById(R.id.activity_web_tv_page);
+                    tvTitle.setText(wv.getTitle());
+
+
+                    TextView tvUrl = findViewById(R.id.activity_web_tv_url);
+                    tvUrl.setText(url);
+                }
+            });
             wv.getSettings().setJavaScriptEnabled(true);
             wv.loadUrl(getIntent().getStringExtra("url"));
 
-            ImageButton menuButton = findViewById(R.id.activity_web_btn_more);
-            ActionMenuView moreMenu = findViewById(R.id.activity_web_menu);
-            menuButton.setOnClickListener(v -> {
 
+
+            ImageButton refreshButton = findViewById(R.id.activity_web_btn_refresh);
+            refreshButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    wv.reload();
+                }
+            });
+
+            View popup = findViewById(R.id.activity_web_popup);
+
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popup.setVisibility(View.GONE);
+                }
+            });
+
+            wv.setOnTouchListener((v, event) -> {
+                popup.setVisibility(View.GONE);
+                return false;
+            });
+
+            TextView openInBrowser = findViewById(R.id.activity_web_menu_browser);
+            TextView copyLink = findViewById(R.id.activity_web_menu_link);
+
+            openInBrowser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popup.setVisibility(View.GONE);
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(wv.getUrl())));
+                }
+            });
+
+            copyLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setClipboard(getApplicationContext(), wv.getUrl());
+                    Toast copiedToast = new Toast(getApplicationContext());
+                    copiedToast.setText("Url is gekopieerd naar klembord");
+                    copiedToast.setDuration(Toast.LENGTH_LONG);
+                    copiedToast.show();
+                    popup.setVisibility(View.GONE);
+                }
+            });
+
+            ImageButton menuButton = findViewById(R.id.activity_web_btn_more);
+            menuButton.setOnClickListener(v -> {
+                if(popup.getVisibility() == View.GONE){
+                    popup.setVisibility(View.VISIBLE);
+                } else {
+                    popup.setVisibility(View.GONE);
+                }
             });
         }
 
+    }
+
+    private void setClipboard(Context context, String text) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
     }
 }

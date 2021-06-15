@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginRight="25dp"
+                android:layout_marginRight="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/activity_web_btn_refresh"
                 app:layout_constraintStart_toEndOf="@+id/activity_web_btn_back"
@@ -45,7 +45,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="test"
+                    android:text="Loading..."
+                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -55,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="test"
+                    android:text="Loading..."
+                    android:maxLines="1"
                     android:textColor="@color/dark_grey"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -93,29 +95,39 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <LinearLayout
+        android:id="@+id/activity_web_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/menu_container"
         android:orientation="vertical"
         android:padding="15dp"
+        android:gravity="center"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp"
+        android:elevation="10dp">
 
         <TextView
+            android:id="@+id/activity_web_menu_browser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textAlignment="center"
             android:text="Open in browser" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/darker_grey"
+            android:background="@color/background"
             android:layout_margin="10dp"/>
 
         <TextView
+            android:id="@+id/activity_web_menu_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
             android:text="Kopieer link" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
