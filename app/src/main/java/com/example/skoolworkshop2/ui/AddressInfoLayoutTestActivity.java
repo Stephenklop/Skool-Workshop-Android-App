@@ -130,7 +130,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
         mWorkshopLocationCountrySpnr = findViewById(R.id.activity_address_info_spnr_workshop_country);
         mWorkshopLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Drawable[]{NL, BE}));
-        mWorkshopLocationCountrySpnr.setSelection(1);
+
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
 
 
@@ -684,6 +684,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
+
         } else if (item == BE) {
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
