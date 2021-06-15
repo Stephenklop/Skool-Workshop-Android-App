@@ -5,32 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ActionMenuView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.logic.menuController.MenuController;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.jetbrains.annotations.NotNull;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint({"RestrictedApi", "ClickableViewAccessibility", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +27,10 @@ public class WebViewActivity extends AppCompatActivity {
 
 
         ImageButton backButton = findViewById(R.id.activity_web_btn_back);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
-        });
+        backButton.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
 
         if(getIntent().hasExtra("url")){
-            WebView wv = (WebView) findViewById(R.id.activity_webview);
+            WebView wv = findViewById(R.id.activity_webview);
             wv.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
@@ -66,22 +50,14 @@ public class WebViewActivity extends AppCompatActivity {
             View popup = findViewById(R.id.activity_web_popup);
 
             ImageButton refreshButton = findViewById(R.id.activity_web_btn_refresh);
-            refreshButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popup.setVisibility(View.GONE);
-                    wv.reload();
-                }
+            refreshButton.setOnClickListener(v -> {
+                popup.setVisibility(View.GONE);
+                wv.reload();
             });
 
 
             Toolbar toolbar = findViewById(R.id.toolbar);
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popup.setVisibility(View.GONE);
-                }
-            });
+            toolbar.setOnClickListener(v -> popup.setVisibility(View.GONE));
 
             wv.setOnTouchListener((v, event) -> {
                 popup.setVisibility(View.GONE);
@@ -91,24 +67,18 @@ public class WebViewActivity extends AppCompatActivity {
             TextView openInBrowser = findViewById(R.id.activity_web_menu_browser);
             TextView copyLink = findViewById(R.id.activity_web_menu_link);
 
-            openInBrowser.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popup.setVisibility(View.GONE);
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(wv.getUrl())));
-                }
+            openInBrowser.setOnClickListener(v -> {
+                popup.setVisibility(View.GONE);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(wv.getUrl())));
             });
 
-            copyLink.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setClipboard(getApplicationContext(), wv.getUrl());
-                    Toast copiedToast = new Toast(getApplicationContext());
-                    copiedToast.setText("Url is gekopieerd naar klembord");
-                    copiedToast.setDuration(Toast.LENGTH_LONG);
-                    copiedToast.show();
-                    popup.setVisibility(View.GONE);
-                }
+            copyLink.setOnClickListener(v -> {
+                setClipboard(getApplicationContext(), wv.getUrl());
+                Toast copiedToast = new Toast(getApplicationContext());
+                copiedToast.setText("Url is gekopieerd naar klembord");
+                copiedToast.setDuration(Toast.LENGTH_LONG);
+                copiedToast.show();
+                popup.setVisibility(View.GONE);
             });
 
             ImageButton menuButton = findViewById(R.id.activity_web_btn_more);
@@ -124,13 +94,8 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void setClipboard(Context context, String text) {
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            clipboard.setText(text);
-        } else {
-            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
-            clipboard.setPrimaryClip(clip);
-        }
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+        clipboard.setPrimaryClip(clip);
     }
 }
