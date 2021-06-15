@@ -36,6 +36,7 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Cul
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+import com.example.skoolworkshop2.ui.RoundedDialog;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -192,6 +193,11 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
         mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
         mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
         mParticipantItemInfoBtn = mItemParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
+        mParticipantInfoBtn.setOnClickListener(v -> {
+            String header = "Totaal aantal deenemers";
+            String content = "Maximaal 100 deelnemers";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
 
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
 
