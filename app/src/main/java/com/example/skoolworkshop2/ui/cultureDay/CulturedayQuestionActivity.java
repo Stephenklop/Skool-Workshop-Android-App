@@ -11,12 +11,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -46,6 +48,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private EditText mCJPEditText;
     private EditText mMessageEditText;
     private EditText mNameEditText;
+    private TextView mErrTv;
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
@@ -74,6 +77,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mCJPEditText = findViewById(R.id.activity_cultureday_question_et_cjp);
         mMessageEditText = findViewById(R.id.activity_cultureday_question_et_message);
         mNameEditText = findViewById(R.id.activity_cultureday_question_et_name);
+        mErrTv = findViewById(R.id.activity_cultureday_question_tv_err);
 
         mSendBn.setText("Verzenden");
 
@@ -196,6 +200,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             public void onClick(View v) {
 
                 if(validate()){
+                    mErrTv.setVisibility(View.GONE);
+
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
                     emailIntent.setType("text/html");
                     emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@skoolworkshop.nl"});
@@ -221,6 +227,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                     startActivity(emailIntent);
 
                 } else {
+                    mErrTv.setVisibility(View.VISIBLE);
+                    mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                     System.out.println("something is empty");
                 }
             }
