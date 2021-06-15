@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui.cultureDay;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -48,6 +50,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private EditText mCJPEditText;
     private EditText mMessageEditText;
     private EditText mNameEditText;
+    private CheckBox mTermsCb;
     private TextView mErrTv;
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
@@ -77,6 +80,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mCJPEditText = findViewById(R.id.activity_cultureday_question_et_cjp);
         mMessageEditText = findViewById(R.id.activity_cultureday_question_et_message);
         mNameEditText = findViewById(R.id.activity_cultureday_question_et_name);
+        mTermsCb = findViewById(R.id.activity_cultureday_question_cb_terms);
         mErrTv = findViewById(R.id.activity_cultureday_question_tv_err);
 
         mSendBn.setText("Verzenden");
@@ -183,6 +187,12 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             }
         });
 
+        mTermsCb.setOnClickListener(v -> {
+            if (mTermsCb.isChecked()) {
+                mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
+            }
+        });
+
 
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +256,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         boolean name = !mNameEditText.getText().toString().isEmpty();
         boolean tel = !mTelEditText.getText().toString().isEmpty() && TelValidator.isValidTelNumber(mTelEditText.getText().toString());
         boolean message = !mMessageEditText.getText().toString().isEmpty();
+        boolean terms = mTermsCb.isChecked();
+
         if(!email){
             returnValue = false;
             mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
@@ -299,6 +311,12 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             mMessageEditText.setBackgroundResource(R.drawable.edittext_error);
         } else{
             mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+        }
+        if (!terms) {
+            returnValue = false;
+            mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.error_red, null)));
+        } else {
+            mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
         }
         return returnValue;
     }
