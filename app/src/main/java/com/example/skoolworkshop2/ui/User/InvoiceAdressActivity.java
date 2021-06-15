@@ -37,6 +37,9 @@ public class InvoiceAdressActivity extends AppCompatActivity {
     private ImageButton mInvoiceShippingAddressImageButton;
     private ShippingAddress shippingAddress;
     private TextView mInvoiceShippingTextView;
+    // check for update
+    private boolean billingChecker;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -58,29 +61,32 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         // Usermanager
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
         // Loading billing addresses
-        iem.deleteAdress();
         Log.d(LOG_TAG, "onCreate: " + iem.getAddresses());
         // Loading shipping adresses
 
+        // checking if layout should contain object or not
         if (billingAddress != null){
+            billingChecker = true;
             mInvoiceBillingTextView.setText(billingAddress.toString());
             mInvoiceBillingAddressImageButton.setBackgroundResource(R.drawable.ic_edit);
 
             mInvoiceBillingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toBillingaddress = new Intent(getApplicationContext(), AddressInfoLayoutTestActivity.class);
+                    Intent toBillingaddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
                     toBillingaddress.putExtra("BILLINGADDRESS", (Parcelable) billingAddress);
+                    toBillingaddress.putExtra("CHECK", billingChecker);
                     startActivity(toBillingaddress);
                 }
             });
         } else {
+            billingChecker = false;
             mInvoiceBillingTextView.setText("Dit adres is nog niet ingesteld.");
             mInvoiceBillingAddressImageButton.setBackgroundResource(R.drawable.ic_plus);
             mInvoiceBillingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getApplicationContext(), AddressInfoLayoutTestActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class).putExtra("CHECK", billingChecker));
                 }
             });
         }

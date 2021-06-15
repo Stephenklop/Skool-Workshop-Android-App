@@ -30,6 +30,6 @@ public interface UserDAO {
     @Insert
     void insertBillingaddress(BillingAddress address);
 
-    @Query("DELETE FROM billingaddress")
-    void deleteAdress();
+    @Query("DELETE FROM billingaddress WHERE id = :id")
+    void deleteAdress(int id);
 }

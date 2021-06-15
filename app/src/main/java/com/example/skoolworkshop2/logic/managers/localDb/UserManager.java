@@ -65,8 +65,8 @@ public class UserManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void deleteAdress(){
-        userDAO.deleteAdress();
+    public void deleteAdress(int id){
+        userDAO.deleteAdress(id);
     }
 
 }

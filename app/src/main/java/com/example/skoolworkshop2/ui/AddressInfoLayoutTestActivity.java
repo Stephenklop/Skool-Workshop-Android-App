@@ -19,18 +19,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
-import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
-import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
-import com.example.skoolworkshop2.logic.validation.addressInfoValidators.AddressValidator;
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.HouseNumberValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.PlaceValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.StreetnameValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorBE;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 public class AddressInfoLayoutTestActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -40,7 +37,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
     private NameValidator nameValidator = new NameValidator();
     private PostcodeValidator postcodeValidatorNL = new PostcodeValidatorNL();
     private PostcodeValidator postcodeValidatorBE = new PostcodeValidatorBE();
-    private AddressValidator addressValidator = new AddressValidator();
+    private HouseNumberValidator houseNumberValidator = new HouseNumberValidator();
     private PlaceValidator placeValidator = new PlaceValidator();
     private StreetnameValidator streetnameValidator = new StreetnameValidator();
     private TelValidator telValidator = new TelValidator();
@@ -313,7 +310,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!AddressValidator.isValidAdressValidator(s.toString())){
+                if(!HouseNumberValidator.isValidAdressValidator(s.toString())){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mAddressEditText.setBackgroundResource(R.drawable.edittext_error);
                 }
@@ -323,9 +320,9 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (AddressValidator.isValidAdressValidator(s.toString())){
+                if (HouseNumberValidator.isValidAdressValidator(s.toString())){
                     mAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    addressValidator.mIsValid = true;
+                    houseNumberValidator.mIsValid = true;
                 }
 
             }
@@ -536,7 +533,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mWAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!AddressValidator.isValidAdressValidator(s.toString())){
+                if(!HouseNumberValidator.isValidAdressValidator(s.toString())){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mWAddressEditText.setBackgroundResource(R.drawable.edittext_error);
                 }
@@ -546,9 +543,9 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (AddressValidator.isValidAdressValidator(s.toString())){
+                if (HouseNumberValidator.isValidAdressValidator(s.toString())){
                     mWAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    addressValidator.mIsValid = true;
+                    houseNumberValidator.mIsValid = true;
                 }
 
             }

@@ -249,6 +249,25 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_tel" />
 
+        <!--        Land-->
+        <TextView
+            android:id="@+id/activity_change_invoice_address_tv_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Land"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_tel" />
+
+        <include
+            android:id="@+id/activity_change_invoice_address_et_country"
+            layout="@layout/component_edittext_plaintext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_country" />
+
         <TextView
             android:id="@+id/activity_change_invoice_address_tv_email"
             android:layout_width="match_parent"
@@ -258,7 +277,7 @@
             android:text="E-mailadres"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_tel" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_country" />
 
         <include
             android:id="@+id/activity_change_invoice_address_et_email"
@@ -268,6 +287,7 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_email" />
 
         <include
+            android:id="@+id/activity_change_invoice_submit_btn"
             layout="@layout/component_button_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

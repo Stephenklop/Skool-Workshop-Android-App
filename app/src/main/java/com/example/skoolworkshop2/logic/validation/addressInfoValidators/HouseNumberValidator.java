@@ -3,7 +3,7 @@ package com.example.skoolworkshop2.logic.validation.addressInfoValidators;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddressValidator {
+public class HouseNumberValidator {
 
     public boolean mIsValid = false;
 
