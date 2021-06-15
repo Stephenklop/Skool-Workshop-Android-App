@@ -2,7 +2,11 @@ package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.skoolworkshop2.dao.UserDAO;
+import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
 
@@ -16,7 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class APIUserDAO implements UserDAO {
+public class APIUserDAO extends AppCompatActivity implements UserDAO {
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
     private Customer lastCustomer;
@@ -110,18 +114,43 @@ public class APIUserDAO implements UserDAO {
     }
 
     @Override
-    public void updateUser(int id, String email, String username) {
+    public void updateUser(String email, String displayName, String firstName, String lastName) {
+        LocalAppStorage localAppStorage = new LocalAppStorage(getApplicationContext());
+        int id = LocalDb.getDatabase(getBaseContext()).getUserDAO().getInfo().getId();
+
         final String PATH = "account/" + id;
         User result = null;
 
         try{
             connect(BASE_URL + PATH);
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("PUT");
+            //TODO add header with App token
+            //... idk of dat hier of ergens anders moet ...
             connection.setRequestProperty("Content-Type", "application/json");
 
-            String jsonInput = "{\"id\": \"" + id + "\", \"email\": \"" + email + "\", \"username\": \"" + username + "\"}";
+            String jsonInput = "{\"email\": \"" + email + "\", \"name\": \"" + displayName + "\", \"first_name\": \"" + firstName + "\", \"last_name\": \"" + lastName + "\", }";
             System.out.println("JSON STRING: " + jsonInput);
+
+            //TODO send actual request to de API
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("RESPONSE: " + inputLine);
+                JSONObject response = new JSONObject(inputLine);
+                JSONObject user = response.getJSONObject("result");
+            }
+            //TODO request to GET the 'new' information from the API
+            //TODO if the 'new' information is new, delete old data from the localDB
+            //TODO update database with the new information.
 
         } catch (Exception e) {
             e.printStackTrace();

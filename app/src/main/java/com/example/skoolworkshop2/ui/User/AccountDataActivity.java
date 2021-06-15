@@ -45,7 +45,8 @@ public class AccountDataActivity extends AppCompatActivity {
                 mEmailEditText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                        //TODO Get 'old' information from localDB and put it in the text views
+                        //TODO Get updated text from input user, and put in jsonRequest
                     }
 
                     @Override

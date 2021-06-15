@@ -7,5 +7,5 @@ public interface UserDAO {
     User signUserIn(String username, String password);
     User registerUser(String username, String email, String password);
     Customer getLastCustomer();
-    void updateUser(int id, String email, String username);
+    void updateUser(String email, String displayName, String firstName, String lastName);
 }
