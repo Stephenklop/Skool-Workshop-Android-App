@@ -19,13 +19,15 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/transparent"
-        android:stateListAnimator="@null">
+        android:stateListAnimator="@null"
+        android:overScrollMode="never">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minHeight="50dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:overScrollMode="never">
 
             <ImageButton
                 android:id="@+id/activity_workshop_question_btn_back"
@@ -50,6 +52,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
+            android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -60,6 +63,7 @@
                 android:paddingBottom="25dp">
 
                 <HorizontalScrollView
+                    android:overScrollMode="never"
                     android:id="@+id/activity_workshop_question_rv_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

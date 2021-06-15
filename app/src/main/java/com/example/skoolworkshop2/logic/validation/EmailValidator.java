@@ -20,7 +20,7 @@ public class EmailValidator{
 
     public static boolean mIsValid = false;
 
-    public boolean isValid() {
+    public static boolean isValid() {
         return mIsValid;
     }
 

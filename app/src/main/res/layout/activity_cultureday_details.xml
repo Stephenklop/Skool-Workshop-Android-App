@@ -20,13 +20,15 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/transparent"
-        android:stateListAnimator="@null">
+        android:stateListAnimator="@null"
+        android:overScrollMode="never">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:minHeight="50dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:overScrollMode="never">
 
             <ImageButton
                 android:id="@+id/activity_cultureday_details_btn_back"
@@ -37,7 +39,9 @@
                 android:tint="@color/white"
                 app:layout_collapseMode="pin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_collapseMode="pin"/>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -59,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -80,7 +85,7 @@
 
                 <include
                     android:id="@+id/activity_cultureday_details_btn_round"
-                    layout="@layout/component_button_tag_detail" />
+                    layout="@layout/component_button_tag_detail_last"/>
             </LinearLayout>
 
         </HorizontalScrollView>
@@ -104,7 +109,8 @@
             android:id="@+id/activity_cultureday_details_fragment_txt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="25dp" />
+            android:layout_marginTop="25dp"
+            android:overScrollMode="never"/>
     </LinearLayout>
 
     <include

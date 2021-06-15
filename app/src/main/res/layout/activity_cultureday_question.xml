@@ -19,13 +19,15 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/transparent"
-        android:stateListAnimator="@null">
+        android:stateListAnimator="@null"
+        android:overScrollMode="never">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minHeight="50dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:overScrollMode="never">
 
             <ImageButton
                 android:id="@+id/activity_cultureday_question_btn_back"
@@ -51,7 +53,8 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
-                    android:scrollbars="none">
+                    android:scrollbars="none"
+                    android:overScrollMode="never">
 
                     <LinearLayout
                         android:id="@+id/activity_cultureday_question_ll_tags"

@@ -16,7 +16,8 @@
         app:layout_constraintBottom_toTopOf="@+id/activity_register_btn_register"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -119,10 +120,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/proxima_nova"
-                android:text="Je persoonlijke gegevens worden gebruiktb om je ervaring op deze site te ondersteunen, om toegang tot je account te beheren en voor andere doeleinden zoals omschreven in ons privacybeleid."
+                android:text="Je persoonlijke gegevens worden gebruikt om je ervaring op deze site te ondersteunen, om toegang tot je account te beheren en voor andere doeleinden zoals omschreven in ons privacybeleid."
                 android:textColor="@color/black"
                 android:textFontWeight="400"
                 android:textSize="16sp"
