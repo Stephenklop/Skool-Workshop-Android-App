@@ -6,9 +6,9 @@ public class PasswordValidator {
 
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$");
 
-    public boolean mIsValid = false;
+    public static boolean mIsValid = false;
 
-    public boolean isValid() {
+    public static boolean isValid() {
         return mIsValid;
     }
 

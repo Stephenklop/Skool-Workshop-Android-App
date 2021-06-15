@@ -38,6 +38,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            System.out.println( "DATA BUNDLE" +bundle.toString());
+        }
+
 
         ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
@@ -51,8 +56,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
         DAOFactory apidaoFactory = new APIDAOFactory();
-
-
 
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
@@ -131,8 +134,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         return token[0];
     }
 
+
     private void handleNotificationData() {
         Bundle bundle = getIntent().getExtras();
+        System.out.println(getIntent().getExtras());
         if(bundle != null) {
             if(bundle.containsKey("data1")) {
                 Log.d(TAG, "Data1: " + bundle.getString("data1"));

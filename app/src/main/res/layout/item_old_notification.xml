@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/notification_new_container"
+    android:background="@drawable/notification_old_container"
     android:orientation="vertical"
     android:padding="25dp"
     android:layout_marginTop="20dp">
 
     <TextView
-        android:id="@+id/item_notification_tv_header"
+        android:id="@+id/item_old_notification_tv_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/proxima_nova_semibold"
@@ -17,7 +17,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/item_notification_tv_msg"
+        android:id="@+id/item_old_notification_tv_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
