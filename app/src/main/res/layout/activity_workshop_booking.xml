@@ -69,7 +69,6 @@
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:scrollbars="none"
-                    android:id="@+id/activity_workshop_booking_rv_tags"
                     android:overScrollMode="never">
                   
                     <LinearLayout
