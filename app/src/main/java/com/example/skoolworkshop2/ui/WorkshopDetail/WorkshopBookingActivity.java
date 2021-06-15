@@ -360,8 +360,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(backIntent);
+                finish();
             }
         });
     }
