@@ -63,16 +63,17 @@ public class WebViewActivity extends AppCompatActivity {
             wv.loadUrl(getIntent().getStringExtra("url"));
 
 
+            View popup = findViewById(R.id.activity_web_popup);
 
             ImageButton refreshButton = findViewById(R.id.activity_web_btn_refresh);
             refreshButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    popup.setVisibility(View.GONE);
                     wv.reload();
                 }
             });
 
-            View popup = findViewById(R.id.activity_web_popup);
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setOnClickListener(new View.OnClickListener() {
