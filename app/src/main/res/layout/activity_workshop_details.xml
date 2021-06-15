@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.appbar.AppBarLayout
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/transparent">
@@ -23,6 +24,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:minHeight="50dp">
 
@@ -54,7 +56,8 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:id="@+id/activity_workshop_details_short_info"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -96,6 +99,7 @@
             android:id="@+id/activity_workshop_details_fragment_txt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="25dp" />
+            android:layout_marginTop="25dp"
+            android:overScrollMode="never"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
