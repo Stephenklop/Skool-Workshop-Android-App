@@ -10,8 +10,10 @@
 
     <color name="main_orange">#F49700</color>
     <color name="main_orange_dark">#D47700</color>
+    <color name="main_orange_light">#FFE2B3</color>
     <color name="secondary_blue">#171f32</color>
     <color name="background">#F2F6F9</color>
+    <color name="lighter_grey">#E4E6E8</color>
     <color name="light_grey">#C2C6C8</color>
     <color name="dark_grey">#949494</color>
     <color name="darker_grey">#707070</color>
