@@ -88,6 +88,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.WebViewActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.SettingsActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <service
             android:name=".logic.notifications.MessagingService"
