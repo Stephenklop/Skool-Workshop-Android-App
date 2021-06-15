@@ -91,7 +91,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:text="Aantal personen:"
                     android:textColor="@color/black"
