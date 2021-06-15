@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -64,6 +65,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private TextView mResultWorkshopTotalMinutesTextView;
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
+    private TextView mErrTv;
     private Button mSendBn;
 
     // Validators
@@ -312,6 +314,9 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             }
         });
 
+        // Error
+        mErrTv = findViewById(R.id.activity_workshop_booking_tv_err);
+
         // Set texts
         mSendBn.setText("Boek nu");
         mSendBn.setOnClickListener(new View.OnClickListener() {
@@ -319,6 +324,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             public void onClick(View view) {
                 // Datum, deelnemers, rondes, minuten, learning levels niet leeg, rest wel
                 if(dateValidation.isValid() && workshopParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid()){
+                    mErrTv.setVisibility(View.GONE);
                     // Add workshop to local storage
                     localAppStorage.addToList("cartItems", workshop);
                     System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));
@@ -327,7 +333,24 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                     Intent intent = new Intent(getApplicationContext(), ShoppingCartActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Een van uw verplichte velden is nog leeg!", Toast.LENGTH_SHORT).show();
+                    if (!dateValidation.isValid()) {
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                    }
+                    if (!workshopParticipantsValidator.isValid()) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+                    }
+                    if (!roundsValidator.isValid()) {
+                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+                    }
+                    if (!minuteValidator.isValid()) {
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+                    }
+                    if (!learningLevelValidator.isValid()) {
+                        mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                    }
+
+                    mErrTv.setVisibility(View.VISIBLE);
+                    mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                 }
 
             }

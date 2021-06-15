@@ -338,6 +338,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp" />
+
+                <TextView
+                    android:id="@+id/activity_cultureday_booking_tv_err"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:textColor="@color/error_red"
+                    android:text="@string/tv_err_msg"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
