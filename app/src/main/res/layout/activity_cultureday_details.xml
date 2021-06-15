@@ -37,7 +37,6 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_arrow_left"
                 android:tint="@color/white"
-                app:layout_collapseMode="pin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_collapseMode="pin"/>
