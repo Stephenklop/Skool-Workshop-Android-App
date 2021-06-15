@@ -99,7 +99,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         // Date
         mDateLayout = findViewById(R.id.activity_workshop_booking_et_date);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
-        datePickerDialog = new DatePickerDialog(this, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, WorkshopBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
         // Learning Level
         mLevelEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_level);
