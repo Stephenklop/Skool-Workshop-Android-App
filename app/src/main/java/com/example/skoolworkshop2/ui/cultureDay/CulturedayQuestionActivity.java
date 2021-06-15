@@ -65,7 +65,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_question);
 
-        datePickerDialog = new DatePickerDialog(this, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerDialog = new DatePickerDialog(this,R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
         mSendBn = findViewById(R.id.activity_cultureday_question_btn_send);
         mBackButton = findViewById(R.id.activity_cultureday_question_btn_back);

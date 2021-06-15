@@ -69,7 +69,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
             this.workshop = (Product) getIntent().getSerializableExtra("workshop");
         }
 
-        datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
         // Set up IDS
         mSendBn = findViewById(R.id.activity_workshop_question_btn_send);
