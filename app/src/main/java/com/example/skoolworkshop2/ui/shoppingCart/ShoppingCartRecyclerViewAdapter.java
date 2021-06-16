@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,6 +58,11 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                 animateDetails(holder.mDetails, holder.height,0);
             }
         });
+        holder.mCloseBtn.setOnClickListener(v -> {
+            LocalDb.getDatabase(context).getShoppingCartDAO().deleteOneItemFromShoppingCart(shoppingCartItems.get(position).getId());
+            shoppingCartItems.remove(position);
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -70,6 +76,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         TextView mWorkshopTitle;
         TextView mWorkshopPrice;
         Button mDetailButton;
+        ImageButton mCloseBtn;
         LinearLayout mDetails;
         int height;
 
@@ -80,6 +87,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             mWorkshopTitle = itemView.findViewById(R.id.item_shopping_cart_tv_workshop);
             mWorkshopPrice = itemView.findViewById(R.id.item_shopping_cart_tv_price);
             mDetailButton = itemView.findViewById(R.id.item_shopping_cart_btn_details);
+            mCloseBtn = itemView.findViewById(R.id.item_shopping_cart_btn_close);
             mDetails = itemView.findViewById(R.id.item_shopping_cart_ll_details);
 
             mDetails.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
