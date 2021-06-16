@@ -19,12 +19,14 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
@@ -68,7 +70,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
     private DatePickerDialog datePickerDialog;
 
-    private WorkshopItem workshop;
+    private Product workshop;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -80,8 +82,19 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         }
 
         if(getIntent().getSerializableExtra("workshop") != null){
-            this.workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");
+            this.workshop = (Product) getIntent().getSerializableExtra("workshop");
         }
+
+        Button costsButton = findViewById(R.id.activity_workshop_question_button_price);
+        Button participantsButton = findViewById(R.id.activity_workshop_question_button_participants);
+        Button durationButton = findViewById(R.id.activity_workshop_question_button_duration);
+
+        costsButton.setText("€150,-");
+        participantsButton.setText("25 deelnemers");
+        durationButton.setText("60 min");
+
+        ImageView backgroundImage = findViewById(R.id.activity_workshop_question_img_banner);
+        Glide.with(getBaseContext()).load(workshop.getSourceImage()).centerCrop().into(backgroundImage);
 
         datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
@@ -103,7 +116,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
         //Title
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
-        mTitleTextView.setText(workshop.getProduct().getName());
+        mTitleTextView.setText(workshop.getName());
 
         mSendBn.setEnabled(false);
 
