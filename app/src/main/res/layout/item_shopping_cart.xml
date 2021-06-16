@@ -23,15 +23,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".45" />
+            app:layout_constraintWidth_percent=".40" />
 
         <TextView
             android:id="@+id/item_shopping_cart_tv_workshop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
             android:ellipsize="end"
             android:fontFamily="@font/proxima_nova"
             android:hyphenationFrequency="full"
@@ -40,7 +40,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_shopping_cart_btn_close"
             app:layout_constraintStart_toEndOf="@+id/item_shopping_cart_img_workshop"
             app:layout_constraintTop_toTopOf="@+id/item_shopping_cart_img_workshop" />
 
