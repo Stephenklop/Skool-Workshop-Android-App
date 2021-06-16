@@ -958,7 +958,6 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
 
 
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

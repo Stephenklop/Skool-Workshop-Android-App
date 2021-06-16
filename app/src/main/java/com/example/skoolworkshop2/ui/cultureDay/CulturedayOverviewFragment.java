@@ -24,8 +24,6 @@ public class CulturedayOverviewFragment extends Fragment {
     private Button mBookingBn;
     private Button mInfoBn;
 
-    public CulturedayOverviewFragment() {}
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
