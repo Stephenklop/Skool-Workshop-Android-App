@@ -40,6 +40,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String TAG = this.getClass().getSimpleName();
     private Thread tokenThread;
     private RoundedDialog roundedDialog;
+    private ImageView mLoadingImg;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -47,7 +48,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
+        mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -59,6 +60,47 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
 
+
+
+        if(checkInternet()){
+            roundedDialog = new RoundedDialog(SplashScreenActivity.this, "Geen verbinding", "Geen verbinding met het internet gevonden. Probeer het later opniew.");
+        } else {
+            runThreads();
+            MessagingService messagingService = new MessagingService();
+            messagingService.handleNotificationData(getIntent());
+            messagingService.subscribeToTopic("main");
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "On New Intent called");
+    }
+
+    private boolean checkInternet(){
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        cm.registerNetworkCallback(new NetworkRequest.Builder().build(), new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                super.onAvailable(network);
+                startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+                if(roundedDialog != null){
+                    roundedDialog.dismiss();
+                    runThreads();
+                }
+            }
+        } );
+        return !isConnected;
+    }
+
+    private void runThreads(){
         DAOFactory apidaoFactory = new APIDAOFactory();
 
         Thread toMainActivity = new Thread(new Runnable() {
@@ -102,38 +144,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
-        if(checkInternet()){
-            roundedDialog = new RoundedDialog(SplashScreenActivity.this, "Geen verbinding", "Geen verbinding met het internet gevonden. Probeer het later opniew.");
-        } else {
-            tokenThread.start();
-            MessagingService messagingService = new MessagingService();
-            messagingService.handleNotificationData(getIntent());
-            messagingService.subscribeToTopic("main");
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d(TAG, "On New Intent called");
-    }
-
-    private boolean checkInternet(){
-        ConnectivityManager cm =
-                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        cm.registerNetworkCallback(new NetworkRequest.Builder().build(), new ConnectivityManager.NetworkCallback() {
-            @Override
-            public void onAvailable(@NonNull Network network) {
-                super.onAvailable(network);
-                roundedDialog.dismiss();
-                tokenThread.start();
-            }
-        } );
-        return !isConnected;
+        tokenThread.start();
     }
 }
