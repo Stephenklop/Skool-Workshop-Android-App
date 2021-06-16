@@ -33,6 +33,7 @@ public class MoreMenuActivity extends AppCompatActivity {
     private AppCompatButton mQuizButton;
     private AppCompatButton mAskedQuestionsButton;
     private AppCompatButton mAboutUsButton;
+    private AppCompatButton mSettingsButton;
     private AppCompatButton mAccountbutton;
 
     // List
@@ -69,6 +70,7 @@ public class MoreMenuActivity extends AppCompatActivity {
 
         Log.d(LOG_TAG, "onCreate: quizzes: " + quizzes);
         mAccountbutton = findViewById(R.id.activity_more_btn_account);
+        mSettingsButton = findViewById(R.id.activity_more_btn_settings);
         mAboutUsButton = findViewById(R.id.activity_more_btn_about);
         mAskedQuestionsButton = findViewById(R.id.activity_more_btn_faq);
         mQuizButton = findViewById(R.id.activity_more_btn_quiz);
@@ -87,6 +89,11 @@ public class MoreMenuActivity extends AppCompatActivity {
                     startActivity(accountIntent);
                 }
             }
+        });
+
+        mSettingsButton.setOnClickListener(v -> {
+            Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(settingsIntent);
         });
 
         mAboutUsButton.setOnClickListener(new View.OnClickListener() {

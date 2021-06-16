@@ -49,7 +49,7 @@ public class WebViewActivity extends AppCompatActivity {
 
             View popup = findViewById(R.id.activity_web_popup);
 
-            ImageButton refreshButton = findViewById(R.id.activity_web_btn_refresh);
+            TextView refreshButton = findViewById(R.id.activity_web_menu_refresh);
             refreshButton.setOnClickListener(v -> {
                 popup.setVisibility(View.GONE);
                 wv.reload();
