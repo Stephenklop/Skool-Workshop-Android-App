@@ -52,6 +52,10 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private EditText mNameEditText;
     private CheckBox mTermsCb;
     private TextView mErrTv;
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mWorkshopsBn;
+    private Button mRoundsBn;
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
@@ -82,6 +86,15 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mNameEditText = findViewById(R.id.activity_cultureday_question_et_name);
         mTermsCb = findViewById(R.id.activity_cultureday_question_cb_terms);
         mErrTv = findViewById(R.id.activity_cultureday_question_tv_err);
+        mPriceBn = findViewById(R.id.activity_cultureday_question_btn_price);
+        mParticipantsBn = findViewById(R.id.activity_cultureday_question_btn_participant);
+        mWorkshopsBn = findViewById(R.id.activity_cultureday_question_btn_workshop);
+        mRoundsBn = findViewById(R.id.activity_cultureday_question_btn_round);
+
+        mPriceBn.setText("€1674,-");
+        mParticipantsBn.setText("100 Deelnemers");
+        mWorkshopsBn.setText("4 Workshops");
+        mRoundsBn.setText("3 Rondes");
 
         mSendBn.setText("Verzenden");
 

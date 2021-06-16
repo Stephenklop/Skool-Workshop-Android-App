@@ -123,13 +123,27 @@ public class CulturedayBookingActivity extends FragmentActivity implements View.
     private ImageButton mParticipantInfoBtn;
     private ImageButton mParticipantItemInfoBtn;
 
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mWorkshopsBn;
+    private Button mRoundsBn;
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_booking);
 
+        mPriceBn = findViewById(R.id.activity_cultureday_booking_btn_price);
+        mParticipantsBn = findViewById(R.id.activity_cultureday_booking_btn_participant);
+        mWorkshopsBn = findViewById(R.id.activity_cultureday_booking_btn_workshop);
+        mRoundsBn = findViewById(R.id.activity_cultureday_booking_btn_round);
 
+        mPriceBn.setText("€1674,-");
+        mParticipantsBn.setText("100 Deelnemers");
+        mWorkshopsBn.setText("4 Workshops");
+        mRoundsBn.setText("3 Rondes");
 
         workshopDummylist = new ArrayList<>();
 //        selectedCategories = new ArrayList<>();
