@@ -437,11 +437,11 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
     private void updateOrderOverview() {
         System.out.println("UPDATE ORDER OVERVIEW");
-        mOverviewWorkshopRounds.setText("Workshoprondes: " + mShoppingCartItem.getRounds());
-        mOverviewDurationPerRound.setText("Duur per workshopronde: " + mShoppingCartItem.getRoundDuration() + " min");
-        mOverviewTotalDuration.setText("Tijdschema: " + ((mShoppingCartItem.getTimeSchedule() == null || mShoppingCartItem.getTimeSchedule().equals("")) ? "n.n.g." : mShoppingCartItem.getTimeSchedule()));
-        mOverviewTimeSchedule.setText("Totale duur: " + mShoppingCartItem.getRoundDuration() * mShoppingCartItem.getRounds() + " min");
-        mOverviewLearningLevel.setText("Leerniveau: " + ((mShoppingCartItem.getLearningLevel() == null || mShoppingCartItem.getLearningLevel().equals("")) ? "n.n.b." : mShoppingCartItem.getLearningLevel()));
-        mOverviewTotalCost.setText("Subtotaal: €" + (int) mShoppingCartItem.getTotalPrice());
+        mOverviewWorkshopRounds.setText("Workshoprondes: " + mCultureDayItem.getRounds());
+        mOverviewDurationPerRound.setText("Duur per workshopronde: " + mCultureDayItem.getRoundDuration() + " min");
+        mOverviewTotalDuration.setText("Tijdschema: " + ((mCultureDayItem.getTimeSchedule() == null || mShoppingCartItem.getTimeSchedule().equals("")) ? "n.n.g." : mShoppingCartItem.getTimeSchedule()));
+        mOverviewTimeSchedule.setText("Totale duur: " + mCultureDayItem.getRoundDuration() * mCultureDayItem.getRounds() + " min");
+        mOverviewLearningLevel.setText("Leerniveau: " + ((mCultureDayItem.getLearningLevel() == null || mCultureDayItem.getLearningLevel().equals("")) ? "n.n.b." : mShoppingCartItem.getLearningLevel()));
+        mOverviewTotalCost.setText("Subtotaal: €" + (int) mCultureDayItem.getPrice());
     }
 }
