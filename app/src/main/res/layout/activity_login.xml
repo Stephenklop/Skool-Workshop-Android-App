@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/activity_login">
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -13,7 +14,8 @@
         android:layout_height="0dp"
         android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_login_btn_login"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="75dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/proxima_nova"
                 android:text="SkoolPartner portaal"
@@ -152,14 +154,17 @@
         android:textColor="@color/black"
         android:textFontWeight="600"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_login_txt_forgot_password"
+        app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
-        android:id="@+id/activity_login_txt_forgot_password"
+        android:id="@+id/activity_menu_buttons"
         layout="@layout/component_menu_icons"
         tools:layout_editor_absoluteY="793dp" />
+
+
+
 
     <LinearLayout
         android:id="@+id/activity_login_ll_loading_alert"
@@ -167,7 +172,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:background="@drawable/item_workshop_container"
-        android:elevation="5dp"
+        android:elevation="11dp"
         android:orientation="vertical"
         android:padding="25dp"
         android:visibility="gone"
@@ -198,5 +203,13 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/activity_login_loading_background"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/item_loading_blur"
+        android:visibility="gone"
+        android:elevation="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

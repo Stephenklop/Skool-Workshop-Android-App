@@ -62,7 +62,6 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
 
         mCultureDayBanner = findViewById(R.id.activity_cultureday_details_img_banner);
         mTitleTV = findViewById(R.id.activity_cultureday_details_tv_title);
-        mBackButton = findViewById(R.id.activity_cultureday_details_btn_back);
 
         mPriceBn = findViewById(R.id.activity_cultureday_details_btn_price);
         mParticipantsBn = findViewById(R.id.activity_cultureday_details_btn_participant);
@@ -95,14 +94,6 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mTabsContentTv.setOnClickListener(this);
         mTabsCostTv.setOnClickListener(this);
         mTabsInfoTv.setOnClickListener(this);
-
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(backIntent);
-            }
-        });
 
     }
 

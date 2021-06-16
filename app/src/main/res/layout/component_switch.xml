@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Switch xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="25dp"
+    android:layout_width="55dp"
+    android:thumb="@drawable/switch_thumb_states"
+    android:track="@drawable/switch_track_states"
+    tools:ignore="UseSwitchCompatOrMaterialXml" />

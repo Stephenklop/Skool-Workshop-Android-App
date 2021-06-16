@@ -4,12 +4,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.room.Room;
 
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.Notification;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MessagingService extends FirebaseMessagingService {
     private static final String TAG = MessagingService.class.getSimpleName();
+    public static String messageData = "";
 
     @Override
     public void onNewToken(@NonNull String token) {
@@ -20,6 +24,11 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
+        Room.databaseBuilder(this, LocalDb.class, "LocalDb");
+        LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(new Notification("title", "description", "url", false));
+
+//        messageData = remoteMessage.getData().toString();
 
         System.out.println("Notification received");
         System.out.println("---");

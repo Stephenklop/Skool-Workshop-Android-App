@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 import android.util.Log;
 
 import com.example.skoolworkshop2.dao.UserDAO;
+import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
 
 import org.json.JSONArray;
@@ -17,6 +18,7 @@ import java.net.URL;
 public class APIUserDAO implements UserDAO {
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
+    private Customer lastCustomer;
 
     private void connect(String url) throws Exception {
         URL connectionUrl = new URL(url);
@@ -64,18 +66,46 @@ public class APIUserDAO implements UserDAO {
                         Log.d("POINTS", points + "");
                     }
                 }
-                String token = user.get("token").toString();
+                String email = user.getString("email");
                 int id = Integer.parseInt(user.get("id").toString());
                 String userName = user.get("username").toString();
 
                 Log.d("POINTS", points + "");
-                result = new User(token, id, userName, points);
+                result = new User(id, email, userName, points);
+
+
+
+                String firstname = user.getString("first_name");
+                String lastName = user.getString("last_name");
+                JSONObject adress = user.getJSONObject("billing");
+                String adress_1 = adress.getString("address_1");
+                String street = "";
+                String number = "";
+                String streetAndNumber[] = adress_1.split(" ");
+                if(streetAndNumber.length > 1){
+                    street = streetAndNumber[0];
+                    number = streetAndNumber[1];
+                }
+                String postCode = adress.getString("postcode");
+                String city = adress.getString("city");
+                String state = adress.getString("state");
+                String country = adress.getString("country");
+
+
+
+                Customer customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
+                lastCustomer = customer;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return result;
+    }
+
+    @Override
+    public Customer getLastCustomer() {
+        return lastCustomer;
     }
 
     @Override
@@ -104,6 +134,7 @@ public class APIUserDAO implements UserDAO {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
 
+
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("RESPONSE: " + inputLine);
                 JSONObject response = new JSONObject(inputLine);
@@ -111,8 +142,20 @@ public class APIUserDAO implements UserDAO {
 
                 username = user.get("username").toString();
                 email = user.get("email").toString();
+                int id = user.getInt("id");
 
-                result = new User(username, email, password);
+
+                int points = 0;
+                JSONArray metaData = user.getJSONArray("meta_data");
+                for(int i = 0; i < metaData.length(); i++){
+                    JSONObject object = metaData.getJSONObject(i);
+                    if ( object.get("key").equals("_ywpar_user_total_points")){
+                        points = Integer.parseInt(object.get("value").toString());
+                        Log.d("POINTS", points + "");
+                    }
+                }
+
+                result = new User(id, email, username, points);
             }
         } catch (Exception e) {
             e.printStackTrace();

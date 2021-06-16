@@ -4,39 +4,39 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.logic.managers.localDb.InfoEntityManager;
+import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.notifications.MessagingService;
+import com.example.skoolworkshop2.ui.User.AccountActivity;
+import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.skoolworkshop2.ui.notifications.NotificationsActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -54,9 +54,10 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
     FirebaseAnalytics mFirebaseAnalytics;
 
     public static String adminToken;
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static String androidToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +65,85 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         View root = (View) findViewById(R.id.activity_home);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+
+        View v = findViewById(R.id.activity_home_fragment_notifications);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        if(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size() > 0){
+            ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
+            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
+        }
+
+
+        View include = findViewById(R.id.include);
+        include.setClipToOutline(true);
+        ImageView headerGradient = include.findViewById(R.id.component_home_banner_img_gradient);
+        headerGradient.setClipToOutline(true);
+        ImageView headerImage = include.findViewById(R.id.component_home_banner_img_base);
+        headerImage.setClipToOutline(true);
+
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
-        InfoEntityManager iem = new InfoEntityManager(this.getApplication());
+        EncryptionLogic.decrypt(androidToken, "secretKey");
+
+        UserManager iem = new UserManager(this.getApplication());
 
         View points = findViewById(R.id.activity_home_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
-//        pointsTv.setText("Je hebt " + iem.getInfo().getPoints() + " punten");
 
-        TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
-//        moneyPoints.setText("Waarde €" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-");
+        TextView greeting = findViewById(R.id.activity_home_tv_greeting);
+        greeting.setText("Goedendag");
+
+        if (iem.hasInfo()) {
+            LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
+            noAccount.setVisibility(View.GONE);
+
+            LinearLayout notifications = findViewById(R.id.activity_home_ll_notifications);
+            notifications.setVisibility(View.VISIBLE);
+
+            points.setVisibility(View.VISIBLE);
+
+            if (!iem.getCustomer().getFirstName().isEmpty()) {
+                greeting.setText("Goedendag " + iem.getCustomer().getFirstName());
+            } else {
+                greeting.setText("Goedendag " + iem.getInfo().getUsername());
+            }
+
+
+            String pointsStrStart = "Je hebt ";
+            String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
+            Spannable pointsSpannable = new SpannableString(pointsStr);
+            pointsSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                    pointsStrStart.length(),
+                    pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pointsSpannable.setSpan(new RelativeSizeSpan(1.2f),
+                    pointsStrStart.length(),
+                    pointsStrStart.length() + String.valueOf(iem.getInfo().getPoints()).length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pointsTv.setText(pointsSpannable, TextView.BufferType.SPANNABLE);
+
+            TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
+
+            String moneyStrStart = "Waarde ";
+            String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
+            Spannable moneySpannable = new SpannableString(moneyStr);
+            moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
+                    moneyStrStart.length(),
+                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
+                    moneyStrStart.length(),
+                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
+        }
         localAppStorage = new LocalAppStorage(getBaseContext());
         menuController = new MenuController(root);
         apidaoFactory = new APIDAOFactory();
@@ -88,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuController.sendToSearch();
+                startActivity(new Intent(getApplicationContext(), WorkshopActivity.class));
             }
         });
 
@@ -112,6 +182,20 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         registerBtn.setText("Maak nu een account");
         loginBtn.setText("Log in");
 
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+            }
+        });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
+
         newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
 
         recyclerView = findViewById(R.id.activity_home_rv_news_feed);
@@ -124,100 +208,32 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         recyclerView.setLayoutManager(layoutManager);
 
 
-        handleNotificationData();
-        getToken();
-        subscribeToTopic("main");
+//        handleNotificationData();
+//        getToken();
+//
+//        subscribeToTopic("main");
         Bundle bundle = new Bundle();
         bundle.putString("test_event", "test_event_id");
         mFirebaseAnalytics.logEvent("eventTest", bundle);
+
+        Bundle loginEvent = new Bundle();
+        loginEvent.putString("login_event_id", "login_event_id");
+        mFirebaseAnalytics.logEvent("login_event", loginEvent);
+
+        Bundle appOpenEvent = new Bundle();
+        appOpenEvent.putString("app_open_event_id", "app_open_event_id");
+        mFirebaseAnalytics.logEvent("app_open_event", appOpenEvent);
+
+        Bundle ordersEvent = new Bundle();
+        ordersEvent.putString("orders_event_id", "orders_event_id");
+        mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
+
     }
 
     @Override
     public void onNoteClick(int position) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
-        startActivity(browserIntent);
-    }
-
-    public void getToken() {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-
-                if (!task.isSuccessful()) {
-                    Log.e(TAG, "Failed to get the token.");
-                    return;
-                }
-
-                //get the token from task
-                String token = task.getResult();
-
-                Log.d(TAG, "Token : " + token);
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
-            }
-        });
-    }
-
-    private void handleNotificationData() {
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if(bundle.containsKey("data1")) {
-                Log.d(TAG, "Data1: " + bundle.getString("data1"));
-            }
-            if(bundle.containsKey("data2")) {
-                Log.d(TAG, "Data2: " + bundle.getString("data2"));
-            }
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d(TAG, "On New Intent called");
-    }
-
-    /**
-     * method to subscribe to topic
-     *
-     * @param topic to which subscribe
-     */
-    private void subscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(MainActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /**
-     * method to unsubscribe to topic
-     *
-     * @param topic to which unsubscribe
-     */
-    private void unsubscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(MainActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Intent appBrowserIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+        appBrowserIntent.putExtra("url", newsArticles.get(position).getUrl());
+        startActivity(appBrowserIntent);
     }
 }

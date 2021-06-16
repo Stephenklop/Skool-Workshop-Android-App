@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,7 +51,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/activity_shopping_cart_item_promo"
                 app:layout_constraintTop_toBottomOf="@+id/activity_shopping_cart_tv_shopping_cart"
                 app:layout_constraintVertical_bias="0.0"
-                tools:layout_editor_absoluteX="25dp" />
+                tools:layout_editor_absoluteX="25dp"
+                android:overScrollMode="never"/>
 
             <include
                 android:id="@+id/activity_shopping_cart_item_promo"

@@ -22,6 +22,9 @@ public class Product implements Serializable {
     private String category;
 
     @ColumnInfo
+    private boolean highlighted;
+
+    @ColumnInfo
     private String permalink;
 
     @ColumnInfo
@@ -54,11 +57,12 @@ public class Product implements Serializable {
     @ColumnInfo
     private String video;
 
-    public Product(int productId, @NonNull String name, String productType, String category, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
+    public Product(int productId, @NonNull String name, String productType, String category, boolean highlighted, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
         this.productId = productId;
         this.name = name;
         this.productType = productType;
         this.category = category;
+        this.highlighted = highlighted;
         this.permalink = permalink;
         this.type = type;
         this.status = status;
@@ -70,6 +74,14 @@ public class Product implements Serializable {
         this.sourceImage = sourceImage;
         this.imageName = imageName;
         this.video = video;
+    }
+
+    public boolean isHighlighted() {
+        return highlighted;
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted = highlighted;
     }
 
     public int getProductId() {

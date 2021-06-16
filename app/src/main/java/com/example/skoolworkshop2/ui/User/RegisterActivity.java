@@ -6,9 +6,14 @@ import android.graphics.Rect;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,8 +29,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
+import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -45,6 +52,13 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
+
+        View root = findViewById(R.id.activity_register);
+        MenuController menuController = new MenuController(root);
+        BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        menu.getMenu().getItem(4).setChecked(true);
 
         // Validators
         passwordValidator = new PasswordValidator();
@@ -140,6 +154,25 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent loginIntent = new Intent(getApplicationContext(), AccountActivity.class);
                 startActivity(loginIntent);
+            }
+        });
+
+
+        String text = "Al een account? Log in";
+        Spannable textSpannable = new SpannableString(text);
+        textSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)), 16, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mLoginTextView.setText(textSpannable);
+
+
+        TextView tvPrivacy = findViewById(R.id.textView3);
+        String privacyText = "Je persoonlijke gegevens worden gebruikt om je ervaring op deze site te ondersteunen, om toegang tot je account te beheren en voor andere doeleinden zoals omschreven in ons privacybeleid.";
+        Spannable privacyTextSpannable = new SpannableString(privacyText);
+        privacyTextSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)), 173, 186, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvPrivacy.setText(privacyTextSpannable);
+        tvPrivacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/privacybeleid/")));
             }
         });
     }

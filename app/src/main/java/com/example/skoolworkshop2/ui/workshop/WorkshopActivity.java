@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
@@ -37,6 +38,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
     private RecyclerView mCategoryRecyclerView;
     private RadioButton radioButton;
     private RecyclerView mRecyclerView;
+    private TextView mCategoryTitleTv;
     private LocalAppStorage localAppStorage;
     private List<Product> mWorkshops;
 
@@ -58,7 +60,11 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         localAppStorage = new LocalAppStorage(getBaseContext());
         mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
 
+        TextView categoryTitle = findViewById(R.id.activity_workshops_txt_category_title);
 
+
+        mCategoryTitleTv = findViewById(R.id.activity_workshops_txt_category_title);
+        mCategoryTitleTv.setText(categorySelected);
 
 
         // Radiobutton
@@ -70,13 +76,27 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         mRecyclerView.setAdapter(mWorkshopAdapter);
 
         SearchView searchView = (SearchView) findViewById(R.id.activity_workshops_search);
+        searchView.setQueryHint("Zoeken");
+
+        final boolean[] automaticChangedCategory = {false};
+        final boolean[] automaticChangedSearch = {false};
 
         CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
             @Override
             public void onChange(String filterLabel) {
-                List<Product> workshops = new ArrayList<>();
-                categorySelected = filterLabel;
-                filter();
+
+                if(!automaticChangedCategory[0]){
+                    searchValue = "";
+                    categoryTitle.setText(filterLabel);
+
+                    automaticChangedSearch[0] = true;
+                    searchView.setQuery("", false);
+                    automaticChangedSearch[0] = false;
+
+                    categorySelected = filterLabel;
+                    filter();
+                }
+
             }
         });
 
@@ -90,8 +110,19 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
             @Override
             public boolean onQueryTextChange(String s) {
-                searchValue = s;
-                filter();
+                if(!automaticChangedSearch[0]){
+                    categoryTitle.setText("Zoekresultaten");
+                    automaticChangedCategory[0] = true;
+                    ca.setChecked();
+                    automaticChangedCategory[0] = false;
+                    searchValue = s;
+                    if(s.isEmpty()){
+                        categorySelected = "Alles";
+                    } else {
+                        categorySelected = "";
+                    }
+                    filter();
+                }
                 return false;
             }
         });
@@ -124,29 +155,31 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
     public List<Product> filter(){
         List<Product> filteredList = new ArrayList<>();
-        if(searchValue.isEmpty() && (categorySelected.equals("Alles") || categorySelected.equals("Meest gekozen"))){
-            filteredList = mWorkshops;
-        } else if(!searchValue.isEmpty()){
-            if(categorySelected.equals("Alles") || categorySelected.equals("Meest gekozen")){
+
+        if(!searchValue.isEmpty()){
+            for (Product workshop: mWorkshops) {
+                if(workshop.getName().toLowerCase().contains(searchValue)){
+                    filteredList.add(workshop);
+                }
+            }
+        } else if(!categorySelected.isEmpty()){
+            if(categorySelected.equals("Alles")){
+                filteredList.addAll(mWorkshops);
+            } else if(categorySelected.equals("Meest gekozen")){
                 for (Product workshop: mWorkshops) {
-                    if(workshop.getName().toLowerCase().contains(searchValue)){
+                    if(workshop.isHighlighted()){
                         filteredList.add(workshop);
                     }
                 }
             } else {
-                for (Product workshop: mWorkshops){
-                    if(workshop.getName().toLowerCase().contains(searchValue) && workshop.getCategory().equals(categorySelected)){
+                for (Product workshop: mWorkshops) {
+                    if(workshop.getCategory().equals(categorySelected)){
                         filteredList.add(workshop);
                     }
                 }
             }
-        } else {
-            for (Product workshop: mWorkshops) {
-                if(workshop.getCategory().equals(categorySelected)){
-                    filteredList.add(workshop);
-                }
-            }
         }
+
         mWorkshopAdapter.setWorkshopList(filteredList);
         return filteredList;
     }
