@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.logic.notifications;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -137,5 +139,13 @@ public class MessagingService extends FirebaseMessagingService {
             public void onFailure(@NonNull Exception e) {
             }
         });
+    }
+
+    public void enableAnalytics(Context context) {
+        FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(true);
+    }
+
+    public void disableAnalytics(Context context) {
+        FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(false);
     }
 }

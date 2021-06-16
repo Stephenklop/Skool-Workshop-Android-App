@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.notifications.MessagingService;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 public class SettingsActivity extends AppCompatActivity {
@@ -41,6 +42,19 @@ public class SettingsActivity extends AppCompatActivity {
                     messagingService.unsubscribeToTopic("main");
                 } else {
                     messagingService.subscribeToTopic("main");
+                }
+            }
+        });
+
+        mAnalyticsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                MessagingService messagingService = new MessagingService();
+
+                if(isChecked) {
+                    messagingService.enableAnalytics(getApplicationContext());
+                } else {
+                    messagingService.disableAnalytics(getApplicationContext());
                 }
             }
         });
