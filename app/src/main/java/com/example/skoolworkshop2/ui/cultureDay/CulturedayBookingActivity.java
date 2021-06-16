@@ -93,6 +93,17 @@ public class CulturedayBookingActivity extends FragmentActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        TextView mPriceBn = findViewById(R.id.activity_cultureday_booking_btn_price);
+        TextView mParticipantsBn = findViewById(R.id.activity_cultureday_booking_btn_participant);
+        TextView mWorkshopsBn = findViewById(R.id.activity_cultureday_booking_btn_workshop);
+        TextView mRoundsBn = findViewById(R.id.activity_cultureday_booking_btn_round);
+
+        mPriceBn.setText("€1674,-");
+        mParticipantsBn.setText("100 Deelnemers");
+        mWorkshopsBn.setText("4 Workshops");
+        mRoundsBn.setText("3 Rondes");
+
+
         // Initialize attributes
         initializeAttributes();
 
