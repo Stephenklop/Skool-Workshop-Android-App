@@ -46,7 +46,7 @@ public class CulturedayOverviewFragment extends Fragment {
         mBookingBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CultureDayBookingActivity.class);
+                Intent intent = new Intent(getActivity(), CulturedayBookingActivity.class);
                 intent.putExtra("cultureDay", cultureDay);
                 startActivity(intent);
             }

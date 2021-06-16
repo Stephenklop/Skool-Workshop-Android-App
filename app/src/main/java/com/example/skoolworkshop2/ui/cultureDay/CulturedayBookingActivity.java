@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class CultureDayBookingActivity extends FragmentActivity {
+public class CulturedayBookingActivity extends FragmentActivity {
     private String LOG_TAG = getClass().getSimpleName();
     private Product mCultureDay;
     private ShoppingCartItem mShoppingCartItem;
