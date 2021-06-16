@@ -33,6 +33,9 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcod
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class AddressInfoLayoutTestActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private String LOG_TAG = getClass().getSimpleName();
 
@@ -75,6 +78,10 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
     private EditText mWPlaceEditText;
     private EditText mWStreetNameEditText;
     private EditText mWWorkshopInfoText;
+
+    //Delay for textchanger
+    private Timer timer = new Timer();
+    private final long DELAY = 1000; // Milliseconds
 
 
     //Buttons
@@ -154,24 +161,38 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPostCodeEditText.equals("")){
+                    if (PostcodeValidatorNL.isValidPostcode(s.toString())){
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        postcodeValidatorNL.setmIsValid(true);
 
-                if (!PostcodeValidatorNL.isValidPostcode(s.toString())) {
-                    Log.d(LOG_TAG, "onTextChanged: verkeerde nederlandse postcode!!");
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                        postcodeValidatorNL.setmIsValid(false);
+                    }
+
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (PostcodeValidatorNL.isValidPostcode(s.toString())) {
-
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
-                }
             }
         };
+        mPostCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(postcodeValidatorNL.isValid() || postcodeValidatorBE.isValid()) {
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
         beTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -180,23 +201,26 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPostCodeEditText.equals("")) {
+                    if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        postcodeValidatorNL.setmIsValid(true);
 
-                if (!PostcodeValidatorBE.isValidPostcode(s.toString())) {
-                    Log.d(LOG_TAG, "onTextChanged: verkeerde belgische postcode");
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                        postcodeValidatorNL.setmIsValid(false);
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
 
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
-                }
             }
         };
+
 
         //Textwatcher worksshop
         nlWTextWatcher = new TextWatcher() {
@@ -229,6 +253,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+
             }
 
             @Override
@@ -251,55 +276,78 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             }
         };
 
+
+
         //validations
         mFirstNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-                if(!nameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(!mFirstNameEditText.equals("")){
+                    if (nameValidator.isValidName(s.toString())){
+                        mFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
+
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
+
                 }
-
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (nameValidator.isValidName(s.toString())){
-                    mFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    nameValidator.mIsValid = true;
-
+            public void afterTextChanged(Editable s) { }
+        });
+        mFirstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mFirstNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
 
         mLastNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mLastNameEditText.equals("")){
+                    if (nameValidator.isValidName(s.toString())){
+                        mLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
 
-                if(!NameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
+
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (nameValidator.isValidName(s.toString())){
-                    mLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    nameValidator.mIsValid = true;
+            public void afterTextChanged(Editable s) { }
+        });
+        mLastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mLastNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -312,22 +360,33 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!AddressValidator.isValidAdressValidator(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mAddressEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
+                if(!mAddressEditText.equals("")) {
+                    if (addressValidator.isValidAdressValidator(s.toString())) {
+                        mAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        addressValidator.mIsValid = true;
 
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+                        addressValidator.mIsValid = false;
+                    }
+                }
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (AddressValidator.isValidAdressValidator(s.toString())){
-                    mAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    addressValidator.mIsValid = true;
+            public void afterTextChanged(Editable s) { }
+        });
+        mAddressEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(addressValidator.isValid()) {
+                        mAddressEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
-
             }
         });
 
@@ -339,13 +398,24 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
 
+            }
+        });
+        mCompanyNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
             }
         });
 
@@ -357,19 +427,33 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPlaceEditText.equals("")) {
+                    if (PlaceValidator.isValidPlace(s.toString())) {
+                        mPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        placeValidator.mIsValid = true;
 
-                if(!placeValidator.isValidPlace(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+                        placeValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(placeValidator.isValidPlace(s.toString())){
-                    mPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    placeValidator.mIsValid = true;
+
+            }
+        });
+        mPlaceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(placeValidator.isValid()) {
+                        mPlaceEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -382,19 +466,35 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mStreetNameEditText.equals("")) {
+                    if (StreetnameValidator.isValidStreetname(s.toString())) {
+                        mStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        streetnameValidator.mIsValid = true;
 
-                if(!streetnameValidator.isValidStreetname(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        streetnameValidator.mIsValid = false;
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(streetnameValidator.isValidStreetname(s.toString())){
-                    mStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    streetnameValidator.mIsValid = true;
+
+            }
+        });
+
+        mStreetNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(streetnameValidator.isValid()) {
+                        mStreetNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -407,22 +507,37 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mTelEditText.equals("")) {
+                    if (telValidator.isValidTelNumber(s.toString())) {
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        telValidator.mIsValid = true;
 
-                if(!telValidator.isValidTelNumber(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+                        telValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(telValidator.isValidTelNumber(s.toString())){
-                    mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    telValidator.mIsValid = true;
+
+            }
+        });
+        mTelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(telValidator.isValid()) {
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
+
 
         mEmailEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -432,19 +547,33 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mEmailEditText.equals("")) {
+                    if (emailValidator.isValidEmail(s.toString())) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        emailValidator.mIsValid = true;
 
-                if(!emailValidator.isValidEmail(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                        emailValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(emailValidator.isValidEmail(s.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    emailValidator.mIsValid = true;
+
+            }
+        });
+        mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(emailValidator.isValid()) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -457,19 +586,32 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCJPEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mCJPEditText.equals("")) {
+                    if (cjpValidator.isValidCJP(s.toString())) {
+                        mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        cjpValidator.mIsValid = true;
 
-                if(!cjpValidator.isValidCJP(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
+                        cjpValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(cjpValidator.isValidCJP(s.toString())){
-                    mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    cjpValidator.mIsValid = true;
+            }
+        });
+        mCJPEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(cjpValidator.isValid()) {
+                        mCJPEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mCJPEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -483,21 +625,35 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mWFirstNameEditText.equals("")){
+                    if (nameValidator.isValidName(s.toString())){
+                        mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
 
-                if(!nameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
+
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (nameValidator.isValidName(s.toString())){
-                    mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    nameValidator.mIsValid = true;
 
+            }
+        });
+        mWFirstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -510,19 +666,33 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mWLastNameEditText.equals("")) {
+                    if (nameValidator.isValidName(s.toString())) {
+                        mWLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
 
-                if(!NameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mWLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mWLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (nameValidator.isValidName(s.toString())){
-                    mWLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    nameValidator.mIsValid = true;
+
+            }
+        });
+        mWLastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mWLastNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -535,10 +705,16 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!AddressValidator.isValidAdressValidator(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mWAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(!mWAddressEditText.equals("")) {
+                    if (addressValidator.isValidAdressValidator(s.toString())) {
+                        mWAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        addressValidator.mIsValid = true;
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mWAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+                        addressValidator.mIsValid = false;
+                    }
                 }
 
 
@@ -546,13 +722,23 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (AddressValidator.isValidAdressValidator(s.toString())){
-                    mWAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    addressValidator.mIsValid = true;
-                }
+
 
             }
         });
+        mWAddressEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(addressValidator.isValid()) {
+                        mWAddressEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
 
         mWCompanyNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -562,13 +748,24 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                mWCompanyNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mWCompanyNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
 
+            }
+        });
+        mWCompanyNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mWCompanyNameEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mWCompanyNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
             }
         });
 
@@ -580,19 +777,32 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mWPlaceEditText.equals("")) {
+                    if (placeValidator.isValidPlace(s.toString())) {
+                        mWPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        placeValidator.mIsValid = true;
 
-                if(!placeValidator.isValidPlace(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mWPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mWPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+                        placeValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(placeValidator.isValidPlace(s.toString())){
-                    mWPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    placeValidator.mIsValid = true;
+            }
+        });
+        mWPlaceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(placeValidator.isValid()) {
+                        mWPlaceEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -605,22 +815,37 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mWStreetNameEditText.equals("")) {
+                    if (StreetnameValidator.isValidStreetname(s.toString())) {
+                        mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        streetnameValidator.mIsValid = true;
 
-                if(!streetnameValidator.isValidStreetname(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        streetnameValidator.mIsValid = false;
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(streetnameValidator.isValidStreetname(s.toString())){
-                    mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    streetnameValidator.mIsValid = true;
+            }
+        });
+        mWStreetNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(streetnameValidator.isValid()) {
+                        mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
+
 
 
         mWorkshopInfoText.addTextChangedListener(new TextWatcher() {
@@ -631,15 +856,28 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_confirmed);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_confirmed);
+
 
             }
         });
+        mWorkshopInfoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                        mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override

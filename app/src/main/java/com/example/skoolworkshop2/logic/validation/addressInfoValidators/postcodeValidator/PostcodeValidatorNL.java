@@ -4,11 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PostcodeValidatorNL implements PostcodeValidator{
+    public boolean mIsValid = false;
 
+    public void setmIsValid(boolean mIsValid) {
+        this.mIsValid = mIsValid;
+    }
 
     @Override
     public boolean isValid() {
-        return false;
+        return mIsValid;
     }
 
 

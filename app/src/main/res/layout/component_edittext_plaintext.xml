@@ -6,6 +6,7 @@
     android:background="@drawable/edittext_states"
     android:fontFamily="@font/proxima_nova_semibold"
     android:lines="1"
+    android:inputType="text"
     android:paddingHorizontal="25dp"
     android:paddingVertical="13dp"
     android:textSize="18sp"

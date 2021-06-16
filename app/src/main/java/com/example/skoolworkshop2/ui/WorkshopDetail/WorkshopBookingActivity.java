@@ -33,10 +33,12 @@ import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.StreetnameValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -117,23 +119,40 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                workshop.setParticipants(Integer.parseInt(charSequence.toString()));
+                if(!mParticipantsEditText.equals("")) {
+                    if (workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())) {
+                        updateOrderOverview();
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        workshopParticipantsValidator.mIsValid = true;
+                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        workshopParticipantsValidator.mIsValid = false;
+                    } else {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (workshopParticipantsValidator.isValidMaxParticipant(editable.toString())) {
-                    updateOrderOverview();
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    workshopParticipantsValidator.mIsValid = true;
-                } else if (!workshopParticipantsValidator.isValidMaxParticipant(editable.toString())) {
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
-                }
+
             }
         });
+        mParticipantsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(workshopParticipantsValidator.isValid()) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
+            }
+        });
+
 
         // Rounds
         mRoundsEditText = (EditText) findViewById(R.id.activity_workshop_booking_et_rounds);
@@ -145,6 +164,14 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
         mTotalCostTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_subtotal);
         // Total time
         mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_workshop_booking_tv_duration);
+
+        mDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+        mDateEditText.setFocusable(false);
 
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,22 +190,35 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mDateEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mDateEditText.equals("")) {
+                    if (dateValidation.isValidDate(charSequence.toString())) {
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                        dateValidation.mIsValid = true;
 
-                if(!dateValidation.isValidDate(charSequence.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                        dateValidation.mIsValid = false;
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (dateValidation.isValidDate(editable.toString())){
-                    mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    dateValidation.mIsValid = true;
-                }
             }
         });
+        mDateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+
+            }
+        });
+
 
         // Rounds
         mRoundsEditText.addTextChangedListener(new TextWatcher() {
@@ -189,24 +229,38 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                workshop.setRounds(Integer.parseInt(charSequence.toString()));
+                if(!mRoundsEditText.equals("")) {
+                    if (roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
+                        updateOrderOverview();
+                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        roundsValidator.mIsValid = true;
+                    } else if (!roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
+                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mTotalCostTextView.setText("Subtotaal: €");
+                        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
+                        mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
+                        roundsValidator.mIsValid = false;
+                    } else {
+                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                        mTotalCostTextView.setText("Subtotaal: €");
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (roundsValidator.isValidWorkshopRounds(editable.toString())) {
-                    updateOrderOverview();
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    roundsValidator.mIsValid = true;
-                } else if (!roundsValidator.isValidWorkshopRounds(editable.toString())) {
-                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    mTotalCostTextView.setText("Subtotaal: €");
-                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
-                } else {
+            }
+        });
+        mRoundsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(roundsValidator.isValid()) {
+                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
                     mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
-                    mTotalCostTextView.setText("Subtotaal: €");
                 }
             }
         });
@@ -224,23 +278,38 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if(!mMinuteEditText.equals("")) {
+                    if (minuteValidator.isValidMinute(s.toString())) {
+                        updateOrderOverview();
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        minuteValidator.mIsValid = true;
+                    } else if (!minuteValidator.isValidMinute(s.toString())){
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mTotalCostTextView.setText("Subtotaal: €");
+                        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
+                        mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
+                        minuteValidator.mIsValid = false;
+                    } else {
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
+                        mTotalCostTextView.setText("Subtotaal: €");
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (minuteValidator.isValidMinute(editable.toString())) {
-                    updateOrderOverview();
-                    mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    minuteValidator.mIsValid = true;
-                } else if (!minuteValidator.isValidMinute(editable.toString())){
-                    mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
-                    mTotalCostTextView.setText("Subtotaal: €");
-                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
-                } else {
+
+            }
+        });
+        mMinuteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(minuteValidator.isValid()) {
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
-                    mTotalCostTextView.setText("Subtotaal: €");
                 }
             }
         });
@@ -267,6 +336,18 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
             }
         });
+        mSchemeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                        mSchemeEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
 
         //level
         mLevelEditText.addTextChangedListener(new TextWatcher() {
@@ -277,21 +358,37 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!learningLevelValidator.isValidLearningLevels(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    workshop.setLearningLevel(s.toString());
+                if(!mDateEditText.equals("")) {
+                    if (learningLevelValidator.isValidLearningLevels(s.toString())){
+                        updateOrderOverview();
+                        learningLevelValidator.mIsValid = true;
+                        mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        workshop.setLearningLevel(s.toString());
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                        learningLevelValidator.mIsValid = false;
+
+                    }
                 }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (learningLevelValidator.isValidLearningLevels(s.toString())){
-                    updateOrderOverview();
-                    learningLevelValidator.mIsValid = true;
-                    mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
+            }
+        });
+        mLevelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(learningLevelValidator.isValid()) {
+                        mLevelEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
