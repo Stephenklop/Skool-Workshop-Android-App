@@ -33,6 +33,7 @@ public class MoreMenuActivity extends AppCompatActivity {
     private AppCompatButton mQuizButton;
     private AppCompatButton mAskedQuestionsButton;
     private AppCompatButton mAboutUsButton;
+    private AppCompatButton mSettingsButton;
     private AppCompatButton mAccountbutton;
 
     // List
@@ -69,6 +70,7 @@ public class MoreMenuActivity extends AppCompatActivity {
 
         Log.d(LOG_TAG, "onCreate: quizzes: " + quizzes);
         mAccountbutton = findViewById(R.id.activity_more_btn_account);
+        mSettingsButton = findViewById(R.id.activity_more_btn_settings);
         mAboutUsButton = findViewById(R.id.activity_more_btn_about);
         mAskedQuestionsButton = findViewById(R.id.activity_more_btn_faq);
         mQuizButton = findViewById(R.id.activity_more_btn_quiz);
@@ -89,10 +91,16 @@ public class MoreMenuActivity extends AppCompatActivity {
             }
         });
 
+        mSettingsButton.setOnClickListener(v -> {
+            Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(settingsIntent);
+        });
+
         mAboutUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent aboutIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/over-ons/"));
+                Intent aboutIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                aboutIntent.putExtra("url", "https://skoolworkshop.nl/over-ons/");
                 startActivity(aboutIntent);
             }
         });
@@ -100,11 +108,16 @@ public class MoreMenuActivity extends AppCompatActivity {
         mAskedQuestionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent askedAboutIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/over-ons/#:~:text=Belangrijke,aanbod"));
-                startActivity(askedAboutIntent);
+                Intent faqIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                faqIntent.putExtra("url", "https://skoolworkshop.nl/over-ons/#:~:text=Belangrijke,aanbod");
+                startActivity(faqIntent);
             }
         });
 
+        if(quizzes.size() == 0){
+            mQuizButton.setEnabled(false);
+            mQuizButton.setBackgroundColor(getResources().getColor(R.color.disabled_grey));
+        }
         mQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -18,15 +18,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:overScrollMode="never"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null"
+        android:overScrollMode="never">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
+            android:minHeight="50dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:minHeight="50dp">
+            android:overScrollMode="never">
 
             <ImageButton
                 android:id="@+id/activity_workshop_question_btn_back"
@@ -34,9 +35,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_arrow_left"
+                app:layout_collapseMode="pin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_collapseMode="pin"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -94,7 +95,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:text="Aantal personen:"
                     android:textColor="@color/black"
@@ -254,6 +255,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp" />
 
+                <TextView
+                    android:id="@+id/activity_workshop_question_tv_err"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:textColor="@color/error_red"
+                    android:text="@string/tv_err_msg"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui.cultureDay;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +31,6 @@ import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
-import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
 
@@ -48,10 +50,11 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private EditText mCJPEditText;
     private EditText mMessageEditText;
     private EditText mNameEditText;
+    private CheckBox mTermsCb;
+    private TextView mErrTv;
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
-    private TextView mDateTextView;
 
     private DatePickerDialog datePickerDialog;
 
@@ -62,8 +65,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_question);
 
-
-        datePickerDialog = new DatePickerDialog(this, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerDialog = new DatePickerDialog(this,R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
         mSendBn = findViewById(R.id.activity_cultureday_question_btn_send);
         mBackButton = findViewById(R.id.activity_cultureday_question_btn_back);
@@ -71,7 +73,6 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mTelEditText = findViewById(R.id.activity_cultureday_question_et_phone);
         mAmountOfPersonsEditText = findViewById(R.id.activity_cultureday_question_et_amount);
         RelativeLayout rv = findViewById(R.id.activity_cultureday_question_ed_date);
-
         mDateEditText = rv.findViewById(R.id.date_picker_edit_text);
         mDatePopUpImageButton = rv.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
         mTimeEditText = findViewById(R.id.activity_cultureday_question_et_time);
@@ -79,9 +80,10 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mCJPEditText = findViewById(R.id.activity_cultureday_question_et_cjp);
         mMessageEditText = findViewById(R.id.activity_cultureday_question_et_message);
         mNameEditText = findViewById(R.id.activity_cultureday_question_et_name);
+        mTermsCb = findViewById(R.id.activity_cultureday_question_cb_terms);
+        mErrTv = findViewById(R.id.activity_cultureday_question_tv_err);
 
         mSendBn.setText("Verzenden");
-        mSendBn.setEnabled(false);
 
         mDatePopUpImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,14 +91,6 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                 datePickerDialog.show();
             }
         });
-        mDateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
-        });
-        mDateEditText.setFocusable(false);
-
 
         mDateEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -118,39 +112,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             public void afterTextChanged(Editable editable) {
                 if (DateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    if(validate() == true ){
-                        mSendBn.setEnabled(true);
-                    }
 
                 }
-            }
-        });
-        mNameEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mNameEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!NameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mNameEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(NameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    if(validate() == true ){
-                        mSendBn.setEnabled(true);
-                    }
-                }
-
             }
         });
 
@@ -174,9 +137,6 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             public void afterTextChanged(Editable s) {
                 if(EmailValidator.isValidEmail(s.toString())){
                     mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    if(validate() == true ){
-                        mSendBn.setEnabled(true);
-                    }
                 }
             }
         });
@@ -193,7 +153,6 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                 if(!TelValidator.isValidTelNumber(s)){
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mTelEditText.setBackgroundResource(R.drawable.edittext_error);
-
                 }
             }
 
@@ -201,9 +160,6 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             public void afterTextChanged(Editable s) {
                 if(TelValidator.isValidTelNumber(s.toString())){
                     mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    if(validate() == true ){
-                        mSendBn.setEnabled(true);
-                    }
                 }
             }
         });
@@ -227,31 +183,13 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             public void afterTextChanged(Editable s) {
                 if(CJPValidator.isValidCJP(s)){
                     mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    if(validate() == true ){
-                        mSendBn.setEnabled(true);
-                    }
                 }
             }
         });
 
-        mMessageEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
-                mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
+        mTermsCb.setOnClickListener(v -> {
+            if (mTermsCb.isChecked()) {
+                mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
             }
         });
 
@@ -260,7 +198,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), CulturedayActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -272,6 +210,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             public void onClick(View v) {
 
                 if(validate()){
+                    mErrTv.setVisibility(View.GONE);
+
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
                     emailIntent.setType("text/html");
                     emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@skoolworkshop.nl"});
@@ -297,6 +237,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                     startActivity(emailIntent);
 
                 } else {
+                    mErrTv.setVisibility(View.VISIBLE);
+                    mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                     System.out.println("something is empty");
                 }
             }
@@ -314,6 +256,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         boolean name = !mNameEditText.getText().toString().isEmpty();
         boolean tel = !mTelEditText.getText().toString().isEmpty() && TelValidator.isValidTelNumber(mTelEditText.getText().toString());
         boolean message = !mMessageEditText.getText().toString().isEmpty();
+        boolean terms = mTermsCb.isChecked();
+
         if(!email){
             returnValue = false;
             mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
@@ -367,6 +311,12 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             mMessageEditText.setBackgroundResource(R.drawable.edittext_error);
         } else{
             mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+        }
+        if (!terms) {
+            returnValue = false;
+            mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.error_red, null)));
+        } else {
+            mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
         }
         return returnValue;
     }

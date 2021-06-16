@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui.WorkshopDetail;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,6 +54,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     private EditText mCJPEditText;
     private EditText mMessageEditText;
     private EditText mNameEditText;
+    private CheckBox mTermsCb;
+    private TextView mErrTv;
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
@@ -73,7 +78,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
             this.workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");
         }
 
-        datePickerDialog = new DatePickerDialog(this, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+        datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
         // Set up IDS
         mSendBn = findViewById(R.id.activity_workshop_question_btn_send);
@@ -89,6 +94,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mCJPEditText = (EditText) findViewById(R.id.activity_workshop_question_et_cjp);
         mMessageEditText = (EditText) findViewById(R.id.activity_workshop_question_et_message);
         mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
+        mTermsCb = findViewById(R.id.activity_workshop_question_cb_terms);
+        mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
         //Title
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
         mTitleTextView.setText(workshop.getProduct().getName());
@@ -475,14 +482,18 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
             }
         });
 
+        mTermsCb.setOnClickListener(v -> {
+            if (mTermsCb.isChecked()) {
+                mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
+            }
+        });
+
 
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), WorkshopDetailActivity.class);
-                intent.putExtra("Workshop", workshop);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -493,6 +504,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
             public void onClick(View v) {
 
                 if(validate()){
+                    mErrTv.setVisibility(View.GONE);
+
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
                     emailIntent.setType("text/html");
                     emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@skoolworkshop.nl"});
@@ -518,6 +531,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
                     startActivity(emailIntent);
 
                 } else {
+                    mErrTv.setVisibility(View.VISIBLE);
+                    mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                     System.out.println("something is empty");
                 }
             }
@@ -527,7 +542,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     private boolean validate(){
         boolean returnValue =  true;
         boolean email = !mEmailEditText.getText().toString().isEmpty() && EmailValidator.isValidEmail(mEmailEditText.getText().toString());
-        boolean amountOfPeople = !mAmountOfPersonsEditText.getText().toString().isEmpty() && workshopParticipantsValidator.isValidMaxParticipant(mAmountOfPersonsEditText.getText().toString());
+        boolean amountOfPeople = !mAmountOfPersonsEditText.getText().toString().isEmpty();
         boolean date = !mDateEditText.getText().toString().isEmpty() && DateValidation.isValidDate(mDateEditText.getText().toString());
         boolean time = !mTimeEditText.getText().toString().isEmpty();
         boolean location = !mLocationEditText.getText().toString().isEmpty();
@@ -535,6 +550,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         boolean name = !mNameEditText.getText().toString().isEmpty();
         boolean tel = !mTelEditText.getText().toString().isEmpty() && TelValidator.isValidTelNumber(mTelEditText.getText().toString());
         boolean message = !mMessageEditText.getText().toString().isEmpty();
+        boolean terms = mTermsCb.isChecked();
         if(!email){
             returnValue = false;
         }
@@ -561,6 +577,12 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         }
         if(!message){
             returnValue = false;
+        }
+        if (!terms) {
+            returnValue = false;
+            mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.error_red, null)));
+        } else {
+            mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
         }
         return returnValue;
     }
