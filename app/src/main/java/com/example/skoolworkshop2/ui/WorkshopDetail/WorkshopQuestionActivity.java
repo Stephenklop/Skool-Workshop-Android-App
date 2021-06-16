@@ -19,14 +19,17 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
@@ -41,6 +44,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
     private Button mSendBn;
     private ImageButton mBackButton;
+    private ImageView mWorkshopBanner;
     private EditText mEmailEditText;
     private EditText mTelEditText;
     private EditText mAmountOfPersonsEditText;
@@ -61,7 +65,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
     private DatePickerDialog datePickerDialog;
 
-    private Product workshop;
+    private WorkshopItem workshop;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         setContentView(R.layout.activity_workshop_question);
 
         if(getIntent().getSerializableExtra("workshop") != null){
-            this.workshop = (Product) getIntent().getSerializableExtra("workshop");
+            this.workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");
         }
 
         datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, WorkshopQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
@@ -77,6 +81,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         // Set up IDS
         mSendBn = findViewById(R.id.activity_workshop_question_btn_send);
         mBackButton = findViewById(R.id.activity_workshop_question_btn_back);
+        mWorkshopBanner = findViewById(R.id.activity_workshop_question_img_banner);
         mEmailEditText = (EditText) findViewById(R.id.activity_workshop_question_et_email);
         mTelEditText = (EditText) findViewById(R.id.activity_workshop_question_et_phone);
         mAmountOfPersonsEditText = (EditText) findViewById(R.id.activity_workshop_question_et_amount);
@@ -97,6 +102,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mPriceBn.setText("€150,-");
         mParticipantsBn.setText("25 deelnemers");
         mDurationBn.setText("60 min");
+
+        Glide.with(getBaseContext()).load(workshop.getProduct().getSourceImage()).centerCrop().into(mWorkshopBanner);
 
         // Set up validations
         mEmailEditText.addTextChangedListener(new TextWatcher() {
