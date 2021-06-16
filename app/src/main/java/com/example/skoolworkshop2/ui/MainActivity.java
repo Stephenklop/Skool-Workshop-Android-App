@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
-        EncryptionLogic.decrypt(androidToken, "secretKey");
+        System.out.println(EncryptionLogic.decrypt(androidToken, "secretKey"));
 
         UserManager iem = new UserManager(this.getApplication());
 

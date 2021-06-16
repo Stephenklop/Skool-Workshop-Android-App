@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -115,7 +116,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
 
     @Override
     public void updateUser(String email, String displayName, String firstName, String lastName) {
-        LocalAppStorage localAppStorage = new LocalAppStorage(getApplicationContext());
+//        LocalAppStorage localAppStorage = new LocalAppStorage(context);
         int id = LocalDb.getDatabase(getBaseContext()).getUserDAO().getInfo().getId();
 
         final String PATH = "account/" + id;
@@ -128,6 +129,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             //TODO add header with App token
             //... idk of dat hier of ergens anders moet ...
             connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
             String jsonInput = "{\"email\": \"" + email + "\", \"name\": \"" + displayName + "\", \"first_name\": \"" + firstName + "\", \"last_name\": \"" + lastName + "\", }";
             System.out.println("JSON STRING: " + jsonInput);
@@ -146,10 +148,27 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("RESPONSE: " + inputLine);
                 JSONObject response = new JSONObject(inputLine);
-                JSONObject user = response.getJSONObject("result");
+                try {
+//                    JSONObject userData = response.getJSONObject("result");
+//                    User user = parseUser(userData);
+//                    Customer customer = parseCustomer(userData);
+//
+//                    LocalDb.getDatabase(getBaseContext()).getUserDAO().deleteInfo();
+//                    LocalDb.getDatabase(getBaseContext()).getUserDAO().insertInfo(user);
+//                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().deleteCustomer();
+//                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().addCustomer(customer);
+
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
             //TODO request to GET the 'new' information from the API
+            //andere methodes
+
             //TODO if the 'new' information is new, delete old data from the localDB
+
             //TODO update database with the new information.
 
         } catch (Exception e) {
@@ -157,6 +176,46 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
         }
 
     }
+
+//    public User parseUser(JSONObject jsonObject){
+//        User result;
+//        JSONArray metaData = jsonObject.getJSONArray("meta_data");
+//        int points = 0;
+//        for(int i = 0; i < metaData.length(); i++){
+//            JSONObject object = metaData.getJSONObject(i);
+//            if ( object.get("key").equals("_ywpar_user_total_points")){
+//                points = Integer.parseInt(object.get("value").toString());
+//                Log.d("POINTS", points + "");
+//            }
+//        }
+//        String email = jsonObject.getString("email");
+//        int id = Integer.parseInt(jsonObject.get("id").toString());
+//        String userName = jsonObject.get("username").toString();
+//
+//        Log.d("POINTS", points + "");
+//        result = new User(id, email, userName, points);
+//
+//        String firstname = jsonObject.getString("first_name");
+//        String lastName = jsonObject.getString("last_name");
+//        JSONObject adress = jsonObject.getJSONObject("billing");
+//        String adress_1 = adress.getString("address_1");
+//        String street = adress.getString("");
+//        String number = "";
+//        String streetAndNumber[] = adress_1.split(" ");
+//        if(streetAndNumber.length > 1){
+//            street = streetAndNumber[0];
+//            number = streetAndNumber[1];
+//        }
+//        String postCode = adress.getString("postcode");
+//        String city = adress.getString("city");
+//        String state = adress.getString("state");
+//        String country = adress.getString("country");
+//
+//        Customer customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
+//        lastCustomer = customer;
+//
+//        return result;
+//    }
 
     @Override
     public User registerUser(String username, String email, String password) {

@@ -1,5 +1,7 @@
 package com.example.skoolworkshop2.dao;
 
+import android.content.Context;
+
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
 
