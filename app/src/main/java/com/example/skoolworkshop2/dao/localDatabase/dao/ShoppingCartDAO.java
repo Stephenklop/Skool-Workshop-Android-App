@@ -12,15 +12,14 @@ import java.util.List;
 public interface ShoppingCartDAO {
 
     @Insert
-    void insertItemInShoppingCart(ShoppingCartItem shoppingCart);
+    long insertItemInShoppingCart(ShoppingCartItem shoppingCart);
 
     @Query("DELETE FROM ShoppingCartItem")
     void deleteEverythingFromShoppingCart();
 
     @Query("DELETE FROM ShoppingCartItem WHERE id = :id")
-    void deleteOneItemFromShopppingCart(int id);
+    void deleteOneItemFromShoppingCart(int id);
 
     @Query("SELECT * FROM ShoppingCartItem")
     List<ShoppingCartItem> getItemsInShoppingCart();
-
 }

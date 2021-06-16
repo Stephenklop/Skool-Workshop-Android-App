@@ -178,7 +178,7 @@
                     android:spinnerMode="dropdown"
                     tools:listitem="@layout/item_spinner" />
 
-                <com.example.skoolworkshop2.ui.customviews.CustomSpinner
+                <Spinner
                     android:id="@+id/activity_cultureday_booking_spnr_workshop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,15 +188,20 @@
                     android:spinnerMode="dropdown"
                     tools:listitem="@layout/item_spinner" />
 
-                <RadioGroup
-                    android:id="@+id/activity_cultureday_booking_rg_workshops"
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:scrollbars="none">
+                    android:layout_height="wrap_content">
 
-                </RadioGroup>
+                    <LinearLayout
+                        android:id="@+id/activity_cultureday_booking_workshops"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <!-- Automatically generated -->
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
 
                 <TextView
                     android:layout_width="match_parent"

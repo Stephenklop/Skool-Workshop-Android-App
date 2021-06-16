@@ -42,7 +42,7 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
     private TextView mTitleTV;
     private LocalAppStorage localAppStorage;
 
-
+    public CulturedayActivity() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,6 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         setContentView(R.layout.activity_cultureday_details);
 
         View root = (View) findViewById(R.id.activity_cultureday_details);
-
 
         MenuController mc = new MenuController(root);
 

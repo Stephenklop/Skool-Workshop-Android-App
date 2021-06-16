@@ -24,6 +24,8 @@ public class CulturedayOverviewFragment extends Fragment {
     private Button mBookingBn;
     private Button mInfoBn;
 
+    public CulturedayOverviewFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,8 +46,9 @@ public class CulturedayOverviewFragment extends Fragment {
         mBookingBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), CulturedayBookingActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), CultureDayBookingActivity.class);
+                intent.putExtra("cultureDay", cultureDay);
+                startActivity(intent);
             }
         });
         mInfoBn.setOnClickListener(new View.OnClickListener() {

@@ -340,12 +340,11 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             // Save the item in the shopping cart
             LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(
                     new ShoppingCartItem(
-                            workshopItem.getProduct().getId(),
+                            workshopItem.getProduct().getProductId(),
                             true, workshopItem.getDate(),
                             workshopItem.getRounds(),
                             -1,
                             workshopItem.getRoundDuration(),
-                            null,
                             workshopItem.getTimeSchedule(),
                             workshopItem.getParticipants(),
                             0,

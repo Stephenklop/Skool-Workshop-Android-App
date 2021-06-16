@@ -6,15 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
+public class CustomSpinner extends AppCompatSpinner {
 
     public CustomSpinner(Context context) {
         super(context);
@@ -74,10 +75,7 @@ public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
 
         public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
             try {
-                return m.equals(getView) &&
-                        (Integer)(args[0])<0 ?
-                        getView((Integer)args[0],(View)args[1],(ViewGroup)args[2]) :
-                        m.invoke(obj, args);
+                return m.equals(getView) && (Integer)(args[0]) < 0 ? getView((Integer)args[0],(View)args[1],(ViewGroup)args[2]) : m.invoke(obj, args);
             }
             catch (InvocationTargetException e) {
                 throw e.getTargetException();
@@ -87,14 +85,9 @@ public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
             }
         }
 
-        protected View getView(int position, View convertView, ViewGroup parent)
-                throws IllegalAccessException {
-
-            if( position<0 ) {
-                final TextView v =
-                        (TextView) ((LayoutInflater)getContext().getSystemService(
-                                Context.LAYOUT_INFLATER_SERVICE)).inflate(
-                                android.R.layout.simple_spinner_item, parent, false);
+        protected View getView(int position, View convertView, ViewGroup parent) {
+            if(position < 0) {
+                final TextView v = (TextView) ((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(android.R.layout.simple_spinner_item, parent, false);
                 v.setText(getPrompt());
                 return v;
             }

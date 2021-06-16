@@ -1,7 +1,10 @@
 package com.example.skoolworkshop2.ui.shoppingCart;
 
+import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +16,8 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.ProductItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.AddressInfoActivity;
+import com.example.skoolworkshop2.ui.AddressInfoLayoutTestActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -24,6 +29,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private List<ShoppingCartItem> shoppingCartItems;
     private TextView totalPriceTitleTextView;
     private TextView totalPriceTextView;
+    private Button orderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(3).setChecked(true);
-
-        // Read the shopping cart items.
-        // If there are no shopping cart items an empty ArrayList is initialized.
 
         shoppingCartItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getItemsInShoppingCart();
 
@@ -52,6 +55,13 @@ public class ShoppingCartActivity extends AppCompatActivity {
         totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_value);
         // TODO: Add price
         totalPriceTextView.setText("€" + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
+
+        orderButton = findViewById(R.id.activity_shopping_cart_btn_confirm);
+        orderButton.setText("Verder met bestellen");
+        orderButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddressInfoActivity.class);
+            startActivity(intent);
+        });
     }
 
     private double calculateTotalPrice() {
