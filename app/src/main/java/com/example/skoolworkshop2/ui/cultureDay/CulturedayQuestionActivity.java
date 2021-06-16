@@ -52,6 +52,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private String LOG_TAG = getClass().getSimpleName();
 
     private Button mSendBn;
+    private ImageButton mBackButton;
     private EditText mEmailEditText;
     private EditText mTelEditText;
     private EditText mAmountOfPersonsEditText;
@@ -91,6 +92,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         datePickerDialog = new DatePickerDialog(this,R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
         mSendBn = findViewById(R.id.activity_cultureday_question_btn_send);
+        mBackButton = findViewById(R.id.activity_cultureday_question_btn_back);
         mEmailEditText = findViewById(R.id.activity_cultureday_question_et_email);
         mTelEditText = findViewById(R.id.activity_cultureday_question_et_phone);
         mAmountOfPersonsEditText = findViewById(R.id.activity_cultureday_question_et_amount);
@@ -515,6 +517,15 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mTermsCb.setOnClickListener(v -> {
             if (mTermsCb.isChecked()) {
                 mTermsCb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.main_orange, null)));
+            }
+        });
+
+
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
