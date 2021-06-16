@@ -47,6 +47,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
         View root = (View) findViewById(R.id.activity_shopping_cart);
         menuController = new MenuController(root);
 

@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
@@ -34,6 +35,7 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Wor
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
 
 import java.time.LocalDate;
@@ -74,6 +76,10 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_question);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         datePickerDialog = new DatePickerDialog(this,R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 

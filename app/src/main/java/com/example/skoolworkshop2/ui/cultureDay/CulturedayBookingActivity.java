@@ -24,6 +24,7 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
@@ -31,6 +32,7 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Cul
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -86,6 +88,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_booking);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         // Initialize attributes
         initializeAttributes();

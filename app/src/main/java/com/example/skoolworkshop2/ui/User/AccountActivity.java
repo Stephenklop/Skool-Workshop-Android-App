@@ -35,8 +35,10 @@ import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -56,6 +58,10 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
 
         mSignUpTextView = findViewById(R.id.activity_login_txt_create_account);

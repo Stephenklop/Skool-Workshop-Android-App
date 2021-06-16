@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 
 public class NotificationsActivity extends AppCompatActivity {
 
@@ -23,6 +25,10 @@ public class NotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         System.out.println("activity started");
         setContentView(R.layout.activity_notifications);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         loadNotifications();
 

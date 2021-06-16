@@ -60,6 +60,10 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
         MenuController menuController = new MenuController(root);
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(1).setChecked(true);

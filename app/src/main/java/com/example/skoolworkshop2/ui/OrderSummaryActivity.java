@@ -2,6 +2,7 @@ package com.example.skoolworkshop2.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 public class OrderSummaryActivity extends AppCompatActivity implements View.OnClickListener {
     private MollieDAOFactory mollieDAOFactory;
@@ -26,6 +28,10 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         initializeAttributes();
 

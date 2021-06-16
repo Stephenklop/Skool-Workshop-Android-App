@@ -51,6 +51,10 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_details);
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
         View root = (View) findViewById(R.id.activity_cultureday_details);
 
         MenuController mc = new MenuController(root);

@@ -54,6 +54,10 @@ public class MoreMenuActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
         View root = (View) findViewById(R.id.activity_more);
         controller = new MenuController(root);
 

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 public class AddressInfoActivity extends AppCompatActivity {
     private EditText mFirstNameEditText;
@@ -37,6 +38,10 @@ public class AddressInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_info);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         initializeAttributes();
 
