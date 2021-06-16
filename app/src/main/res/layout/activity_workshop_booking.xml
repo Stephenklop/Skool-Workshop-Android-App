@@ -77,7 +77,17 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- inflate component_button_tag_detail -->
+                        <include
+                            android:id="@+id/activity_workshop_booking_button_price"
+                            layout="@layout/component_button_tag_detail" />
+
+                        <include
+                            android:id="@+id/activity_workshop_booking_button_participants"
+                            layout="@layout/component_button_tag_detail" />
+
+                        <include
+                            android:id="@+id/activity_workshop_booking_button_duration"
+                            layout="@layout/component_button_tag_detail_last" />
                     </LinearLayout>
 
                 </HorizontalScrollView>
