@@ -28,12 +28,14 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 
 
 import java.time.LocalDate;
@@ -72,6 +74,10 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_question);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         if(getIntent().getSerializableExtra("workshop") != null){
             this.workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");

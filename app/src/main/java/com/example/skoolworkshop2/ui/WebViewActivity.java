@@ -15,6 +15,7 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 
 public class WebViewActivity extends AppCompatActivity {
@@ -24,6 +25,12 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
 
 
         ImageButton backButton = findViewById(R.id.activity_web_btn_back);

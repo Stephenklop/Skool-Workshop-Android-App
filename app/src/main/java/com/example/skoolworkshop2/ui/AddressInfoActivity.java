@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
@@ -32,6 +33,7 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcod
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
+
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -100,6 +102,12 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_info);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
+        initializeAttributes();
 
 
         //Setting up ID's user Info

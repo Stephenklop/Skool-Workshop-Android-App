@@ -18,6 +18,7 @@ import com.example.skoolworkshop2.dao.QuizAPIService;
 import com.example.skoolworkshop2.domain.Quiz;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
 import com.example.skoolworkshop2.ui.User.MyAccountActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,6 +49,14 @@ public class MoreMenuActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         View root = (View) findViewById(R.id.activity_more);
         controller = new MenuController(root);
