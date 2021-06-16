@@ -5,9 +5,11 @@ import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
@@ -30,6 +32,9 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private TextView totalPriceTitleTextView;
     private TextView totalPriceTextView;
     private Button orderButton;
+    private ConstraintLayout mPromoCl;
+    private EditText mPromoEt;
+    private Button mPromoAddBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
         menuController = new MenuController(root);
 
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
+        mPromoCl = findViewById(R.id.activity_shopping_cart_item_promo);
+        mPromoEt = mPromoCl.findViewById(R.id.component_promo_et_txt);
+        mPromoAddBtn = mPromoCl.findViewById(R.id.component_promo_btn_add);
+
         menu.getMenu().getItem(3).setChecked(true);
 
         shoppingCartItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getItemsInShoppingCart();
@@ -62,6 +71,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddressInfoActivity.class);
             startActivity(intent);
         });
+
+        mPromoAddBtn.setText("Voeg toe");
     }
 
     private double calculateTotalPrice() {

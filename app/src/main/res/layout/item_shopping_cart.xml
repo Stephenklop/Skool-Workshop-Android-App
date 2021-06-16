@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="126dp"
         android:background="@drawable/shopping_cart_container"
         android:elevation="10dp"
         android:scaleY="1">
@@ -17,32 +17,32 @@
             android:id="@+id/item_shopping_cart_img_workshop"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent=".45"
             android:background="@drawable/shopping_cart_container"
             android:scaleType="centerCrop"
             android:src="@drawable/testimage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".40" />
 
         <TextView
             android:id="@+id/item_shopping_cart_tv_workshop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:ellipsize="end"
             android:fontFamily="@font/proxima_nova"
+            android:hyphenationFrequency="full"
+            android:maxLines="1"
             android:text="Workshop"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_shopping_cart_btn_close"
             app:layout_constraintStart_toEndOf="@+id/item_shopping_cart_img_workshop"
-            app:layout_constraintTop_toTopOf="parent"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:hyphenationFrequency="full"/>
+            app:layout_constraintTop_toTopOf="@+id/item_shopping_cart_img_workshop" />
 
         <TextView
             android:id="@+id/item_shopping_cart_tv_price"
@@ -60,12 +60,22 @@
             android:id="@+id/item_shopping_cart_btn_details"
             layout="@layout/component_button_medium_extendable"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/item_shopping_cart_tv_price"
             app:layout_constraintTop_toBottomOf="@+id/item_shopping_cart_tv_price" />
+
+        <ImageButton
+            android:id="@+id/item_shopping_cart_btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -97,7 +107,7 @@
             android:textSize="16sp"
             android:fontFamily="@font/proxima_nova_semibold"
             android:textColor="@color/black"
-            android:text="Aantal workshoprondes"/>
+            android:text="Aantal workshoprondes: "/>
 
         <TextView
             android:id="@+id/item_shopping_cart_tv_round_mins"
