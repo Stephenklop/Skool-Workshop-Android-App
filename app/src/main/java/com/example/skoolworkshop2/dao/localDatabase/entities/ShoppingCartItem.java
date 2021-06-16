@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 public class ShoppingCartItem {
-    @ColumnInfo @PrimaryKey @NonNull
+    @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
     private int id;
 
     @ColumnInfo
@@ -48,19 +48,23 @@ public class ShoppingCartItem {
     @ColumnInfo
     private String learningLevel;
 
-    public ShoppingCartItem(int id, int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String productIds, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
-        this.id = id;
+    @ColumnInfo
+    private double totalPrice;
+
+    public ShoppingCartItem() {}
+
+    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel, double totalPrice) {
         this.productId = productId;
         this.workshop = workshop;
         this.date = date;
         this.rounds = rounds;
         this.workshopPerWorkshopRound = workshopPerWorkshopRound;
         this.roundDuration = roundDuration;
-        this.productIds = productIds;
         this.timeSchedule = timeSchedule;
         this.participants = participants;
         this.amountOfParticipantsGraffitiTshirt = amountOfParticipantsGraffitiTshirt;
         this.learningLevel = learningLevel;
+        this.totalPrice = totalPrice;
     }
 
 //    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, List<Integer> productIds, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
@@ -98,6 +102,10 @@ public class ShoppingCartItem {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getProductId() {
         return productId;
     }
@@ -108,6 +116,10 @@ public class ShoppingCartItem {
 
     public String getProductIds() {
         return productIds;
+    }
+
+    public void addProductId(int productId) {
+        productIds = getProductIds() + ", " + productId;
     }
 
     public void setProductIds(String productIds) {
@@ -200,5 +212,32 @@ public class ShoppingCartItem {
 
     public void setLearningLevel(String learningLevel) {
         this.learningLevel = learningLevel;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCartItem{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", workshop=" + workshop +
+                ", date='" + date + '\'' +
+                ", rounds=" + rounds +
+                ", workshopPerWorkshopRound=" + workshopPerWorkshopRound +
+                ", roundDuration=" + roundDuration +
+                ", productIds='" + productIds + '\'' +
+                ", timeSchedule='" + timeSchedule + '\'' +
+                ", participants=" + participants +
+                ", amountOfParticipantsGraffitiTshirt=" + amountOfParticipantsGraffitiTshirt +
+                ", learningLevel='" + learningLevel + '\'' +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

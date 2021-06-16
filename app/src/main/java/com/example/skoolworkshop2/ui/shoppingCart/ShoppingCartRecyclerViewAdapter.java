@@ -16,15 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
+import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.ProductItem;
 
 import java.util.List;
 
 public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingCartRecyclerViewAdapter.ViewHolder> {
-    List<ProductItem> shoppingCartItems;
+    List<ShoppingCartItem> shoppingCartItems;
     Context context;
 
-    public ShoppingCartRecyclerViewAdapter(List<ProductItem> shoppingCartItems, Context context) {
+    public ShoppingCartRecyclerViewAdapter(List<ShoppingCartItem> shoppingCartItems, Context context) {
         this.shoppingCartItems = shoppingCartItems;
         this.context = context;
     }
@@ -39,9 +42,11 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Glide.with(context).load(shoppingCartItems.get(position).getProduct().getSourceImage()).centerCrop().into(holder.mWorkshopImage);
-        holder.mWorkshopTitle.setText(shoppingCartItems.get(position).getProduct().getName());
-        holder.mWorkshopPrice.setText("€" + String.format("%.2f", shoppingCartItems.get(position).getPrice()).replace(".", ","));
+        Product product = loadAssociatedProduct(shoppingCartItems.get(position).getProductId());
+
+        Glide.with(context).load(product.getSourceImage()).centerCrop().into(holder.mWorkshopImage);
+        holder.mWorkshopTitle.setText(product.getName());
+        holder.mWorkshopPrice.setText("€" + String.format("%.2f", shoppingCartItems.get(position).getTotalPrice()).replace(".", ","));
         holder.mDetailButton.setText("Details");
         holder.mDetailButton.setOnClickListener(v -> {
             if (holder.mDetailButton.getText().equals("Details")) {
@@ -100,5 +105,9 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         set.play(slideAnimator);
         set.setInterpolator(new AccelerateDecelerateInterpolator());
         set.start();
+    }
+
+    private Product loadAssociatedProduct(int id) {
+        return LocalDb.getDatabase(context).getProductDAO().getProduct(id);
     }
 }

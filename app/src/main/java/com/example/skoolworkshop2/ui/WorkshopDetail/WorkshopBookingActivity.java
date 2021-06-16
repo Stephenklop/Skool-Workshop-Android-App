@@ -28,6 +28,9 @@ import androidx.fragment.app.FragmentActivity;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
+import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
@@ -42,10 +45,11 @@ import java.time.LocalDate;
 
 import io.paperdb.Paper;
 
-public class WorkshopBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class WorkshopBookingActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private String LOG_TAG = getClass().getSimpleName();
     private LocalAppStorage localAppStorage;
-    private WorkshopItem workshop;
+    private Product workshop;
+    private WorkshopItem workshopItem;
     private ImageButton mBackButton;
     private ImageView mWorkshopBanner;
     private TextView mTitle;
@@ -83,15 +87,18 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
         localAppStorage = new LocalAppStorage(getBaseContext());
 
-        // Initialize workshop
-        workshop = (WorkshopItem) getIntent().getSerializableExtra("workshop");
+        // Initialize workshop product
+        workshop = (Product) getIntent().getSerializableExtra("workshop");
+
+        // Initialize workshop item
+        workshopItem = new WorkshopItem(workshop);
 
         // Set title
         mTitle = findViewById(R.id.activity_workshop_booking_tv_title);
-        mTitle.setText(workshop.getProduct().getName());
+        mTitle.setText(workshop.getName());
 
         mWorkshopBanner = findViewById(R.id.activity_workshop_booking_img_banner);
-        Glide.with(getBaseContext()).load(workshop.getProduct().getSourceImage()).centerCrop().into(mWorkshopBanner);
+        Glide.with(getBaseContext()).load(workshop.getSourceImage()).centerCrop().into(mWorkshopBanner);
 
         // Buttons
         mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
@@ -127,7 +134,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                workshop.setParticipants(Integer.parseInt(charSequence.toString()));
+                workshopItem.setParticipants(Integer.parseInt(charSequence.toString()));
             }
 
             @Override
@@ -193,6 +200,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             public void afterTextChanged(Editable editable) {
                 if (dateValidation.isValidDate(editable.toString())){
                     mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    workshopItem.setDate(editable.toString());
                     dateValidation.mIsValid = true;
                 }
             }
@@ -207,7 +215,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                workshop.setRounds(Integer.parseInt(charSequence.toString()));
+                workshopItem.setRounds(Integer.parseInt((charSequence.toString().equals("")) ? "0" : charSequence.toString()));
             }
 
             @Override
@@ -248,6 +256,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void afterTextChanged(Editable editable) {
                 if (minuteValidator.isValidMinute(editable.toString())) {
+                    workshopItem.setRoundDuration(Integer.valueOf(editable.toString()));
                     updateOrderOverview();
                     mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     minuteValidator.mIsValid = true;
@@ -275,7 +284,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-                workshop.setTimeSchedule(s.toString());
+                workshopItem.setTimeSchedule(s.toString());
 
             }
 
@@ -300,7 +309,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                     Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                     mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
                 } else {
-                    workshop.setLearningLevel(s.toString());
+                    workshopItem.setLearningLevel(s.toString());
                 }
             }
 
@@ -363,13 +372,29 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 finish();
             }
         });
-    }
 
+        mSendBn.setOnClickListener(v -> {
+            System.out.println("ORDER: " + workshopItem);
+            // Save the item in the shopping cart
+            LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(
+                    new ShoppingCartItem(
+                            workshopItem.getProduct().getProductId(),
+                            true, workshopItem.getDate(),
+                            workshopItem.getRounds(),
+                            -1,
+                            workshopItem.getRoundDuration(),
+                            workshopItem.getTimeSchedule(),
+                            workshopItem.getParticipants(),
+                            0,
+                            workshopItem.getLearningLevel(),
+                            workshopItem.getPrice()
+                    )
+            );
 
-
-    @Override
-    public void onClick(View v) {
-
+            // Redirect to shopping cart
+            Intent intent = new Intent(this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -387,13 +412,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     }
 
     private void updateOrderOverview() {
-        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + workshop.getRounds());
-        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + workshop.getRoundDuration() + " min");
-        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + workshop.getRoundDuration() + " min");
-        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((workshop.getTimeSchedule() == null || workshop.getTimeSchedule().equals("")) ? "n.n.g." : workshop.getTimeSchedule()));
-        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((workshop.getLearningLevel() == null || workshop.getLearningLevel().equals("")) ? "n.n.b." : workshop.getLearningLevel()));
-        System.out.println("TOTALE PRIJS: " + workshop.getPrice());
-        mTotalCostTextView.setText("Subtotaal: €" + (int) workshop.getPrice());
+        mResultWorkshopRoundsTextView.setText("Workshoprondes: " + workshopItem.getRounds());
+        mResultWorkshopMinutesPerRoundTextView.setText("Duur per workshopronde: " + workshopItem.getRoundDuration() + " min");
+        mResultWorkshopSchemeTextView.setText("Tijdschema: " + ((workshopItem.getTimeSchedule() == null || workshopItem.getTimeSchedule().equals("")) ? "n.n.g." : workshopItem.getTimeSchedule()));
+        mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + workshopItem.getRoundDuration() * workshopItem.getRounds() + " min");
+        mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + ((workshopItem.getLearningLevel() == null || workshopItem.getLearningLevel().equals("")) ? "n.n.b." : workshopItem.getLearningLevel()));
+        System.out.println("TOTALE PRIJS: " + workshopItem.getPrice());
+        mTotalCostTextView.setText("Subtotaal: €" + (int) workshopItem.getPrice());
     }
 
     @Override
