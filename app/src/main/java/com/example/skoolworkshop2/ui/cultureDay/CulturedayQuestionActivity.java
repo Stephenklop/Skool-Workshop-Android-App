@@ -5,10 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +41,10 @@ import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WebViewActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
+
+import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 
@@ -107,6 +115,20 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mParticipantsBn.setText("100 Deelnemers");
         mWorkshopsBn.setText("4 Workshops");
         mRoundsBn.setText("3 Rondes");
+
+        TextView checkBoxText = findViewById(R.id.activity_cultureday_question_tv_terms);
+        String text = "Ik ga akkoord met de algemene voorwaarden";
+        Spannable textSpannable = new SpannableString(text);
+        textSpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)), 21, 41, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        checkBoxText.setText(textSpannable);
+
+        checkBoxText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(), WebViewActivity.class).putExtra("url", "https://skoolworkshop.nl/wp-content/uploads/2021/01/Skool-Workshop-Algemene-voorwaarden-2016.pdf"));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/wp-content/uploads/2021/01/Skool-Workshop-Algemene-voorwaarden-2016.pdf")));
+            }
+        });
 
         mSendBn.setText("Verzenden");
 
