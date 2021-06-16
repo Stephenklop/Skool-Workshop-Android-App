@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.VideoTestActivity;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
@@ -222,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         Bundle ordersEvent = new Bundle();
         ordersEvent.putString("orders_event_id", "orders_event_id");
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
+
+        Intent intent = new Intent(getApplicationContext(), VideoTestActivity.class);
+        startActivity(intent);
 
     }
 
