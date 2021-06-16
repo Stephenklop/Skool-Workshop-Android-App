@@ -72,6 +72,9 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
     private TextView mErrTv;
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mDurationBn;
     private Button mSendBn;
 
     // Validators

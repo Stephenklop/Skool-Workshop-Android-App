@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Product product = loadAssociatedProduct(shoppingCartItems.get(position).getProductId());
+        ShoppingCartItem shoppingCartItem = shoppingCartItems.get(position);
 
         Glide.with(context).load(product.getSourceImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopTitle.setText(product.getName());
@@ -57,6 +59,19 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                 animateDetails(holder.mDetails, holder.height,0);
             }
         });
+        holder.mCloseBtn.setOnClickListener(v -> {
+            LocalDb.getDatabase(context).getShoppingCartDAO().deleteOneItemFromShoppingCart(shoppingCartItems.get(position).getId());
+            shoppingCartItems.remove(position);
+            notifyDataSetChanged();
+        });
+
+        holder.mParticipantsTv.setText("Totaal aantal deelnemers: " + shoppingCartItem.getParticipants());
+        holder.mRoundsTv.setText("Aantal workshoprondes: " + shoppingCartItem.getRounds());
+        holder.mRoundMinsTv.setText("Aantal minuten per workshopronde: " + shoppingCartItem.getRoundDuration());
+//        holder.mDurationTv.setText();
+        holder.mScheduleTv.setText("Tijdschema: " + shoppingCartItem.getTimeSchedule());
+        holder.mLevelTv.setText("Leerniveau: " + shoppingCartItem.getLearningLevel());
+        holder.mDateTv.setText("Workshopdatum: " + shoppingCartItem.getDate());
     }
 
     @Override
@@ -70,7 +85,17 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         TextView mWorkshopTitle;
         TextView mWorkshopPrice;
         Button mDetailButton;
+        ImageButton mCloseBtn;
         LinearLayout mDetails;
+
+        TextView mParticipantsTv;
+        TextView mRoundsTv;
+        TextView mRoundMinsTv;
+        TextView mDurationTv;
+        TextView mScheduleTv;
+        TextView mLevelTv;
+        TextView mDateTv;
+
         int height;
 
         public ViewHolder(View itemView) {
@@ -80,7 +105,16 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             mWorkshopTitle = itemView.findViewById(R.id.item_shopping_cart_tv_workshop);
             mWorkshopPrice = itemView.findViewById(R.id.item_shopping_cart_tv_price);
             mDetailButton = itemView.findViewById(R.id.item_shopping_cart_btn_details);
+            mCloseBtn = itemView.findViewById(R.id.item_shopping_cart_btn_close);
             mDetails = itemView.findViewById(R.id.item_shopping_cart_ll_details);
+
+            mParticipantsTv = itemView.findViewById(R.id.item_shopping_cart_tv_participants);
+            mRoundsTv = itemView.findViewById(R.id.item_shopping_cart_tv_rounds);
+            mRoundMinsTv = itemView.findViewById(R.id.item_shopping_cart_tv_round_mins);
+            mDurationTv = itemView.findViewById(R.id.item_shopping_cart_tv_duration);
+            mScheduleTv = itemView.findViewById(R.id.item_shopping_cart_tv_schedule);
+            mLevelTv = itemView.findViewById(R.id.item_shopping_cart_tv_level);
+            mDateTv = itemView.findViewById(R.id.item_shopping_cart_tv_date);
 
             mDetails.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             height = mDetails.getMeasuredHeight();
