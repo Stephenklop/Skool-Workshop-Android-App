@@ -61,46 +61,46 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("RESPONSE: " + inputLine);
                 JSONObject response = new JSONObject(inputLine);
-                JSONObject user = response.getJSONObject("result");
+                JSONObject userData = response.getJSONObject("result");
 
-                JSONArray metaData = user.getJSONArray("meta_data");
-                int points = 0;
-                for(int i = 0; i < metaData.length(); i++){
-                    JSONObject object = metaData.getJSONObject(i);
-                    if ( object.get("key").equals("_ywpar_user_total_points")){
-                        points = Integer.parseInt(object.get("value").toString());
-                        Log.d("POINTS", points + "");
-                    }
-                }
-                String email = user.getString("email");
-                int id = Integer.parseInt(user.get("id").toString());
-                String userName = user.get("username").toString();
-
-                Log.d("POINTS", points + "");
-                result = new User(id, email, userName, points);
-
-
-
-                String firstname = user.getString("first_name");
-                String lastName = user.getString("last_name");
-                JSONObject adress = user.getJSONObject("billing");
-                String adress_1 = adress.getString("address_1");
-                String street = "";
-                String number = "";
-                String streetAndNumber[] = adress_1.split(" ");
-                if(streetAndNumber.length > 1){
-                    street = streetAndNumber[0];
-                    number = streetAndNumber[1];
-                }
-                String postCode = adress.getString("postcode");
-                String city = adress.getString("city");
-                String state = adress.getString("state");
-                String country = adress.getString("country");
-
-
-
-                Customer customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
+                result = parseUser(userData);
+                Customer customer = parseCustomer(userData);
                 lastCustomer = customer;
+
+
+//                JSONArray metaData = user.getJSONArray("meta_data");
+//                int points = 0;
+//                for(int i = 0; i < metaData.length(); i++){
+//                    JSONObject object = metaData.getJSONObject(i);
+//                    if ( object.get("key").equals("_ywpar_user_total_points")){
+//                        points = Integer.parseInt(object.get("value").toString());
+//                        Log.d("POINTS", points + "");
+//                    }
+//                }
+//                String email = user.getString("email");
+//                int id = Integer.parseInt(user.get("id").toString());
+//                String userName = user.get("username").toString();
+//
+//                Log.d("POINTS", points + "");
+//                result = new User(id, email, userName, points);
+//
+//
+//
+//                String firstname = user.getString("first_name");
+//                String lastName = user.getString("last_name");
+//                JSONObject adress = user.getJSONObject("billing");
+//                String adress_1 = adress.getString("address_1");
+//                String street = "";
+//                String number = "";
+//                String streetAndNumber[] = adress_1.split(" ");
+//                if(streetAndNumber.length > 1){
+//                    street = streetAndNumber[0];
+//                    number = streetAndNumber[1];
+//                }
+//                String postCode = adress.getString("postcode");
+//                String city = adress.getString("city");
+//                String state = adress.getString("state");
+//                String country = adress.getString("country");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,7 +127,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             connection.setDoOutput(true);
             connection.setRequestMethod("PUT");
             //TODO add header with App token
-            //... idk of dat hier of ergens anders moet ...
+            //wordt gedaan, moet getest worden
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
@@ -135,6 +135,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             System.out.println("JSON STRING: " + jsonInput);
 
             //TODO send actual request to de API
+            //moet getest worden
             OutputStream os = connection.getOutputStream();
             os.write(jsonInput.getBytes());
             os.flush();
@@ -149,14 +150,14 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
                 System.out.println("RESPONSE: " + inputLine);
                 JSONObject response = new JSONObject(inputLine);
                 try {
-//                    JSONObject userData = response.getJSONObject("result");
-//                    User user = parseUser(userData);
-//                    Customer customer = parseCustomer(userData);
-//
-//                    LocalDb.getDatabase(getBaseContext()).getUserDAO().deleteInfo();
-//                    LocalDb.getDatabase(getBaseContext()).getUserDAO().insertInfo(user);
-//                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().deleteCustomer();
-//                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().addCustomer(customer);
+                    JSONObject userData = response.getJSONObject("result");
+                    User user = parseUser(userData);
+                    Customer customer = parseCustomer(userData);
+
+                    LocalDb.getDatabase(getBaseContext()).getUserDAO().deleteInfo();
+                    LocalDb.getDatabase(getBaseContext()).getUserDAO().insertInfo(user);
+                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().deleteCustomer();
+                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().addCustomer(customer);
 
 
                 } catch (Exception e){
@@ -165,57 +166,83 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
 
             }
             //TODO request to GET the 'new' information from the API
-            //andere methodes
-
+            //zit al in PUT request, je krijgt nieuwe user terug
             //TODO if the 'new' information is new, delete old data from the localDB
-
+            //wordt gedaan
             //TODO update database with the new information.
-
+            //wordt gedaan
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-//    public User parseUser(JSONObject jsonObject){
-//        User result;
-//        JSONArray metaData = jsonObject.getJSONArray("meta_data");
-//        int points = 0;
-//        for(int i = 0; i < metaData.length(); i++){
-//            JSONObject object = metaData.getJSONObject(i);
-//            if ( object.get("key").equals("_ywpar_user_total_points")){
-//                points = Integer.parseInt(object.get("value").toString());
-//                Log.d("POINTS", points + "");
-//            }
-//        }
-//        String email = jsonObject.getString("email");
-//        int id = Integer.parseInt(jsonObject.get("id").toString());
-//        String userName = jsonObject.get("username").toString();
-//
-//        Log.d("POINTS", points + "");
-//        result = new User(id, email, userName, points);
-//
-//        String firstname = jsonObject.getString("first_name");
-//        String lastName = jsonObject.getString("last_name");
-//        JSONObject adress = jsonObject.getJSONObject("billing");
-//        String adress_1 = adress.getString("address_1");
-//        String street = adress.getString("");
-//        String number = "";
-//        String streetAndNumber[] = adress_1.split(" ");
-//        if(streetAndNumber.length > 1){
-//            street = streetAndNumber[0];
-//            number = streetAndNumber[1];
-//        }
-//        String postCode = adress.getString("postcode");
-//        String city = adress.getString("city");
-//        String state = adress.getString("state");
-//        String country = adress.getString("country");
-//
-//        Customer customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
-//        lastCustomer = customer;
-//
-//        return result;
-//    }
+    public Customer parseCustomer(JSONObject jsonObject){
+        Customer result = null;
+
+        int id;
+        String firstName;
+        String lastName;
+        String email;
+        String street = "";
+        String houseNumber = "";
+        String postCode;
+        String city;
+        String state;
+        String country;
+
+        try {
+            email = jsonObject.getString("email");
+            id = Integer.parseInt(jsonObject.get("id").toString());
+            firstName = jsonObject.getString("first_name");
+            lastName = jsonObject.getString("last_name");
+            JSONObject adress = jsonObject.getJSONObject("billing");
+            String adress_1 = adress.getString("address_1");
+            //TODO what if spatie in straatnaam
+            String streetAndNumber[] = adress_1.split(" ");
+            if(streetAndNumber.length > 1){
+                street = streetAndNumber[0];
+                houseNumber = streetAndNumber[1];
+            }
+            postCode = adress.getString("postcode");
+            city = adress.getString("city");
+            state = adress.getString("state");
+            country = adress.getString("country");
+
+            result = new Customer(id, firstName, lastName, email, street, houseNumber, postCode, city, state, country);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public User parseUser(JSONObject jsonObject){
+        User result = null;
+
+        try {
+            JSONArray metaData = jsonObject.getJSONArray("meta_data");
+            int points = 0;
+            for(int i = 0; i < metaData.length(); i++){
+                JSONObject object = metaData.getJSONObject(i);
+                if ( object.get("key").equals("_ywpar_user_total_points")){
+                    points = Integer.parseInt(object.get("value").toString());
+                    Log.d("POINTS", points + "");
+                }
+            }
+            String email = jsonObject.getString("email");
+            int id = Integer.parseInt(jsonObject.get("id").toString());
+            String userName = jsonObject.get("username").toString();
+
+            Log.d("POINTS", points + "");
+            result = new User(id, email, userName, points);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
     @Override
     public User registerUser(String username, String email, String password) {
