@@ -53,6 +53,9 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
     private CheckBox mTermsCb;
     private TextView mErrTv;
     private ImageButton mDatePopUpImageButton;
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mDurationBn;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
 
@@ -87,6 +90,13 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
         mTermsCb = findViewById(R.id.activity_workshop_question_cb_terms);
         mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
+        mPriceBn = findViewById(R.id.activity_workshop_question_button_price);
+        mParticipantsBn = findViewById(R.id.activity_workshop_question_button_participants);
+        mDurationBn = findViewById(R.id.activity_workshop_question_button_duration);
+
+        mPriceBn.setText("€150,-");
+        mParticipantsBn.setText("25 deelnemers");
+        mDurationBn.setText("60 min");
 
         // Set up validations
         mEmailEditText.addTextChangedListener(new TextWatcher() {

@@ -66,6 +66,9 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
     private TextView mResultWorkshopLearningLevelTextView;
     private TextView mTotalCostTextView;
     private TextView mErrTv;
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mDurationBn;
     private Button mSendBn;
 
     // Validators
@@ -363,6 +366,15 @@ public class WorkshopBookingActivity extends FragmentActivity implements View.On
                 finish();
             }
         });
+
+        mPriceBn = findViewById(R.id.activity_workshop_booking_button_price);
+        mParticipantsBn = findViewById(R.id.activity_workshop_booking_button_participants);
+        mDurationBn = findViewById(R.id.activity_workshop_booking_button_duration);
+
+        mPriceBn.setText("€150,-");
+        mParticipantsBn.setText("25 deelnemers");
+        mDurationBn.setText("60 min");
+
     }
 
 

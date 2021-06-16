@@ -77,15 +77,15 @@
                         android:orientation="horizontal">
 
                         <include
-                            android:id="@+id/activity_workshop_question_buttonprice"
+                            android:id="@+id/activity_workshop_question_button_price"
                             layout="@layout/component_button_tag_detail" />
 
                         <include
-                            android:id="@+id/activity_workshop_question_buttonparticipants"
+                            android:id="@+id/activity_workshop_question_button_participants"
                             layout="@layout/component_button_tag_detail" />
 
                         <include
-                            android:id="@+id/activity_workshop_question_buttonduration"
+                            android:id="@+id/activity_workshop_question_button_duration"
                             layout="@layout/component_button_tag_detail_last" />
                     </LinearLayout>
 
