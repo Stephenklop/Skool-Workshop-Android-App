@@ -14,18 +14,15 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SkoolWorkshop2">
-<<<<<<< HEAD
-        <activity android:name=".ui.OrderSummaryActivity"></activity>
-=======
 
->>>>>>> origin/development
+        <activity android:name=".ui.OrderSummaryActivity"></activity>
+
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.workshop.WorkshopActivity"
-<<<<<<< HEAD
             android:launchMode="singleTop" />
         <activity android:name=".ui.WorkshopDetail.WorkshopDetailActivity" />
         <activity android:name=".ui.User.RegisterActivity" />
@@ -44,39 +41,7 @@
             android:launchMode="singleTop" />
         <activity android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
         <activity android:name=".ui.WorkshopDetail.WorkshopBookingActivity" />
-=======
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.WorkshopDetail.WorkshopDetailActivity" />
-        <activity android:name=".ui.User.RegisterActivity"/>
-        <activity android:name=".ui.User.ForgotPasswordActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.cultureDay.CulturedayActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.MoreMenuActivity"
-                android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.cultureDay.CulturedayBookingActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.User.MyAccountActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.cultureDay.CulturedayQuestionActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.User.AccountActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.WorkshopDetail.WorkshopQuestionActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.WorkshopDetail.WorkshopBookingActivity"
-            android:windowSoftInputMode="adjustPan"/>
->>>>>>> origin/development
+
         <activity
             android:name=".ui.SplashScreenActivity"
             android:label="@string/app_name"
@@ -92,29 +57,14 @@
         </activity>
         <activity
             android:name=".ui.shoppingCart.ShoppingCartActivity"
-<<<<<<< HEAD
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
         <activity android:name=".ui.SummaryLayoutTestActivity"></activity>
         <activity android:name=".ui.AddressInfoActivity" />
         <activity android:name=".ui.AddressInfoLayoutTestActivity"></activity>
         <activity android:name=".ui.MyAccountLayoutTestActivity"></activity>
         <activity android:name=".ui.PointsLayoutTestActivity"></activity>
-=======
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".ui.SummaryLayoutTestActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".ui.AddressInfoLayoutTestActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".ui.MyAccountLayoutTestActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".ui.PointsLayoutTestActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
         <activity
             android:name=".ui.User.AccountDataActivity"
             android:windowSoftInputMode="adjustPan"/>
@@ -122,7 +72,6 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.WebViewActivity"
             android:windowSoftInputMode="adjustPan"/>
->>>>>>> origin/development
 
         <service
             android:name=".logic.notifications.MessagingService"
@@ -141,13 +90,9 @@
             android:resource="@drawable/ic_notification_icon" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-<<<<<<< HEAD
-            android:resource="@color/main_orange" />
-=======
             android:resource="@color/main_orange"/>
         <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
             android:value="false" />
->>>>>>> origin/development
     </application>
 
 </manifest>
