@@ -5,14 +5,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import org.jetbrains.annotations.NonNls;
-
 import java.io.Serializable;
 
 @Entity
 public class Product implements Serializable {
     @ColumnInfo @PrimaryKey @NonNull
-    private int id;
+    private int productId;
 
     @ColumnInfo @NonNull
     private String name;
@@ -56,8 +54,8 @@ public class Product implements Serializable {
     @ColumnInfo
     private String video;
 
-    public Product(int id, String name, String productType, String category, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
-        this.id = id;
+    public Product(int productId, @NonNull String name, String productType, String category, String permalink, String type, String status, String description, String shortDescription, String buildupDescription, String practicalInformation, String costsInfo, String sourceImage, String imageName, String video) {
+        this.productId = productId;
         this.name = name;
         this.productType = productType;
         this.category = category;
@@ -74,12 +72,12 @@ public class Product implements Serializable {
         this.video = video;
     }
 
-    public int getId() {
-        return id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductId(int id) {
+        this.productId = id;
     }
 
     public String getName() {

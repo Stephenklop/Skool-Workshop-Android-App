@@ -16,16 +16,8 @@ public class CultureDayItem implements Serializable, ProductItem {
     private int amountOfParticipantsGraffitiTshirt;
     private String learningLevel;
 
-    public CultureDayItem(String date, int rounds, int workshopPerWorkshopRound, int roundDuration, List<Product> products, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
-        this.date = date;
-        this.rounds = rounds;
-        this.workshopPerWorkshopRound = workshopPerWorkshopRound;
-        this.roundDuration = roundDuration;
-        this.products = products;
-        this.timeSchedule = timeSchedule;
-        this.participants = participants;
-        this.amountOfParticipantsGraffitiTshirt = amountOfParticipantsGraffitiTshirt;
-        this.learningLevel = learningLevel;
+    public CultureDayItem(Product product) {
+        this.product = product;
     }
 
     public Product getProduct() {
@@ -110,5 +102,21 @@ public class CultureDayItem implements Serializable, ProductItem {
 
     public double getPrice() {
         return 2.325 * roundDuration * rounds * workshopPerWorkshopRound;
+    }
+
+    @Override
+    public String toString() {
+        return "CultureDayItem{" +
+                "product=" + product +
+                ", date='" + date + '\'' +
+                ", rounds=" + rounds +
+                ", workshopPerWorkshopRound=" + workshopPerWorkshopRound +
+                ", roundDuration=" + roundDuration +
+                ", products=" + products +
+                ", timeSchedule='" + timeSchedule + '\'' +
+                ", participants=" + participants +
+                ", amountOfParticipantsGraffitiTshirt=" + amountOfParticipantsGraffitiTshirt +
+                ", learningLevel='" + learningLevel + '\'' +
+                '}';
     }
 }

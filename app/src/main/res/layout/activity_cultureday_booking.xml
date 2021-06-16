@@ -178,7 +178,7 @@
                     android:spinnerMode="dropdown"
                     tools:listitem="@layout/item_spinner" />
 
-                <Spinner
+                <com.example.skoolworkshop2.ui.customviews.CustomSpinner
                     android:id="@+id/activity_cultureday_booking_spnr_workshop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
