@@ -30,7 +30,9 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
+import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
 
@@ -59,6 +61,10 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private ImageButton mDatePopUpImageButton;
     private EmailValidator emailValidator = new EmailValidator();
     private TelValidator telValidator = new TelValidator();
+    private DateValidation dateValidation = new DateValidation();
+    private NameValidator nameValidator = new NameValidator();
+    private CJPValidator cjpValidator = new CJPValidator();
+    private WorkshopParticipantsValidator workshopParticipantsValidator = new WorkshopParticipantsValidator();
 
     private DatePickerDialog datePickerDialog;
 
@@ -98,12 +104,148 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
         mSendBn.setText("Verzenden");
 
+        mSendBn.setEnabled(false);
+
+        // Set up validations
+        mAmountOfPersonsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mAmountOfPersonsEditText.equals("")) {
+                    if (workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
+
+                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        workshopParticipantsValidator.mIsValid = true;
+                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        workshopParticipantsValidator.mIsValid = false;
+                    } else {
+                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+
+            }
+        });
+        mAmountOfPersonsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(workshopParticipantsValidator.isValid()) {
+                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+        mEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mEmailEditText.equals("")) {
+                    if (emailValidator.isValidEmail(s.toString())) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        emailValidator.mIsValid = true;
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                        emailValidator.mIsValid = false;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+
+            }
+        });
+        mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(emailValidator.isValid()) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+        mTelEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mTelEditText.equals("")) {
+                    if (telValidator.isValidTelNumber(s.toString())) {
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        telValidator.mIsValid = true;
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+                        telValidator.mIsValid = false;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+
+            }
+        });
+        mTelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(telValidator.isValid()) {
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
+        mDateEditText.setFocusable(false);
         mDatePopUpImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
             }
         });
+        mDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
 
         mDateEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,22 +255,77 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mDateEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mDateEditText.equals("")) {
+                    if (dateValidation.isValidDate(charSequence.toString())) {
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                        dateValidation.mIsValid = true;
 
-                if(!DateValidation.isValidDate(charSequence.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                        dateValidation.mIsValid = false;
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (DateValidation.isValidDate(editable.toString())){
-                    mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
                 }
             }
         });
+        mDateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                }
+
+            }
+        });
+        mNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(!mNameEditText.equals("")){
+                    if (nameValidator.isValidName(s.toString())){
+                        mNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
+
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }}
+        });
+        mNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
 
 
         mEmailEditText.addTextChangedListener(new TextWatcher() {
@@ -139,17 +336,36 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!EmailValidator.isValidEmail(s)){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(!mEmailEditText.equals("")) {
+                    if (emailValidator.isValidEmail(s.toString())) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        emailValidator.mIsValid = true;
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+                        emailValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(EmailValidator.isValidEmail(s.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+
+            }
+        });
+        mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(emailValidator.isValid()) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -162,17 +378,36 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!TelValidator.isValidTelNumber(s)){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(!mTelEditText.equals("")) {
+                    if (telValidator.isValidTelNumber(s.toString())) {
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        telValidator.mIsValid = true;
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+                        telValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TelValidator.isValidTelNumber(s.toString())){
-                    mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+
+            }
+        });
+        mTelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(telValidator.isValid()) {
+                        mTelEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -185,17 +420,68 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCJPEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!CJPValidator.isValidCJP(s)){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(!mCJPEditText.equals("")) {
+                    if (cjpValidator.isValidCJP(s.toString())) {
+                        mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        cjpValidator.mIsValid = true;
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
+                        cjpValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(CJPValidator.isValidCJP(s)){
-                    mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+            }
+        });
+        mCJPEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(cjpValidator.isValid()) {
+                        mCJPEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mCJPEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+        mMessageEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(validate() == true ){
+                    mSendBn.setEnabled(true);
+                }
+                mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
+            }
+        });
+        mMessageEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mMessageEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mMessageEditText.setBackgroundResource(R.drawable.edittext_focused);
+
                 }
             }
         });
@@ -211,8 +497,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -270,60 +555,32 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         boolean tel = !mTelEditText.getText().toString().isEmpty() && TelValidator.isValidTelNumber(mTelEditText.getText().toString());
         boolean message = !mMessageEditText.getText().toString().isEmpty();
         boolean terms = mTermsCb.isChecked();
-
         if(!email){
             returnValue = false;
-            mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!amountOfPeople){
             returnValue = false;
-            mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!date){
             returnValue = false;
-            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!time){
             returnValue = false;
-            mTimeEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mTimeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!location){
             returnValue = false;
-            mLocationEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mLocationEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!cjp){
             returnValue = false;
-            mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!name){
             returnValue = false;
-            mNameEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!tel){
             returnValue = false;
-            mTelEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if(!message){
             returnValue = false;
-            mMessageEditText.setBackgroundResource(R.drawable.edittext_error);
-        } else{
-            mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
         }
         if (!terms) {
             returnValue = false;
