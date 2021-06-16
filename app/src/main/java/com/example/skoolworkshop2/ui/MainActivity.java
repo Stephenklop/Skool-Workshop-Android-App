@@ -207,11 +207,6 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
-//        handleNotificationData();
-//        getToken();
-//
-//        subscribeToTopic("main");
         Bundle bundle = new Bundle();
         bundle.putString("test_event", "test_event_id");
         mFirebaseAnalytics.logEvent("eventTest", bundle);
