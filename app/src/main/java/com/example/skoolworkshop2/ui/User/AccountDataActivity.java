@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 
 public class AccountDataActivity extends AppCompatActivity {
@@ -22,6 +23,15 @@ public class AccountDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_data);
 
         ImageButton mBackButton;
+
+        //firstName
+        EditText firstNameText = (EditText) findViewById(R.id.activity_account_data_et_first_name);
+        //lastName
+        EditText lastNameText = (EditText) findViewById(R.id.activity_account_data_et_last_name);
+        //displayName
+        EditText displayNameText = (EditText) findViewById(R.id.activity_account_data_et_display_name);
+        //email
+        EditText emailText = (EditText) findViewById(R.id.activity_account_data_et_email);
 
         EmailValidator emailValidator = new EmailValidator();
 
@@ -42,86 +52,85 @@ public class AccountDataActivity extends AppCompatActivity {
                 }).start();
 
 
+                firstNameText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        firstNameText.setText(LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getFirstName());
+                    }
 
-//                //TODO names and email needs to be changed here.
-//                //voornaam, achternaam en email -- bij customer
-//                //username en email -- bij user
-//
-//                //firstName
-//                EditText firstNameText = (EditText) findViewById(R.id.activity_account_data_et_first_name);
-//                String firstName = firstNameText.getText().toString();
-//                //lastName
-//                EditText lastNameText = (EditText) findViewById(R.id.activity_account_data_et_last_name);
-//                String lastName = lastNameText.getText().toString();
-//                //displayName
-//                EditText displayNameText = (EditText) findViewById(R.id.activity_account_data_et_display_name);
-//                String displayName = displayNameText.getText().toString();
-//
-//
-//                displayNameText.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                        displayNameText.setText(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getUsername());
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable s) {
-//
-//                    }
-//                });
-//
-//                //email
-//                EditText mEmailEditText = (EditText) findViewById(R.id.activity_account_data_et_email);
-//                mEmailEditText.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                        //TODO Get 'old' information from localDB and put it in the text views
-//                        firstNameText.setText(LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getFirstName());
-//                        lastNameText.setText(LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getLastName());
-//
-//                        mEmailEditText.setText(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getEmail());
-//                        //TODO Get updated text from input user, and put in jsonRequest
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                        mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                        if(!emailValidator.isValidEmail(charSequence.toString())){
-//                            mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
-//                        }
-//                    }
-//                    String email = "";
-//                    @Override
-//                    public void afterTextChanged(Editable editable) {
-//                        if(emailValidator.isValidEmail(editable.toString())){
-//                            mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                            email = mEmailEditText.getText().toString();
-//                            System.out.println(email);
-//                            emailValidator.mIsValid = true;
-//                        }
-//                    }
-//                });
-//
-//
-//
-//
-//
-//
-//                //print out firstname, lastname, displayname en email
-//                System.out.println("firstName: " + firstName);
-//                System.out.println("lastName: " + lastName);
-//                System.out.println("displayName: " + displayName);
-////                System.out.println("email: " + email);
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+                lastNameText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        lastNameText.setText(LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getLastName());
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+                displayNameText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        displayNameText.setText(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getUsername());
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+                emailText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        emailText.setText(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getEmail());
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
 
-
+        //update user info
+        View updateInfo = findViewById(R.id.activity_account_data_btn_confirm);
+        updateInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                APIUserDAO apiUserDAO = new APIUserDAO();
+                apiUserDAO.updateUser(emailText.getText().toString(), displayNameText.getText().toString(), firstNameText.getText().toString(), lastNameText.getText().toString());
+            }
+        });
 
         //password
         View updatePassword = findViewById(R.id.activity_account_data_btn_password);
@@ -132,7 +141,6 @@ public class AccountDataActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: back button
         mBackButton = findViewById(R.id.activity_account_data_btn_back);
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +150,5 @@ public class AccountDataActivity extends AppCompatActivity {
                 startActivity(backIntent);
             }
         });
-        //TODO: if click on button firstname, lastname displayname and email are changed.
     }
 }
