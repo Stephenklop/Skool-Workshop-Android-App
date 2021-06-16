@@ -60,9 +60,6 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-        if(NetworkUtil.checkInternet(getApplicationContext())){
-            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
-        }
 
         MenuController menuController = new MenuController(root);
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
@@ -70,6 +67,8 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
+
+
 
         TextView categoryTitle = findViewById(R.id.activity_workshops_txt_category_title);
 
@@ -111,6 +110,18 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             }
         });
 
+        boolean highlightedExists = false;
+        for (Product workshop : mWorkshops){
+            if(workshop.isHighlighted()){
+                highlightedExists = true;
+            }
+        }
+        if(highlightedExists){
+            ca.setChecked(0);
+        } else {
+            ca.setChecked(1);
+        }
+
         // SearchView
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -124,7 +135,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                 if(!automaticChangedSearch[0]){
                     categoryTitle.setText("Zoekresultaten");
                     automaticChangedCategory[0] = true;
-                    ca.setChecked();
+                    ca.setChecked(1);
                     automaticChangedCategory[0] = false;
                     searchValue = s;
                     if(s.isEmpty()){

@@ -107,7 +107,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-        initializeAttributes();
+//        initializeAttributes();
 
 
         //Setting up ID's user Info
