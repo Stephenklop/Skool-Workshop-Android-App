@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/menu_container"
         android:orientation="vertical"
-     android:padding="25dp"
+         android:padding="25dp"
         android:gravity="center"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,28 +97,15 @@
         android:layout_margin="5dp"
         android:elevation="10dp">
 
-        <LinearLayout
+        <TextView
             android:id="@+id/activity_web_menu_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.constraintlayout.utils.widget.ImageFilterView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_refresh_ccw"
-                android:layout_marginEnd="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:fontFamily="@font/proxima_nova_semibold"
-                android:textColor="@color/black"
-                android:text="Vernieuwen" />
-
-        </LinearLayout>
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/black"
+            android:text="Vernieuwen" />
 
         <View
             android:layout_width="match_parent"
