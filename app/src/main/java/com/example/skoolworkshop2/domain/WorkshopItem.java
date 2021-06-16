@@ -82,4 +82,17 @@ public class WorkshopItem implements Serializable, ProductItem {
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "WorkshopItem{" +
+                "product=" + product +
+                ", date='" + date + '\'' +
+                ", participants=" + participants +
+                ", rounds=" + rounds +
+                ", roundDuration=" + roundDuration +
+                ", timeSchedule='" + timeSchedule + '\'' +
+                ", learningLevel='" + learningLevel + '\'' +
+                '}';
+    }
 }

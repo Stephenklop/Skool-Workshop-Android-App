@@ -125,24 +125,4 @@ public class MenuController {
             }
         });
     }
-
-    public void sendToHome(){
-        Intent toSearch = new Intent(context, MainActivity.class);
-        context.startActivity(toSearch);
-    }
-
-    public void sendToSearch(){
-        Intent toSearch = new Intent(context, WorkshopActivity.class);
-        context.startActivity(toSearch);
-    }
-
-    public void sendToCultureDay(){
-        Intent toCultureDay = new Intent(context, CulturedayActivity.class);
-        context.startActivity(toCultureDay);
-    }
-
-    public void sendToShoppingCart() {
-        Intent toShoppingCart = new Intent(context, ShoppingCartActivity.class);
-        context.startActivity(toShoppingCart);
-    }
 }

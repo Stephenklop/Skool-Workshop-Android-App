@@ -22,6 +22,7 @@ import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
+import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +39,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            System.out.println( "DATA BUNDLE" +bundle.toString());
+        }
+
 
         ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
@@ -51,8 +57,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
         DAOFactory apidaoFactory = new APIDAOFactory();
-
-
 
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
@@ -83,12 +87,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             loadProducts.start();
         });
 
-
-
-        handleNotificationData();
-        getToken();
-
-        subscribeToTopic("main");
+        MessagingService messagingService = new MessagingService();
+        messagingService.handleNotificationData(getIntent());
+        messagingService.subscribeToTopic("main");
 
         Thread tokenThread = new Thread(new Runnable() {
             @Override
@@ -103,91 +104,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         tokenThread.start();
     }
 
-
-    public String getToken() {
-        final String[] token = {""};
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-
-                if (!task.isSuccessful()) {
-                    Log.e(TAG, "Failed to get the token.");
-                    return;
-                }
-
-                //get the token from task
-                token[0] = task.getResult();
-
-                Log.d(TAG, "Token : " + token[0]);
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
-            }
-        });
-        return token[0];
-    }
-
-    private void handleNotificationData() {
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if(bundle.containsKey("data1")) {
-                Log.d(TAG, "Data1: " + bundle.getString("data1"));
-            }
-            if(bundle.containsKey("data2")) {
-                Log.d(TAG, "Data2: " + bundle.getString("data2"));
-            }
-        }
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d(TAG, "On New Intent called");
-    }
-
-    /**
-     * method to subscribe to topic
-     *
-     * @param topic to which subscribe
-     */
-    private void subscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-//                Toast.makeText(SplashScreenActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Subscribed to " + topic);
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(SplashScreenActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Failed to subscribe");
-            }
-        });
-    }
-
-    /**
-     * method to unsubscribe to topic
-     *
-     * @param topic to which unsubscribe
-     */
-    private void unsubscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(SplashScreenActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SplashScreenActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
