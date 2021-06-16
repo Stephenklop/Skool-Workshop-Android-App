@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.example.skoolworkshop2.dao.localDatabase.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.BillingAddress;
+import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 
@@ -28,6 +29,7 @@ public class UserManager {
     public User getInfo(){
 
         User user = userDAO.getInfo();
+        Log.d(TAG, "getInfo: " + userDAO.getInfo());
 
         return userDAO.getInfo();
     }
@@ -48,6 +50,8 @@ public class UserManager {
         userDAO.insertInfo(user);
     }
 
+    // Billing
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public BillingAddress getBillingAddress(int id){
         Log.d(TAG, "getBillingAddress: id :" + id);
@@ -55,7 +59,7 @@ public class UserManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public List<BillingAddress> getAddresses(){
+    public BillingAddress getAddresses(){
         return userDAO.getAddresses();
     }
 
@@ -68,5 +72,29 @@ public class UserManager {
     public void deleteAdress(int id){
         userDAO.deleteAdress(id);
     }
+
+    // Shipping
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ShippingAddress getShippingAddress(int id){
+        Log.d(TAG, "getBillingAddress: id :" + id);
+        return userDAO.getShippingAddress (id);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ShippingAddress getShippingAddresses(){
+        return userDAO.getShippingAddresses();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void insertShippingAddress(ShippingAddress address){
+        userDAO.insertShippingAddress(address);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void deleteShippingAddress(int id){
+        userDAO.deleteShippingAddress(id);
+    }
+
+
 
 }

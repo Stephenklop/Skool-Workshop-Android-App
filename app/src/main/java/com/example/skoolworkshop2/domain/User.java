@@ -36,11 +36,13 @@ public class User implements Serializable {
             childColumns = "shippingAddressId")
     private int shippingAddressId;
 
-    public User(int id, String email, String username, int points) {
+    public User(int id, String email, String username, int points, int billingAddressId, int shippingAddressId) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.points = points;
+        this.billingAddressId = billingAddressId;
+        this.shippingAddressId = shippingAddressId;
     }
 
     public int getBillingAddressId() {
@@ -95,8 +97,11 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", points=" + points +
+                ", billingAddressId=" + billingAddressId +
+                ", shippingAddressId=" + shippingAddressId +
                 '}';
     }
 }

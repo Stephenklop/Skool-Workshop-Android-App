@@ -17,9 +17,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.ShippingAddress;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.ui.AddressInfoLayoutTestActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +35,14 @@ public class InvoiceAdressActivity extends AppCompatActivity {
     private BillingAddress billingAddress;
     private TextView mInvoiceBillingTextView;
     // BillingAddress
+    private TextView mInvoiceShippingTitleTextView;
     private ConstraintLayout mInvoiceShippingAddressLayout;
     private ImageButton mInvoiceShippingAddressImageButton;
     private ShippingAddress shippingAddress;
     private TextView mInvoiceShippingTextView;
     // check for update
-    private boolean billingChecker;
+    public static boolean billingChecker;
+    public static boolean shippingChecker;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -56,12 +60,17 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         // Shipping
         mInvoiceShippingAddressLayout = findViewById(R.id.activity_invoice_data_item_workshop_location);
         mInvoiceShippingAddressImageButton = mInvoiceShippingAddressLayout.findViewById(R.id.component_invoice_data_btn_edit);
-        mInvoiceBillingTextView = mInvoiceAddressLayout.findViewById(R.id.component_invoice_data_tv_data);
-
+        mInvoiceShippingTextView = mInvoiceShippingAddressLayout.findViewById(R.id.component_invoice_data_tv_data);
+        mInvoiceShippingTitleTextView = mInvoiceShippingAddressLayout.findViewById(R.id.component_invoice_data_tv_header);
+        mInvoiceShippingTitleTextView.setText("Workshop Locatie");
         // Usermanager
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
         // Loading billing addresses
+//        iem.deleteAdress(6);
         Log.d(LOG_TAG, "onCreate: " + iem.getAddresses());
+        Log.d(LOG_TAG, "onCreate: id: " + iem.getInfo().getBillingAddressId());
+        billingAddress = iem.getBillingAddress(iem.getInfo().getBillingAddressId());
+        Log.d(LOG_TAG, "onCreate: billingaddress: " + billingAddress);
         // Loading shipping adresses
 
         // checking if layout should contain object or not
@@ -74,7 +83,7 @@ public class InvoiceAdressActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent toBillingaddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
-                    toBillingaddress.putExtra("BILLINGADDRESS", (Parcelable) billingAddress);
+                    toBillingaddress.putExtra("BILLINGADDRESS", (Serializable) billingAddress);
                     toBillingaddress.putExtra("CHECK", billingChecker);
                     startActivity(toBillingaddress);
                 }
@@ -86,19 +95,37 @@ public class InvoiceAdressActivity extends AppCompatActivity {
             mInvoiceBillingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class).putExtra("CHECK", billingChecker));
+                    Intent toBillingaddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
+                    toBillingaddress.putExtra("CHECK", billingChecker);
+                    startActivity(toBillingaddress);
                 }
             });
         }
 
         if(shippingAddress != null){
+            shippingChecker = true;
             mInvoiceShippingTextView.setText(shippingAddress.toString());
             mInvoiceShippingAddressLayout.addView(mInvoiceShippingTextView);
             mInvoiceShippingAddressImageButton.setBackgroundResource(R.drawable.ic_edit);
             mInvoiceShippingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent toShippingAddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
+                    toShippingAddress.putExtra("SHIPPINGADDRESS", (Parcelable) shippingAddress);
+                    toShippingAddress.putExtra("CHECK", shippingChecker);
+                    startActivity(toShippingAddress);
+                }
+            });
+        } else {
+            shippingChecker = false;
+            mInvoiceShippingTextView.setText("Dit adres is nog niet ingesteld.");
+            mInvoiceShippingAddressImageButton.setBackgroundResource(R.drawable.ic_plus);
+            mInvoiceShippingAddressImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toShippingAddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
+                    toShippingAddress.putExtra("CHECK", shippingChecker);
+                    startActivity(toShippingAddress);
                 }
             });
         }

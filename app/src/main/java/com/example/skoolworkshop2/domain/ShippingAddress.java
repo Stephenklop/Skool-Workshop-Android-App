@@ -33,6 +33,7 @@ public class ShippingAddress {
         this.city = city;
         this.address = address;
         this.country = country;
+        this.id = id++;
     }
 
 

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.BillingAddress;
+import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
@@ -38,8 +39,7 @@ import com.example.skoolworkshop2.ui.CountryArrayAdapter;
 
 import java.sql.Statement;
 
-public class ChangeInvoiceAddressActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-
+public class ChangeInvoiceShippingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private String LOG_TAG = getClass().getSimpleName();
     //validations
@@ -75,13 +75,13 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
     private ImageButton mBackButton;
     private Button mSubmitButton;
     // Checker
-    private BillingAddress billingAddress;
+    private ShippingAddress shippingAddress;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_invoice_address);
+        setContentView(R.layout.activity_change_workshop_location);
 
         // Usermanager
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
@@ -99,8 +99,8 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
         Log.d(LOG_TAG, "onCreate: boolean: " + InvoiceAdressActivity.billingChecker);
 
         // First and Last name
-        mFirstNameEditText = findViewById(R.id.activity_change_invoice_address_et_firstname);
-        mLastNameEditText = findViewById(R.id.activity_change_invoice_address_et_lastname);
+        mFirstNameEditText = findViewById(R.id.activity_change_workshop_location_et_firstname);
+        mLastNameEditText = findViewById(R.id.activity_change_workshop_location_et_lastname);
         mFirstNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -153,7 +153,7 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
         });
 
         // Company
-        mCompanyNameEditText = findViewById(R.id.activity_change_invoice_address_et_company);
+        mCompanyNameEditText = findViewById(R.id.activity_change_workshop_location_et_company);
         mCompanyNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -174,16 +174,16 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
         // Spinner
         NL = this.getDrawable(R.drawable.ic_flag_of_the_netherlands);
         BE = this.getDrawable(R.drawable.ic_flag_of_belgium);
-        mLocationCountrySpnr = findViewById(R.id.activity_change_invoice_address_spnr_country);
+        mLocationCountrySpnr = findViewById(R.id.activity_change_workshop_location_spnr_country);
         mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Drawable[]{NL, BE}));
         mLocationCountrySpnr.setSelection(1);
         mLocationCountrySpnr.setOnItemSelectedListener(this);
 
         // Postal Code
-        mPostCodeEditText = findViewById(R.id.activity_change_invoice_address_et_postalcode);
+        mPostCodeEditText = findViewById(R.id.activity_change_workshop_location_et_postalcode);
 
         // House Number
-        mHouseNumberEditText = findViewById(R.id.activity_change_invoice_address_housenr);
+        mHouseNumberEditText = findViewById(R.id.activity_change_workshop_location_housenr);
         mHouseNumberEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -347,14 +347,14 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
         });
 
 //        // Type in edittexts if user updates billingaddress
-        if (InvoiceAdressActivity.billingChecker = true){
-            billingAddress = (BillingAddress) getIntent().getSerializableExtra("BILLINGADDRESS");
-            mFirstNameEditText.setText(billingAddress.getFirstName());
-            mLastNameEditText.setText(billingAddress.getLastName());
-            mCompanyNameEditText.setText(billingAddress.getCompany());
-            mPostCodeEditText.setText(billingAddress.getPostcode());
+        if (InvoiceAdressActivity.shippingChecker = true){
+            shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("SHIPPINGADDRESS");
+            mFirstNameEditText.setText(shippingAddress.getFirstName());
+            mLastNameEditText.setText(shippingAddress.getLastName());
+            mCompanyNameEditText.setText(shippingAddress.getCompany());
+            mPostCodeEditText.setText(shippingAddress.getPostcode());
             // huisnummer
-            String[] parts = billingAddress.getAddress().split(" ");
+            String[] parts = shippingAddress.getAddress().split(" ");
             StringBuilder stb = new StringBuilder();
             String house = "";
             for(String part : parts){
@@ -367,12 +367,10 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
             Log.d(LOG_TAG, "onCreate: part 1: " + stb);
             Log.d(LOG_TAG, "onCreate: part 2: " + house);
 
-            mPlaceEditText.setText(billingAddress.getCity());
+            mPlaceEditText.setText(shippingAddress.getCity());
             mStreetNameEditText.setText(stb.toString());
             mHouseNumberEditText.setText(house);
-            mTelEditText.setText(billingAddress.getPhone());
-            mCountryEditText.setText(billingAddress.getCountry());
-            mEmailEditText.setText(billingAddress.getEmail());
+            mCountryEditText.setText(shippingAddress.getCountry());
         }
 
         // Textwatchers
@@ -437,33 +435,33 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
 
                 if (nameValidator.isValid() && placeValidator.isValid() && houseNumberValidator.isValid() && countryValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid()) {
                     // Making address
-                    BillingAddress address = new BillingAddress(mFirstNameEditText.getText().toString(), mLastNameEditText.getText().toString(), mCompanyNameEditText.getText().toString(), mPostCodeEditText.getText().toString(), mPlaceEditText.getText().toString(), mStreetNameEditText.getText().toString() + " " + mHouseNumberEditText.getText().toString(), mCountryEditText.getText().toString(), mTelEditText.getText().toString(), mEmailEditText.getText().toString());
-                    if(InvoiceAdressActivity.billingChecker = true){
+                    ShippingAddress address = new ShippingAddress(mFirstNameEditText.getText().toString(), mLastNameEditText.getText().toString(), mCompanyNameEditText.getText().toString(), mPostCodeEditText.getText().toString(), mPlaceEditText.getText().toString(), mStreetNameEditText.getText().toString() + " " + mHouseNumberEditText.getText().toString(), mCountryEditText.getText().toString());
+                    if(InvoiceAdressActivity.shippingChecker = true){
                         // Making intent
                         Intent intent = new Intent(getApplicationContext(), InvoiceAdressActivity.class);
-                        iem.deleteAdress(address.getId());
-                        iem.insertBillingaddress(address);
+                        iem.deleteShippingAddress(address.getId());
+                        iem.insertShippingAddress(address);
                         // Update user to link the billingaddress id
-                        iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), address.getId(), iem.getInfo().getShippingAddressId()));
+                        iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), iem.getInfo().getShippingAddressId(), address.getId()));
                         // Let invoiceAddressActivity know there are item(s) now
-                        InvoiceAdressActivity.billingChecker = true;
+                        InvoiceAdressActivity.shippingChecker = true;
                         // Start the activity
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(getApplicationContext(), InvoiceAdressActivity.class);
                         // Inserting address into db
-                        iem.insertBillingaddress(address);
+                        iem.insertShippingAddress(address);
                         // Update user to link the billingaddress id
-                        iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), address.getId(), iem.getInfo().getShippingAddressId()));
+                        iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), iem.getInfo().getShippingAddressId(), address.getId()));
                         // Let invoiceAddressActivity know there are item(s) now
-                        InvoiceAdressActivity.billingChecker = true;
+                        InvoiceAdressActivity.shippingChecker = true;
                         // Start the activity
                         startActivity(intent);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Something isnt valid", Toast.LENGTH_SHORT).show();
                 }
-                }
+            }
         });
     }
 

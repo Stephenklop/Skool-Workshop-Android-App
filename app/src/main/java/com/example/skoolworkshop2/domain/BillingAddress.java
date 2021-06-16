@@ -5,8 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
+
 @Entity
-public class BillingAddress {
+public class BillingAddress implements Serializable {
     @ColumnInfo
     private String firstName;
     @ColumnInfo
@@ -25,7 +28,7 @@ public class BillingAddress {
     private String phone;
     @ColumnInfo
     private String email;
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     @NonNull
     @ColumnInfo
     private int id;
@@ -40,6 +43,7 @@ public class BillingAddress {
         this.country = country;
         this.phone = phone;
         this.email = email;
+        this.id = id++;
     }
 
     public String getFirstName() {
@@ -93,6 +97,6 @@ public class BillingAddress {
                         address + '\n' +
                         postcode + '\n' +
                         city + '\n' +
-                country;
+                country + "\n" + id;
     }
 }

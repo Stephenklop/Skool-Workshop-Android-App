@@ -231,11 +231,30 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_workshop_location_tv_street" />
 
+        <!-- Country -->
+        <TextView
+            android:id="@+id/activity_change_workshop_location_tv_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Land"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_workshop_location_et_street" />
+
+        <include
+            android:id="@+id/activity_change_workshop_location_et_country"
+            layout="@layout/component_edittext_plaintext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_workshop_location_tv_country" />
+
         <include
             layout="@layout/component_button_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/activity_change_workshop_location_et_street"
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_workshop_location_et_country"
             android:layout_marginTop="25dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
