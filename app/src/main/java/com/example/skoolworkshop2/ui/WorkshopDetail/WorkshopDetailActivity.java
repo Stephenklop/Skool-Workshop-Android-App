@@ -19,6 +19,9 @@ import androidx.fragment.app.FragmentActivity;
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -53,6 +56,10 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_details);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         mBackButton = findViewById(R.id.activity_details_details_btn_back);
         mWorkshopBanner = findViewById(R.id.activity_workshop_details_img_banner);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,12 +24,15 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
+import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -37,7 +41,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class CultureDayBookingActivity extends FragmentActivity {
+public class CulturedayBookingActivity extends FragmentActivity {
+    private String LOG_TAG = getClass().getSimpleName();
     private Product mCultureDay;
     private ShoppingCartItem mShoppingCartItem;
     private CultureDayItem mCultureDayItem;
@@ -62,6 +67,7 @@ public class CultureDayBookingActivity extends FragmentActivity {
     private EditText mParticipantsGraffitiThsirtEditText;
     private EditText mLearningLevelEditText;
 
+
     private TextView mOverviewWorkshopRounds;
     private TextView mOverviewDurationPerRound;
     private TextView mOverviewTotalDuration;
@@ -70,15 +76,33 @@ public class CultureDayBookingActivity extends FragmentActivity {
     private TextView mOverviewTotalCost;
     private Button mOrderButton;
 
-    private CultureDayParticipantsValidator mCultureDayParticipantsValidator;
-    private WorkshopsPerRoundValidator mWorkshopsPerRoundValidator;
-    private MinuteValidator mMinuteValidator;
-    private LearningLevelValidator mLearningLevelValidator;
+    private CultureDayParticipantsValidator mCultureDayParticipantsValidator = new CultureDayParticipantsValidator();
+    private RoundsValidator mRoundsValidator = new RoundsValidator();
+    private WorkshopsPerRoundValidator mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
+    private MinuteValidator mMinuteValidator = new MinuteValidator();
+    private LearningLevelValidator mLearningLevelValidator = new LearningLevelValidator();
+    private DateValidation dateValidation = new DateValidation();
+    private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_booking);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
+        TextView mPriceBn = findViewById(R.id.activity_cultureday_booking_btn_price);
+        TextView mParticipantsBn = findViewById(R.id.activity_cultureday_booking_btn_participant);
+        TextView mWorkshopsBn = findViewById(R.id.activity_cultureday_booking_btn_workshop);
+        TextView mRoundsBn = findViewById(R.id.activity_cultureday_booking_btn_round);
+
+        mPriceBn.setText("€1674,-");
+        mParticipantsBn.setText("100 Deelnemers");
+        mWorkshopsBn.setText("4 Workshops");
+        mRoundsBn.setText("3 Rondes");
+
 
         // Initialize attributes
         initializeAttributes();
@@ -94,18 +118,40 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
         // TODO: Add date validation (to ensure the date is in the future)
         mDateEditText.setOnClickListener(v -> setDatePicker());
+        mDateEditText.setFocusable(false);
         mDateEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mDateEditText.equals("")) {
+                    if (dateValidation.isValidDate(s.toString())) {
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                        dateValidation.mIsValid = true;
 
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                        dateValidation.mIsValid = false;
+
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 mCultureDayItem.setDate(s.toString());
+            }
+        });
+        mDateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                }
+
             }
         });
 
@@ -115,19 +161,36 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                if (!CultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    mCultureDayParticipantsValidator.mIsValid = true;
+                if(!mParticipantsEditText.equals("")) {
+                    if (mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                        updateOrderOverview();
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mCultureDayParticipantsValidator.mIsValid = true;
+                    } else if (!mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mCultureDayParticipantsValidator.mIsValid = false;
+                    } else {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 mCultureDayItem.setParticipants((s.toString().equals("")) ? 0 : Integer.parseInt(s.toString()));
+            }
+        });
+        mParticipantsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mCultureDayParticipantsValidator.isValid()) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
             }
         });
 
@@ -137,22 +200,47 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+//                mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mWorkshopRoundsEditText.equals("")) {
 
-                if(!RoundsValidator.isValidWorkshopRounds(s.toString())) {
-                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    mWorkshopsPerRoundValidator.mIsValid = true;
+                    if (mRoundsValidator.isValidWorkshopRounds(s.toString())) {
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mRoundsValidator.mIsValid = true;
+                    } else if (!mRoundsValidator.isValidWorkshopRounds(s.toString())){
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mRoundsValidator.mIsValid = false;
+                    } else{
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    }
                 }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mCultureDayItem.setRounds(Integer.parseInt(s.toString()));
+                if(!mWorkshopRoundsEditText.equals("") && mWorkshopRoundsEditText.getText().length() > 0) {
+                    mCultureDayItem.setRounds(Integer.parseInt(s.toString()));
+
+                }
                 updateOrderOverview();
+
+
             }
         });
+        mWorkshopRoundsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mRoundsValidator.isValid()) {
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
+            }
+        });
+
 
         mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -160,20 +248,40 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if (!mWorkshopsPerRoundEditText.equals("")) {
 
-                if (!RoundsValidator.isValidWorkshopRounds(s.toString())) {
-                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    mWorkshopsPerRoundValidator.mIsValid = true;
+                    if (!RoundsValidator.isValidWorkshopRounds(s.toString())) {
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mWorkshopsPerRoundValidator.mIsValid = false;
+                    } else if (RoundsValidator.isValidWorkshopRounds(s.toString())) {
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mWorkshopsPerRoundValidator.mIsValid = true;
+                    } else{
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mCultureDayItem.setWorkshopPerWorkshopRound(Integer.parseInt(s.toString()));
+                if(!mWorkshopsPerRoundEditText.equals("") && mWorkshopRoundsEditText.getText().length() > 0) {
+                    mCultureDayItem.setWorkshopPerWorkshopRound(Integer.parseInt(s.toString()));
+                }
                 updateOrderOverview();
+            }
+        });
+        mWorkshopsPerRoundEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mWorkshopsPerRoundValidator.isValid()) {
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
             }
         });
 
@@ -183,20 +291,41 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-                if (!MinuteValidator.isValidMinute(s.toString())) {
-                    mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                } else {
-                    mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    mMinuteValidator.mIsValid = true;
+                if (!mDurationPerRoundEditText.equals("")) {
+                    if (!mMinuteValidator.isValidMinute(s.toString())) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mMinuteValidator.mIsValid = false;
+                    } else if (mMinuteValidator.isValidMinute(s.toString())) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mMinuteValidator.mIsValid = true;
+                    } else {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mCultureDayItem.setRoundDuration(Integer.parseInt(s.toString()));
+
+                if(!mDurationPerRoundEditText.equals("") && mDurationPerRoundEditText.getText().length() > 0) {
+                    mCultureDayItem.setRoundDuration(Integer.parseInt(s.toString()));
+                }
                 updateOrderOverview();
+            }
+        });
+        mDurationPerRoundEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mMinuteValidator.isValid()) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
             }
         });
 
@@ -266,6 +395,18 @@ public class CultureDayBookingActivity extends FragmentActivity {
                 updateOrderOverview();
             }
         });
+        mTimeScheduleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
 
         mParticipantsGraffitiThsirtEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -273,19 +414,42 @@ public class CultureDayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_focused);
+                // TODO: Check if maxParticipants is indeed 25
+                if(!mParticipantsGraffitiThsirtEditText.equals("")) {
+                    if (participantsItemValidator.isValidParticipantsItemValidator(s.toString(), 25)) {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        participantsItemValidator.mIsValid = true;
+                        if(!mParticipantsGraffitiThsirtEditText.equals("") && mParticipantsGraffitiThsirtEditText.getText().length() > 0) {
+
+                            mCultureDayItem.setAmountOfParticipantsGraffitiTshirt(Integer.parseInt(s.toString()));
+                        }
+                        updateOrderOverview();
+                    } else if (!participantsItemValidator.isValidParticipantsItemValidator(s.toString(), 25)) {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_error);
+                        participantsItemValidator.mIsValid = false;
+
+                    } else {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
-                // TODO: Check if maxParticipants is indeed 25
-                if(ParticipantsItemValidator.isValidParticipantsItemValidator(s.toString(), 25)){
-                    mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    mCultureDayItem.setAmountOfParticipantsGraffitiTshirt(Integer.parseInt(s.toString()));
-                    updateOrderOverview();
-                } else {
-                    mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_error);
+
+            }
+        });
+        mParticipantsGraffitiThsirtEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(participantsItemValidator.isValid()) {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -301,6 +465,8 @@ public class CultureDayBookingActivity extends FragmentActivity {
                 // TODO: Check learning level validator
                 if(!mLearningLevelValidator.isValidLearningLevels(s.toString())){
                     mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                    mLearningLevelValidator.mIsValid = false;
+
                 }
             }
 
@@ -313,6 +479,18 @@ public class CultureDayBookingActivity extends FragmentActivity {
                 }
 
                 updateOrderOverview();
+            }
+        });
+        mLearningLevelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mLearningLevelValidator.isValid()) {
+                        mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
             }
         });
 
@@ -395,7 +573,16 @@ public class CultureDayBookingActivity extends FragmentActivity {
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            mDateEditText.setText(dayOfMonth + "-" + (month + 1) + "-" + year);
+//            mDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            if(dayOfMonth < 10 && month < 10){
+                mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+            } else if (dayOfMonth < 10){
+                mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+            } else if (month < 10){
+                mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+            } else {
+                mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+            }
             mDateEditText.setError(null);
         }, mYear, mMonth, mDay);
         datePickerDialog.show();

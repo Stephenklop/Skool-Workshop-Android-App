@@ -10,31 +10,35 @@ public class CJPValidatorTest {
 
     @Test
     public void cjpValidator_CorrectCJPGiven_ReturnsTrue() {
-        assertTrue(CJPValidator.isValidCJP("72340000"));
+        assertTrue(CJPValidator.isValidCJP("7234"));
     }
 
     @Test
     public void cjpValidator_CorrectMinimumCJPGiven_ReturnsTrue() {
-        assertTrue(CJPValidator.isValidCJP("70000000"));
+        assertTrue(CJPValidator.isValidCJP("1111"));
     }
 
     @Test
     public void cjpValidator_CorrectMaximumCJPGiven_ReturnsTrue() {
-        assertTrue(CJPValidator.isValidCJP("80000000"));
+        assertTrue(CJPValidator.isValidCJP("9999"));
+    }
+    @Test
+    public void cjpValidator_CorrectEmpty_ReturnsTrue() {
+        assertTrue(CJPValidator.isValidCJP(""));
     }
 
     @Test
-    public void cjpValidator_InvalidMaximumCJPGiven_ReturnsTrue() {
-        assertFalse(CJPValidator.isValidCJP("80000001"));
+    public void cjpValidator_InvalidMaximumCJPGiven_ReturnsFalse() {
+        assertFalse(CJPValidator.isValidCJP("99991"));
     }
 
     @Test
-    public void cjpValidator_InvalidMinimumCJPGiven_ReturnsTrue() {
-        assertFalse(CJPValidator.isValidCJP("69999999"));
+    public void cjpValidator_InvalidMinimumCJPGiven_ReturnsFalse() {
+        assertFalse(CJPValidator.isValidCJP("9"));
     }
 
     @Test
-    public void cjpValidator_ZeroCJPGiven_ReturnsTrue() {
+    public void cjpValidator_ZeroCJPGiven_ReturnsFalse() {
         assertFalse(CJPValidator.isValidCJP("0"));
     }
 }

@@ -106,6 +106,8 @@
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
+
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -250,17 +252,38 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
 
-                <CheckBox
-                    android:id="@+id/activity_cultureday_question_cb_terms"
+<!--                <CheckBox-->
+<!--                    android:id="@+id/activity_cultureday_question_cb_terms"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:buttonTint="@color/main_orange"-->
+<!--                    android:gravity="top"-->
+<!--                    android:paddingStart="10dp"-->
+<!--                    android:text="Ik ga akkoord met de algemene voorwaarden"-->
+<!--                    android:fontFamily="@font/proxima_nova_semibold"-->
+<!--                    android:textSize="18sp" />-->
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:buttonTint="@color/main_orange"
-                    android:fontFamily="@font/proxima_nova_semibold"
-                    android:gravity="top"
-                    android:paddingStart="10dp"
-                    android:text="Ik ga akkoord met de algemene voorwaarden"
-                    android:textSize="18sp" />
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <CheckBox
+                        android:id="@+id/activity_cultureday_question_cb_terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/activity_cultureday_question_tv_terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="Ik ga akkoord met de algemene voorwaarden"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+                </LinearLayout>
 
                 <include
                     android:id="@+id/activity_cultureday_question_btn_send"

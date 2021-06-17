@@ -16,17 +16,16 @@ public class CJPValidator {
     }
 
     public static boolean isValidCJP(CharSequence cjp) {
-        if(!cjp.toString().equals("")){
+
             try{
-                int cjps = Integer.valueOf(cjp.toString());
-                if(cjps >= 70000000 && cjps <= 80000000 ){
+                if(cjp.length() == 4 || cjp.length() == 0){
                     return true;
                 }
             } catch (Exception e){
                 e.printStackTrace();
                 return false;
             }
-        }
+
         return false;
     }
 }

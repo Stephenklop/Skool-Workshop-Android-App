@@ -2,6 +2,7 @@ package com.example.skoolworkshop2.ui;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +28,10 @@ public class ShoppingCartLayoutTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         RecyclerView rv = findViewById(R.id.activity_shopping_cart_rv);
         rv.setAdapter(new RecyclerView.Adapter() {
