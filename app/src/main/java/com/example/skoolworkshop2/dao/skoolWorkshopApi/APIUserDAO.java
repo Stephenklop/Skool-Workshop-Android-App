@@ -131,12 +131,14 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
-            String jsonInput = "{\"email\": \"" + email + "\", \"name\": \"" + displayName + "\", \"first_name\": \"" + firstName + "\", \"last_name\": \"" + lastName + "\", }";
+            String jsonInput = "{\"email\": \"" + email + "\", \"name\": \"" + displayName + "\", \"first_name\": \"" + firstName + "\", \"last_name\": \"" + lastName + "\"}";
             System.out.println("JSON STRING: " + jsonInput);
 
             //TODO send actual request to de API
             //moet getest worden
+            System.out.println("--------voor output stream--------");
             OutputStream os = connection.getOutputStream();
+            System.out.println("--------na output stream--------");
             os.write(jsonInput.getBytes());
             os.flush();
 

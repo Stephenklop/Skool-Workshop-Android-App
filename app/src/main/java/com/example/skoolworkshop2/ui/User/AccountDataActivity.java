@@ -24,14 +24,31 @@ public class AccountDataActivity extends AppCompatActivity {
 
         ImageButton mBackButton;
 
+
+
+        String firstName = LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getFirstName();
+        String lastName = LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getLastName();
+//        String emailCustomer = LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getEmail();
+        String emailUser = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getEmail();
+        String displayName = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getUsername();
+
+        System.out.println("Firstname: " + firstName);
+        System.out.println("Lastname: " + lastName);
+        System.out.println("EmailUser:" + emailUser);
+        System.out.println("DisplayName: " + displayName);
+
         //firstName
         EditText firstNameText = (EditText) findViewById(R.id.activity_account_data_et_first_name);
+        firstNameText.setText(firstName);
         //lastName
         EditText lastNameText = (EditText) findViewById(R.id.activity_account_data_et_last_name);
+        lastNameText.setText(lastName);
         //displayName
         EditText displayNameText = (EditText) findViewById(R.id.activity_account_data_et_display_name);
+        displayNameText.setText(displayName);
         //email
         EditText emailText = (EditText) findViewById(R.id.activity_account_data_et_email);
+        emailText.setText(emailUser);
 
         EmailValidator emailValidator = new EmailValidator();
 
@@ -128,7 +145,13 @@ public class AccountDataActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 APIUserDAO apiUserDAO = new APIUserDAO();
-                apiUserDAO.updateUser(emailText.getText().toString(), displayNameText.getText().toString(), firstNameText.getText().toString(), lastNameText.getText().toString());
+
+                try {
+                    System.out.println("-------in on click van button--------");
+                    apiUserDAO.updateUser(emailText.getText().toString(), displayNameText.getText().toString(), firstNameText.getText().toString(), lastNameText.getText().toString());
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
