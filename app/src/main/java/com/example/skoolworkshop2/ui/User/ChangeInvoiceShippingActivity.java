@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.BillingAddress;
+import com.example.skoolworkshop2.domain.Country;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
@@ -204,8 +205,10 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         // Spinner
         NL = this.getDrawable(R.drawable.ic_flag_of_the_netherlands);
         BE = this.getDrawable(R.drawable.ic_flag_of_belgium);
+        Country netherlands = new Country(NL, "Nederland");
+        Country belgium = new Country(BE, "België");
         mLocationCountrySpnr = findViewById(R.id.activity_change_workshop_location_spnr_country);
-        mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Drawable[]{NL, BE}));
+        mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{netherlands, belgium}));
         mLocationCountrySpnr.setSelection(1);
         mLocationCountrySpnr.setOnItemSelectedListener(this);
 

@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:popupBackground="@android:color/transparent"
+            android:popupBackground="@android:color/white"
             android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="@+id/activity_change_workshop_location_ll_address"
             app:layout_constraintStart_toStartOf="parent"

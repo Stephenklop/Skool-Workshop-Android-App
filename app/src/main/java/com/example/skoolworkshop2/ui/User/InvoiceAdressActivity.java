@@ -63,6 +63,14 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         mInvoiceShippingTextView = mInvoiceShippingAddressLayout.findViewById(R.id.component_invoice_data_tv_data);
         mInvoiceShippingTitleTextView = mInvoiceShippingAddressLayout.findViewById(R.id.component_invoice_data_tv_header);
         mInvoiceShippingTitleTextView.setText("Workshop Locatie");
+
+        ImageButton backButton = findViewById(R.id.activity_invoice_data_btn_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // Usermanager
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
         // Loading billing addresses
