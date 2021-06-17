@@ -22,8 +22,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
     private Product cultureDay;
     private List<NewsArticle> newsArticles;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private NewsArticleAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     FirebaseAnalytics mFirebaseAnalytics;
 
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
+
+
 
 
 
@@ -215,6 +219,35 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_home_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                System.out.println("refreshing");
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().deleteNewsArticleTable();
+                        APIDAOFactory apiDaoFactoryNewsArticles = new APIDAOFactory();
+                        NewsArticleDAO newsArticleDAO = apiDaoFactoryNewsArticles.getNewsArticleDAO();
+                        LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());
+                        newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mAdapter.updateList(newsArticles);
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                });
+
+                t.start();
+            }
+        });
 
         Bundle bundle = new Bundle();
         bundle.putString("test_event", "test_event_id");

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
@@ -65,6 +66,15 @@ public class MyAccountActivity extends AppCompatActivity {
 
         Button logOutButton = findViewById(R.id.activity_my_account_btn_log_out);
         logOutButton.setText("Log uit");
+
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_account_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //TODO refresh account data
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         mLoader = findViewById(R.id.activity_login_ll_loading_alert);
 
