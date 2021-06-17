@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -361,8 +362,11 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     String selectedItem = parent.getItemAtPosition(position).toString();
                     int productId = LocalDb.getDatabase(getBaseContext()).getProductDAO().getProductIdByName(selectedItem);
 
-                    Button button = new Button(getBaseContext());
-                    button.setText(selectedItem);
+                    LinearLayout button = (LinearLayout) LayoutInflater.from(getBaseContext())
+                            .inflate(R.layout.component_button_medium_extendable_delete, mWorkshopsLinearLayout, false);
+
+                    TextView buttonLabel = button.findViewById(R.id.textView);
+                    buttonLabel.setText(selectedItem);
 
                     mWorkshopsLinearLayout.addView(button);
                     mSelectedWorkshops.add(productId);
