@@ -441,6 +441,12 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                 // Datum, deelnemers, rondes, minuten, learning levels niet leeg, rest wel
                 if(dateValidation.isValid() && workshopParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid()){
                     mErrTv.setVisibility(View.GONE);
+
+                    // set schedule to n.v.t. when left empty
+                    if (workshopItem.getTimeSchedule() != null || (workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0) {
+                        workshopItem.setTimeSchedule("n.v.t.");
+                    }
+
                     // Add workshop to local storage
                     localAppStorage.addToList("cartItems", workshop);
                     System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));

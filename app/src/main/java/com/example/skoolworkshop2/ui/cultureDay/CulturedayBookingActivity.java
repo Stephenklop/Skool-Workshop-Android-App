@@ -702,6 +702,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         boolean workshopsPerRound = mWorkshopsPerRoundValidator.isValid();
         boolean minutes = mMinuteValidator.isValid();
         boolean workshops = mSelectedWorkshops.size() > 0;
+        boolean schedule = mCultureDayItem.getTimeSchedule() != null || (mCultureDayItem.getTimeSchedule() != null ? mCultureDayItem.getTimeSchedule().length() : 0) > 0;
         boolean specialParticipants = participantsItemValidator.isValid();
         boolean level = mLearningLevelValidator.isValid();
 
@@ -727,6 +728,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
         }
         if (!workshops) {
             result = false;
+        }
+        if (!schedule) {
+            // set schedule to n.v.t. when left empty
+            mCultureDayItem.setTimeSchedule("n.v.t.");
         }
         if (!specialParticipants) {
             result = false;
