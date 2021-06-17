@@ -68,6 +68,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         mAdapter = new ShoppingCartRecyclerViewAdapter(shoppingCartItems, ShoppingCartActivity.this);
 
         shoppingCartRecyclerView.setAdapter(mAdapter);
+        shoppingCartRecyclerView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> totalPriceTextView.setText("€" + String.format("%.2f", calculateTotalPrice()).replace(".", ",")));
 
         totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_key);
         totalPriceTitleTextView.setText("Totaal (" + shoppingCartItems.size() + ")");
