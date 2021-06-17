@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Country;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -93,8 +94,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private Spinner mLocationCountrySpnr;
     private Spinner mWorkshopLocationCountrySpnr;
 
-    private Drawable NL;
-    private Drawable BE;
+    private Country NL;
+    private Country BE;
 
 
 
@@ -135,16 +136,17 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWStreetNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_street);
 
 
-        NL = this.getDrawable(R.drawable.ic_flag_of_the_netherlands);
-        BE = this.getDrawable(R.drawable.ic_flag_of_belgium);
+        NL = new Country(this.getDrawable(R.drawable.ic_flag_of_the_netherlands), "NL");
+        BE = new Country(this.getDrawable(R.drawable.ic_flag_of_belgium), "BE");
         mLocationCountrySpnr = findViewById(R.id.activity_address_info_spnr_country);
-        mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Drawable[]{NL, BE}));
+        mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{NL, BE}));
         mLocationCountrySpnr.setSelection(1);
         mLocationCountrySpnr.setOnItemSelectedListener(this);
 
 
         mWorkshopLocationCountrySpnr = findViewById(R.id.activity_address_info_spnr_workshop_country);
-        mWorkshopLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Drawable[]{NL, BE}));
+        mWorkshopLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{NL, BE}));
+        mWorkshopLocationCountrySpnr.setSelection(1);
 
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
 
