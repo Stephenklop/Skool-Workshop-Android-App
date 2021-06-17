@@ -118,7 +118,6 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
         mTitleTextView.setText(workshop.getName());
 
-        mSendBn.setEnabled(true);
 
         // Set up validations
         mAmountOfPersonsEditText.addTextChangedListener(new TextWatcher() {
