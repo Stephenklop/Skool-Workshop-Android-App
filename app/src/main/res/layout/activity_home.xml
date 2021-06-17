@@ -1,237 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_home"
+    android:id="@+id/activity_home_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_home"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
-        app:layout_constraintTop_toTopOf="parent"
-        android:overScrollMode="never">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/activity_menu_buttons"
+            app:layout_constraintTop_toTopOf="parent"
+            android:overScrollMode="never">
 
-            <!-- Requires setClipToOutline(true) on base img to have rounded corners -->
-            <include
-                android:id="@+id/include"
-                layout="@layout/component_home_banner"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="50dp"
-                app:layout_constraintBottom_toBottomOf="@+id/activity_home_ll_dashboard"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content">
 
-
-            <TextView
-                android:id="@+id/activity_home_tv_greeting"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="50dp"
-                android:fontFamily="@font/proxima_nova_semibold"
-                android:text="Goedemorgen, Clinten Pique"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/activity_home_ll_dashboard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_home_tv_greeting">
-
+                <!-- Requires setClipToOutline(true) on base img to have rounded corners -->
                 <include
-                    android:id="@+id/activity_home_item_reservation"
-                    layout="@layout/item_dashboard"
+                    android:id="@+id/include"
+                    layout="@layout/component_home_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5" />
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="50dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_home_ll_dashboard"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent" />
-
-                <include
-                    android:id="@+id/activity_home_item_account"
-                    layout="@layout/item_dashboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_home_ll_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/activity_home_ll_dashboard">
 
                 <TextView
-                    android:id="@+id/tv_home_notifications"
+                    android:id="@+id/activity_home_tv_greeting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Goedemorgen, Clinten Pique"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/activity_home_ll_dashboard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activity_home_tv_greeting">
+
+                    <include
+                        android:id="@+id/activity_home_item_reservation"
+                        layout="@layout/item_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/activity_home_item_account"
+                        layout="@layout/item_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activity_home_ll_notifications"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/activity_home_ll_dashboard">
+
+                    <TextView
+                        android:id="@+id/tv_home_notifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="Meldingen voor jou"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <include
+                        android:id="@+id/activity_home_fragment_notifications"
+                        layout="@layout/component_notifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="25dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activity_home_ll_portal_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_home_ll_notifications">
+
+                    <TextView
+                        android:id="@+id/activity_home_tv_portal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="SkoolPartner Portaal"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_home_fragment_notifications" />
+
+                    <LinearLayout
+                        android:id="@+id/activity_home_ll_portal_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="25dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/item_workshop_container"
+                        android:orientation="vertical"
+                        android:padding="25dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_home_tv_portal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="Met een SkoolPartner account kan je voor kortingen sparen en je bestellingen bijhouden"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <include
+                            android:id="@+id/activity_home_btn_register"
+                            layout="@layout/component_button_large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="Heb je al een account? Dan kan je hieronder inloggen"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <include
+                            android:id="@+id/activity_home_btn_log_in"
+                            layout="@layout/component_button_large_border"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp" />
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/activity_home_item_points"
+                        layout="@layout/item_points"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/activity_home_tv_portal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/activity_home_tv_news_feed"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Meldingen voor jou"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <include
-                    android:id="@+id/activity_home_fragment_notifications"
-                    layout="@layout/component_notifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_home_ll_portal_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_home_ll_notifications">
-
-                <TextView
-                    android:id="@+id/activity_home_tv_portal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="SkoolPartner Portaal"
+                    android:text="Nieuwsberichten"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_home_fragment_notifications" />
+                    app:layout_constraintTop_toBottomOf="@+id/activity_home_ll_portal_wrapper" />
 
-                <LinearLayout
-                    android:id="@+id/activity_home_ll_portal_msg"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_home_rv_news_feed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/item_workshop_container"
-                    android:orientation="vertical"
-                    android:padding="25dp"
-                    android:visibility="visible"
+                    android:layout_marginBottom="25dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_home_tv_portal">
+                    app:layout_constraintTop_toBottomOf="@id/activity_home_tv_news_feed"
+                    app:layout_constraintVertical_bias="0.0"
+                    android:overScrollMode="never"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/proxima_nova_regular"
-                        android:text="Met een SkoolPartner account kan je voor kortingen sparen en je bestellingen bijhouden"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <include
-                        android:id="@+id/activity_home_btn_register"
-                        layout="@layout/component_button_large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp" />
+        </androidx.core.widget.NestedScrollView>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:fontFamily="@font/proxima_nova_regular"
-                        android:text="Heb je al een account? Dan kan je hieronder inloggen"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+        <include
+            android:id="@+id/activity_menu_buttons"
+            layout="@layout/component_menu_icons"
+            android:transitionName="menu_bottom_nav"
+            android:windowSharedElementsUseOverlay="false"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <include
-                        android:id="@+id/activity_home_btn_log_in"
-                        layout="@layout/component_button_large_border"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                </LinearLayout>
-
-                <include
-                    android:id="@+id/activity_home_item_points"
-                    layout="@layout/item_points"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_home_tv_portal" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/activity_home_tv_news_feed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:fontFamily="@font/proxima_nova_semibold"
-                android:text="Nieuwsberichten"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_home_ll_portal_wrapper" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_home_rv_news_feed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingHorizontal="25dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_home_tv_news_feed"
-                app:layout_constraintVertical_bias="0.0"
-                android:overScrollMode="never"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/activity_menu_buttons"
-        layout="@layout/component_menu_icons"
-        android:transitionName="menu_bottom_nav"
-        android:windowSharedElementsUseOverlay="false"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>

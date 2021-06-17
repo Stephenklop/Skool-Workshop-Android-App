@@ -22,8 +22,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
@@ -53,9 +55,10 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
     private Product cultureDay;
     private List<NewsArticle> newsArticles;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private NewsArticleAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     FirebaseAnalytics mFirebaseAnalytics;
+    private View v;
 
     public static String adminToken;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -75,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
 
 
-        View v = findViewById(R.id.activity_home_fragment_notifications);
+
+
+        v = findViewById(R.id.activity_home_fragment_notifications);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             }
         });
 
-        if(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size() > 0){
-            ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
-            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
-        }
+
+        setNotificationText();
 
 
         View include = findViewById(R.id.include);
@@ -216,6 +219,36 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_home_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                System.out.println("refreshing");
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().deleteNewsArticleTable();
+                        APIDAOFactory apiDaoFactoryNewsArticles = new APIDAOFactory();
+                        NewsArticleDAO newsArticleDAO = apiDaoFactoryNewsArticles.getNewsArticleDAO();
+                        LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());
+                        newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setNotificationText();
+                                mAdapter.updateList(newsArticles);
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                });
+
+                t.start();
+            }
+        });
+
         Bundle bundle = new Bundle();
         bundle.putString("test_event", "test_event_id");
         mFirebaseAnalytics.logEvent("eventTest", bundle);
@@ -233,6 +266,23 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
 
+    }
+
+    private void setNotificationText(){
+        int size = LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size();
+        ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
+        TextView notificationsText = v.findViewById(R.id.component_notifications_tv_txt);
+        if(size > 0){
+            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
+            if(size == 1){
+                notificationsText.setText("Je hebt 1 melding");
+            } else {
+                notificationsText.setText("Je hebt " + size + " meldingen");
+            }
+        } else {
+            notificationsIcon.setImageResource(R.drawable.ic_bell_off);
+            notificationsText.setText("Geen nieuwe meldingen");
+        }
     }
 
     @Override
