@@ -364,10 +364,11 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     LinearLayout button = (LinearLayout) LayoutInflater.from(getBaseContext())
                             .inflate(R.layout.component_button_medium_extendable_delete, mWorkshopsLinearLayout, false);
 
-                    TextView buttonLabel = button.findViewById(R.id.textView);
+                    TextView buttonLabel = button.findViewById(R.id.component_button_medium_extendable_delete_tv_label);
+                    ImageButton xButton = button.findViewById(R.id.component_button_medium_extendable_delete_btn_x);
                     buttonLabel.setText(selectedItem);
 
-                    button.setOnClickListener(v -> {
+                    xButton.setOnClickListener(v -> {
                         button.animate().alpha(0).setDuration(250).withEndAction(() -> {
                             mWorkshopsLinearLayout.removeView(button);
                         }).start();
