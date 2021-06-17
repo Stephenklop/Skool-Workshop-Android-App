@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -88,6 +89,8 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private LearningLevelValidator mLearningLevelValidator = new LearningLevelValidator();
     private DateValidation dateValidation = new DateValidation();
     private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
+
+    private TextView mErrTv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -520,29 +523,36 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
         mOrderButton.setText("Boek nu");
         mOrderButton.setOnClickListener(v -> {
-            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
-                    mCultureDay.getProductId(),
-                    false,
-                    mCultureDayItem.getDate(),
-                    mCultureDayItem.getRounds(),
-                    mCultureDayItem.getWorkshopPerWorkshopRound(),
-                    mCultureDayItem.getRoundDuration(),
-                    mCultureDayItem.getTimeSchedule(),
-                    mCultureDayItem.getParticipants(),
-                    mCultureDayItem.getAmountOfParticipantsGraffitiTshirt(),
-                    mCultureDayItem.getLearningLevel(),
-                    mCultureDayItem.getPrice()
-            );
+            if (validate()) {
+                mErrTv.setVisibility(View.GONE);
 
-            shoppingCartItem.setProducts(mSelectedWorkshops);
+                ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
+                        mCultureDay.getProductId(),
+                        false,
+                        mCultureDayItem.getDate(),
+                        mCultureDayItem.getRounds(),
+                        mCultureDayItem.getWorkshopPerWorkshopRound(),
+                        mCultureDayItem.getRoundDuration(),
+                        mCultureDayItem.getTimeSchedule(),
+                        mCultureDayItem.getParticipants(),
+                        mCultureDayItem.getAmountOfParticipantsGraffitiTshirt(),
+                        mCultureDayItem.getLearningLevel(),
+                        mCultureDayItem.getPrice()
+                );
 
-            System.out.println("BOOKED CULTURE DAY: " + shoppingCartItem);
-            System.out.println("WORKSHOPS: " + mSelectedWorkshops);
+                shoppingCartItem.setProducts(mSelectedWorkshops);
 
-            LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(shoppingCartItem);
+                System.out.println("BOOKED CULTURE DAY: " + shoppingCartItem);
+                System.out.println("WORKSHOPS: " + mSelectedWorkshops);
 
-            Intent intent = new Intent(this, ShoppingCartActivity.class);
-            startActivity(intent);
+                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(shoppingCartItem);
+
+                Intent intent = new Intent(this, ShoppingCartActivity.class);
+                startActivity(intent);
+            } else {
+                mErrTv.setVisibility(View.VISIBLE);
+                mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
+            }
         });
 
         mParticipantsInfoBtn.setOnClickListener(v -> {
@@ -606,6 +616,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
         mMinuteValidator = new MinuteValidator();
         mLearningLevelValidator = new LearningLevelValidator();
+
+        // Error
+        mErrTv = findViewById(R.id.activity_cultureday_booking_tv_err);
     }
 
     private void setDatePicker() {
@@ -678,5 +691,52 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mOverviewTimeSchedule.setText("Totale duur: " + mCultureDayItem.getRoundDuration() * mCultureDayItem.getRounds() + " min");
         mOverviewLearningLevel.setText("Leerniveau: " + ((mCultureDayItem.getLearningLevel() == null || mCultureDayItem.getLearningLevel().equals("")) ? "n.n.b." : mCultureDayItem.getLearningLevel()));
         mOverviewTotalCost.setText("Subtotaal: €" + (int) mCultureDayItem.getPrice());
+    }
+
+    private boolean validate() {
+        boolean result = true;
+
+        boolean date = dateValidation.isValid();
+        boolean participants = mCultureDayParticipantsValidator.isValid();
+        boolean rounds = mRoundsValidator.isValid();
+        boolean workshopsPerRound = mWorkshopsPerRoundValidator.isValid();
+        boolean minutes = mMinuteValidator.isValid();
+        boolean workshops = mSelectedWorkshops.size() > 0;
+        boolean specialParticipants = participantsItemValidator.isValid();
+        boolean level = mLearningLevelValidator.isValid();
+
+        if (!date) {
+            result = false;
+            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!participants) {
+            result = false;
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!rounds) {
+            result = false;
+            mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!workshopsPerRound) {
+            result = false;
+            mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!minutes) {
+            result = false;
+            mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!workshops) {
+            result = false;
+        }
+        if (!specialParticipants) {
+            result = false;
+            mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!level) {
+            result = false;
+            mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+
+        return result;
     }
 }
