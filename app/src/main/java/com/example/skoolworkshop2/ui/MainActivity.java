@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
         TextView greeting = findViewById(R.id.activity_home_tv_greeting);
-        greeting.setText("Goedendag");
+        greeting.setText("Goedendag,");
 
         if (iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         cultureDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
             }

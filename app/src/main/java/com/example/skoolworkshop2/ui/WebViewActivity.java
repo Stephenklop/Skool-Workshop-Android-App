@@ -34,7 +34,12 @@ public class WebViewActivity extends AppCompatActivity {
 
 
         ImageButton backButton = findViewById(R.id.activity_web_btn_back);
-        backButton.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         if(getIntent().hasExtra("url")){
             WebView wv = findViewById(R.id.activity_webview);

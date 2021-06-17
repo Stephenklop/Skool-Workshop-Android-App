@@ -15,6 +15,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="53dp"
+        android:src="@drawable/ic_play"
+        android:id="@+id/activity_workshop_detail_play"
+        app:layout_anchor="@+id/activity_workshop_details_appbar"
+        app:layout_anchorGravity="center" />
+
     <VideoView
         android:id="@+id/activity_workshop_details_vv_banner"
         android:layout_width="match_parent"

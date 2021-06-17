@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Notification {
-    @PrimaryKey(autoGenerate = true) @NonNull @ColumnInfo
+    @PrimaryKey @NonNull @ColumnInfo
     int id;
 
     @ColumnInfo
@@ -22,7 +22,8 @@ public class Notification {
     @ColumnInfo
     boolean status;
 
-    public Notification(String title, String description, String url, boolean status) {
+    public Notification(int id,String title, String description, String url, boolean status) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.url = url;

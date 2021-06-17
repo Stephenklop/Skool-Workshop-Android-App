@@ -124,6 +124,21 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
+        Thread notifications = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForTopic("main"));
+                    if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                        LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId()));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                toMainActivity.start();
+            }
+        });
+
         Thread updateUserInfo = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -144,7 +159,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
                     System.out.println("added user with updated info");
                 }
-                toMainActivity.start();
+                notifications.start();
+
             }
         });
 

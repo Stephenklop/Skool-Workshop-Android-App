@@ -13,6 +13,9 @@ public interface NotificationDAO {
     @Insert
     void insertNotification(Notification notification);
 
+    @Insert
+    void insertListOfNotification(List<Notification> notification);
+
     @Query("SELECT * FROM Notification")
     List<Notification> getAllNotifications();
 

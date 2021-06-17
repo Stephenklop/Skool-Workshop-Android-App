@@ -92,11 +92,13 @@ public class BillingAddress implements Serializable {
 
     @Override
     public String toString() {
-        return
-                company + '\n' + firstName + " " + lastName + '\n' +
-                        address + '\n' +
-                        postcode + '\n' +
-                        city + '\n' +
-                country + "\n" + id;
+        if(company.equals("") || company == null){
+            return firstName + " " + lastName + '\n' + address + '\n' +
+                    postcode + ' ' + city + '\n' + country ;
+        } else {
+            return
+                    company + '\n' + firstName + " " + lastName + '\n' + address + '\n' +
+                            postcode + ' ' + city + '\n' + country ;
+        }
     }
 }

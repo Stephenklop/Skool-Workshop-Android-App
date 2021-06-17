@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui.WorkshopDetail;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -69,6 +70,11 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
         mTitleTV.setText(workshop.getName());
 
+        if(workshop.getVideo().isEmpty()){
+            ImageView playButton = findViewById(R.id.activity_workshop_detail_play);
+            playButton.setVisibility(View.GONE);
+        }
+
 
         mDetailTabsLl = findViewById(R.id.activity_workshop_details_ll_tabs);
         mTabsSelector = mDetailTabsLl.findViewById(R.id.component_tabs_selector);
@@ -128,11 +134,6 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
                     } else {
                         playVideo();
                     }
-                } else {
-                    Toast t = new Toast(getApplicationContext());
-                    t.setText("Geen video beschikbaar");
-                    t.setDuration(Toast.LENGTH_SHORT);
-                    t.show();
                 }
             }
         });
