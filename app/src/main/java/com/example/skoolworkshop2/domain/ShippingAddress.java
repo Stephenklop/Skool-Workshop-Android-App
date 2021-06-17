@@ -1,12 +1,34 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class ShippingAddress {
+    @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
+    private int id;
+
+    @ColumnInfo
     private String firstName;
+
+    @ColumnInfo
     private String lastName;
+
+    @ColumnInfo
     private String company;
+
+    @ColumnInfo
     private String postcode;
+
+    @ColumnInfo
     private String city;
+
+    @ColumnInfo
     private String address;
+
+    @ColumnInfo
     private String country;
 
     public ShippingAddress(String firstName, String lastName, String company, String postcode, String city, String address, String country) {
@@ -19,6 +41,9 @@ public class ShippingAddress {
         this.country = country;
     }
 
+    public int getId() {
+        return id;
+    }
 
     public String getPostcode() {
         return postcode;
