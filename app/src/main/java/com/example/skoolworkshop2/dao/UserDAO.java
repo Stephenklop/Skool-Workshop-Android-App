@@ -7,4 +7,6 @@ public interface UserDAO {
     User signUserIn(String username, String password);
     User registerUser(String username, String email, String password);
     Customer getLastCustomer();
+    Customer getCustomerInfo(int id);
+    User getLastUser();
 }

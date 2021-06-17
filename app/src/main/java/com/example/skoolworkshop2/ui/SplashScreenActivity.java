@@ -24,8 +24,11 @@ import android.widget.Toast;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
+import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.notifications.MessagingService;
@@ -103,6 +106,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void runThreads(){
         DAOFactory apidaoFactory = new APIDAOFactory();
 
+
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,12 +119,37 @@ public class SplashScreenActivity extends AppCompatActivity {
                 });
             }
         });
+
+        Thread updateUserInfo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                    System.out.println("updating account info");
+                    UserDAO userDAO = apidaoFactory.getUserDAO();
+                    int id = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId();
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                    System.out.println("deleted customer");
+                    Customer insertCustomer = userDAO.getCustomerInfo(id);
+                    System.out.println(insertCustomer.toString());
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(insertCustomer);
+                    System.out.println("added customer with updated info");
+                    LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
+                    System.out.println("deleted user");
+                    User user = userDAO.getLastUser();
+                    System.out.println(user.toString());
+                    LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
+                    System.out.println("added user with updated info");
+                }
+                toMainActivity.start();
+            }
+        });
+
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
             LocalDb.getDatabase(getBaseContext()).getProductDAO().deleteProductTable();
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(28));
-            toMainActivity.start();
+            updateUserInfo.start();
         });
 
         Thread APIThread = new Thread(() -> {
