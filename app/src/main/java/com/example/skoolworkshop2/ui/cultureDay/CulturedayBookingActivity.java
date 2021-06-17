@@ -44,7 +44,6 @@ import java.util.List;
 public class CulturedayBookingActivity extends FragmentActivity {
     private String LOG_TAG = getClass().getSimpleName();
     private Product mCultureDay;
-    private ShoppingCartItem mShoppingCartItem;
     private CultureDayItem mCultureDayItem;
     private List<Integer> mSelectedWorkshops;
     private List<Product> mWorkshops;
@@ -396,9 +395,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_focused);
                 } else {
                     mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mCultureDayItem.setTimeSchedule(s.toString());
+                    System.out.println("TIJDSCHEMA GEWIJZIGD: " + s.toString());
                 }
 
-                mShoppingCartItem.setTimeSchedule(s.toString());
                 updateOrderOverview();
             }
         });
@@ -532,7 +532,6 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private void initializeAttributes() {
         // Main view
         mCultureDay = (Product) getIntent().getSerializableExtra("cultureDay");
-        mShoppingCartItem = new ShoppingCartItem();
         mCultureDayItem = new CultureDayItem(mCultureDay);
         mSelectedWorkshops = new ArrayList<>();
         mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
@@ -633,9 +632,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
         System.out.println("UPDATE ORDER OVERVIEW");
         mOverviewWorkshopRounds.setText("Workshoprondes: " + mCultureDayItem.getRounds());
         mOverviewDurationPerRound.setText("Duur per workshopronde: " + mCultureDayItem.getRoundDuration() + " min");
-        mOverviewTotalDuration.setText("Tijdschema: " + ((mCultureDayItem.getTimeSchedule() == null || mShoppingCartItem.getTimeSchedule().equals("")) ? "n.n.g." : mShoppingCartItem.getTimeSchedule()));
+        mOverviewTotalDuration.setText("Tijdschema: " + ((mCultureDayItem.getTimeSchedule() == null || mCultureDayItem.getTimeSchedule().equals("")) ? "n.n.g." : mCultureDayItem.getTimeSchedule()));
         mOverviewTimeSchedule.setText("Totale duur: " + mCultureDayItem.getRoundDuration() * mCultureDayItem.getRounds() + " min");
-        mOverviewLearningLevel.setText("Leerniveau: " + ((mCultureDayItem.getLearningLevel() == null || mCultureDayItem.getLearningLevel().equals("")) ? "n.n.b." : mShoppingCartItem.getLearningLevel()));
+        mOverviewLearningLevel.setText("Leerniveau: " + ((mCultureDayItem.getLearningLevel() == null || mCultureDayItem.getLearningLevel().equals("")) ? "n.n.b." : mCultureDayItem.getLearningLevel()));
         mOverviewTotalCost.setText("Subtotaal: €" + (int) mCultureDayItem.getPrice());
     }
 }
