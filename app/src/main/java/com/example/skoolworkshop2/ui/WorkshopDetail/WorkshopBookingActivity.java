@@ -445,6 +445,23 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     localAppStorage.addToList("cartItems", workshop);
                     System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));
 
+                    System.out.println("ORDER: " + workshopItem);
+                    // Save the item in the shopping cart
+                    LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(
+                            new ShoppingCartItem(
+                                    workshopItem.getProduct().getProductId(),
+                                    true, workshopItem.getDate(),
+                                    workshopItem.getRounds(),
+                                    -1,
+                                    workshopItem.getRoundDuration(),
+                                    workshopItem.getTimeSchedule(),
+                                    workshopItem.getParticipants(),
+                                    0,
+                                    workshopItem.getLearningLevel(),
+                                    workshopItem.getPrice()
+                            )
+                    );
+
                     // Initiate and start intent
                     Intent intent = new Intent(getApplicationContext(), ShoppingCartActivity.class);
                     startActivity(intent);
@@ -480,28 +497,6 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             }
         });
 
-        mSendBn.setOnClickListener(v -> {
-            System.out.println("ORDER: " + workshopItem);
-            // Save the item in the shopping cart
-            LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(
-                    new ShoppingCartItem(
-                            workshopItem.getProduct().getProductId(),
-                            true, workshopItem.getDate(),
-                            workshopItem.getRounds(),
-                            -1,
-                            workshopItem.getRoundDuration(),
-                            workshopItem.getTimeSchedule(),
-                            workshopItem.getParticipants(),
-                            0,
-                            workshopItem.getLearningLevel(),
-                            workshopItem.getPrice()
-                    )
-            );
-
-            // Redirect to shopping cart
-            Intent intent = new Intent(this, ShoppingCartActivity.class);
-            startActivity(intent);
-        });
     }
 
     @Override
