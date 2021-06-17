@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkoolWorkshop2"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VideoTestActivity"></activity>
         <activity android:name=".ui.OrderSummaryActivity" />
         <activity
             android:name=".ui.MainActivity"

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -19,14 +18,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.VideoTestActivity;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import org.w3c.dom.Text;
 
 import vimeoextractor.OnVimeoExtractionListener;
 import vimeoextractor.VimeoExtractor;
