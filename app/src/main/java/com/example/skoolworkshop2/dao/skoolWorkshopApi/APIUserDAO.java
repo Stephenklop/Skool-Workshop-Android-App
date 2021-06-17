@@ -93,7 +93,8 @@ public class APIUserDAO implements UserDAO {
 
 
 
-                Customer customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
+                Customer customer = new Customer(firstname, lastName, email, street, number, postCode, city, state, country);
+                customer.setId(id);
                 lastCustomer = customer;
             }
         } catch (Exception e) {

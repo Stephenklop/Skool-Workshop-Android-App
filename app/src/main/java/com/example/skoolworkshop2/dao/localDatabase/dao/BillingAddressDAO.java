@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.dao.localDatabase.dao;
 
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -7,13 +8,14 @@ import com.example.skoolworkshop2.domain.BillingAddress;
 
 import java.util.List;
 
+@Dao
 public interface BillingAddressDAO {
     @Insert()
-    public void insertBillingAddress(BillingAddress billingAddress);
+    long insertBillingAddress(BillingAddress billingAddress);
 
     @Query("SELECT * FROM BillingAddress")
-    public List<BillingAddress> getAllBillingAddress();
+    BillingAddress getBillingAddress();
 
-    @Query("SELECT * FROM BillingAddress WHERE id = :id")
-    public BillingAddress getBillingAddress(int id);
+    @Query("DELETE FROM BillingAddress")
+    void deleteBillingAddress();
 }

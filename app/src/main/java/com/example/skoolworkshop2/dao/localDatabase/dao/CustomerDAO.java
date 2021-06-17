@@ -13,7 +13,7 @@ public interface CustomerDAO {
     Customer getCustomer();
 
     @Insert()
-    void addCustomer(Customer customer);
+    long addCustomer(Customer customer);
 
     @Query("DELETE FROM Customer")
     void deleteCustomer();
