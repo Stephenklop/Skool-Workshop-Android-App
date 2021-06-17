@@ -11,4 +11,5 @@ public interface UserDAO {
     Customer getLastCustomer();
     void updateUser(String email, String displayName, String firstName, String lastName);
     Customer getCustomerInfo(int id);
+    User getLastUser();
 }

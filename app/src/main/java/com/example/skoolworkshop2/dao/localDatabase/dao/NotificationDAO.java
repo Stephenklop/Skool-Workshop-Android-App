@@ -13,7 +13,7 @@ public interface NotificationDAO {
     @Insert
     void insertNotification(Notification notification);
 
-    @Query("SELECT * FROM NOTIFICATION")
+    @Query("SELECT * FROM Notification")
     List<Notification> getAllNotifications();
 
     @Query("SELECT * FROM Notification WHERE id = :id")

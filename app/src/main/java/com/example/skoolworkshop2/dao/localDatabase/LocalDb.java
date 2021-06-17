@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {User.class, Customer.class, Product.class, Quiz.class, Bank.class, ShoppingCartItem.class, NewsArticle.class, BillingAddress.class, ShippingAddress.class}, version = 1)
+@Database(entities = {User.class, Customer.class, Product.class, Quiz.class, Bank.class, ShoppingCartItem.class, NewsArticle.class, BillingAddress.class, ShippingAddress.class, Notification.class}, version = 1)
 
 public abstract class LocalDb extends RoomDatabase {
 

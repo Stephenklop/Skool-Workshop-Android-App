@@ -24,7 +24,6 @@ import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.AddressValidator;
-import com.example.skoolworkshop2.logic.validation.addressInfoValidators.AddressValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.PlaceValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.StreetnameValidator;

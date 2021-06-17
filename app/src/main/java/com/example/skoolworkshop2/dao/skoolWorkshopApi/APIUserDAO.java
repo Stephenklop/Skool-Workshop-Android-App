@@ -8,20 +8,14 @@ import androidx.annotation.RequiresApi;
 
 import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.domain.BillingAddress;
-import android.content.Context;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.skoolworkshop2.dao.UserDAO;
-import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
-import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,10 +25,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 
-public class APIUserDAO implements UserDAO {
+
+public class APIUserDAO extends AppCompatActivity implements UserDAO {
     private final String TAG = getClass().getSimpleName();
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
@@ -151,7 +145,7 @@ public class APIUserDAO implements UserDAO {
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("RESPONSE: " + inputLine);
                 JSONObject response = new JSONObject(inputLine);
-                JSONObject userData = response.getJSONObject("result");
+                JSONObject user = response.getJSONObject("result");
 
                 JSONArray metaData = user.getJSONArray("meta_data");
                 int points = 0;
@@ -171,7 +165,7 @@ public class APIUserDAO implements UserDAO {
 
                 result = new User(id, email, userName, points, billingAddress.getId(), shippingAddress.getId());
               
-                Customer customer = parseCustomer(userData);
+                Customer customer = parseCustomer(user);
                 lastCustomer = customer;
 
             }
@@ -282,11 +276,11 @@ public class APIUserDAO implements UserDAO {
         return result;
     }
 
-    public User parseUser(JSONObject jsonObject){
+    public User parseUser(JSONObject user){
         User result = null;
 
-        try {
-            JSONArray metaData = jsonObject.getJSONArray("meta_data");
+        try{
+            JSONArray metaData = user.getJSONArray("meta_data");
             int points = 0;
             for(int i = 0; i < metaData.length(); i++){
                 JSONObject object = metaData.getJSONObject(i);
@@ -295,16 +289,17 @@ public class APIUserDAO implements UserDAO {
                     Log.d("POINTS", points + "");
                 }
             }
-            String email = jsonObject.getString("email");
-            int id = Integer.parseInt(jsonObject.get("id").toString());
-            String userName = jsonObject.get("username").toString();
-
+            String email = user.getString("email");
+            int id = Integer.parseInt(user.get("id").toString());
+            String userName = user.get("username").toString();
+            BillingAddress billingAddress = parseJSONToBillling(user.getJSONObject("billing"));
+            ShippingAddress shippingAddress = parseJSONToShipping(user.getJSONObject("shipping"));
             Log.d("POINTS", points + "");
-            result = new User(id, email, userName, points);
+
+            result = new User(id, email, userName, points, billingAddress.getId(), shippingAddress.getId());
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return result;
     }
 
@@ -385,6 +380,8 @@ public class APIUserDAO implements UserDAO {
                 JSONObject response = new JSONObject(inputLine);
                 JSONObject user = response.getJSONObject("result");
 
+                result = parseUser(user);
+
                 JSONArray metaData = user.getJSONArray("meta_data");
                 int points = 0;
                 for(int i = 0; i < metaData.length(); i++){
@@ -398,7 +395,6 @@ public class APIUserDAO implements UserDAO {
                 String userName = user.get("username").toString();
 
                 Log.d("POINTS", points + "");
-                result = new User(id, email, userName, points);
 
 
 
