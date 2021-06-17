@@ -166,8 +166,8 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
 
 
     private void initializePlayer() {
-
-        VimeoExtractor.getInstance().fetchVideoWithURL(workshop.getVideo(), null, new OnVimeoExtractionListener() {
+        System.out.println(getId(workshop.getVideo()));
+        VimeoExtractor.getInstance().fetchVideoWithIdentifier(getId(workshop.getVideo()), null, new OnVimeoExtractionListener() {
             @Override
             public void onSuccess(VimeoVideo video) {
                 String hdStream = video.getStreams().get("720p");
@@ -214,6 +214,14 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         videoView.setVisibility(View.VISIBLE);
         videoView.requestFocus();
         videoView.start();
+    }
+
+    private String getId(String string){
+        int i = 0;
+        while (i < string.length() && !Character.isDigit(string.charAt(i))) i++;
+        int j = i;
+        while (j < string.length() && Character.isDigit(string.charAt(j))) j++;
+        return string.substring(i, j);
     }
 
 

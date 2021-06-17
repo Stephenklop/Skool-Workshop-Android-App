@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
     private NewsArticleAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     FirebaseAnalytics mFirebaseAnalytics;
+    private View v;
 
     public static String adminToken;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
 
 
-        View v = findViewById(R.id.activity_home_fragment_notifications);
+        v = findViewById(R.id.activity_home_fragment_notifications);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             }
         });
 
-        if(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size() > 0){
-            ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
-            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
-        }
+
+        setNotificationText();
 
 
         View include = findViewById(R.id.include);
@@ -238,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                setNotificationText();
                                 mAdapter.updateList(newsArticles);
                                 refreshLayout.setRefreshing(false);
                             }
@@ -266,6 +266,23 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
 
+    }
+
+    private void setNotificationText(){
+        int size = LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size();
+        ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
+        TextView notificationsText = v.findViewById(R.id.component_notifications_tv_txt);
+        if(size > 0){
+            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
+            if(size == 1){
+                notificationsText.setText("Je hebt 1 melding");
+            } else {
+                notificationsText.setText("Je hebt " + size + " meldingen");
+            }
+        } else {
+            notificationsIcon.setImageResource(R.drawable.ic_bell_off);
+            notificationsText.setText("Geen nieuwe meldingen");
+        }
     }
 
     @Override
