@@ -1,9 +1,13 @@
 package com.example.skoolworkshop2.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,21 +23,27 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
+import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
 import com.example.skoolworkshop2.ui.User.ChangeInvoiceAddressActivity;
 import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
+import com.example.skoolworkshop2.ui.notifications.NotificationsActivity;
+import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
@@ -47,9 +57,10 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
     private Product cultureDay;
     private List<NewsArticle> newsArticles;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private NewsArticleAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     FirebaseAnalytics mFirebaseAnalytics;
+    private View v;
 
     public static String adminToken;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -63,9 +74,37 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         View root = (View) findViewById(R.id.activity_home);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
+
+
+
+
+        v = findViewById(R.id.activity_home_fragment_notifications);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        setNotificationText();
+
+
+        View include = findViewById(R.id.include);
+        include.setClipToOutline(true);
+        ImageView headerGradient = include.findViewById(R.id.component_home_banner_img_gradient);
+        headerGradient.setClipToOutline(true);
+        ImageView headerImage = include.findViewById(R.id.component_home_banner_img_base);
+        headerImage.setClipToOutline(true);
+
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
-        EncryptionLogic.decrypt(androidToken, "secretKey");
+        System.out.println(EncryptionLogic.decrypt(androidToken, "secretKey"));
 
         UserManager iem = new UserManager(this.getApplication());
 
@@ -75,13 +114,21 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView greeting = findViewById(R.id.activity_home_tv_greeting);
         greeting.setText("Goedendag");
 
-        if(iem.hasInfo()) {
+        if (iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
             noAccount.setVisibility(View.GONE);
 
+            LinearLayout notifications = findViewById(R.id.activity_home_ll_notifications);
+            notifications.setVisibility(View.VISIBLE);
+
             points.setVisibility(View.VISIBLE);
 
-            greeting.setText("Goedendag " + iem.getInfo().getUsername());
+            if (!iem.getCustomer().getFirstName().isEmpty()) {
+                greeting.setText("Goedendag " + iem.getCustomer().getFirstName());
+            } else {
+                greeting.setText("Goedendag " + iem.getInfo().getUsername());
+            }
+
 
             String pointsStrStart = "Je hebt ";
             String pointsStr = pointsStrStart + iem.getInfo().getPoints() + " punten";
@@ -128,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
                 Intent intent = new Intent(getApplicationContext(), AddressInfoLayoutTestActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), WorkshopActivity.class));
             }
         });
 
@@ -177,10 +225,35 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         recyclerView.setLayoutManager(layoutManager);
 
 
-//        handleNotificationData();
-//        getToken();
-//
-//        subscribeToTopic("main");
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_home_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                System.out.println("refreshing");
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().deleteNewsArticleTable();
+                        APIDAOFactory apiDaoFactoryNewsArticles = new APIDAOFactory();
+                        NewsArticleDAO newsArticleDAO = apiDaoFactoryNewsArticles.getNewsArticleDAO();
+                        LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());
+                        newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setNotificationText();
+                                mAdapter.updateList(newsArticles);
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                });
+
+                t.start();
+            }
+        });
+
         Bundle bundle = new Bundle();
         bundle.putString("test_event", "test_event_id");
         mFirebaseAnalytics.logEvent("eventTest", bundle);
@@ -197,97 +270,30 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         ordersEvent.putString("orders_event_id", "orders_event_id");
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
-//        LocalDb.getDatabase(getBaseContext()).getInfoDAO().getInfo().getUserId();
 
-//        startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
+    }
+
+    private void setNotificationText(){
+        int size = LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications().size();
+        ImageView notificationsIcon = v.findViewById(R.id.component_notifications_img_bell);
+        TextView notificationsText = v.findViewById(R.id.component_notifications_tv_txt);
+        if(size > 0){
+            notificationsIcon.setImageResource(R.drawable.ic_bell_on);
+            if(size == 1){
+                notificationsText.setText("Je hebt 1 melding");
+            } else {
+                notificationsText.setText("Je hebt " + size + " meldingen");
+            }
+        } else {
+            notificationsIcon.setImageResource(R.drawable.ic_bell_off);
+            notificationsText.setText("Geen nieuwe meldingen");
+        }
     }
 
     @Override
     public void onNoteClick(int position) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticles.get(position).getUrl()));
-        startActivity(browserIntent);
+        Intent appBrowserIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+        appBrowserIntent.putExtra("url", newsArticles.get(position).getUrl());
+        startActivity(appBrowserIntent);
     }
-
-//    public void getToken() {
-//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-//            @Override
-//            public void onComplete(@NonNull Task<String> task) {
-//
-//                if (!task.isSuccessful()) {
-//                    Log.e(TAG, "Failed to get the token.");
-//                    return;
-//                }
-//
-//                //get the token from task
-//                String token = task.getResult();
-//
-//                Log.d(TAG, "Token : " + token);
-//
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
-//            }
-//        });
-//    }
-//
-//    private void handleNotificationData() {
-//        Bundle bundle = getIntent().getExtras();
-//        if(bundle != null) {
-//            if(bundle.containsKey("data1")) {
-//                Log.d(TAG, "Data1: " + bundle.getString("data1"));
-//            }
-//            if(bundle.containsKey("data2")) {
-//                Log.d(TAG, "Data2: " + bundle.getString("data2"));
-//            }
-//        }
-//    }
-//
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        Log.d(TAG, "On New Intent called");
-//    }
-//
-//    /**
-//     * method to subscribe to topic
-//     *
-//     * @param topic to which subscribe
-//     */
-//    private void subscribeToTopic(String topic) {
-//        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(MainActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    /**
-//     * method to unsubscribe to topic
-//     *
-//     * @param topic to which unsubscribe
-//     */
-//    private void unsubscribeToTopic(String topic) {
-//        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(MainActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }

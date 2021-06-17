@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.validationsTests;
 
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.AddressValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.PlaceValidator;
 
 import org.junit.Test;

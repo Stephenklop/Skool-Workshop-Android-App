@@ -33,7 +33,6 @@ public class TelValidator implements TextWatcher {
             return false;
         }
     }
-
     @Override
     final public void afterTextChanged(Editable editableText) {
         mIsValid = isValidTelNumber(editableText);

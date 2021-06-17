@@ -21,7 +21,6 @@ public interface UserDAO {
 
     @Query("DELETE FROM User")
     void deleteInfo();
-
     // Billing
 
     @Query("SELECT * FROM BillingAddress WHERE billingAddress.id = :id")
@@ -48,6 +47,5 @@ public interface UserDAO {
 
     @Query("DELETE FROM shippingaddress WHERE id = :id")
     void deleteShippingAddress(int id);
-
 
 }

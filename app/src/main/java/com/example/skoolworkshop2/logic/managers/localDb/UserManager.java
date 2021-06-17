@@ -6,10 +6,12 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.skoolworkshop2.dao.localDatabase.dao.CustomerDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.ShippingAddress;
+import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 
@@ -19,10 +21,12 @@ public class UserManager {
     private LocalDb localDb;
     private UserDAO userDAO;
     private String TAG = getClass().getSimpleName();
+    private CustomerDAO customerDAO;
 
     public UserManager(Application application){
         localDb = LocalDb.getDatabase(application);
         userDAO = localDb.getUserDAO();
+        customerDAO = localDb.getCustomerDAO();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -49,7 +53,6 @@ public class UserManager {
         userDAO.deleteInfo();
         userDAO.insertInfo(user);
     }
-
     // Billing
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -95,6 +98,7 @@ public class UserManager {
         userDAO.deleteShippingAddress(id);
     }
 
-
-
+    public Customer getCustomer(){
+        return customerDAO.getCustomer();
+    }
 }

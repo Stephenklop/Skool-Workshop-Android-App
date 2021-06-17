@@ -1,34 +1,32 @@
 package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.graphics.Rect;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
@@ -36,796 +34,714 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Cul
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+import com.example.skoolworkshop2.ui.RoundedDialog;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
+import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
+import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
+import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class CulturedayBookingActivity extends FragmentActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
-
-    private final String LOG_TAG = getClass().getSimpleName();
+public class CulturedayBookingActivity extends FragmentActivity {
+    private String LOG_TAG = getClass().getSimpleName();
+    private Product mCultureDay;
+    private CultureDayItem mCultureDayItem;
+    private List<Integer> mSelectedWorkshops;
+    private List<Product> mWorkshops;
+    private List<String> mWorkshopCategories;
+    private List<String> mWorkshopNames;
     private ImageButton mBackButton;
-    private Button mSendBn;
-
-    // Validations
-    private DateValidation dateValidation = new DateValidation();
-    private CultureDayParticipantsValidator cultureDayParticipantsValidator = new CultureDayParticipantsValidator();
-    private RoundsValidator roundsValidator = new RoundsValidator();
-    private WorkshopsPerRoundValidator workshopsPerRoundValidator = new WorkshopsPerRoundValidator();
-    private MinuteValidator minuteValidator = new MinuteValidator();
-    private LearningLevelValidator learningLevelValidator = new LearningLevelValidator();
-    private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
-
-    // Layout
-    private RelativeLayout mDateLayout;
-    private RelativeLayout mParticipantsLayout;
-    private RelativeLayout mItemParticipantsLayout;
-    private RelativeLayout mResultWorkshopPerRoundLayout;
-    private RelativeLayout mResultWorkshopSchemeLayout;
-    private RelativeLayout mItemsLinearLayout;
-    // Edit texts
+    private ImageView mBanner;
+    private TextView mTitle;
     private EditText mDateEditText;
     private EditText mParticipantsEditText;
-    private EditText mRoundsEditText;
+    private EditText mWorkshopRoundsEditText;
     private EditText mWorkshopsPerRoundEditText;
-    private EditText mMinuteEditText;
-    private EditText mLevelEditText;
-    private EditText mParticipantsItemEditText;
-    private EditText mSchemeEditText;
-    // Textviews
-    private TextView mResultWorkshopRoundsTextView;
-    private TextView mResultWorkshopMinutesPerRoundTextView;
-    private TextView mResultWorkshopSchemeTextView;
-    private TextView mResultWorkshopTotalMinutesTextView;
-    private TextView mResultWorkshopLearningLevelTextView;
-    private TextView mTotalCostTextView;
-
-    private HorizontalScrollView mHzItemsView;
-    private DatePickerDialog datePickerDialog;
-
-    private int maxParticipants;
-    //Total time variables;
-    private int minuteT;
-    private int roundT;
-    private int totalTime;
-    private int times = 0;
-    // total items selected
-    private int totalItemsSelected;
-    // Total Cost
-    private Double totalCost;
-    private Double totalPartCost;
-    // CultureDay
-    private CultureDayItem cultureDay;
-    private int items;
-
-    private Spinner mCategorieSpinner;
+    private EditText mDurationPerRoundEditText;
+    private Spinner mCategorySpinner;
+    private CategoryArrayAdapter mCategoryArrayAdapter;
     private Spinner mWorkshopSpinner;
-    private ArrayAdapter<CharSequence> categorieArrayAdapter;
-    private ArrayAdapter<WorkshopItem> workshopArrayAdapter;
-    private List<Product> workshopDummylist;
-    private List<String> workshopNames;
+    private WorkshopArrayAdapter mWorkshopArrayAdapter;
+    private LinearLayout mWorkshopsLinearLayout;
+    private EditText mTimeScheduleEditText;
+    private EditText mParticipantsGraffitiThsirtEditText;
+    private EditText mLearningLevelEditText;
 
-    //cost
-    private DecimalFormat df = new DecimalFormat("###.##");
+    private ImageButton mParticipantsInfoBtn;
+    private ImageButton mTimeScheduleInfoBtn;
+    private ImageButton mParticipantsGraffitiThsirtInfoBnt;
 
-    // Spinner
-    private String item;
-    private ArrayList<String> names = new ArrayList<>();
+    private TextView mOverviewWorkshopRounds;
+    private TextView mOverviewDurationPerRound;
+    private TextView mOverviewTotalDuration;
+    private TextView mOverviewTimeSchedule;
+    private TextView mOverviewLearningLevel;
+    private TextView mOverviewTotalCost;
+    private Button mOrderButton;
 
-    // Radiogroup
-    private RadioGroup mRadioGroup;
-    private RadioButton mRadioButton;
-    private boolean name;
+    private CultureDayParticipantsValidator mCultureDayParticipantsValidator = new CultureDayParticipantsValidator();
+    private RoundsValidator mRoundsValidator = new RoundsValidator();
+    private WorkshopsPerRoundValidator mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
+    private MinuteValidator mMinuteValidator = new MinuteValidator();
+    private LearningLevelValidator mLearningLevelValidator = new LearningLevelValidator();
+    private DateValidation dateValidation = new DateValidation();
+    private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
 
-    //Imagebutton
-    private ImageButton mScheduleInfoBtn;
-    private ImageButton mParticipantInfoBtn;
-    private ImageButton mParticipantItemInfoBtn;
+    private TextView mErrTv;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onCreate( Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_booking);
 
-
-
-        workshopDummylist = new ArrayList<>();
-//        selectedCategories = new ArrayList<>();
-
-        //add dummylist
-        //workshopDummylist.add(new Product(1, "test", "test", "booking", "test desc", "status", "hoi", "buildup", "desc", "cost info", "srcImage", "ImageName", "video"));
-
-        // Variabelen voor workshopnamen voor spinner
-        workshopNames = new ArrayList<>();
-        workshopNames.add(0, "Kies een workshop");
-        for (int i = 0; i < workshopDummylist.size(); i++){
-            workshopNames.add(workshopDummylist.get(i).getName());
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
-        Log.d(LOG_TAG, "onCreate: workshopnames" + workshopNames);
 
-        // Buttons
-        mSendBn = findViewById(R.id.activity_workshop_booking_btn_book);
-        mBackButton = findViewById(R.id.activity_workshop_booking_btn_back);
+        TextView mPriceBn = findViewById(R.id.activity_cultureday_booking_btn_price);
+        TextView mParticipantsBn = findViewById(R.id.activity_cultureday_booking_btn_participant);
+        TextView mWorkshopsBn = findViewById(R.id.activity_cultureday_booking_btn_workshop);
+        TextView mRoundsBn = findViewById(R.id.activity_cultureday_booking_btn_round);
 
-
-        // Setting up IDS
-        mSendBn = findViewById(R.id.activity_cultureday_booking_btn_book);
-        mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
-        mCategorieSpinner = findViewById(R.id.activity_cultureday_booking_spnr_category);
-        mWorkshopSpinner = findViewById(R.id.activity_cultureday_booking_spnr_workshop);
+        mPriceBn.setText("€1674,-");
+        mParticipantsBn.setText("100 Deelnemers");
+        mWorkshopsBn.setText("4 Workshops");
+        mRoundsBn.setText("3 Rondes");
 
 
-        // Date
-        mDateLayout = findViewById(R.id.activity_cultureday_booking_et_date);
-        mDateEditText = findViewById(R.id.date_picker_edit_text);
-        ImageButton datePickerButton = mDateLayout.findViewById(R.id.component_edittext_date_calendar_btn_calendar);
-//        datePickerDialog = new DatePickerDialog(this, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
-        datePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
+        // Initialize attributes
+        initializeAttributes();
+
+        mBackButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CulturedayActivity.class);
+            startActivity(intent);
         });
-        // Workshop Participants
-        mParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_amount);
-        mParticipantsEditText = findViewById(R.id.number_edit_text);
-        mParticipantInfoBtn = mParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
-        // Rounds
-        mRoundsEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_rounds);
-        mResultWorkshopRoundsTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_rounds);
-        //Workshops per workshoprounds
-        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
-        // minutes
-        mMinuteEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_mins);
-        mResultWorkshopMinutesPerRoundTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_mins);
-        // Scheme
-        mSchemeEditText = (EditText) findViewById(R.id.schedule_edit_text);
-        mResultWorkshopSchemeTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_schedule);
-        mScheduleInfoBtn = findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
-        // Learning Level
-        mLevelEditText = (EditText) findViewById(R.id.activity_cultureday_booking_et_level);
-        mResultWorkshopLearningLevelTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_level);
-        // Total cost
-        mTotalCostTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_subtotal);
-        // item participants
-        mItemParticipantsLayout= findViewById(R.id.activity_cultureday_booking_et_special_workshops);
-        mParticipantsItemEditText = (EditText) findViewById(R.id.number_edit_text);
-        mParticipantItemInfoBtn = mItemParticipantsLayout.findViewById(R.id.component_edittext_number_info_btn_info);
 
-        mResultWorkshopTotalMinutesTextView = (TextView) findViewById(R.id.activity_cultureday_booking_tv_duration);
+        Glide.with(getBaseContext()).load(mCultureDay.getSourceImage()).into(mBanner);
 
-        //Total time
-//        this.minuteT = 0;
-//        this.roundT = 0 ;
-//        this.totalTime = 0;
-//        this.totalCost = 0.0;
-//        this.maxParticipants = 0;
-//        this.items = 0;
-//
-//        // Everything for spinner
-//        categorieArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
-//        categorieArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        workshopArrayAdapter = new ArrayAdapter<WorkshopItem>(this, android.R.layout.simple_spinner_item, workshopDummylist);
-//
-//
-//        // Workshop spinner
-//        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workshopNames);
-//        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//        mWorkshopSpinner.setSelection(mWorkshopSpinner.getSelectedItemPosition(), false);
-//        mWorkshopSpinner.setOnItemSelectedListener(this);
-//        // Workshop categorie spinner
-//        mCategorieSpinner.setAdapter(categorieArrayAdapter);
-//        mCategorieSpinner.setSelection(mCategorieSpinner.getSelectedItemPosition(), false);
-//        mCategorieSpinner.setOnItemSelectedListener(this);
-//        // Radiogroup
-//        mRadioGroup = findViewById(R.id.activity_cultureday_booking_rg_workshops);
-//
-//        mParticipantInfoBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Aantal deelnemers mag niet meer dan 100 zijn.", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-//        mScheduleInfoBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Zet uw tijd schema hier.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        mParticipantItemInfoBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Aantal items mag niet meer dan deelnemers zijn.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//
-//
-//        //Use validator
-//        // Date Validator
-//        mDateEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                mDateEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!DateValidation.isValidDate(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                if (DateValidation.isValidDate(editable.toString())){
-//                    mDateEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//
-//                    dateValidation.mIsValid = true;
-//                }
-//            }
-//        });
-//
-//
-//        // Participants
-//        mParticipantsEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!CultureDayParticipantsValidator.isValidMaxParticipant(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                if (CultureDayParticipantsValidator.isValidMaxParticipant(editable.toString())){
-//                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                    maxParticipants = Integer.valueOf(editable.toString());
-//                    cultureDayParticipantsValidator.mIsValid = true;
-//                } else {
-//                    maxParticipants = 0;
-//                }
-//            }
-//        });
-//
-//        // workshop per Rounds
-//        mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!RoundsValidator.isValidWorkshopRounds(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//                if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-//                    int rounds = Integer.parseInt(editable.toString());
-//                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                    // totalCosts
-//                    int roundss = Integer.valueOf(0 +mRoundsEditText.getText().toString());
-//                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
-//                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
-//
-//                    Double itemsPrice = 7.50 * items;
-//                    workshopsPerRoundValidator.mIsValid = true;
-//                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*roundss*workshops*minute));
-//
-//                } else {
-//                    mTotalCostTextView.setText("Subtotaal: ");
-//
-//
-//                }
-//            }
-//        });
-//        // rounds
-//        mRoundsEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!RoundsValidator.isValidWorkshopRounds(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//                if (RoundsValidator.isValidWorkshopRounds(editable.toString())){
-//                    int rounds = 0 +Integer.parseInt(editable.toString()) ;
-//                    mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: " + rounds);
-//                    roundT = rounds;
-//                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
-//                    // totalCosts
-//                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
-//                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
-//                    Double itemsPrice = 7.50 * items;
-//                    roundsValidator.mIsValid = true;
-//
-//                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
-//                } else {
-//                    mTotalCostTextView.setText("Subtotaal: ");
-//
-//                    mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
-//                }
-//            }
-//        });
-//        //Total time
-//        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-//        // Minutes
-//        mMinuteEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//                if(!MinuteValidator.isValidMinute(charSequence.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                if (MinuteValidator.isValidMinute(editable.toString())){
-//                    int minutes = Integer.parseInt(editable.toString());
-//                    mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: " + minutes);
-//                    minuteT = minutes;
-//                    mResultWorkshopTotalMinutesTextView.setText("Totale duur: " + minuteT*roundT + " minuten.");
-//                    // totalCosts
-//                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
-//                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
-//                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
-//                    Double itemsPrice = 7.50 * items;
-//                    minuteValidator.mIsValid = true;
-//
-//                    mTotalCostTextView.setText("Subtotaal: €" + df.format(2.33*rounds*workshops*minute));
-//                } else {
-//                    mTotalCostTextView.setText("Subtotaal: ");
-//                    mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
-//                }
-//            }
-//        });
-//
-//        //Schedule scheme
-//        mSchemeEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                String scheme = s.toString();
-//                if (!scheme.isEmpty()){
-//                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                } else {
-//                    mSchemeEditText.setBackgroundResource(R.drawable.edittext_focused);
-//                }
-//                mResultWorkshopSchemeTextView.setText("Tijdschema: " + scheme);
-//            }
-//        });
-//
-//        //level
-//        mLevelEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
-//                if(!learningLevelValidator.isValidLearningLevels(s.toString())){
-//                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-//                    mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (learningLevelValidator.isValidLearningLevels(s.toString())){
-//                    mLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                    mResultWorkshopLearningLevelTextView.setText("Leerniveau: " + s.toString());
-//                    learningLevelValidator.mIsValid = true;
-//                } else {
-//                    mResultWorkshopLearningLevelTextView.setText("Leerniveau: ");
-//                }
-//            }
-//        });
-//
-//        // item Participants
-//        mParticipantsItemEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                Log.d(LOG_TAG, "onTextChanged: text changed");
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                if(ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)){
-//                    mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-//                    // totalCosts
-//                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
-//                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
-//                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
-//                    items = Integer.valueOf(0 + editable.toString());
-//                    Double itemsPrice = 7.50 * items;
-//
-//                    mTotalCostTextView.setText("Subtotaal: €" + df.format((2.33*rounds*workshops*minute) + itemsPrice));
-//                } else if (!ParticipantsItemValidator.isValidParticipantsItemValidator(editable.toString(), maxParticipants)) {
-//                    mParticipantsItemEditText.setBackgroundResource(R.drawable.edittext_error);
-//                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
-//                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
-//                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
-//                    items = 0;
-//                    Double itemsPrice = 7.50 * items;
-//
-//
-//                    mTotalCostTextView.setText("Subtotaal: €" + df.format((2.33*rounds*workshops*minute) + itemsPrice));
-//
-//                } else {
-//                    int rounds = Integer.valueOf(0 + mRoundsEditText.getText().toString());
-//                    int workshops = Integer.valueOf(0 +mWorkshopsPerRoundEditText.getText().toString());
-//                    int minute = Integer.valueOf(0 +mMinuteEditText.getText().toString());
-//                    items = 0;
-//                    Double itemsPrice = 7.50 * items;
-//
-//
-//                    mTotalCostTextView.setText("Subtotaal: €" + df.format((2.33*rounds*workshops*minute) + itemsPrice));
-//                }
-//            }
-//        });
-//
-//        mBackButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(backIntent);
-//            }
-//        });
-//
-//        mSendBn.setText("Boek nu");
-//        mSendBn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Datum, deelnemers, rondes,workshopsperrondes, minuten, learning levels niet leeg, rest wel
-//                if(dateValidation.isValid() && cultureDayParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid() && workshopsPerRoundValidator.isValid()){
-//                    Intent intent = new Intent(getApplicationContext(), ShoppingCartLayoutTestActivity.class);
-//                    StringBuilder stb = new StringBuilder();
-//                    stb.append(mDateEditText.getText());
-//                    stb.append(mParticipantsEditText.getText());
-//                    stb.append(mRoundsEditText.getText());
-//                    stb.append(mMinuteEditText.getText());
-//                    stb.append(mLevelEditText.getText());
-//                    stb.append(mWorkshopsPerRoundEditText.getText());
-//                    stb.append(mParticipantsItemEditText.getText());
-//
-//                    intent.putExtra(Intent.EXTRA_TEXT, stb.toString());
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Een van uw verplichte velden is nog leeg!", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
-//
-//    }
-//
-//
-//
-//    @Override
-//    public void onClick(View v) {
-//
-//    }
-//
-//    @Override
-//    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//        if(dayOfMonth < 10 && month < 10){
-//            mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
-//        } else if (dayOfMonth < 10){
-//            mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
-//        } else if (month < 10){
-//            mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
-//        } else {
-//            mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
-//        }
-//        datePickerDialog.cancel();
-//    }
-//
-//    @Override
-//    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//        // Voor categorySpinner
-//        switch (adapterView.getId()) {
-//            case R.id.activity_cultureday_booking_spnr_category:
-//                Log.d(LOG_TAG, "onItemSelected: Selected category spinner");
-//                ArrayList<Workshop> categoryWorkshops = new ArrayList<>();
-//                selectedCategories = new ArrayList<>();
-//                item = mCategorieSpinner.getSelectedItem().toString();
-//                switch (item) {
-//                    case "Kies een categorie":
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                    case "Meest gekozen":
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workshopNames);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                    case "Beeldende Kunst":
-//                        selectedCategories.add(workshopNames.get(0));
-//
-//                        for (Workshop workshop : workshopDummylist) {
-//                            if (workshop.getCategory().label.equals("Beeldende Kunst")) {
-//                                selectedCategories.add(workshop.getName());
-//                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
-//                            }
-//                            }
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                    case "Dans":
-//                        selectedCategories.add(workshopNames.get(0));
-//
-//                        for (Workshop workshop : workshopDummylist) {
-//                            if (workshop.getCategory().label.equals("Dans")) {
-//                                selectedCategories.add(workshop.getName());
-//                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
-//                            }
-//                        }
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                    case "Media":
-//                        selectedCategories.add(workshopNames.get(0));
-//
-//                        for (Workshop workshop : workshopDummylist) {
-//                            if (workshop.getCategory().label.equals("Media")) {
-//                                selectedCategories.add(workshop.getName());
-//                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
-//                            }
-//                        }
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                    case "Muziek":
-//                        selectedCategories.add(workshopNames.get(0));
-//
-//                        for (Workshop workshop : workshopDummylist) {
-//                            if (workshop.getCategory().label.equals("Muziek")) {
-//                                selectedCategories.add(workshop.getName());
-//                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
-//                            }
-//                        }
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                    case "Sport":
-//                        selectedCategories.add(workshopNames.get(0));
-//
-//                        for (Workshop workshop : workshopDummylist) {
-//                            if (workshop.getCategory().label.equals("Sport")) {
-//                                selectedCategories.add(workshop.getName());
-//                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
-//                            }
-//                        }
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                    case "Theater":
-//                        selectedCategories.add(workshopNames.get(0));
-//
-//                        for (Workshop workshop : workshopDummylist) {
-//                            if (workshop.getCategory().label.equals("Theater")) {
-//                                selectedCategories.add(workshop.getName());
-//                                Log.d(LOG_TAG, "onItemSelected: workshop: " + workshop);
-//                            }
-//                        }
-//                        workshopArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectedCategories);
-//                        mWorkshopSpinner.setAdapter(workshopArrayAdapter);
-//                        break;
-//                }
-//                break;
-//            case R.id.activity_cultureday_booking_spnr_workshop:
-//                if (totalItemsSelected >= 3) {
-//                    Toast.makeText(getApplicationContext(), "Error: you already have 3 workshops", Toast.LENGTH_SHORT).show();
-//                    break;
-//                } else {
-//                    name = false;
-//                    Log.d(LOG_TAG, "onItemSelected: Selected workshop spinner on position: " + mWorkshopSpinner.getSelectedItem());
-//                    String workshopName = mWorkshopSpinner.getSelectedItem().toString();
-//                    Log.d(LOG_TAG, "onItemSelected: workshopName: " + workshopName);
-//                    // Gaat door lijst van dummyworkshop
-//                    for (Workshop workshop : workshopDummylist) {
-//                        // Kijk of workshop geen default is en geselecteerde workshop uit lijst pakken
-//                        if (!workshop.getName().equals("Default") && workshop.getName().equals(workshopName)) {
-//                            // Kijkt of naam zelfde is als gegeven workshop
-//                            if (names.size() != 0) {
-//                                for (int d = 0; d < names.size(); d++) {
-//                                    Log.d(LOG_TAG, "onItemSelected: name: " + names);
-//                                    if (names.get(d).equals(workshopName)) {
-//                                        Toast.makeText(getApplicationContext(), "Error: you already selected this one", Toast.LENGTH_SHORT).show();
-//                                        Log.d(LOG_TAG, "onItemSelected: Workshop is already in here");
-//                                        name = true;
-//                                    }
-//                                }
-//                                    if (!name){
-//                                        // Voor validatie of workshop niet al toegevoegd is
-//                                        names.add(workshopName);
-//                                        // Opzetten van radiogroup en button
-//                                        mRadioButton = new RadioButton(getApplicationContext());
-//                                        mRadioButton.setText(workshopName);
-//                                        mRadioButton.setBackgroundResource(R.drawable.btn_orange);
-//                                        mRadioButton.setButtonDrawable(null);
-//                                        mRadioButton.setTag(workshopName);
-//                                        mRadioGroup.addView(mRadioButton);
-//
-//                                        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                                            @Override
-//                                            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                                                // kijken of naam overeenkomt met button.gettext
-//
-//                                                i = times + mRadioGroup.getCheckedRadioButtonId();
-//                                                Log.d(LOG_TAG, "onCheckedChanged: id: " + i);
-//                                                // remove van lijst en group
-//                                                totalItemsSelected--;
-//
-//                                                RadioButton button = findViewById(mRadioGroup.getCheckedRadioButtonId());
-//                                                mRadioGroup.removeView(button);
-//                                                String text = button.getText().toString();
-//                                                for (int d = 0; d < names.size(); d++) {
-//                                                    if (names.get(d).equals(text)) {
-//                                                        names.remove(d);
-//                                                    }
-//                                                }
-//                                                Log.d(LOG_TAG, "onCheckedChanged: names: " + names);
-//                                                times++;
-//                                            }
-//                                        });
-//
-//                                        // Er mogen maar 3 items toegevoegd worden.
-//                                        totalItemsSelected++;
-//                                        break;
-//                                    }
-//                            } else {
-//                                // Voor validatie of workshop niet al toegevoegd is
-//                                names.add(workshopName);
-//                                // Opzetten van radiogroup en button
-//                                mRadioButton = new RadioButton(getApplicationContext());
-//                                mRadioButton.setText(workshopName);
-//                                mRadioButton.setBackgroundResource(R.drawable.btn_orange);
-//                                mRadioButton.setButtonDrawable(null);
-//                                mRadioButton.setTag(workshopName);
-//                                mRadioGroup.addView(mRadioButton);
-//
-//                                mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                                    @Override
-//                                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                                        // kijken of naam overeenkomt met button.gettext
-//
-//                                        i = times + mRadioGroup.getCheckedRadioButtonId();
-//                                        Log.d(LOG_TAG, "onCheckedChanged: id: " + i);
-//                                        // remove van lijst en group
-//                                        totalItemsSelected--;
-//
-//                                        RadioButton button = findViewById(mRadioGroup.getCheckedRadioButtonId());
-//                                        mRadioGroup.removeView(button);
-//                                        String text = button.getText().toString();
-//                                        for (int d = 0; d < names.size(); d++) {
-//                                            if (names.get(d).equals(text)) {
-//                                                names.remove(d);
-//                                            }
-//                                        }
-//                                        Log.d(LOG_TAG, "onCheckedChanged: names: " + names);
-//                                        times++;
-//                                    }
-//                                });
-//
-//                                // Er mogen maar 3 items toegevoegd worden.
-//                                totalItemsSelected++;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//                }
-//        }
-//
-//
-//
-//    @Override
-//    public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//    }
-//
-//
-//    @Override
-//    public void onTipDismissed(View view, int anchorViewId, boolean byUser) {
-//        if (byUser){
-//            Toast.makeText(getApplicationContext()
-//                    , "Dismissed", Toast.LENGTH_SHORT).show();
-//        }
-    }
+        mTitle.setText(mCultureDay.getName());
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        // TODO: Add date validation (to ensure the date is in the future)
+        mDateEditText.setOnClickListener(v -> setDatePicker());
+        mDateEditText.setFocusable(false);
+        mDateEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-    }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mDateEditText.equals("")) {
+                    if (dateValidation.isValidDate(s.toString())) {
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                        dateValidation.mIsValid = true;
 
-    @Override
-    public void onClick(View v) {
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+                        dateValidation.mIsValid = false;
 
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (v instanceof EditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
                 }
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mCultureDayItem.setDate(s.toString());
+            }
+        });
+        mDateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+                }
+
+            }
+        });
+
+        mParticipantsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mParticipantsEditText.equals("")) {
+                    if (mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                        updateOrderOverview();
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mCultureDayParticipantsValidator.mIsValid = true;
+                    } else if (!mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mCultureDayParticipantsValidator.mIsValid = false;
+                    } else {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mCultureDayItem.setParticipants((s.toString().equals("")) ? 0 : Integer.parseInt(s.toString()));
+            }
+        });
+        mParticipantsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mCultureDayParticipantsValidator.isValid()) {
+                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
+            }
+        });
+
+        mWorkshopRoundsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mWorkshopRoundsEditText.equals("")) {
+
+                    if (mRoundsValidator.isValidWorkshopRounds(s.toString())) {
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mRoundsValidator.mIsValid = true;
+                    } else if (!mRoundsValidator.isValidWorkshopRounds(s.toString())){
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mRoundsValidator.mIsValid = false;
+                    } else{
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!mWorkshopRoundsEditText.equals("") && mWorkshopRoundsEditText.getText().length() > 0) {
+                    mCultureDayItem.setRounds(Integer.parseInt(s.toString()));
+
+                }
+                updateOrderOverview();
+
+
+            }
+        });
+        mWorkshopRoundsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mRoundsValidator.isValid()) {
+                        mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
+            }
+        });
+
+
+        mWorkshopsPerRoundEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mWorkshopsPerRoundEditText.equals("")) {
+
+                    if (!RoundsValidator.isValidWorkshopRounds(s.toString())) {
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mWorkshopsPerRoundValidator.mIsValid = false;
+                    } else if (RoundsValidator.isValidWorkshopRounds(s.toString())) {
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mWorkshopsPerRoundValidator.mIsValid = true;
+                    } else{
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!mWorkshopsPerRoundEditText.equals("") && mWorkshopRoundsEditText.getText().length() > 0) {
+                    mCultureDayItem.setWorkshopPerWorkshopRound(Integer.parseInt(s.toString()));
+                }
+                updateOrderOverview();
+            }
+        });
+        mWorkshopsPerRoundEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mWorkshopsPerRoundValidator.isValid()) {
+                        mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
+            }
+        });
+
+        mDurationPerRoundEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (!mDurationPerRoundEditText.equals("")) {
+                    if (!mMinuteValidator.isValidMinute(s.toString())) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+                        mMinuteValidator.mIsValid = false;
+                    } else if (mMinuteValidator.isValidMinute(s.toString())) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mMinuteValidator.mIsValid = true;
+                    } else {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(!mDurationPerRoundEditText.equals("") && mDurationPerRoundEditText.getText().length() > 0) {
+                    mCultureDayItem.setRoundDuration(Integer.parseInt(s.toString()));
+                }
+                updateOrderOverview();
+            }
+        });
+        mDurationPerRoundEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mMinuteValidator.isValid()) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+
+            }
+        });
+
+        mCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    mWorkshopNames = loadWorkshopNames(mWorkshopCategories.get(position));
+                    mWorkshopSpinner.setEnabled(false);
+                } else {
+                    mWorkshopNames = loadWorkshopNames(mWorkshopCategories.get(position - 1));
+                    mWorkshopSpinner.setEnabled(true);
+                }
+
+                mWorkshopArrayAdapter.updateData(mWorkshopNames);
+                mWorkshopArrayAdapter.refreshList();
+                mWorkshopSpinner.setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mCategoryArrayAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        mCategorySpinner.setAdapter(mCategoryArrayAdapter);
+
+        mWorkshopSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    String selectedItem = parent.getItemAtPosition(position).toString();
+                    int productId = LocalDb.getDatabase(getBaseContext()).getProductDAO().getProductIdByName(selectedItem);
+
+                    LinearLayout button = (LinearLayout) LayoutInflater.from(getBaseContext())
+                            .inflate(R.layout.component_button_medium_extendable_delete, mWorkshopsLinearLayout, false);
+
+                    TextView buttonLabel = button.findViewById(R.id.component_button_medium_extendable_delete_tv_label);
+                    ImageButton xButton = button.findViewById(R.id.component_button_medium_extendable_delete_btn_x);
+                    buttonLabel.setText(selectedItem);
+
+                    xButton.setOnClickListener(v -> {
+                        button.animate().alpha(0).setDuration(250).withEndAction(() -> {
+                            mWorkshopsLinearLayout.removeView(button);
+                        }).start();
+                        mSelectedWorkshops.remove((Object) productId);
+                    });
+
+                    mWorkshopsLinearLayout.addView(button);
+                    mSelectedWorkshops.add(productId);
+
+                    mCategorySpinner.setSelection(0);
+                    mWorkshopSpinner.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mWorkshopArrayAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        mWorkshopSpinner.setAdapter(mWorkshopArrayAdapter);
+
+        mTimeScheduleEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_focused);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().isEmpty()){
+                    mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_focused);
+                } else {
+                    mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mCultureDayItem.setTimeSchedule(s.toString());
+                    System.out.println("TIJDSCHEMA GEWIJZIGD: " + s.toString());
+                }
+
+                updateOrderOverview();
+            }
+        });
+        mTimeScheduleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mTimeScheduleEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
+        mParticipantsGraffitiThsirtEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO: Check if maxParticipants is indeed 25
+                if(!mParticipantsGraffitiThsirtEditText.equals("")) {
+                    if (participantsItemValidator.isValidParticipantsItemValidator(s.toString(), 25)) {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        participantsItemValidator.mIsValid = true;
+                        if(!mParticipantsGraffitiThsirtEditText.equals("") && mParticipantsGraffitiThsirtEditText.getText().length() > 0) {
+
+                            mCultureDayItem.setAmountOfParticipantsGraffitiTshirt(Integer.parseInt(s.toString()));
+                        }
+                        updateOrderOverview();
+                    } else if (!participantsItemValidator.isValidParticipantsItemValidator(s.toString(), 25)) {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_error);
+                        participantsItemValidator.mIsValid = false;
+
+                    } else {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_focused);
+
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        mParticipantsGraffitiThsirtEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(participantsItemValidator.isValid()) {
+                        mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
+        mLearningLevelEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO: Check learning level validator
+                if(!mLearningLevelValidator.isValidLearningLevels(s.toString())){
+                    mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+                    mLearningLevelValidator.mIsValid = false;
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mLearningLevelValidator.isValidLearningLevels(s.toString())){
+                    mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                    mCultureDayItem.setLearningLevel(s.toString());
+                    mLearningLevelValidator.mIsValid = true;
+                }
+
+                updateOrderOverview();
+            }
+        });
+        mLearningLevelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(mLearningLevelValidator.isValid()) {
+                        mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
+
+        mOrderButton.setText("Boek nu");
+        mOrderButton.setOnClickListener(v -> {
+            if (validate()) {
+                mErrTv.setVisibility(View.GONE);
+
+                ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
+                        mCultureDay.getProductId(),
+                        false,
+                        mCultureDayItem.getDate(),
+                        mCultureDayItem.getRounds(),
+                        mCultureDayItem.getWorkshopPerWorkshopRound(),
+                        mCultureDayItem.getRoundDuration(),
+                        mCultureDayItem.getTimeSchedule(),
+                        mCultureDayItem.getParticipants(),
+                        mCultureDayItem.getAmountOfParticipantsGraffitiTshirt(),
+                        mCultureDayItem.getLearningLevel(),
+                        mCultureDayItem.getPrice()
+                );
+
+                shoppingCartItem.setProducts(mSelectedWorkshops);
+
+                System.out.println("BOOKED CULTURE DAY: " + shoppingCartItem);
+                System.out.println("WORKSHOPS: " + mSelectedWorkshops);
+
+                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(shoppingCartItem);
+
+                Intent intent = new Intent(this, ShoppingCartActivity.class);
+                startActivity(intent);
+            } else {
+                mErrTv.setVisibility(View.VISIBLE);
+                mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
+            }
+        });
+
+        mParticipantsInfoBtn.setOnClickListener(v -> {
+            String header = "Totaal aantal deelnemers";
+            String content = "Maximaal 100 deelnemers aan een cultuurdag";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+
+        mTimeScheduleInfoBtn.setOnClickListener(v -> {
+            String header = "Tijdschema";
+            String content = "Geef hier op hoe jullie het tijdschema willen hebben (aantal rondes met eventueel pauzes)";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+
+        mParticipantsGraffitiThsirtInfoBnt.setOnClickListener(v -> {
+            String header = "Deelnemers Graffiti en T-Shirt ontwerpen (+€7,50)";
+            String content = "Indien je de workshop Graffiti of T-shirt ontwerpen afneemt bereken wij o.b.v. het aantal deelnemers de materiaalkosten.";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+    }
+
+    private void initializeAttributes() {
+        // Main view
+        mCultureDay = (Product) getIntent().getSerializableExtra("cultureDay");
+        mCultureDayItem = new CultureDayItem(mCultureDay);
+        mSelectedWorkshops = new ArrayList<>();
+        mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
+        mWorkshopCategories = loadWorkshopCategories();
+        mWorkshopNames = loadWorkshopNames("");
+        mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
+        mBanner = findViewById(R.id.activity_cultureday_booking_img_banner);
+        mTitle = findViewById(R.id.activity_cultureday_booking_tv_title);
+        mDateEditText = findViewById(R.id.date_picker_edit_text);
+        mParticipantsEditText = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.number_edit_text);
+        mParticipantsInfoBtn = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.component_edittext_number_info_btn_info);
+        mWorkshopRoundsEditText = findViewById(R.id.activity_cultureday_booking_et_rounds);
+        mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
+        mDurationPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_mins);
+        mCategorySpinner = findViewById(R.id.activity_cultureday_booking_spnr_category);
+        mCategoryArrayAdapter = new CategoryArrayAdapter(this, R.layout.item_spinner_dropdown, mWorkshopCategories); //new ArrayAdapter<>(this, R.layout.item_spinner_dropdown, mWorkshopCategories);
+        mWorkshopSpinner = findViewById(R.id.activity_cultureday_booking_spnr_workshop);
+        mWorkshopArrayAdapter = new WorkshopArrayAdapter(this, R.layout.item_spinner_dropdown, mWorkshopNames);
+        mWorkshopsLinearLayout = findViewById(R.id.activity_cultureday_booking_workshops);
+        mTimeScheduleEditText = findViewById(R.id.schedule_edit_text);
+        mTimeScheduleInfoBtn = findViewById(R.id.activity_cultureday_booking_et_schedule).findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
+        mParticipantsGraffitiThsirtEditText = findViewById(R.id.activity_cultureday_booking_et_special_workshops).findViewById(R.id.number_edit_text);
+        mParticipantsGraffitiThsirtInfoBnt = findViewById(R.id.activity_cultureday_booking_et_special_workshops).findViewById(R.id.component_edittext_number_info_btn_info);
+        mLearningLevelEditText = findViewById(R.id.activity_cultureday_booking_et_level);
+
+        // Overview
+        mOverviewWorkshopRounds = findViewById(R.id.activity_cultureday_booking_tv_rounds);
+        mOverviewDurationPerRound = findViewById(R.id.activity_cultureday_booking_tv_mins);
+        mOverviewTotalDuration = findViewById(R.id.activity_cultureday_booking_tv_duration);
+        mOverviewTimeSchedule = findViewById(R.id.activity_cultureday_booking_tv_schedule);
+        mOverviewLearningLevel = findViewById(R.id.activity_cultureday_booking_tv_level);
+        mOverviewTotalCost = findViewById(R.id.activity_cultureday_booking_tv_subtotal);
+        mOrderButton = findViewById(R.id.activity_cultureday_booking_btn_book);
+
+        // Validation
+        mCultureDayParticipantsValidator = new CultureDayParticipantsValidator();
+        mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
+        mMinuteValidator = new MinuteValidator();
+        mLearningLevelValidator = new LearningLevelValidator();
+
+        // Error
+        mErrTv = findViewById(R.id.activity_cultureday_booking_tv_err);
+    }
+
+    private void setDatePicker() {
+        int mYear, mMonth, mDay;
+
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+//            mDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            if(dayOfMonth < 10 && month < 10){
+                mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+            } else if (dayOfMonth < 10){
+                mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+            } else if (month < 10){
+                mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+            } else {
+                mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+            mDateEditText.setError(null);
+        }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+
+    private List<String> loadWorkshopCategories() {
+        List<String> result = new ArrayList<>();
+
+        for (int i = 0; i < mWorkshops.size(); i++) {
+            String category = mWorkshops.get(i).getCategory();
+
+            // Avoid duplicate categories showing up
+            if (result.stream().noneMatch(o -> o.equals(category)) && !category.isEmpty()) {
+                // TODO: Fix empty category
+                result.add(category);
+            }
         }
-        return super.dispatchTouchEvent(event);
+
+        return result;
+    }
+
+    private List<String> loadWorkshopNames(String category) {
+        List<String> result = new ArrayList<>();
+        List<Product> products;
+
+        // TODO: Add all category
+        if (category.equals("")) {
+            products = mWorkshops;
+        } else {
+            products = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByCategory(category);
+        }
+
+        for (int i = 0; i < products.size(); i++) {
+            int productId = products.get(i).getProductId();
+
+            if (!mSelectedWorkshops.contains(productId)) {
+                result.add(products.get(i).getName());
+            }
+        }
+
+        return result;
+    }
+
+    private void updateOrderOverview() {
+        System.out.println("UPDATE ORDER OVERVIEW");
+        mOverviewWorkshopRounds.setText("Workshoprondes: " + mCultureDayItem.getRounds());
+        mOverviewDurationPerRound.setText("Duur per workshopronde: " + mCultureDayItem.getRoundDuration() + " min");
+        mOverviewTotalDuration.setText("Tijdschema: " + ((mCultureDayItem.getTimeSchedule() == null || mCultureDayItem.getTimeSchedule().equals("")) ? "n.n.g." : mCultureDayItem.getTimeSchedule()));
+        mOverviewTimeSchedule.setText("Totale duur: " + mCultureDayItem.getRoundDuration() * mCultureDayItem.getRounds() + " min");
+        mOverviewLearningLevel.setText("Leerniveau: " + ((mCultureDayItem.getLearningLevel() == null || mCultureDayItem.getLearningLevel().equals("")) ? "n.n.b." : mCultureDayItem.getLearningLevel()));
+        mOverviewTotalCost.setText("Subtotaal: €" + (int) mCultureDayItem.getPrice());
+    }
+
+    private boolean validate() {
+        boolean result = true;
+
+        boolean date = dateValidation.isValid();
+        boolean participants = mCultureDayParticipantsValidator.isValid();
+        boolean rounds = mRoundsValidator.isValid();
+        boolean workshopsPerRound = mWorkshopsPerRoundValidator.isValid();
+        boolean minutes = mMinuteValidator.isValid();
+        boolean workshops = mSelectedWorkshops.size() > 0;
+        boolean schedule = mCultureDayItem.getTimeSchedule() != null || (mCultureDayItem.getTimeSchedule() != null ? mCultureDayItem.getTimeSchedule().length() : 0) > 0;
+        boolean specialParticipants = participantsItemValidator.isValid();
+        boolean level = mLearningLevelValidator.isValid();
+
+        if (!date) {
+            result = false;
+            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!participants) {
+            result = false;
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!rounds) {
+            result = false;
+            mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!workshopsPerRound) {
+            result = false;
+            mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!minutes) {
+            result = false;
+            mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!workshops) {
+            result = false;
+        }
+        if (!schedule) {
+            // set schedule to n.v.t. when left empty
+            mCultureDayItem.setTimeSchedule("n.v.t.");
+        }
+        if (!specialParticipants) {
+            result = false;
+            mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!level) {
+            result = false;
+            mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+
+        return result;
     }
 }

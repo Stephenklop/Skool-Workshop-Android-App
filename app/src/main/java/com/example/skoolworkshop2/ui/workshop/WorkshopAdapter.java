@@ -66,7 +66,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
             Log.d(LOG_TAG, "onClick on item " + getAdapterPosition());
             listener.onWorkshopSelected(getAdapterPosition());
             Intent intent = new Intent(view.getContext(), WorkshopDetailActivity.class);
-            intent.putExtra("Workshop", workshopArrayList.get(getAdapterPosition()));
+            intent.putExtra("workshop", workshopArrayList.get(getAdapterPosition()));
             view.getContext().startActivity(intent);
         }
     }

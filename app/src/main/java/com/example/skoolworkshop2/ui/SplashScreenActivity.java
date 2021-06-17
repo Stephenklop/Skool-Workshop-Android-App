@@ -4,10 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,9 +24,14 @@ import android.widget.Toast;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
+import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
+import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +41,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class SplashScreenActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().getSimpleName();
+    private Thread tokenThread;
+    private RoundedDialog roundedDialog;
+    private ImageView mLoadingImg;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -38,8 +51,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-
-        ImageView mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
+        mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -50,8 +62,49 @@ public class SplashScreenActivity extends AppCompatActivity {
         avd.start();
 
 
-        DAOFactory apidaoFactory = new APIDAOFactory();
 
+
+
+        if(checkInternet()){
+            roundedDialog = new RoundedDialog(SplashScreenActivity.this, "Geen verbinding", "Geen verbinding met het internet gevonden. Probeer het later opniew.");
+        } else {
+            runThreads();
+            MessagingService messagingService = new MessagingService();
+            messagingService.handleNotificationData(getIntent());
+            messagingService.subscribeToTopic("main");
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "On New Intent called");
+    }
+
+    private boolean checkInternet(){
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        cm.registerNetworkCallback(new NetworkRequest.Builder().build(), new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                super.onAvailable(network);
+                startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+                if(roundedDialog != null){
+                    roundedDialog.dismiss();
+                    runThreads();
+                }
+            }
+        } );
+        return !isConnected;
+    }
+
+    private void runThreads(){
+        DAOFactory apidaoFactory = new APIDAOFactory();
 
 
         Thread toMainActivity = new Thread(new Runnable() {
@@ -66,12 +119,37 @@ public class SplashScreenActivity extends AppCompatActivity {
                 });
             }
         });
+
+        Thread updateUserInfo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                    System.out.println("updating account info");
+                    UserDAO userDAO = apidaoFactory.getUserDAO();
+                    int id = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId();
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                    System.out.println("deleted customer");
+                    Customer insertCustomer = userDAO.getCustomerInfo(id);
+                    System.out.println(insertCustomer.toString());
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(insertCustomer);
+                    System.out.println("added customer with updated info");
+                    LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
+                    System.out.println("deleted user");
+                    User user = userDAO.getLastUser();
+                    System.out.println(user.toString());
+                    LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
+                    System.out.println("added user with updated info");
+                }
+                toMainActivity.start();
+            }
+        });
+
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
             LocalDb.getDatabase(getBaseContext()).getProductDAO().deleteProductTable();
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(28));
-            toMainActivity.start();
+            updateUserInfo.start();
         });
 
         Thread APIThread = new Thread(() -> {
@@ -84,13 +162,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
 
 
-
-        handleNotificationData();
-        getToken();
-
-        subscribeToTopic("main");
-
-        Thread tokenThread = new Thread(new Runnable() {
+        tokenThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 UserManager iem = new UserManager(getApplication());
@@ -100,94 +172,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 APIThread.start();
             }
         });
+
         tokenThread.start();
-    }
-
-
-    public String getToken() {
-        final String[] token = {""};
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-
-                if (!task.isSuccessful()) {
-                    Log.e(TAG, "Failed to get the token.");
-                    return;
-                }
-
-                //get the token from task
-                token[0] = task.getResult();
-
-                Log.d(TAG, "Token : " + token[0]);
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "Failed to get the token : " + e.getLocalizedMessage());
-            }
-        });
-        return token[0];
-    }
-
-    private void handleNotificationData() {
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if(bundle.containsKey("data1")) {
-                Log.d(TAG, "Data1: " + bundle.getString("data1"));
-            }
-            if(bundle.containsKey("data2")) {
-                Log.d(TAG, "Data2: " + bundle.getString("data2"));
-            }
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d(TAG, "On New Intent called");
-    }
-
-    /**
-     * method to subscribe to topic
-     *
-     * @param topic to which subscribe
-     */
-    private void subscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-//                Toast.makeText(SplashScreenActivity.this, "Subscribed to " + topic, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Subscribed to " + topic);
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(SplashScreenActivity.this, "Failed to subscribe", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Failed to subscribe");
-            }
-        });
-    }
-
-    /**
-     * method to unsubscribe to topic
-     *
-     * @param topic to which unsubscribe
-     */
-    private void unsubscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(SplashScreenActivity.this, "UnSubscribed to " + topic, Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SplashScreenActivity.this, "Failed to unsubscribe", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

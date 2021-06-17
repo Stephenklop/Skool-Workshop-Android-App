@@ -24,6 +24,7 @@ import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.AddressValidator;
+import com.example.skoolworkshop2.logic.validation.addressInfoValidators.AddressValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.PlaceValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.StreetnameValidator;
@@ -362,6 +363,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!mAddressEditText.equals("")) {
                     if (addressValidator.isValidAddress(s.toString())) {
+
                         mAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         addressValidator.mIsValid = true;
 
@@ -707,6 +709,7 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!mWAddressEditText.equals("")) {
                     if (addressValidator.isValidAddress(s.toString())) {
+
                         mWAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         addressValidator.mIsValid = true;
 
@@ -869,8 +872,8 @@ public class AddressInfoLayoutTestActivity extends AppCompatActivity implements 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-
                     mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_default);
+
 
                 } else{
                     mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_focused);

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,9 +23,11 @@ import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.CategoryAdapter;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -53,12 +56,19 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         setContentView(R.layout.activity_workshops);
         View root = findViewById(R.id.activity_workshops);
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
+
         MenuController menuController = new MenuController(root);
         BottomNavigationView menu = root.findViewById(R.id.activity_menu_buttons);
         menu.getMenu().getItem(1).setChecked(true);
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         mWorkshops = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Workshop");
+
+
 
         TextView categoryTitle = findViewById(R.id.activity_workshops_txt_category_title);
 
@@ -100,6 +110,18 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             }
         });
 
+        boolean highlightedExists = false;
+        for (Product workshop : mWorkshops){
+            if(workshop.isHighlighted()){
+                highlightedExists = true;
+            }
+        }
+        if(highlightedExists){
+            ca.setChecked(0);
+        } else {
+            ca.setChecked(1);
+        }
+
         // SearchView
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -113,7 +135,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                 if(!automaticChangedSearch[0]){
                     categoryTitle.setText("Zoekresultaten");
                     automaticChangedCategory[0] = true;
-                    ca.setChecked();
+                    ca.setChecked(1);
                     automaticChangedCategory[0] = false;
                     searchValue = s;
                     if(s.isEmpty()){
