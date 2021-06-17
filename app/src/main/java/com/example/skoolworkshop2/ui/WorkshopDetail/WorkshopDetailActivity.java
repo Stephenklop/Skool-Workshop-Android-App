@@ -87,8 +87,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), WorkshopActivity.class);
-                startActivity(backIntent);
+                finish();
             }
         });
 
