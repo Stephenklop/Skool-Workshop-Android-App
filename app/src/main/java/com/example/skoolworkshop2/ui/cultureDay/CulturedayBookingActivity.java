@@ -633,7 +633,14 @@ public class CulturedayBookingActivity extends FragmentActivity {
         }
 
         for (int i = 0; i < products.size(); i++) {
-            result.add(products.get(i).getName());
+            int productId = products.get(i).getProductId();
+
+            Log.e( "", "loadWorkshopNames: " + mSelectedWorkshops );
+            Log.e( "", "loadWorkshopNames: " + productId );
+
+            if (!mSelectedWorkshops.contains(productId)) {
+                result.add(products.get(i).getName());
+            }
         }
 
         return result;

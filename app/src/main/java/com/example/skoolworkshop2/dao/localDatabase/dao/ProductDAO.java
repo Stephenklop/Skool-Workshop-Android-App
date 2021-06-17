@@ -23,7 +23,7 @@ public interface ProductDAO {
     @Query("DELETE FROM Product")
     public void deleteAllProducts();
 
-    @Query("SELECT 1 FROM Product WHERE name = :name")
+    @Query("SELECT productId FROM Product WHERE name = :name")
     public int getProductIdByName(String name);
 
     @Query("SELECT * FROM Product WHERE productType = :type")
