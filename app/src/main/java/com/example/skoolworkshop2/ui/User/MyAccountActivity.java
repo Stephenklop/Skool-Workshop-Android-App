@@ -124,6 +124,12 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon1.setText("Account");
         ImageView imageIcon1 = icon1.findViewById(R.id.item_dashboard_img_icon);
         imageIcon1.setImageResource(R.drawable.ic_user);
+        icon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AccountDataActivity.class));
+            }
+        });
 
 
         //second icon
