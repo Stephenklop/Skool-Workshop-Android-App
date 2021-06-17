@@ -368,6 +368,13 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     TextView buttonLabel = button.findViewById(R.id.textView);
                     buttonLabel.setText(selectedItem);
 
+                    button.setOnClickListener(v -> {
+                        button.animate().alpha(0).setDuration(250).withEndAction(() -> {
+                            mWorkshopsLinearLayout.removeView(button);
+                        }).start();
+                        mSelectedWorkshops.remove((Object) productId);
+                    });
+
                     mWorkshopsLinearLayout.addView(button);
                     mSelectedWorkshops.add(productId);
 
