@@ -64,8 +64,6 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     private EditText mCountryEditText;
     private EditText mPlaceEditText;
     private EditText mStreetNameEditText;
-    private EditText mTelEditText;
-    private EditText mEmailEditText;
     // Spinners
     private Spinner mLocationCountrySpnr;
     // Drawables
@@ -87,7 +85,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
 
         // Back Button
-        mBackButton = findViewById(R.id.activity_change_invoice_address_btn_back);
+        mBackButton = findViewById(R.id.activity_change_workshop_location_btn_back);
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +210,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         });
 
         // Place
-        mPlaceEditText = findViewById(R.id.activity_change_invoice_address_et_place);
+        mPlaceEditText = findViewById(R.id.activity_change_workshop_location_et_place);
         mPlaceEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -239,7 +237,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         });
 
         // Street name
-        mStreetNameEditText = findViewById(R.id.activity_change_invoice_address_et_street);
+        mStreetNameEditText = findViewById(R.id.activity_change_workshop_location_et_street);
         mStreetNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -266,7 +264,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         });
 
         // Country
-        mCountryEditText = findViewById(R.id.activity_change_invoice_address_et_country);
+        mCountryEditText = findViewById(R.id.activity_change_workshop_location_et_country);
         mCountryEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -292,87 +290,34 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
             }
         });
 
-        // Phone
-        mTelEditText = findViewById(R.id.activity_change_invoice_address_et_tel);
-        mTelEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                if(!telValidator.isValidTelNumber(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mTelEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(telValidator.isValidTelNumber(s.toString())){
-                    mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    telValidator.mIsValid = true;
-                }
-            }
-        });
-
-        // Email
-        mEmailEditText = findViewById(R.id.activity_change_invoice_address_et_email);
-        mEmailEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                if(!emailValidator.isValidEmail(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(emailValidator.isValidEmail(s.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    emailValidator.mIsValid = true;
-                }
-            }
-        });
-
 //        // Type in edittexts if user updates billingaddress
-        if (InvoiceAdressActivity.shippingChecker = true){
+        if (InvoiceAdressActivity.shippingChecker = true) {
             shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("SHIPPINGADDRESS");
-            mFirstNameEditText.setText(shippingAddress.getFirstName());
-            mLastNameEditText.setText(shippingAddress.getLastName());
-            mCompanyNameEditText.setText(shippingAddress.getCompany());
-            mPostCodeEditText.setText(shippingAddress.getPostcode());
-            // huisnummer
-            String[] parts = shippingAddress.getAddress().split(" ");
-            StringBuilder stb = new StringBuilder();
-            String house = "";
-            for(String part : parts){
-                if(part.matches(".*\\d.*")){
-                    house = part;
-                } else {
-                    stb.append(part + " ");
+            if (shippingAddress != null) {
+                mFirstNameEditText.setText(shippingAddress.getFirstName());
+                mLastNameEditText.setText(shippingAddress.getLastName());
+                mCompanyNameEditText.setText(shippingAddress.getCompany());
+                mPostCodeEditText.setText(shippingAddress.getPostcode());
+                // huisnummer
+                String[] parts = shippingAddress.getAddress().split(" ");
+                StringBuilder stb = new StringBuilder();
+                String house = "";
+                for (String part : parts) {
+                    if (part.matches(".*\\d.*")) {
+                        house = part;
+                    } else {
+                        stb.append(part + " ");
+                    }
                 }
+                Log.d(LOG_TAG, "onCreate: part 1: " + stb);
+                Log.d(LOG_TAG, "onCreate: part 2: " + house);
+
+                mPlaceEditText.setText(shippingAddress.getCity());
+                mStreetNameEditText.setText(stb.toString());
+                mHouseNumberEditText.setText(house);
+                mCountryEditText.setText(shippingAddress.getCountry());
             }
-            Log.d(LOG_TAG, "onCreate: part 1: " + stb);
-            Log.d(LOG_TAG, "onCreate: part 2: " + house);
-
-            mPlaceEditText.setText(shippingAddress.getCity());
-            mStreetNameEditText.setText(stb.toString());
-            mHouseNumberEditText.setText(house);
-            mCountryEditText.setText(shippingAddress.getCountry());
         }
-
         // Textwatchers
         nlTextWatcher = new TextWatcher() {
             @Override
@@ -427,7 +372,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         };
 
         // Submit Button
-        mSubmitButton = findViewById(R.id.activity_change_invoice_submit_btn);
+        mSubmitButton = findViewById(R.id.activity_change_workshop_location_btn_submit);
         mSubmitButton.setText("Adres opslaan");
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override

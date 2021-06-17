@@ -41,8 +41,8 @@ public class InvoiceAdressActivity extends AppCompatActivity {
     private ShippingAddress shippingAddress;
     private TextView mInvoiceShippingTextView;
     // check for update
-    public static boolean billingChecker;
-    public static boolean shippingChecker;
+    public static boolean billingChecker = false;
+    public static boolean shippingChecker = false;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -112,20 +112,20 @@ public class InvoiceAdressActivity extends AppCompatActivity {
             mInvoiceShippingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toShippingAddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
-                    toShippingAddress.putExtra("SHIPPINGADDRESS", (Parcelable) shippingAddress);
+                    Intent toShippingAddress = new Intent(getApplicationContext(), ChangeInvoiceShippingActivity.class);
+                    toShippingAddress.putExtra("SHIPPINGADDRESS", (Serializable) shippingAddress);
                     toShippingAddress.putExtra("CHECK", shippingChecker);
                     startActivity(toShippingAddress);
                 }
             });
-        } else {
+        } else if (shippingAddress == null){
             shippingChecker = false;
             mInvoiceShippingTextView.setText("Dit adres is nog niet ingesteld.");
             mInvoiceShippingAddressImageButton.setBackgroundResource(R.drawable.ic_plus);
             mInvoiceShippingAddressImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toShippingAddress = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
+                    Intent toShippingAddress = new Intent(getApplicationContext(), ChangeInvoiceShippingActivity.class);
                     toShippingAddress.putExtra("CHECK", shippingChecker);
                     startActivity(toShippingAddress);
                 }

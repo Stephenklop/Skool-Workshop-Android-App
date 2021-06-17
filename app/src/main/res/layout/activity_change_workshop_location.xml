@@ -251,6 +251,7 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_change_workshop_location_tv_country" />
 
         <include
+            android:id="@+id/activity_change_workshop_location_btn_submit"
             layout="@layout/component_button_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

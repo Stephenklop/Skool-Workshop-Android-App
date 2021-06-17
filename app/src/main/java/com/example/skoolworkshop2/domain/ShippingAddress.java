@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class ShippingAddress {
+public class ShippingAddress implements Serializable {
     @ColumnInfo
     private String firstName;
     @ColumnInfo

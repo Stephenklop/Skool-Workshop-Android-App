@@ -33,6 +33,7 @@
         <activity android:name=".ui.MoreMenuActivity"
                 android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.User.ChangeInvoiceShippingActivity"/>
         <activity
             android:name=".ui.cultureDay.CulturedayBookingActivity"
             android:windowSoftInputMode="adjustPan"/>
