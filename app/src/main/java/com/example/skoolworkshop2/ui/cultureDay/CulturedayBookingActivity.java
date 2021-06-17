@@ -332,7 +332,14 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mWorkshopNames = loadWorkshopNames(mWorkshopCategories.get(position));
+                if (position == 0) {
+                    mWorkshopNames = loadWorkshopNames(mWorkshopCategories.get(position));
+                    mWorkshopSpinner.setEnabled(false);
+                } else {
+                    mWorkshopNames = loadWorkshopNames(mWorkshopCategories.get(position - 1));
+                    mWorkshopSpinner.setEnabled(true);
+                }
+
                 mWorkshopArrayAdapter.updateData(mWorkshopNames);
                 mWorkshopArrayAdapter.refreshList();
                 mWorkshopSpinner.setSelection(0);
@@ -595,7 +602,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
             String category = mWorkshops.get(i).getCategory();
 
             // Avoid duplicate categories showing up
-            if (result.stream().noneMatch(o -> o.equals(category))) {
+            if (result.stream().noneMatch(o -> o.equals(category)) && !category.isEmpty()) {
                 // TODO: Fix empty category
                 result.add(category);
             }
