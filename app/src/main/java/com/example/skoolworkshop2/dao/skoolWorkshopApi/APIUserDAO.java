@@ -118,6 +118,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
     public void updateUser(String email, String displayName, String firstName, String lastName) {
 //        LocalAppStorage localAppStorage = new LocalAppStorage(context);
         int id = LocalDb.getDatabase(getBaseContext()).getUserDAO().getInfo().getId();
+        System.out.println("integer: " + id + "++++++++++++++++++++++++++++++++++++++++");
 
         final String PATH = "account/" + id;
         User result = null;
@@ -126,19 +127,13 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             connect(BASE_URL + PATH);
             connection.setDoOutput(true);
             connection.setRequestMethod("PUT");
-            //TODO add header with App token
-            //wordt gedaan, moet getest worden
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
             String jsonInput = "{\"email\": \"" + email + "\", \"name\": \"" + displayName + "\", \"first_name\": \"" + firstName + "\", \"last_name\": \"" + lastName + "\"}";
             System.out.println("JSON STRING: " + jsonInput);
 
-            //TODO send actual request to de API
-            //moet getest worden
-            System.out.println("--------voor output stream--------");
             OutputStream os = connection.getOutputStream();
-            System.out.println("--------na output stream--------");
             os.write(jsonInput.getBytes());
             os.flush();
 
@@ -167,12 +162,6 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
                 }
 
             }
-            //TODO request to GET the 'new' information from the API
-            //zit al in PUT request, je krijgt nieuwe user terug
-            //TODO if the 'new' information is new, delete old data from the localDB
-            //wordt gedaan
-            //TODO update database with the new information.
-            //wordt gedaan
         } catch (Exception e) {
             e.printStackTrace();
         }

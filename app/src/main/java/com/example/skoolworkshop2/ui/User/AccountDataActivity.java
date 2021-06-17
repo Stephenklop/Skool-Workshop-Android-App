@@ -28,7 +28,6 @@ public class AccountDataActivity extends AppCompatActivity {
 
         String firstName = LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getFirstName();
         String lastName = LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getLastName();
-//        String emailCustomer = LocalDb.getDatabase(getApplication()).getCustomerDAO().getCustomer().getEmail();
         String emailUser = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getEmail();
         String displayName = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getUsername();
 
@@ -145,13 +144,12 @@ public class AccountDataActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 APIUserDAO apiUserDAO = new APIUserDAO();
-
-                try {
-                    System.out.println("-------in on click van button--------");
-                    apiUserDAO.updateUser(emailText.getText().toString(), displayNameText.getText().toString(), firstNameText.getText().toString(), lastNameText.getText().toString());
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        apiUserDAO.updateUser(emailText.getText().toString(), displayNameText.getText().toString(), firstNameText.getText().toString(), lastNameText.getText().toString());
+                    }
+                }).start();
             }
         });
 
