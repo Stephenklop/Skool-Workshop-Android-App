@@ -224,8 +224,6 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         ordersEvent.putString("orders_event_id", "orders_event_id");
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
 
-        Intent intent = new Intent(getApplicationContext(), VideoTestActivity.class);
-        startActivity(intent);
 
     }
 
