@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Order implements Serializable {
+public class Order {
     @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
     private int id;
 
@@ -46,15 +46,12 @@ public class Order implements Serializable {
     private String reservationSystem;
 
     @ColumnInfo
-    private List<ShoppingCartItem> items;
-
-    @ColumnInfo
     private double distance;
 
     @ColumnInfo
     private double price;
 
-    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, List<ShoppingCartItem> items, double distance, double price) {
+    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, double distance, double price) {
         this.status = status;
         this.customerId = customerId;
         this.billingAddressId = billingAddressId;
@@ -65,13 +62,16 @@ public class Order implements Serializable {
         this.billingCJP = billingCJP;
         this.billingVideo = billingVideo;
         this.reservationSystem = reservationSystem;
-        this.items = items;
         this.distance = distance;
         this.price = price;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -152,14 +152,6 @@ public class Order implements Serializable {
 
     public void setReservationSystem(String reservationSystem) {
         this.reservationSystem = reservationSystem;
-    }
-
-    public List<ShoppingCartItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ShoppingCartItem> items) {
-        this.items = items;
     }
 
     public double getDistance() {

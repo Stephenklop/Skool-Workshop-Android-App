@@ -18,6 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.domain.BillingAddress;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -35,6 +41,7 @@ import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -56,7 +63,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private TextWatcher beTextWatcher;
     private TextWatcher nlWTextWatcher;
     private TextWatcher beWTextWatcher;
-
 
     //Edit text User
     private EditText mFirstNameEditText;
@@ -80,11 +86,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWPlaceEditText;
     private EditText mWStreetNameEditText;
     private EditText mWWorkshopInfoText;
-
-    //Delay for textchanger
-    private Timer timer = new Timer();
-    private final long DELAY = 1000; // Milliseconds
-
 
     //Buttons
     private ImageButton mBackButton;
@@ -125,7 +126,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn = findViewById(R.id.activity_address_info_btn_submit);
         mBackButton = findViewById(R.id.activity_address_info_btn_back);
 
-        ////Setting up ID's Workshop Info
+        //Setting up ID's Workshop Info
         mWFirstNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_firstname);
         mWLastNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_lastname);
         mWCompanyNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_company);
@@ -142,12 +143,10 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mLocationCountrySpnr.setSelection(1);
         mLocationCountrySpnr.setOnItemSelectedListener(this);
 
-
         mWorkshopLocationCountrySpnr = findViewById(R.id.activity_address_info_spnr_workshop_country);
         mWorkshopLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Drawable[]{NL, BE}));
 
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
-
 
         CheckBox mWorkshopLocationCb = findViewById(R.id.activity_address_info_cb_workshop_location);
         ConstraintLayout mWorkshopLocationCl = findViewById(R.id.activity_address_info_cl_workshop_location);
@@ -898,16 +897,68 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && cjpValidator.isValid()){
+                if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid()){
                     // Alles vgm opslaan in gebruiker
-                    Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
-                    intent.putExtra("FIRSTNAME", mFirstNameEditText.getText().toString());
+                    System.out.println("VERDER");
 
+                    BillingAddress billingAddress = new BillingAddress(
+                            mFirstNameEditText.getText().toString(),
+                            mLastNameEditText.getText().toString(),
+                            mCompanyNameEditText.getText().toString(),
+                            mPostCodeEditText.getText().toString(),
+                            mPlaceEditText.getText().toString(),
+                            mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
+                            mLocationCountrySpnr.getSelectedItem().toString(),
+                            mTelEditText.getText().toString(),
+                            mEmailEditText.getText().toString()
+                    );
+
+                    LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().deleteBillingAddress();
+                    int billingAddressId = (int) LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().insertBillingAddress(billingAddress);
+
+                    UserManager userManager = new UserManager(getApplication());
+                    Customer customer = userManager.getCustomer();
+
+//                    long customerId = LocalDb.getDatabase(getBaseContext()).getCustomerDAO().addCustomer(
+//                            new Customer(
+//                                    mFirstNameEditText.getText().toString(),
+//                                    mLastNameEditText.getText().toString(),
+//                                    mEmailEditText.getText().toString(),
+//                                    mStreetNameEditText.getText().toString(),
+//                                    mAddressEditText.getText().toString(),
+//                                    mPostCodeEditText.getText().toString(),
+//                                    mPlaceEditText.getText().toString(),
+//                                    mWorkshopLocationCountrySpnr.getSelectedItem().toString(),
+//                                    mLocationCountrySpnr.getSelectedItem().toString()
+//                            )
+//                    );
+
+                    // TODO: Add shipping address, billing video, reservation system, distance & price
+
+                    LocalDb.getDatabase(getBaseContext()).getOrderDAO().deleteOrder();
+                    LocalDb.getDatabase(getBaseContext()).getOrderDAO().insertOrder(
+                            new Order(
+                                    "pending",
+                                    customer.getId(),
+                                    billingAddressId,
+                                    -1,
+                                    "unknown",
+                                    "unknown",
+                                    mWorkshopInfoText.getText().toString(),
+                                    Integer.parseInt(mCJPEditText.getText().toString()),
+                                    "ja",
+                                    "ja",
+                                    0,
+                                    0
+                            )
+                    );
+
+                    Intent intent = new Intent(getBaseContext(), OrderSummaryActivity.class);
+                    startActivity(intent);
                 }
             }
         });
     }
-
 
     @Override
     public void onClick(View v) {
