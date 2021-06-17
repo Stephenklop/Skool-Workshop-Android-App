@@ -36,9 +36,10 @@ import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
+import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.cultureDay.CulturedayBookingActivity;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
-
 
 import java.time.LocalDate;
 
@@ -112,12 +113,11 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mCJPEditText = (EditText) findViewById(R.id.activity_workshop_question_et_cjp);
         mMessageEditText = (EditText) findViewById(R.id.activity_workshop_question_et_message);
         mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
-        mTermsCb = findViewById(R.id.activity_workshop_question_cb_terms);
-        mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
         //Title
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
         mTitleTextView.setText(workshop.getName());
-
+        mTermsCb = findViewById(R.id.activity_workshop_question_cb_terms);
+        mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
 
         // Set up validations
         mAmountOfPersonsEditText.addTextChangedListener(new TextWatcher() {

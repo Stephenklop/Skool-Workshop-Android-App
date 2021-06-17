@@ -1,5 +1,13 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
+import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
+import com.example.skoolworkshop2.dao.UserDAO;
+import com.example.skoolworkshop2.domain.BillingAddress;
 import android.content.Context;
 import android.util.Log;
 
@@ -9,9 +17,14 @@ import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -21,17 +34,95 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class APIUserDAO extends AppCompatActivity implements UserDAO {
+public class APIUserDAO implements UserDAO {
+    private final String TAG = getClass().getSimpleName();
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
     private Customer lastCustomer;
+    private BillingAddress billingAddress;
     private User lastUser;
+
 
     private void connect(String url) throws Exception {
         URL connectionUrl = new URL(url);
         connection = (HttpURLConnection) connectionUrl.openConnection();
     }
 
+    public BillingAddress parseJSONToBillling(JSONObject jsonObject){
+        BillingAddress billingAddress = null;
+
+        String firstName = "";
+        String lastName = "";
+        String company = "";
+        String postcode = "";
+        String city = "";
+        String address = "";
+        String country = "";
+        String phone = "";
+        String email = "";
+
+
+        try {
+            firstName = jsonObject.getString("first_name");
+            lastName = jsonObject.getString("last_name");
+            company = jsonObject.getString("company");
+            postcode = jsonObject.getString("company");
+            city = jsonObject.getString("city");
+            address = jsonObject.getString("address_1");
+            country = jsonObject.getString("country");
+            phone = jsonObject.getString("phone");
+            email = jsonObject.getString("email");
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        billingAddress = new BillingAddress(firstName, lastName, company, postcode, city, address, country, phone, email);
+        System.out.println(billingAddress);
+
+        return billingAddress;
+    }
+
+    public ShippingAddress parseJSONToShipping(JSONObject jsonObject){
+        ShippingAddress shippingAddress = null;
+
+        String firstName = "";
+        String lastName = "";
+        String company = "";
+        String postcode = "";
+        String city = "";
+        String address = "";
+        String country = "";
+
+
+        try {
+            firstName = jsonObject.getString("first_name");
+            lastName = jsonObject.getString("last_name");
+            company = jsonObject.getString("company");
+            postcode = jsonObject.getString("company");
+            city = jsonObject.getString("city");
+            address = jsonObject.getString("address_1");
+            country = jsonObject.getString("country");
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        shippingAddress = new ShippingAddress(firstName, lastName, company, postcode, city, address, country);
+        System.out.println(shippingAddress);
+
+        return shippingAddress;
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public User signUserIn(String username, String password) {
         final String PATH = "account/login";
@@ -62,44 +153,27 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
                 JSONObject response = new JSONObject(inputLine);
                 JSONObject userData = response.getJSONObject("result");
 
-                result = parseUser(userData);
+                JSONArray metaData = user.getJSONArray("meta_data");
+                int points = 0;
+                for(int i = 0; i < metaData.length(); i++){
+                    JSONObject object = metaData.getJSONObject(i);
+                    if ( object.get("key").equals("_ywpar_user_total_points")){
+                        points = Integer.parseInt(object.get("value").toString());
+                        Log.d("POINTS", points + "");
+                    }
+                }
+                String email = user.getString("email");
+                int id = Integer.parseInt(user.get("id").toString());
+                String userName = user.get("username").toString();
+                BillingAddress billingAddress = parseJSONToBillling(user.getJSONObject("billing"));
+                ShippingAddress shippingAddress = parseJSONToShipping(user.getJSONObject("shipping"));
+                Log.d("POINTS", points + "");
+
+                result = new User(id, email, userName, points, billingAddress.getId(), shippingAddress.getId());
+              
                 Customer customer = parseCustomer(userData);
                 lastCustomer = customer;
 
-
-//                JSONArray metaData = user.getJSONArray("meta_data");
-//                int points = 0;
-//                for(int i = 0; i < metaData.length(); i++){
-//                    JSONObject object = metaData.getJSONObject(i);
-//                    if ( object.get("key").equals("_ywpar_user_total_points")){
-//                        points = Integer.parseInt(object.get("value").toString());
-//                        Log.d("POINTS", points + "");
-//                    }
-//                }
-//                String email = user.getString("email");
-//                int id = Integer.parseInt(user.get("id").toString());
-//                String userName = user.get("username").toString();
-//
-//                Log.d("POINTS", points + "");
-//                result = new User(id, email, userName, points);
-//
-//
-//
-//                String firstname = user.getString("first_name");
-//                String lastName = user.getString("last_name");
-//                JSONObject adress = user.getJSONObject("billing");
-//                String adress_1 = adress.getString("address_1");
-//                String street = "";
-//                String number = "";
-//                String streetAndNumber[] = adress_1.split(" ");
-//                if(streetAndNumber.length > 1){
-//                    street = streetAndNumber[0];
-//                    number = streetAndNumber[1];
-//                }
-//                String postCode = adress.getString("postcode");
-//                String city = adress.getString("city");
-//                String state = adress.getString("state");
-//                String country = adress.getString("country");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -281,7 +355,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
                     }
                 }
 
-                result = new User(id, email, username, points);
+                result = new User(id, email, username, points, 0, 0);
             }
         } catch (Exception e) {
             e.printStackTrace();

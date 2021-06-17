@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -138,7 +137,12 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon2.setText("Factuur Gegevens");
         ImageView imageIcon2 = icon2.findViewById(R.id.item_dashboard_img_icon);
         imageIcon2.setImageResource(R.drawable.ic_file);
-
+        icon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), InvoiceAdressActivity.class));
+            }
+        });
 
 
         //third icon

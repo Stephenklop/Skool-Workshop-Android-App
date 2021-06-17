@@ -39,6 +39,7 @@ import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
+import com.example.skoolworkshop2.ui.User.ChangeInvoiceAddressActivity;
 import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.example.skoolworkshop2.ui.notifications.NotificationsActivity;
@@ -171,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddressInfoLayoutTestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
                 startActivity(new Intent(getApplicationContext(), WorkshopActivity.class));
             }
         });
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         cultureDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChangeInvoiceAddressActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
             }
