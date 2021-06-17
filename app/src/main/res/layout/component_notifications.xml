@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
         android:fontFamily="@font/proxima_nova_semibold"
-        android:text="Geen meldingen"
+        android:text="Geen nieuwe meldingen"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
