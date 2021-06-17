@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
@@ -44,12 +45,15 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Thread tokenThread;
     private RoundedDialog roundedDialog;
     private ImageView mLoadingImg;
+    public static Application application;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        application = getApplication();
 
         mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();

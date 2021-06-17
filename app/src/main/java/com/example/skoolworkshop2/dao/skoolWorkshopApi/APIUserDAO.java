@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 
 
 import org.json.JSONArray;
@@ -28,18 +30,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class APIUserDAO extends AppCompatActivity implements UserDAO {
+public class APIUserDAO implements UserDAO {
     private final String TAG = getClass().getSimpleName();
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
     private Customer lastCustomer;
     private BillingAddress billingAddress;
     private User lastUser;
+    private Application application;
 
 
     private void connect(String url) throws Exception {
         URL connectionUrl = new URL(url);
         connection = (HttpURLConnection) connectionUrl.openConnection();
+    }
+
+    public APIUserDAO(){
+        this.application = SplashScreenActivity.application;
     }
 
     public BillingAddress parseJSONToBillling(JSONObject jsonObject){
@@ -184,7 +191,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
     @Override
     public void updateUser(String email, String displayName, String firstName, String lastName) {
 //        LocalAppStorage localAppStorage = new LocalAppStorage(context);
-        int id = LocalDb.getDatabase(getBaseContext()).getUserDAO().getInfo().getId();
+        int id = LocalDb.getDatabase(application).getUserDAO().getInfo().getId();
         System.out.println("integer: " + id + "++++++++++++++++++++++++++++++++++++++++");
 
         final String PATH = "account/" + id;
@@ -218,10 +225,10 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
                     User user = parseUser(userData);
                     Customer customer = parseCustomer(userData);
 
-                    LocalDb.getDatabase(getBaseContext()).getUserDAO().deleteInfo();
-                    LocalDb.getDatabase(getBaseContext()).getUserDAO().insertInfo(user);
-                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().deleteCustomer();
-                    LocalDb.getDatabase(getBaseContext()).getCustomerDAO().addCustomer(customer);
+                    LocalDb.getDatabase(application).getUserDAO().deleteInfo();
+                    LocalDb.getDatabase(application).getUserDAO().insertInfo(user);
+                    LocalDb.getDatabase(application).getCustomerDAO().deleteCustomer();
+                    LocalDb.getDatabase(application).getCustomerDAO().addCustomer(customer);
 
 
                 } catch (Exception e){

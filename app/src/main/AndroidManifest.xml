@@ -84,6 +84,9 @@
             android:name=".ui.SettingsActivity"
             android:windowSoftInputMode="adjustPan" />
 
+        <activity android:name=".ui.User.InvoiceAdressActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
         <service
             android:name=".logic.notifications.MessagingService"
             android:exported="false">

@@ -74,7 +74,10 @@ public class APIProductDAO implements ProductDAO {
 
                 for (int i = 0; i < workshops.length(); i++) {
                     JSONObject jsonObject = (JSONObject) workshops.get(i);
-                    result.add(parseProduct(jsonObject));
+                    Product workshop = parseProduct(jsonObject);
+                    if(workshop != null){
+                        result.add(parseProduct(jsonObject));
+                    }
                 }
             }
         } catch (Exception e) {
@@ -101,6 +104,7 @@ public class APIProductDAO implements ProductDAO {
             while ((inputLine = in.readLine()) != null) {
                 JSONObject response = new JSONObject(inputLine);
                 JSONObject workshop = response.getJSONObject("result");
+
                 result = parseProduct(workshop);
             }
         } catch (Exception e) {
@@ -225,24 +229,28 @@ public class APIProductDAO implements ProductDAO {
         }
 
         try {
-            result = new Product(
-                    jsonObject.getInt("id"),
-                    name,
-                    productType,
-                    category,
-                    highlighted,
-                    permaLink,
-                    type,
-                    status,
-                    description,
-                    shortDescription,
-                    buildupDescription,
-                    practicalInformation,
-                    costsInfo,
-                    image,
-                    imageName,
-                    video
-            );
+            if(buildupDescription.length() > 0){
+                result = new Product(
+                        jsonObject.getInt("id"),
+                        name,
+                        productType,
+                        category,
+                        highlighted,
+                        permaLink,
+                        type,
+                        status,
+                        description,
+                        shortDescription,
+                        buildupDescription,
+                        practicalInformation,
+                        costsInfo,
+                        image,
+                        imageName,
+                        video
+                );
+            } else {
+                return null;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
