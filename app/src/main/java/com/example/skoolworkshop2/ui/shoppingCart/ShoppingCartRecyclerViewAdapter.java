@@ -68,7 +68,6 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         holder.mParticipantsTv.setText("Totaal aantal deelnemers: " + shoppingCartItem.getParticipants());
         holder.mRoundsTv.setText("Aantal workshoprondes: " + shoppingCartItem.getRounds());
         holder.mRoundMinsTv.setText("Aantal minuten per workshopronde: " + shoppingCartItem.getRoundDuration());
-//        holder.mDurationTv.setText();
         holder.mScheduleTv.setText("Tijdschema: " + shoppingCartItem.getTimeSchedule());
         holder.mLevelTv.setText("Leerniveau: " + shoppingCartItem.getLearningLevel());
         holder.mDateTv.setText("Workshopdatum: " + shoppingCartItem.getDate());
@@ -111,7 +110,6 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             mParticipantsTv = itemView.findViewById(R.id.item_shopping_cart_tv_participants);
             mRoundsTv = itemView.findViewById(R.id.item_shopping_cart_tv_rounds);
             mRoundMinsTv = itemView.findViewById(R.id.item_shopping_cart_tv_round_mins);
-            mDurationTv = itemView.findViewById(R.id.item_shopping_cart_tv_duration);
             mScheduleTv = itemView.findViewById(R.id.item_shopping_cart_tv_schedule);
             mLevelTv = itemView.findViewById(R.id.item_shopping_cart_tv_level);
             mDateTv = itemView.findViewById(R.id.item_shopping_cart_tv_date);

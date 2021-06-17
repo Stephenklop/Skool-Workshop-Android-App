@@ -119,15 +119,6 @@
             android:text="Aantal minuten per workshopronde:"/>
 
         <TextView
-            android:id="@+id/item_shopping_cart_tv_duration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/proxima_nova_semibold"
-            android:textColor="@color/black"
-            android:text="Totale duur:"/>
-
-        <TextView
             android:id="@+id/item_shopping_cart_tv_schedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
