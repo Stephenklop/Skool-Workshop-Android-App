@@ -33,7 +33,9 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Cul
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -67,6 +69,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private EditText mParticipantsGraffitiThsirtEditText;
     private EditText mLearningLevelEditText;
 
+    private ImageButton mParticipantsInfoBtn;
+    private ImageButton mTimeScheduleInfoBtn;
+    private ImageButton mParticipantsGraffitiThsirtInfoBnt;
 
     private TextView mOverviewWorkshopRounds;
     private TextView mOverviewDurationPerRound;
@@ -539,6 +544,24 @@ public class CulturedayBookingActivity extends FragmentActivity {
             Intent intent = new Intent(this, ShoppingCartActivity.class);
             startActivity(intent);
         });
+
+        mParticipantsInfoBtn.setOnClickListener(v -> {
+            String header = "Totaal aantal deelnemers";
+            String content = "Maximaal 100 deelnemers aan een cultuurdag";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+
+        mTimeScheduleInfoBtn.setOnClickListener(v -> {
+            String header = "Tijdschema";
+            String content = "Geef hier op hoe jullie het tijdschema willen hebben (aantal rondes met eventueel pauzes)";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+
+        mParticipantsGraffitiThsirtInfoBnt.setOnClickListener(v -> {
+            String header = "Deelnemers Graffiti en T-Shirt ontwerpen (+€7,50)";
+            String content = "Indien je de workshop Graffiti of T-shirt ontwerpen afneemt bereken wij o.b.v. het aantal deelnemers de materiaalkosten.";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
     }
 
     private void initializeAttributes() {
@@ -554,6 +577,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mTitle = findViewById(R.id.activity_cultureday_booking_tv_title);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         mParticipantsEditText = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.number_edit_text);
+        mParticipantsInfoBtn = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.component_edittext_number_info_btn_info);
         mWorkshopRoundsEditText = findViewById(R.id.activity_cultureday_booking_et_rounds);
         mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
         mDurationPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_mins);
@@ -563,7 +587,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mWorkshopArrayAdapter = new WorkshopArrayAdapter(this, R.layout.item_spinner_dropdown, mWorkshopNames);
         mWorkshopsLinearLayout = findViewById(R.id.activity_cultureday_booking_workshops);
         mTimeScheduleEditText = findViewById(R.id.schedule_edit_text);
+        mTimeScheduleInfoBtn = findViewById(R.id.activity_cultureday_booking_et_schedule).findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
         mParticipantsGraffitiThsirtEditText = findViewById(R.id.activity_cultureday_booking_et_special_workshops).findViewById(R.id.number_edit_text);
+        mParticipantsGraffitiThsirtInfoBnt = findViewById(R.id.activity_cultureday_booking_et_special_workshops).findViewById(R.id.component_edittext_number_info_btn_info);
         mLearningLevelEditText = findViewById(R.id.activity_cultureday_booking_et_level);
 
         // Overview
@@ -635,9 +661,6 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
         for (int i = 0; i < products.size(); i++) {
             int productId = products.get(i).getProductId();
-
-            Log.e( "", "loadWorkshopNames: " + mSelectedWorkshops );
-            Log.e( "", "loadWorkshopNames: " + productId );
 
             if (!mSelectedWorkshops.contains(productId)) {
                 result.add(products.get(i).getName());
