@@ -49,6 +49,11 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
 
     }
 
+    public void updateList(List<NewsArticle> newsArticles){
+        this.newsArticles = newsArticles;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return newsArticles.size();

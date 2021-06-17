@@ -88,8 +88,8 @@ public class CategoryAdapter{
         }
     }
 
-    public void setChecked(){
-        @SuppressLint("ResourceType") RadioButton rb = (RadioButton) mCategoriesRadiogroup.findViewById(1);
+    public void setChecked(int category){
+        @SuppressLint("ResourceType") RadioButton rb = (RadioButton) mCategoriesRadiogroup.findViewById(category);
         rb.setChecked(true);
     }
 

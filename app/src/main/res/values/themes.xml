@@ -14,5 +14,18 @@
         <!-- Customize your theme here. -->
 
         <item name="android:windowAnimationStyle">@null</item>
+        <item name="editTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+
+    <style name="Theme.SkoolWorkshop2.SearchView" parent="Theme.SkoolWorkshop2">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="editTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="editTextStyle">@font/proxima_nova_semibold</item>
+    </style>
+
+    <style name="Theme.SkoolWorkshop2.DatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/main_orange</item>
     </style>
 </resources>

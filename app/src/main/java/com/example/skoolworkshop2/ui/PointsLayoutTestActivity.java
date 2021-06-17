@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.User.MyAccountActivity;
 
 public class PointsLayoutTestActivity extends AppCompatActivity {
@@ -30,6 +31,10 @@ public class PointsLayoutTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_points);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         View points = findViewById(R.id.activity_points_item_points);
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);

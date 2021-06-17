@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/transparent"
+        android:stateListAnimator="@null"
         android:overScrollMode="never">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -34,9 +35,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_arrow_left"
+                app:layout_collapseMode="pin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_collapseMode="pin"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -47,8 +48,8 @@
         android:orientation="vertical"
         android:paddingHorizontal="25dp"
         android:paddingTop="25dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -62,10 +63,10 @@
                 android:paddingBottom="25dp">
 
                 <HorizontalScrollView
+                    android:id="@+id/activity_cultureday_question_rv_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
-                    android:id="@+id/activity_cultureday_question_rv_tags"
                     android:scrollbars="none"
                     android:overScrollMode="never">
 
@@ -75,26 +76,42 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- inflate component_button_tag_detail -->
+                        <include
+                            android:id="@+id/activity_cultureday_question_btn_price"
+                            layout="@layout/component_button_tag_detail" />
+
+                        <include
+                            android:id="@+id/activity_cultureday_question_btn_participant"
+                            layout="@layout/component_button_tag_detail" />
+
+                        <include
+                            android:id="@+id/activity_cultureday_question_btn_workshop"
+                            layout="@layout/component_button_tag_detail" />
+
+                        <include
+                            android:id="@+id/activity_cultureday_question_btn_round"
+                            layout="@layout/component_button_tag_detail_last"/>
                     </LinearLayout>
 
                 </HorizontalScrollView>
 
                 <TextView
-                    android:layout_marginTop="25dp"
                     android:id="@+id/activity_cultureday_question_tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova"
                     android:text="Cultuurdag"
                     android:textColor="@color/black"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
+
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:text="Aantal personen:"
                     android:textColor="@color/black"
@@ -235,17 +252,38 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
 
-                <CheckBox
-                    android:id="@+id/activity_cultureday_question_cb_terms"
+<!--                <CheckBox-->
+<!--                    android:id="@+id/activity_cultureday_question_cb_terms"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:buttonTint="@color/main_orange"-->
+<!--                    android:gravity="top"-->
+<!--                    android:paddingStart="10dp"-->
+<!--                    android:text="Ik ga akkoord met de algemene voorwaarden"-->
+<!--                    android:fontFamily="@font/proxima_nova_semibold"-->
+<!--                    android:textSize="18sp" />-->
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/proxima_nova_semibold"
-                    android:gravity="top"
-                    android:paddingStart="10dp"
-                    android:text="Ik ga akkoord met de algemene voorwaarden"
-                    android:textSize="18sp"
-                    android:buttonTint="@color/main_orange"/>
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <CheckBox
+                        android:id="@+id/activity_cultureday_question_cb_terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/activity_cultureday_question_tv_terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="Ik ga akkoord met de algemene voorwaarden"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+                </LinearLayout>
 
                 <include
                     android:id="@+id/activity_cultureday_question_btn_send"
@@ -254,6 +292,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp" />
 
+                <TextView
+                    android:id="@+id/activity_cultureday_question_tv_err"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:textColor="@color/error_red"
+                    android:text="@string/tv_err_msg"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

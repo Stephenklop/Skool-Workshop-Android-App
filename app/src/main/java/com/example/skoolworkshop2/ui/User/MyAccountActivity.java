@@ -19,14 +19,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -49,6 +55,12 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
+        final boolean[] buttonsEnabled = {true};
+
 
         View root = findViewById(R.id.activity_my_account);
         MenuController menuController = new MenuController(root);
@@ -58,11 +70,48 @@ public class MyAccountActivity extends AppCompatActivity {
         Button logOutButton = findViewById(R.id.activity_my_account_btn_log_out);
         logOutButton.setText("Log uit");
 
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_account_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                DAOFactory apidaoFactory = new APIDAOFactory();
+                Thread updateUserInfo = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("updating account info");
+                        UserDAO userDAO = apidaoFactory.getUserDAO();
+                        int id = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId();
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted customer");
+                        Customer insertCustomer = userDAO.getCustomerInfo(id);
+                        System.out.println(insertCustomer.toString());
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(insertCustomer);
+                        System.out.println("added customer with updated info");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
+                        System.out.println("deleted user");
+                        User user = userDAO.getLastUser();
+                        System.out.println(user.toString());
+                        LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
+                        System.out.println("added user with updated info");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                });
+                updateUserInfo.start();
+            }
+        });
+
         mLoader = findViewById(R.id.activity_login_ll_loading_alert);
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logOutButton.setEnabled(false);
+                buttonsEnabled[0] = false;
                 enableLoadingIndicator();
                 deleteUser();
             }
@@ -109,7 +158,9 @@ public class MyAccountActivity extends AppCompatActivity {
         icon4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+                if(buttonsEnabled[0]){
+                    startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+                }
             }
         });
 
@@ -142,6 +193,8 @@ public class MyAccountActivity extends AppCompatActivity {
     private void enableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backgroundBlur = findViewById(R.id.activity_account_loading_background);
+        backgroundBlur.setVisibility(View.VISIBLE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -158,6 +211,8 @@ public class MyAccountActivity extends AppCompatActivity {
     private void disableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backgroundBlur = findViewById(R.id.activity_account_loading_background);
+        backgroundBlur.setVisibility(View.GONE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         loadingAlert.setAlpha(1);
         loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->

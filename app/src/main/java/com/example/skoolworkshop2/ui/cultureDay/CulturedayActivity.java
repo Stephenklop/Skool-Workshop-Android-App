@@ -5,51 +5,63 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
 
 public class CulturedayActivity extends FragmentActivity implements View.OnClickListener {
-    LinearLayout mDetailTabsLl;
-    View mTabsSelector;
-    TextView mTabsOverviewTv;
-    TextView mTabsContentTv;
-    TextView mTabsInfoTv;
-    TextView mTabsCostTv;
-    Button mPriceBn;
-    Button mParticipantsBn;
-    Button mWorkshopsBn;
-    Button mRoundsBn;
+    private LinearLayout mDetailTabsLl;
+    private View mTabsSelector;
+    private TextView mTabsOverviewTv;
+    private TextView mTabsContentTv;
+    private TextView mTabsInfoTv;
+    private TextView mTabsCostTv;
+    private Button mPriceBn;
+    private Button mParticipantsBn;
+    private Button mWorkshopsBn;
+    private Button mRoundsBn;
 
     private ImageButton mBackButton;
     private Product cultureDay;
+    private ImageView mCultureDayBanner;
     private TextView mTitleTV;
     private LocalAppStorage localAppStorage;
 
-
+    public CulturedayActivity() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_details);
 
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
         View root = (View) findViewById(R.id.activity_cultureday_details);
 
-
         MenuController mc = new MenuController(root);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         localAppStorage = new LocalAppStorage(getBaseContext());
         cultureDay = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Cultuurdag").get(0);
@@ -58,9 +70,8 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         menu.getMenu().getItem(2).setChecked(true);
 
 
-
+        mCultureDayBanner = findViewById(R.id.activity_cultureday_details_img_banner);
         mTitleTV = findViewById(R.id.activity_cultureday_details_tv_title);
-        mBackButton = findViewById(R.id.activity_cultureday_details_btn_back);
 
         mPriceBn = findViewById(R.id.activity_cultureday_details_btn_price);
         mParticipantsBn = findViewById(R.id.activity_cultureday_details_btn_participant);
@@ -72,6 +83,7 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mWorkshopsBn.setText("4 Workshops");
         mRoundsBn.setText("3 Rondes");
 
+        Glide.with(getBaseContext()).load(cultureDay.getSourceImage()).into(mCultureDayBanner);
         mTitleTV.setText(cultureDay.getName());
         mPriceBn.setText("€1674,-");
 
@@ -92,14 +104,6 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mTabsContentTv.setOnClickListener(this);
         mTabsCostTv.setOnClickListener(this);
         mTabsInfoTv.setOnClickListener(this);
-
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(backIntent);
-            }
-        });
 
     }
 

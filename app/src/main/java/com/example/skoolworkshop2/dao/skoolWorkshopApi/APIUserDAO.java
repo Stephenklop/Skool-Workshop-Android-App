@@ -25,6 +25,7 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
     private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
     private HttpURLConnection connection;
     private Customer lastCustomer;
+    private User lastUser;
 
     private void connect(String url) throws Exception {
         URL connectionUrl = new URL(url);
@@ -41,8 +42,6 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
-//            connection.setRequestProperty("Accept", "application/json");
-//            connection.setConnectTimeout(1000000);
 
 
             String jsonInput = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
@@ -288,5 +287,76 @@ public class APIUserDAO extends AppCompatActivity implements UserDAO {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public Customer getCustomerInfo(int id){
+        final String PATH = "customer/" + id;
+        User result = null;
+        Customer customer = null;
+
+        try {
+            connect(BASE_URL + PATH);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("RESPONSE: " + inputLine);
+                JSONObject response = new JSONObject(inputLine);
+                JSONObject user = response.getJSONObject("result");
+
+                JSONArray metaData = user.getJSONArray("meta_data");
+                int points = 0;
+                for(int i = 0; i < metaData.length(); i++){
+                    JSONObject object = metaData.getJSONObject(i);
+                    if ( object.get("key").equals("_ywpar_user_total_points")){
+                        points = Integer.parseInt(object.get("value").toString());
+                        Log.d("POINTS", points + "");
+                    }
+                }
+                String email = user.getString("email");
+                String userName = user.get("username").toString();
+
+                Log.d("POINTS", points + "");
+                result = new User(id, email, userName, points);
+
+
+
+                String firstname = user.getString("first_name");
+                String lastName = user.getString("last_name");
+                JSONObject adress = user.getJSONObject("billing");
+                String adress_1 = adress.getString("address_1");
+                String street = "";
+                String number = "";
+                String streetAndNumber[] = adress_1.split(" ");
+                if(streetAndNumber.length > 1){
+                    street = streetAndNumber[0];
+                    number = streetAndNumber[1];
+                }
+                String postCode = adress.getString("postcode");
+                String city = adress.getString("city");
+                String state = adress.getString("state");
+                String country = adress.getString("country");
+
+
+
+                customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
+                lastUser = result;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return customer;
+    }
+
+    public User getLastUser(){
+        return lastUser;
     }
 }
