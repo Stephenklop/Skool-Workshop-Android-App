@@ -101,55 +101,75 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         mLastNameEditText = findViewById(R.id.activity_change_workshop_location_et_lastname);
         mFirstNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-                if(!nameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(!mFirstNameEditText.equals("")){
+                    if (nameValidator.isValidName(s.toString())){
+                        mFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
+
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
+
                 }
-
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (nameValidator.isValidName(s.toString())){
-                    mFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    nameValidator.mIsValid = true;
-
+            public void afterTextChanged(Editable s) { }
+        });
+        mFirstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mFirstNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
         mLastNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mLastNameEditText.equals("")){
+                    if (nameValidator.isValidName(s.toString())){
+                        mLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        nameValidator.mIsValid = true;
 
-                if(!NameValidator.isValidName(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        nameValidator.mIsValid = false;
+                    }
+
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (nameValidator.isValidName(s.toString())){
-                    mLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    nameValidator.mIsValid = true;
+            public void afterTextChanged(Editable s) { }
+        });
+        mLastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(nameValidator.isValid()) {
+                        mLastNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
-
         // Company
         mCompanyNameEditText = findViewById(R.id.activity_change_workshop_location_et_company);
         mCompanyNameEditText.addTextChangedListener(new TextWatcher() {
@@ -160,12 +180,24 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+
+            }
+        });
+        mCompanyNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                } else{
+                    mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
             }
         });
 
@@ -190,22 +222,33 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_focused);
-                if(!houseNumberValidator.isValidAdressValidator(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_error);
-                }
+                if(!mHouseNumberEditText.equals("")) {
+                    if (houseNumberValidator.isValidAdressValidator(s.toString())) {
+                        mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        houseNumberValidator.mIsValid = true;
 
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_error);
+                        houseNumberValidator.mIsValid = false;
+                    }
+                }
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (houseNumberValidator.isValidAdressValidator(s.toString())){
-                    mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    houseNumberValidator.mIsValid = true;
+            public void afterTextChanged(Editable s) { }
+        });
+        mHouseNumberEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(houseNumberValidator.isValid()) {
+                        mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mHouseNumberEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
-
             }
         });
 
@@ -219,19 +262,33 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPlaceEditText.equals("")) {
+                    if (PlaceValidator.isValidPlace(s.toString())) {
+                        mPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        placeValidator.mIsValid = true;
 
-                if(!placeValidator.isValidPlace(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+                        placeValidator.mIsValid = false;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(placeValidator.isValidPlace(s.toString())){
-                    mPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    placeValidator.mIsValid = true;
+
+            }
+        });
+        mPlaceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(placeValidator.isValid()) {
+                        mPlaceEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -246,22 +303,39 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mStreetNameEditText.equals("")) {
+                    if (StreetnameValidator.isValidStreetname(s.toString())) {
+                        mStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        streetnameValidator.mIsValid = true;
 
-                if(!streetnameValidator.isValidStreetname(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+                        streetnameValidator.mIsValid = false;
+
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(streetnameValidator.isValidStreetname(s.toString())){
-                    mStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    streetnameValidator.mIsValid = true;
+
+            }
+        });
+
+        mStreetNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(streetnameValidator.isValid()) {
+                        mStreetNameEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
+
 
         // Country
         mCountryEditText = findViewById(R.id.activity_change_workshop_location_et_country);
@@ -273,19 +347,37 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCountryEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mCountryEditText.equals("")) {
+                    if (countryValidator.isValidCountry(s.toString())) {
+                        mCountryEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        countryValidator.mIsValid = true;
 
-                if(!countryValidator.isValidCountry(s.toString())){
-                    Log.d(LOG_TAG, "onTextChanged: FOUT!!");
-                    mCountryEditText.setBackgroundResource(R.drawable.edittext_error);
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mCountryEditText.setBackgroundResource(R.drawable.edittext_error);
+                        countryValidator.mIsValid = false;
+
+                    }
                 }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(countryValidator.isValidCountry(s.toString())){
-                    mCountryEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    countryValidator.mIsValid = true;
+
+            }
+        });
+
+
+        mCountryEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(countryValidator.isValid()) {
+                        mCountryEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mCountryEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -327,24 +419,38 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPostCodeEditText.equals("")){
+                    if (PostcodeValidatorNL.isValidPostcode(s.toString())){
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        postcodeValidatorNL.setmIsValid(true);
 
-                if (!PostcodeValidatorNL.isValidPostcode(s.toString())) {
-                    Log.d(LOG_TAG, "onTextChanged: verkeerde nederlandse postcode!!");
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+
+                    } else{
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                        postcodeValidatorNL.setmIsValid(false);
+                    }
+
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (PostcodeValidatorNL.isValidPostcode(s.toString())) {
-
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
-                }
             }
         };
+        mPostCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(postcodeValidatorNL.isValid() || postcodeValidatorBE.isValid()) {
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                }
+            }
+        });
         beTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -353,21 +459,23 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPostCodeEditText.equals("")) {
+                    if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        postcodeValidatorNL.setmIsValid(true);
 
-                if (!PostcodeValidatorBE.isValidPostcode(s.toString())) {
-                    Log.d(LOG_TAG, "onTextChanged: verkeerde belgische postcode");
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+
+                    } else {
+                        Log.d(LOG_TAG, "onTextChanged: FOUT!!");
+                        mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                        postcodeValidatorNL.setmIsValid(false);
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
 
-                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-
-                }
             }
         };
 
