@@ -32,6 +32,7 @@ import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.encryption.EncryptionLogic;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
+
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
@@ -230,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         Bundle ordersEvent = new Bundle();
         ordersEvent.putString("orders_event_id", "orders_event_id");
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);
+
 
     }
 

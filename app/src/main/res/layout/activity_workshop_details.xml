@@ -15,11 +15,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <VideoView
+        android:id="@+id/activity_workshop_details_vv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/transparent"
+        android:id="@+id/activity_workshop_details_appbar"
         android:stateListAnimator="@null">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -27,6 +38,7 @@
             android:layout_height="match_parent"
             android:minHeight="50dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:id="@+id/activity_workshop_details_collapsingToolbar"
             android:overScrollMode="never">
 
             <ImageButton
