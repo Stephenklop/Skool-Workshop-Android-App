@@ -33,7 +33,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_spinner_dropdown, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_spinner, parent, false);
         }
 
         setWorkshop(convertView, getItem(position));
