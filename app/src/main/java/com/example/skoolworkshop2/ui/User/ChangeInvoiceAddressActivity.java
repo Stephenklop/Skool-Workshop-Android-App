@@ -349,30 +349,32 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
 //        // Type in edittexts if user updates billingaddress
         if (InvoiceAdressActivity.billingChecker = true){
             billingAddress = (BillingAddress) getIntent().getSerializableExtra("BILLINGADDRESS");
-            mFirstNameEditText.setText(billingAddress.getFirstName());
-            mLastNameEditText.setText(billingAddress.getLastName());
-            mCompanyNameEditText.setText(billingAddress.getCompany());
-            mPostCodeEditText.setText(billingAddress.getPostcode());
-            // huisnummer
-            String[] parts = billingAddress.getAddress().split(" ");
-            StringBuilder stb = new StringBuilder();
-            String house = "";
-            for(String part : parts){
-                if(part.matches(".*\\d.*")){
-                    house = part;
-                } else {
-                    stb.append(part + " ");
+            if (billingAddress != null) {
+                mFirstNameEditText.setText(billingAddress.getFirstName());
+                mLastNameEditText.setText(billingAddress.getLastName());
+                mCompanyNameEditText.setText(billingAddress.getCompany());
+                mPostCodeEditText.setText(billingAddress.getPostcode());
+                // huisnummer
+                String[] parts = billingAddress.getAddress().split(" ");
+                StringBuilder stb = new StringBuilder();
+                String house = "";
+                for (String part : parts) {
+                    if (part.matches(".*\\d.*")) {
+                        house = part;
+                    } else {
+                        stb.append(part + " ");
+                    }
                 }
-            }
-            Log.d(LOG_TAG, "onCreate: part 1: " + stb);
-            Log.d(LOG_TAG, "onCreate: part 2: " + house);
+                Log.d(LOG_TAG, "onCreate: part 1: " + stb);
+                Log.d(LOG_TAG, "onCreate: part 2: " + house);
 
-            mPlaceEditText.setText(billingAddress.getCity());
-            mStreetNameEditText.setText(stb.toString());
-            mHouseNumberEditText.setText(house);
-            mTelEditText.setText(billingAddress.getPhone());
-            mCountryEditText.setText(billingAddress.getCountry());
-            mEmailEditText.setText(billingAddress.getEmail());
+                mPlaceEditText.setText(billingAddress.getCity());
+                mStreetNameEditText.setText(stb.toString());
+                mHouseNumberEditText.setText(house);
+                mTelEditText.setText(billingAddress.getPhone());
+                mCountryEditText.setText(billingAddress.getCountry());
+                mEmailEditText.setText(billingAddress.getEmail());
+            }
         }
 
         // Textwatchers

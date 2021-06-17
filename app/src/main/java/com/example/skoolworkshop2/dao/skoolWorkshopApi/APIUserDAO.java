@@ -37,12 +37,79 @@ public class APIUserDAO implements UserDAO {
         connection = (HttpURLConnection) connectionUrl.openConnection();
     }
 
-    public JSONObject parseBilling(BillingAddress billingAddress) throws JSONException {
-        Gson g = new Gson();
+    public BillingAddress parseJSONToBillling(JSONObject jsonObject){
+        BillingAddress billingAddress = null;
 
-        JSONObject jsonObject = new JSONObject(g.toJson(billingAddress));
-        return jsonObject;
+        String firstName = "";
+        String lastName = "";
+        String company = "";
+        String postcode = "";
+        String city = "";
+        String address = "";
+        String country = "";
+        String phone = "";
+        String email = "";
+
+
+        try {
+            firstName = jsonObject.getString("first_name");
+            lastName = jsonObject.getString("last_name");
+            company = jsonObject.getString("company");
+            postcode = jsonObject.getString("company");
+            city = jsonObject.getString("city");
+            address = jsonObject.getString("address_1");
+            country = jsonObject.getString("country");
+            phone = jsonObject.getString("phone");
+            email = jsonObject.getString("email");
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        billingAddress = new BillingAddress(firstName, lastName, company, postcode, city, address, country, phone, email);
+        System.out.println(billingAddress);
+
+        return billingAddress;
     }
+
+    public ShippingAddress parseJSONToShipping(JSONObject jsonObject){
+        ShippingAddress shippingAddress = null;
+
+        String firstName = "";
+        String lastName = "";
+        String company = "";
+        String postcode = "";
+        String city = "";
+        String address = "";
+        String country = "";
+
+
+        try {
+            firstName = jsonObject.getString("first_name");
+            lastName = jsonObject.getString("last_name");
+            company = jsonObject.getString("company");
+            postcode = jsonObject.getString("company");
+            city = jsonObject.getString("city");
+            address = jsonObject.getString("address_1");
+            country = jsonObject.getString("country");
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        shippingAddress = new ShippingAddress(firstName, lastName, company, postcode, city, address, country);
+        System.out.println(shippingAddress);
+
+        return shippingAddress;
+    }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -89,11 +156,11 @@ public class APIUserDAO implements UserDAO {
                 String email = user.getString("email");
                 int id = Integer.parseInt(user.get("id").toString());
                 String userName = user.get("username").toString();
-                
+                BillingAddress billingAddress = parseJSONToBillling(user.getJSONObject("billing"));
+                ShippingAddress shippingAddress = parseJSONToShipping(user.getJSONObject("shipping"));
                 Log.d("POINTS", points + "");
-                Log.d(TAG, "signUserIn: billingaddress: " + billingAddress.toString());
 
-                result = new User(id, email, userName, points, 0, 0);
+                result = new User(id, email, userName, points, billingAddress.getId(), shippingAddress.getId());
 
                 String firstname = user.getString("first_name");
                 String lastName = user.getString("last_name");

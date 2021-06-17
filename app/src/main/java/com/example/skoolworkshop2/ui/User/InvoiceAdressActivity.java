@@ -32,7 +32,7 @@ public class InvoiceAdressActivity extends AppCompatActivity {
     private TextView minvoiceBillingTitleTextView;
     private ConstraintLayout mInvoiceAddressLayout;
     private ImageButton mInvoiceBillingAddressImageButton;
-    private BillingAddress billingAddress;
+    public static BillingAddress billingAddress;
     private TextView mInvoiceBillingTextView;
     // BillingAddress
     private TextView mInvoiceShippingTitleTextView;
@@ -66,13 +66,15 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         // Usermanager
         com.example.skoolworkshop2.logic.managers.localDb.UserManager iem = new UserManager(this.getApplication());
         // Loading billing addresses
-//        iem.deleteAdress(6);
         Log.d(LOG_TAG, "onCreate: " + iem.getAddresses());
         Log.d(LOG_TAG, "onCreate: id: " + iem.getInfo().getBillingAddressId());
         billingAddress = iem.getBillingAddress(iem.getInfo().getBillingAddressId());
         Log.d(LOG_TAG, "onCreate: billingaddress: " + billingAddress);
         // Loading shipping adresses
-
+        Log.d(LOG_TAG, "onCreate: " + iem.getShippingAddresses());
+        Log.d(LOG_TAG, "onCreate: id: " + iem.getInfo().getShippingAddressId());
+        shippingAddress = iem.getShippingAddress(iem.getInfo().getShippingAddressId());
+        Log.d(LOG_TAG, "onCreate: shippingAddress: " + shippingAddress);
         // checking if layout should contain object or not
         if (billingAddress != null){
             billingChecker = true;
@@ -88,7 +90,7 @@ public class InvoiceAdressActivity extends AppCompatActivity {
                     startActivity(toBillingaddress);
                 }
             });
-        } else {
+        } else if (billingAddress == null){
             billingChecker = false;
             mInvoiceBillingTextView.setText("Dit adres is nog niet ingesteld.");
             mInvoiceBillingAddressImageButton.setBackgroundResource(R.drawable.ic_plus);
