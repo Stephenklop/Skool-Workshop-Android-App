@@ -149,6 +149,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     if (workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())) {
                         updateOrderOverview();
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        workshopItem.setParticipants(Integer.parseInt(charSequence.toString()));
                         workshopParticipantsValidator.mIsValid = true;
                     } else if (!workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())) {
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
@@ -228,7 +229,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     if (dateValidation.isValidDate(charSequence.toString())) {
                         mDateEditText.setBackgroundResource(R.drawable.edittext_default);
                         dateValidation.mIsValid = true;
-
+                        workshopItem.setDate(charSequence.toString());
                     } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mDateEditText.setBackgroundResource(R.drawable.edittext_error);
