@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Voornaam"
+                    android:text="Voornaam:"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Achternaam"
+                    android:text="Achternaam:"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Bedrijfsnaam (optioneel)"
+            android:text="Bedrijfsnaam: (optioneel)"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_ll_name" />
@@ -155,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Postcode"
+                    android:text="Postcode:"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -182,7 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="HuisNr &amp; toevoeging"
+                    android:text="HuisNr &amp; toevoeging:"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Plaats"
+            android:text="Plaats:"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_ll_address" />
@@ -219,7 +219,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Straatnaam"
+            android:text="Straatnaam:"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_place" />
@@ -237,7 +237,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Telefoon"
+            android:text="Telefoon:"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_street" />
@@ -256,7 +256,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="Land"
+            android:text="Land:"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_tel" />
@@ -274,7 +274,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/proxima_nova_semibold"
-            android:text="E-mailadres"
+            android:text="E-mailadres:"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_et_country" />
