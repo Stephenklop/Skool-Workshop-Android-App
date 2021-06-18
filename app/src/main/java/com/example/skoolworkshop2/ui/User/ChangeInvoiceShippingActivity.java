@@ -38,6 +38,7 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcod
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
 import com.example.skoolworkshop2.ui.CountryArrayAdapter;
 
+import java.sql.SQLOutput;
 import java.sql.Statement;
 
 public class ChangeInvoiceShippingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -412,11 +413,13 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
                 Log.d(LOG_TAG, "onCreate: part 2: " + house);
 
                 mPlaceEditText.setText(shippingAddress.getCity());
-                mStreetNameEditText.setText(stb.toString());
+                mStreetNameEditText.setText(stb.toString().trim());
                 mHouseNumberEditText.setText(house);
                 mCountryEditText.setText(shippingAddress.getCountry());
             }
         }
+
+
         // Textwatchers
         nlTextWatcher = new TextWatcher() {
             @Override
@@ -444,6 +447,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         };
         mPostCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -493,7 +497,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
 
-                if (nameValidator.isValid() && placeValidator.isValid() && houseNumberValidator.isValid() && countryValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid()) {
+                if (nameValidator.isValid() && placeValidator.isValid() && houseNumberValidator.isValid() && countryValidator.isValid() && streetnameValidator.isValid()) {
                     // Making address
                     ShippingAddress address = new ShippingAddress(mFirstNameEditText.getText().toString(), mLastNameEditText.getText().toString(), mCompanyNameEditText.getText().toString(), mPostCodeEditText.getText().toString(), mPlaceEditText.getText().toString(), mStreetNameEditText.getText().toString() + " " + mHouseNumberEditText.getText().toString(), mCountryEditText.getText().toString());
                     if(InvoiceAdressActivity.shippingChecker = true){
@@ -530,7 +534,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         Object item = mLocationCountrySpnr.getSelectedItem();
         if (item == netherlands) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
-            if (!mPostCodeEditText.getText().toString().isEmpty()) {
+            if (mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
