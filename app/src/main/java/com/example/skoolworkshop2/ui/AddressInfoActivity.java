@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
@@ -112,9 +113,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
-
-
-
 //        initializeAttributes();
 
 
@@ -925,9 +923,13 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && mCompilationRadioGroup.getCheckedRadioButtonId() != -1 && mRegistrationSystemRadioGroup.getCheckedRadioButtonId() != -1){
                     Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
                     Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
+                    RadioButton mRegistrationSystemRadioButton = (RadioButton) findViewById(mRegistrationSystemRadioGroup.getCheckedRadioButtonId());
+                    RadioButton mCompilationRadioButton = (RadioButton) findViewById(mCompilationRadioGroup.getCheckedRadioButtonId());
+
 
 
                     BillingAddress billingAddress = new BillingAddress(
@@ -992,8 +994,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                     "unknown",
                                     mWorkshopInfoText.getText().toString(),
                                     Integer.parseInt(mCJPEditText.getText().toString()),
-                                    "ja",
-                                    "ja",
+                                    (String) mRegistrationSystemRadioButton.getText(),
+                                    (String) mCompilationRadioButton.getText(),
                                     0,
                                     0
                             )
@@ -1062,14 +1064,12 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
         //Workshop
         if (itemWorkshop.getName().equals("NL")) {
-            Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mWPostCodeEditText.removeTextChangedListener(beWTextWatcher);
             mWPostCodeEditText.addTextChangedListener(nlWTextWatcher);
         } else if (itemWorkshop.getName().equals("BE")) {
-            Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
