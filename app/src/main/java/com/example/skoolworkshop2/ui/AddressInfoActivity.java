@@ -92,10 +92,10 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private RadioGroup mCompilationRadioGroup;
 
     // Checkbox
-    private CheckBox mBillingAddressCheckBox;
+    private CheckBox mShippingAddressCheckBox;
 
     // Constraint Layout
-    private ConstraintLayout mBillingAddressConstraintLayout;
+    private ConstraintLayout mShippingAddressConstraintLayout;
 
     //Buttons
     private ImageButton mBackButton;
@@ -164,14 +164,16 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
 
-        mBillingAddressCheckBox = findViewById(R.id.activity_address_info_cb_workshop_location);
-        mBillingAddressConstraintLayout = findViewById(R.id.activity_address_info_cl_workshop_location);
+        mShippingAddressCheckBox = findViewById(R.id.activity_address_info_cb_workshop_location);
+        mShippingAddressConstraintLayout = findViewById(R.id.activity_address_info_cl_workshop_location);
 
-        mBillingAddressCheckBox.setOnClickListener((View v) -> {
-            if (mBillingAddressConstraintLayout.getVisibility() == View.VISIBLE) {
-                mBillingAddressConstraintLayout.setVisibility(View.GONE);
+        locationCalculation = new LocationCalculation();
+
+        mShippingAddressCheckBox.setOnClickListener((View v) -> {
+            if (mShippingAddressConstraintLayout.getVisibility() == View.VISIBLE) {
+                mShippingAddressConstraintLayout.setVisibility(View.GONE);
             } else {
-                mBillingAddressConstraintLayout.setVisibility(View.VISIBLE);
+                mShippingAddressConstraintLayout.setVisibility(View.VISIBLE);
                 if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null){
                     ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
                     if(shippingAddress.getCountry().equals("Nederland")){
@@ -929,12 +931,12 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && mCompilationRadioGroup.getCheckedRadioButtonId() != -1 && mRegistrationSystemRadioGroup.getCheckedRadioButtonId() != -1){
                     Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
                     Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
                     RadioButton registrationSystemRadioButton = (RadioButton) findViewById(mRegistrationSystemRadioGroup.getCheckedRadioButtonId());
                     RadioButton compilationRadioButton = (RadioButton) findViewById(mCompilationRadioGroup.getCheckedRadioButtonId());
+                    double distance = mShippingAddressCheckBox.isChecked() ? locationCalculation.getDistance(mWPostCodeEditText.getText().toString().replace(" ", ""), shippingAddressCountry.getName()) : locationCalculation.getDistance(mPostCodeEditText.getText().toString().replace(" ", ""), billingAddressCountry.getName());
 
                     BillingAddress billingAddress = new BillingAddress(
                             mFirstNameEditText.getText().toString(),
@@ -942,7 +944,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                             mCompanyNameEditText.getText().toString(),
                             mPostCodeEditText.getText().toString(),
                             mPlaceEditText.getText().toString(),
-                            "STATE",
+                            "",
                             mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
                             billingAddressCountry.getName(),
                             mTelEditText.getText().toString(),
@@ -954,7 +956,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
                     ShippingAddress shippingAddress;
 
-                    if (mBillingAddressCheckBox.isChecked()) {
+                    if (mShippingAddressCheckBox.isChecked()) {
                         shippingAddress = new ShippingAddress(
                                 mWFirstNameEditText.getText().toString(),
                                 mWLastNameEditText.getText().toString(),
@@ -1000,7 +1002,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 //                            )
 //                    );
 
-//                    double distance = locationCalculation.getDistance(mPostCodeEditText.getText().toString());
 
                     // TODO: Add shipping address, billing video, reservation system, distance & price
 
@@ -1017,8 +1018,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                     Integer.parseInt(mCJPEditText.getText().toString()),
                                     (String) registrationSystemRadioButton.getText(),
                                     (String) compilationRadioButton.getText(),
-                                    0,
-                                    0
+                                    Math.round(distance * 10.0) / 10.0,
+                                    Math.round(distance * 0.56 * 100.0) / 100.0
                             )
                     );
 
