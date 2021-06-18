@@ -376,12 +376,15 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     ImageButton xButton = button.findViewById(R.id.component_button_medium_extendable_delete_btn_x);
                     buttonLabel.setText(selectedItem);
 
-                    xButton.setOnClickListener(v -> {
+                    View.OnClickListener removeListener = v -> {
                         button.animate().alpha(0).setDuration(250).withEndAction(() -> {
                             mWorkshopsLinearLayout.removeView(button);
                         }).start();
                         mSelectedWorkshops.remove((Object) productId);
-                    });
+                    };
+
+                    button.setOnClickListener(removeListener);
+                    xButton.setOnClickListener(removeListener);
 
                     mWorkshopsLinearLayout.addView(button);
                     mSelectedWorkshops.add(productId);
