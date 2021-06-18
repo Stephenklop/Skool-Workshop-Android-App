@@ -146,15 +146,15 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
 
             String moneyStrStart = "Waarde ";
-            String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
+            String moneyStr = moneyStrStart + "€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03));
             Spannable moneySpannable = new SpannableString(moneyStr);
             moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
                     moneyStrStart.length(),
-                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    moneyStrStart.length() + ("€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03))).length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
                     moneyStrStart.length(),
-                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    moneyStrStart.length() + ("€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03))).length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
         }
