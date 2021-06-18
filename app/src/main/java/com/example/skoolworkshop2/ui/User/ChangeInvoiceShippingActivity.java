@@ -53,6 +53,9 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     private TelValidator telValidator = new TelValidator();
     private EmailValidator emailValidator = new EmailValidator();
     private CountryValidator countryValidator = new CountryValidator();
+
+    private Country netherlands;
+    private Country belgium;
     // Watchers
     private TextWatcher nlTextWatcher;
     private TextWatcher beTextWatcher;
@@ -75,6 +78,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     private Button mSubmitButton;
     // Checker
     private ShippingAddress shippingAddress;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -205,8 +209,8 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         // Spinner
         NL = this.getDrawable(R.drawable.ic_flag_of_the_netherlands);
         BE = this.getDrawable(R.drawable.ic_flag_of_belgium);
-        Country netherlands = new Country(NL, "Nederland");
-        Country belgium = new Country(BE, "België");
+         netherlands = new Country(NL, "Nederland");
+         belgium = new Country(BE, "België");
         mLocationCountrySpnr = findViewById(R.id.activity_change_workshop_location_spnr_country);
         mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{netherlands, belgium}));
         mLocationCountrySpnr.setSelection(1);
@@ -524,14 +528,14 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object item = mLocationCountrySpnr.getSelectedItem();
-        if (item == NL) {
+        if (item == netherlands) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
-        } else if (item == BE) {
+        } else if (item == belgium) {
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);

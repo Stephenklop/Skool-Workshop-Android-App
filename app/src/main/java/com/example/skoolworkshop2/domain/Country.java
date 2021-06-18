@@ -18,4 +18,9 @@ public class Country {
     public Drawable getFlag() {
         return flag;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
