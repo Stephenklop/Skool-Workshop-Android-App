@@ -45,7 +45,7 @@ public class WorkshopOverviewFragment extends Fragment {
         mDescriptionTv.setText(Html.fromHtml(workshop.getShortDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         mBookingBn.setText("Boek Direct");
-        mInfoBn.setText("Vraag Informatie");
+        mInfoBn.setText("Vraag Info");
 
 
         mBookingBn.setOnClickListener(new View.OnClickListener() {
