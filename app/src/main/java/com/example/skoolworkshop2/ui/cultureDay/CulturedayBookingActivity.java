@@ -376,12 +376,15 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     ImageButton xButton = button.findViewById(R.id.component_button_medium_extendable_delete_btn_x);
                     buttonLabel.setText(selectedItem);
 
-                    xButton.setOnClickListener(v -> {
+                    View.OnClickListener removeListener = v -> {
                         button.animate().alpha(0).setDuration(250).withEndAction(() -> {
                             mWorkshopsLinearLayout.removeView(button);
                         }).start();
                         mSelectedWorkshops.remove((Object) productId);
-                    });
+                    };
+
+                    button.setOnClickListener(removeListener);
+                    xButton.setOnClickListener(removeListener);
 
                     mWorkshopsLinearLayout.addView(button);
                     mSelectedWorkshops.add(productId);
@@ -629,7 +632,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, (view, year, month, dayOfMonth) -> {
 //            mDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
             if(dayOfMonth < 10 && month < 10){
                 mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);

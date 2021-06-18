@@ -41,7 +41,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
                     android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@+id/activity_my_account_tv_my_account">

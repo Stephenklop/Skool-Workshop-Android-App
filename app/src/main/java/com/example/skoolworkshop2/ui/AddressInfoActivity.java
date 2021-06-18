@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -87,6 +89,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWWorkshopInfoText;
     private EditText mWHouseNr;
 
+    private TextView mSubscribtionText;
+
     //Delay for textchanger
     private Timer timer = new Timer();
     private final long DELAY = 1000; // Milliseconds
@@ -113,6 +117,15 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        Context context = this;
+
+        mSubscribtionText = findViewById(R.id.activity_address_info_tv_regsystem_info);
+        mSubscribtionText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RoundedDialog roundedDialog = new RoundedDialog(context, "Online inschrijfsysteem", "Een cultuurdag organiseren is veel werk: roosters opzetten, presentielijsten maken en ervoor zorgen dat alle leerlingen ingeschreven staan. Met behulp van ons inschrijfsysteem worden al deze taken uit handen genomen! Leerlingen melden zich online aan en wij gaan met deze informatie aan de slag om alles in orde te maken. Het enige wat wij willen weten, is in welke lokalen/gymzalen de workshops gegeven kunnen worden. De workshop docenten zijn geheel zelfstandig, hierdoor ontstaat er ruimte voor de leerkracht voor andere klussen. Er hoeft dus geen leerkracht vanuit school aanwezig te zijn, uiteraard mag dit altijd. Op deze manier halen wij alle lasten tijdens het organiseren uit handen.");
+            }
+        });
 
 
 //        initializeAttributes();
