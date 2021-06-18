@@ -97,6 +97,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultureday_booking);
 
+        final CharSequence[] numberOfWorkshopRounds = new CharSequence[1];
+        final CharSequence[] numberOfMinutesPerWorkshopRound = new CharSequence[1];
+
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
@@ -213,6 +216,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
                     if (mRoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        numberOfWorkshopRounds[0] = s.toString();
                         mRoundsValidator.mIsValid = true;
                     } else if (!mRoundsValidator.isValidWorkshopRounds(s.toString())){
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
@@ -301,10 +305,11 @@ public class CulturedayBookingActivity extends FragmentActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (!mDurationPerRoundEditText.equals("")) {
-                    if (!mMinuteValidator.isValidMinute(s.toString())) {
+                    numberOfMinutesPerWorkshopRound[0] = s.toString();
+                    if (!mMinuteValidator.isValidMinute(s.toString(), numberOfWorkshopRounds[0])) {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
                         mMinuteValidator.mIsValid = false;
-                    } else if (mMinuteValidator.isValidMinute(s.toString())) {
+                    } else if (mMinuteValidator.isValidMinute(s.toString(), numberOfWorkshopRounds[0])) {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         mMinuteValidator.mIsValid = true;
                     } else {

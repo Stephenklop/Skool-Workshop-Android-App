@@ -128,18 +128,18 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mAmountOfPersonsEditText.equals("")) {
-                    if (workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
-
-                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        workshopParticipantsValidator.mIsValid = true;
-                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
-                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_error);
-                        workshopParticipantsValidator.mIsValid = false;
-                    } else {
-                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_focused);
-                    }
-                }
+//                if (!mAmountOfPersonsEditText.equals("")) {
+//                    if (workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
+//
+//                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+//                        workshopParticipantsValidator.mIsValid = true;
+//                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
+//                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_error);
+//                        workshopParticipantsValidator.mIsValid = false;
+//                    } else {
+//                        mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_focused);
+//                    }
+//                }
             }
 
             @Override

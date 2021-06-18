@@ -11,10 +11,12 @@ public class MinuteValidator{
         return mIsValid;
     }
 
-    public static boolean isValidMinute(CharSequence minutes) {
+    public static boolean isValidMinute(CharSequence minutes, CharSequence workshopRounds) {
         if(minutes.length() != 0){
-            int minute = Integer.valueOf(minutes.toString());
-            return minute <= 120 && minute >= 60;
+            double amountOfMinutes = Double.valueOf(minutes.toString());
+            double amountOfWorkshopRounds = Double.valueOf(workshopRounds.toString());
+            double totaal = (amountOfMinutes * 2.5 * amountOfWorkshopRounds);
+            return totaal >= 150;
         } else {
             return false;
         }

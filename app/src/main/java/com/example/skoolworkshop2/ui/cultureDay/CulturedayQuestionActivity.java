@@ -36,6 +36,7 @@ import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
+import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
@@ -74,7 +75,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private DateValidation dateValidation = new DateValidation();
     private NameValidator nameValidator = new NameValidator();
     private CJPValidator cjpValidator = new CJPValidator();
-    private WorkshopParticipantsValidator workshopParticipantsValidator = new WorkshopParticipantsValidator();
+    private CultureDayParticipantsValidator cultureDayParticipantsValidator = new CultureDayParticipantsValidator();
 
     private DatePickerDialog datePickerDialog;
 
@@ -143,13 +144,13 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mAmountOfPersonsEditText.equals("")) {
-                    if (workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                    if (cultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
 
                         mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        workshopParticipantsValidator.mIsValid = true;
-                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(s.toString())) {
+                        cultureDayParticipantsValidator.mIsValid = true;
+                    } else if (!cultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
                         mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_error);
-                        workshopParticipantsValidator.mIsValid = false;
+                        cultureDayParticipantsValidator.mIsValid = false;
                     } else {
                         mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_focused);
                     }
@@ -166,7 +167,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if(workshopParticipantsValidator.isValid()) {
+                    if(cultureDayParticipantsValidator.isValid()) {
                         mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
                 } else{

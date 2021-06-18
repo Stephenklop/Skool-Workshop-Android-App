@@ -92,6 +92,10 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_booking);
 
+        final CharSequence[] numberOfWorkshopRounds = new CharSequence[1];
+        final CharSequence[] numberOfMinutesPerWorkshopRound = new CharSequence[1];
+
+
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
@@ -146,12 +150,12 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(!mParticipantsEditText.equals("")) {
-                    if (workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())) {
+                    if (workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString(), numberOfWorkshopRounds[0])) {
                         updateOrderOverview();
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         workshopItem.setParticipants(Integer.parseInt(charSequence.toString()));
                         workshopParticipantsValidator.mIsValid = true;
-                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString())) {
+                    } else if (!workshopParticipantsValidator.isValidMaxParticipant(charSequence.toString(), numberOfWorkshopRounds[0])) {
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
                         workshopParticipantsValidator.mIsValid = false;
                     } else {
@@ -269,6 +273,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     if (roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
                         updateOrderOverview();
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        numberOfWorkshopRounds[0] = charSequence;
                         roundsValidator.mIsValid = true;
                     } else if (!roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
@@ -315,12 +320,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!mMinuteEditText.equals("")) {
-                    if (minuteValidator.isValidMinute(s.toString())) {
+                    numberOfMinutesPerWorkshopRound[0] = s;
+                    if (minuteValidator.isValidMinute(s.toString(), numberOfWorkshopRounds[0])) {
                         workshopItem.setRoundDuration(Integer.valueOf(s.toString()));
                         updateOrderOverview();
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         minuteValidator.mIsValid = true;
-                    } else if (!minuteValidator.isValidMinute(s.toString())){
+                    } else if (!minuteValidator.isValidMinute(s.toString(), numberOfWorkshopRounds[0])){
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
                         mTotalCostTextView.setText("Subtotaal: €");
                         mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
