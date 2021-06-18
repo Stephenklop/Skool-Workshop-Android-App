@@ -91,6 +91,12 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private RadioGroup mRegistrationSystemRadioGroup;
     private RadioGroup mCompilationRadioGroup;
 
+    // Checkbox
+    private CheckBox mBillingAddressCheckBox;
+
+    // Constraint Layout
+    private ConstraintLayout mBillingAddressConstraintLayout;
+
     //Buttons
     private ImageButton mBackButton;
     private Button mSendBn;
@@ -158,14 +164,14 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
 
-        CheckBox mWorkshopLocationCb = findViewById(R.id.activity_address_info_cb_workshop_location);
-        ConstraintLayout mWorkshopLocationCl = findViewById(R.id.activity_address_info_cl_workshop_location);
+        mBillingAddressCheckBox = findViewById(R.id.activity_address_info_cb_workshop_location);
+        mBillingAddressConstraintLayout = findViewById(R.id.activity_address_info_cl_workshop_location);
 
-        mWorkshopLocationCb.setOnClickListener((View v) -> {
-            if (mWorkshopLocationCl.getVisibility() == View.VISIBLE) {
-                mWorkshopLocationCl.setVisibility(View.GONE);
+        mBillingAddressCheckBox.setOnClickListener((View v) -> {
+            if (mBillingAddressConstraintLayout.getVisibility() == View.VISIBLE) {
+                mBillingAddressConstraintLayout.setVisibility(View.GONE);
             } else {
-                mWorkshopLocationCl.setVisibility(View.VISIBLE);
+                mBillingAddressConstraintLayout.setVisibility(View.VISIBLE);
                 if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null){
                     ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
                     if(shippingAddress.getCountry().equals("Nederland")){
@@ -927,10 +933,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && mCompilationRadioGroup.getCheckedRadioButtonId() != -1 && mRegistrationSystemRadioGroup.getCheckedRadioButtonId() != -1){
                     Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
                     Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
-                    RadioButton mRegistrationSystemRadioButton = (RadioButton) findViewById(mRegistrationSystemRadioGroup.getCheckedRadioButtonId());
-                    RadioButton mCompilationRadioButton = (RadioButton) findViewById(mCompilationRadioGroup.getCheckedRadioButtonId());
-
-
+                    RadioButton registrationSystemRadioButton = (RadioButton) findViewById(mRegistrationSystemRadioGroup.getCheckedRadioButtonId());
+                    RadioButton compilationRadioButton = (RadioButton) findViewById(mCompilationRadioGroup.getCheckedRadioButtonId());
 
                     BillingAddress billingAddress = new BillingAddress(
                             mFirstNameEditText.getText().toString(),
@@ -948,16 +952,33 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                     LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().deleteBillingAddress();
                     int billingAddressId = (int) LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().insertBillingAddress(billingAddress);
 
-                    ShippingAddress shippingAddress = new ShippingAddress(
-                            "Naam",
-                            "naapie",
-                            "Bedrijfie",
-                            "Code",
-                            "Stad",
-                            "Staat",
-                            "Adres",
-                            "Land"
-                    );
+                    ShippingAddress shippingAddress;
+
+                    if (mBillingAddressCheckBox.isChecked()) {
+                        shippingAddress = new ShippingAddress(
+                                mWFirstNameEditText.getText().toString(),
+                                mWLastNameEditText.getText().toString(),
+                                mWCompanyNameEditText.getText().toString(),
+                                mWPostCodeEditText.getText().toString(),
+                                mWPlaceEditText.getText().toString(),
+                                "",
+                                mWAddressEditText.getText().toString(),
+                                shippingAddressCountry.getName()
+                        );
+                    } else {
+                        shippingAddress = new ShippingAddress(
+                                mFirstNameEditText.getText().toString(),
+                                mLastNameEditText.getText().toString(),
+                                mCompanyNameEditText.getText().toString(),
+                                mPostCodeEditText.getText().toString(),
+                                mPlaceEditText.getText().toString(),
+                                "",
+                                mAddressEditText.getText().toString(),
+                                billingAddressCountry.getName()
+                        );
+                    }
+
+
 
                     LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().deleteShippingAddress();
                     LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().insertShippingAddress(shippingAddress);
@@ -994,8 +1015,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                     "unknown",
                                     mWorkshopInfoText.getText().toString(),
                                     Integer.parseInt(mCJPEditText.getText().toString()),
-                                    (String) mRegistrationSystemRadioButton.getText(),
-                                    (String) mCompilationRadioButton.getText(),
+                                    (String) registrationSystemRadioButton.getText(),
+                                    (String) compilationRadioButton.getText(),
                                     0,
                                     0
                             )
