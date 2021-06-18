@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -63,7 +64,7 @@ public class AccountDataActivity extends AppCompatActivity {
         EmailValidator emailValidator = new EmailValidator();
 
 
-
+        // FIXME: DE HELFT VAN DE ACTIVITY STAAT IN DE ONCLICK LISTENER VAN DE UPDATE BUTTON
         //button update account information
         View updateAccountInfo = findViewById(R.id.activity_account_data_btn_confirm);
         updateAccountInfo.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +151,8 @@ public class AccountDataActivity extends AppCompatActivity {
         });
 
         //update user info
-        View updateInfo = findViewById(R.id.activity_account_data_btn_confirm);
+        Button updateInfo = findViewById(R.id.activity_account_data_btn_confirm);
+        updateInfo.setText("Veranderingen Opslaan");
         updateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,7 +167,8 @@ public class AccountDataActivity extends AppCompatActivity {
         });
 
         //password
-        View updatePassword = findViewById(R.id.activity_account_data_btn_password);
+        Button updatePassword = findViewById(R.id.activity_account_data_btn_password);
+        updatePassword.setText("Verander Wachtwoord");
         updatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
