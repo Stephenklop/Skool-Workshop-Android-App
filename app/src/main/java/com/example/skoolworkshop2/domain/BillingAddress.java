@@ -26,6 +26,9 @@ public class BillingAddress {
     private String city;
 
     @ColumnInfo
+    private String state;
+
+    @ColumnInfo
     private String address;
 
     @ColumnInfo
@@ -37,12 +40,13 @@ public class BillingAddress {
     @ColumnInfo
     private String email;
 
-    public BillingAddress(String firstName, String lastName, String company, String postcode, String city, String address, String country, String phone, String email) {
+    public BillingAddress(String firstName, String lastName, String company, String postcode, String city, String state, String address, String country, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.company = company;
         this.postcode = postcode;
         this.city = city;
+        this.state = state;
         this.address = address;
         this.country = country;
         this.phone = phone;
@@ -95,6 +99,14 @@ public class BillingAddress {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getAddress() {

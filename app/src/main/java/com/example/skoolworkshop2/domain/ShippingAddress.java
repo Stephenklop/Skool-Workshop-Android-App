@@ -26,17 +26,21 @@ public class ShippingAddress {
     private String city;
 
     @ColumnInfo
+    private String state;
+
+    @ColumnInfo
     private String address;
 
     @ColumnInfo
     private String country;
 
-    public ShippingAddress(String firstName, String lastName, String company, String postcode, String city, String address, String country) {
+    public ShippingAddress(String firstName, String lastName, String company, String postcode, String city, String state, String address, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.company = company;
         this.postcode = postcode;
         this.city = city;
+        this.state = state;
         this.address = address;
         this.country = country;
     }
@@ -87,6 +91,14 @@ public class ShippingAddress {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getAddress() {

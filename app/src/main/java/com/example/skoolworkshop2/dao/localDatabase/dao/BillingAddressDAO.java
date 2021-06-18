@@ -6,8 +6,6 @@ import androidx.room.Query;
 
 import com.example.skoolworkshop2.domain.BillingAddress;
 
-import java.util.List;
-
 @Dao
 public interface BillingAddressDAO {
     @Insert()

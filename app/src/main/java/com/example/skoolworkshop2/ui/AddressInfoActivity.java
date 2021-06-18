@@ -1,7 +1,6 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +19,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.logic.calculations.LocationCalculation;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.domain.Country;
 import com.example.skoolworkshop2.domain.ShippingAddress;
@@ -39,6 +41,9 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcod
 
 public class AddressInfoActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private String LOG_TAG = getClass().getSimpleName();
+
+    // Data
+    APIDAOFactory apidaoFactory = new APIDAOFactory();
 
     //validations
     private NameValidator nameValidator = new NameValidator();
@@ -81,6 +86,10 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWWorkshopInfoText;
     private EditText mWHouseNr;
 
+    // Radio buttons
+    private RadioGroup mRegistrationSystemRadioGroup;
+    private RadioGroup mCompilationRadioGroup;
+
     //Buttons
     private ImageButton mBackButton;
     private Button mSendBn;
@@ -90,6 +99,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
     private Country NL;
     private Country BE;
+
+    private LocationCalculation locationCalculation;
 
 
 
@@ -133,6 +144,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWStreetNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_street);
         mWHouseNr = (EditText) findViewById(R.id.activity_address_info_workshop_housenr);
 
+        mRegistrationSystemRadioGroup = findViewById(R.id.activity_address_info_rg_regsystem);
+        mCompilationRadioGroup = findViewById(R.id.activity_address_info_rg_comp);
 
         NL = new Country(this.getDrawable(R.drawable.ic_flag_of_the_netherlands), "NL");
         BE = new Country(this.getDrawable(R.drawable.ic_flag_of_belgium), "BE");
@@ -870,8 +883,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-
-
         mWorkshopInfoText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -914,9 +925,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid()){
-                    // Alles vgm opslaan in gebruiker
-                    System.out.println("VERDER");
+                if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && mCompilationRadioGroup.getCheckedRadioButtonId() != -1 && mRegistrationSystemRadioGroup.getCheckedRadioButtonId() != -1){
 
                     BillingAddress billingAddress = new BillingAddress(
                             mFirstNameEditText.getText().toString(),
@@ -924,6 +933,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                             mCompanyNameEditText.getText().toString(),
                             mPostCodeEditText.getText().toString(),
                             mPlaceEditText.getText().toString(),
+                            "STATE",
                             mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
                             mLocationCountrySpnr.getSelectedItem().toString(),
                             mTelEditText.getText().toString(),
@@ -932,6 +942,20 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
                     LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().deleteBillingAddress();
                     int billingAddressId = (int) LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().insertBillingAddress(billingAddress);
+
+                    ShippingAddress shippingAddress = new ShippingAddress(
+                            "Naam",
+                            "naapie",
+                            "Bedrijfie",
+                            "Code",
+                            "Stad",
+                            "Staat",
+                            "Adres",
+                            "Land"
+                    );
+
+                    LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().deleteShippingAddress();
+                    LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().insertShippingAddress(shippingAddress);
 
                     UserManager userManager = new UserManager(getApplication());
                     Customer customer = userManager.getCustomer();
@@ -949,6 +973,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 //                                    mLocationCountrySpnr.getSelectedItem().toString()
 //                            )
 //                    );
+
+//                    double distance = locationCalculation.getDistance(mPostCodeEditText.getText().toString());
 
                     // TODO: Add shipping address, billing video, reservation system, distance & price
 
@@ -970,13 +996,13 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                             )
                     );
 
+                    new Thread(() -> apidaoFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder())).start();
+
                     Intent intent = new Intent(getBaseContext(), OrderSummaryActivity.class);
                     startActivity(intent);
                 }
             }
         });
-
-
 
         if(LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0) != null){
             BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0);

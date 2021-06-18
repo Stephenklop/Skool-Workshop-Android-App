@@ -83,8 +83,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
         orderButton = findViewById(R.id.activity_shopping_cart_btn_confirm);
         orderButton.setText("Verder met bestellen");
         orderButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddressInfoActivity.class);
-            startActivity(intent);
+            if (LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getAmountOfShoppingCartItems() > 0) {
+                Intent intent = new Intent(this, AddressInfoActivity.class);
+                startActivity(intent);
+            }
         });
 
         mPromoAddBtn.setText("Voeg toe");
