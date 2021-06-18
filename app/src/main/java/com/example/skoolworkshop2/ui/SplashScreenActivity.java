@@ -27,6 +27,7 @@ import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.Notification;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
@@ -38,6 +39,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.ArrayList;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -127,13 +130,23 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread notifications = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForTopic("main"));
-                    if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
-                        LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId()));
+                ArrayList<Notification> notifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForTopic("main");
+                for (Notification notification : notifications) {
+                    try{
+                        LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                    }catch (Exception e){
+                        System.out.println("Notification bestaat al");
                     }
-                } catch (Exception e){
-                    e.printStackTrace();
+                }
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                    ArrayList<Notification> personalNotifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
+                    for (Notification notification : personalNotifications) {
+                        try{
+                            LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                        }catch (Exception e){
+                            System.out.println("Notification bestaat al");
+                        }
+                    }
                 }
                 toMainActivity.start();
             }
