@@ -44,8 +44,8 @@ public class WorkshopOverviewFragment extends Fragment {
        mPriceTv.setText("€150,-");
         mDescriptionTv.setText(Html.fromHtml(workshop.getShortDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        mBookingBn.setText("Boek Direct Online");
-        mInfoBn.setText("Vraag Meer Informatie Aan");
+        mBookingBn.setText("Boek Direct");
+        mInfoBn.setText("Vraag Informatie");
 
 
         mBookingBn.setOnClickListener(new View.OnClickListener() {
