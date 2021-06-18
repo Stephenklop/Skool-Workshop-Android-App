@@ -3,12 +3,17 @@ package com.example.skoolworkshop2.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -31,10 +36,17 @@ public class WebViewActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        enableLoadingIndicator();
+
 
 
         ImageButton backButton = findViewById(R.id.activity_web_btn_back);
-        backButton.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         if(getIntent().hasExtra("url")){
             WebView wv = findViewById(R.id.activity_webview);
@@ -42,6 +54,7 @@ public class WebViewActivity extends AppCompatActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
+                    disableLoadingIndicator();
                     TextView tvTitle = findViewById(R.id.activity_web_tv_page);
                     tvTitle.setText(wv.getTitle());
 
@@ -104,5 +117,32 @@ public class WebViewActivity extends AppCompatActivity {
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
+    }
+
+    private void enableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_web_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_web_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        loadingAlert.setAlpha(0);
+        loadingAlert.setVisibility(View.VISIBLE);
+        loadingAlert.animate().alpha(1).setDuration(200).start();
+        avd.start();
+    }
+
+    private void disableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_web_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_web_img_loading_indicator);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        loadingAlert.setAlpha(1);
+        loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
+                loadingIndicator.setVisibility(View.GONE)
+        ).start();
+        avd.stop();
     }
 }

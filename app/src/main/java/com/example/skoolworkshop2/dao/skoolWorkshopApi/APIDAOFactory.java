@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.FireBaseTokenDAO;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
+import com.example.skoolworkshop2.dao.NotificationDAO;
 import com.example.skoolworkshop2.dao.ProductDAO;
 import com.example.skoolworkshop2.dao.UserDAO;
 
@@ -26,4 +27,11 @@ public class APIDAOFactory implements DAOFactory {
     public FireBaseTokenDAO getFireBaseTokenDAO() {
         return new APIFireBaseTokenDAO();
     }
+
+    @Override
+    public NotificationDAO getNotificationDAO() {
+        return new APINotificationDAO();
+    }
+
+
 }

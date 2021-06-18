@@ -131,11 +131,17 @@ public class BillingAddress {
 
     @Override
     public String toString() {
-        return
-                company + '\n' + firstName + " " + lastName + '\n' +
-                        address + '\n' +
-                        postcode + '\n' +
-                        city + '\n' +
-                        country + '\n';
+        return "BillingAddress{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", company='" + company + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

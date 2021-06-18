@@ -34,6 +34,7 @@ import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WebViewActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -178,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvPrivacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/privacybeleid/")));
+                startActivity(new Intent(getApplicationContext(), WebViewActivity.class).putExtra("url", "https://skoolworkshop.nl/privacybeleid/"));
             }
         });
     }

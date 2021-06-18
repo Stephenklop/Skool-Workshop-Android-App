@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,9 +22,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
@@ -71,8 +73,34 @@ public class MyAccountActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //TODO refresh account data
-                refreshLayout.setRefreshing(false);
+                DAOFactory apidaoFactory = new APIDAOFactory();
+                Thread updateUserInfo = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("updating account info");
+                        UserDAO userDAO = apidaoFactory.getUserDAO();
+                        int id = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId();
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted customer");
+                        Customer insertCustomer = userDAO.getCustomerInfo(id);
+                        System.out.println(insertCustomer.toString());
+                        LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(insertCustomer);
+                        System.out.println("added customer with updated info");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
+                        System.out.println("deleted user");
+                        User user = userDAO.getLastUser();
+                        System.out.println(user.toString());
+                        LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
+                        System.out.println("added user with updated info");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                });
+                updateUserInfo.start();
             }
         });
 
@@ -95,6 +123,12 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon1.setText("Account");
         ImageView imageIcon1 = icon1.findViewById(R.id.item_dashboard_img_icon);
         imageIcon1.setImageResource(R.drawable.ic_user);
+        icon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AccountDataActivity.class));
+            }
+        });
 
 
         //second icon
@@ -103,7 +137,12 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon2.setText("Factuur Gegevens");
         ImageView imageIcon2 = icon2.findViewById(R.id.item_dashboard_img_icon);
         imageIcon2.setImageResource(R.drawable.ic_file);
-
+        icon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), InvoiceAdressActivity.class));
+            }
+        });
 
 
         //third icon

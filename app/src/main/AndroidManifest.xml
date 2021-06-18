@@ -25,7 +25,6 @@
             android:launchMode="singleTop" />
         <activity android:name=".ui.WorkshopDetail.WorkshopDetailActivity" />
         <activity android:name=".ui.User.RegisterActivity" />
-        <activity android:name=".ui.User.ForgotPasswordActivity" />
         <activity
             android:name=".ui.cultureDay.CulturedayActivity"
             android:launchMode="singleTop" />
@@ -58,11 +57,19 @@
             android:name=".ui.shoppingCart.ShoppingCartActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.SummaryLayoutTestActivity" />
+      <activity android:name=".ui.User.ChangeInvoiceAddressActivity"/>
+      <activity android:name=".ui.SummaryLayoutTestActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.AddressInfoLayoutTestActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".ui.MyAccountLayoutTestActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".ui.PointsLayoutTestActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
         <activity android:name=".ui.AddressInfoActivity" />
-        <activity android:name=".ui.AddressInfoLayoutTestActivity" />
-        <activity android:name=".ui.MyAccountLayoutTestActivity" />
-        <activity android:name=".ui.PointsLayoutTestActivity" />
         <activity
             android:name=".ui.User.AccountDataActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -75,6 +82,12 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".ui.User.InvoiceAdressActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity android:name=".ui.User.ChangeInvoiceShippingActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
             android:name=".logic.notifications.MessagingService"

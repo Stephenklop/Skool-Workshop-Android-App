@@ -221,13 +221,16 @@
                     tools:listitem="@layout/item_spinner" />
 
                 <HorizontalScrollView
+                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="35dp"
+                    android:scrollbars="none"
+                    android:overScrollMode="never">
 
                     <LinearLayout
                         android:id="@+id/activity_cultureday_booking_workshops"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="35dp"
                         android:orientation="horizontal">
                         <!-- Automatically generated -->
 

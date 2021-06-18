@@ -13,14 +13,13 @@ public class ParticipantsItemValidator {
             int item = Integer.valueOf(items.toString());
 
             return item <= maxParticipants && item >= 0;
-            } else if (items.length() == 0) {
+        } else if (items.length() == 0) {
 
-                return true;
-            } else {
+            return true;
+        } else {
             return false;
         }
 
 
     }
 }
-

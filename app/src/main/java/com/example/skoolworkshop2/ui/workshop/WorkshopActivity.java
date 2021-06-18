@@ -91,7 +91,14 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
         final boolean[] automaticChangedCategory = {false};
         final boolean[] automaticChangedSearch = {false};
 
-        CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, new CategoryAdapter.Listener() {
+        boolean highlightedExists[] = {false};
+        for (Product workshop : mWorkshops){
+            if(workshop.isHighlighted()){
+                highlightedExists[0] = true;
+            }
+        }
+
+        CategoryAdapter ca = new CategoryAdapter(root ,this, WorkshopActivity.this, highlightedExists[0], new CategoryAdapter.Listener() {
             @Override
             public void onChange(String filterLabel) {
 
@@ -110,20 +117,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
             }
         });
 
-        boolean highlightedExists = false;
-        for (Product workshop : mWorkshops){
-            if(workshop.isHighlighted()){
-                highlightedExists = true;
-            }
-        }
-        if(highlightedExists){
-            ca.setChecked(0);
-        } else {
-            ca.setChecked(1);
-        }
-
         // SearchView
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -135,7 +129,11 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
                 if(!automaticChangedSearch[0]){
                     categoryTitle.setText("Zoekresultaten");
                     automaticChangedCategory[0] = true;
-                    ca.setChecked(1);
+                    if(highlightedExists[0]){
+                        ca.setChecked(1);
+                    } else {
+                        ca.setChecked(0);
+                    }
                     automaticChangedCategory[0] = false;
                     searchValue = s;
                     if(s.isEmpty()){

@@ -1,8 +1,6 @@
 package com.example.skoolworkshop2.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.domain.Country;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CountryArrayAdapter extends ArrayAdapter<Drawable> {
+public class CountryArrayAdapter extends ArrayAdapter<Country> {
     LayoutInflater layoutInflater;
 
     public CountryArrayAdapter(@NonNull Context context, @NonNull Object[] objects) {
-        super(context, 0, (Drawable[]) objects);
+        super(context, 0, (Country[]) objects);
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -35,7 +34,7 @@ public class CountryArrayAdapter extends ArrayAdapter<Drawable> {
         } else {
             view = convertView;
         }
-        setWorkshop(view, getItem(position));
+        setCountry(view, getItem(position));
         return view;
     }
 
@@ -51,16 +50,16 @@ public class CountryArrayAdapter extends ArrayAdapter<Drawable> {
             });
         } else {
             view = layoutInflater.inflate(R.layout.item_country_spinner_dropdown, parent, false);
-            setWorkshop(view, getItem(position));
+            setCountry(view, getItem(position));
         }
         return view;
     }
 
     @Nullable
     @Override
-    public Drawable getItem(int position) {
+    public Country getItem(int position) {
         if (position == 0) {
-            return getContext().getDrawable(R.drawable.ic_transparent);
+            return null;
         } else {
             return super.getItem(position - 1);
         }
@@ -76,8 +75,15 @@ public class CountryArrayAdapter extends ArrayAdapter<Drawable> {
         return position != 0;
     }
 
-    private void setWorkshop(View view, Drawable flag) {
+    private void setCountry(View view, Country country) {
         ImageView countryIv = view.findViewById(R.id.item_country_spinner_iv);
-        countryIv.setImageDrawable(flag);
+        TextView countryTv = view.findViewById(R.id.item_country_spinner_tv);
+
+        if (country != null) {
+            countryIv.setImageDrawable(country.getFlag());
+            if (countryTv != null) {
+                countryTv.setText(country.getName());
+            }
+        }
     }
 }

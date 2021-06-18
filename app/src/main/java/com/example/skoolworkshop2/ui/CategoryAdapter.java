@@ -32,23 +32,28 @@ public class CategoryAdapter{
     private WorkshopAdapter mWorkshopAdapter;
     private Listener listener;
     private Context context;
+    private String[] categorieArray;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public CategoryAdapter(View root, Context context, AppCompatActivity activity, Listener listener) {
+    public CategoryAdapter(View root, Context context, AppCompatActivity activity, boolean hasHighlighted, Listener listener) {
         Log.d(LOG_TAG, "Constructor aangeroepen");
 
         this.activity = activity;
         this.context = context;
         mCategoriesRadiogroup = root.findViewById(R.id.activity_workshop_rg_categories);
         this.listener = listener;
+        if(hasHighlighted){
+            this.categorieArray = context.getResources().getStringArray(R.array.workshopCategory);
+        } else {
+            this.categorieArray = context.getResources().getStringArray(R.array.categoryNoHighlighted);
+        }
+
         addCategoriesToGroup();
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void addCategoriesToGroup() {
-        String[] categorieArray = context.getResources().getStringArray(R.array.workshopCategory);
-
         for (int i = 0; i < categorieArray.length; i++) {
             int paddingDp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics()));
 

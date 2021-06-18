@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +34,9 @@ import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.Cul
 import com.example.skoolworkshop2.logic.validation.ParticipantsItemValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
+import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -66,6 +70,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private EditText mParticipantsGraffitiThsirtEditText;
     private EditText mLearningLevelEditText;
 
+    private ImageButton mParticipantsInfoBtn;
+    private ImageButton mTimeScheduleInfoBtn;
+    private ImageButton mParticipantsGraffitiThsirtInfoBnt;
 
     private TextView mOverviewWorkshopRounds;
     private TextView mOverviewDurationPerRound;
@@ -82,6 +89,8 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private LearningLevelValidator mLearningLevelValidator = new LearningLevelValidator();
     private DateValidation dateValidation = new DateValidation();
     private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
+
+    private TextView mErrTv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -360,8 +369,19 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     String selectedItem = parent.getItemAtPosition(position).toString();
                     int productId = LocalDb.getDatabase(getBaseContext()).getProductDAO().getProductIdByName(selectedItem);
 
-                    Button button = new Button(getBaseContext());
-                    button.setText(selectedItem);
+                    LinearLayout button = (LinearLayout) LayoutInflater.from(getBaseContext())
+                            .inflate(R.layout.component_button_medium_extendable_delete, mWorkshopsLinearLayout, false);
+
+                    TextView buttonLabel = button.findViewById(R.id.component_button_medium_extendable_delete_tv_label);
+                    ImageButton xButton = button.findViewById(R.id.component_button_medium_extendable_delete_btn_x);
+                    buttonLabel.setText(selectedItem);
+
+                    xButton.setOnClickListener(v -> {
+                        button.animate().alpha(0).setDuration(250).withEndAction(() -> {
+                            mWorkshopsLinearLayout.removeView(button);
+                        }).start();
+                        mSelectedWorkshops.remove((Object) productId);
+                    });
 
                     mWorkshopsLinearLayout.addView(button);
                     mSelectedWorkshops.add(productId);
@@ -503,29 +523,54 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
         mOrderButton.setText("Boek nu");
         mOrderButton.setOnClickListener(v -> {
-            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
-                    mCultureDay.getProductId(),
-                    false,
-                    mCultureDayItem.getDate(),
-                    mCultureDayItem.getRounds(),
-                    mCultureDayItem.getWorkshopPerWorkshopRound(),
-                    mCultureDayItem.getRoundDuration(),
-                    mCultureDayItem.getTimeSchedule(),
-                    mCultureDayItem.getParticipants(),
-                    mCultureDayItem.getAmountOfParticipantsGraffitiTshirt(),
-                    mCultureDayItem.getLearningLevel(),
-                    mCultureDayItem.getPrice()
-            );
+            if (validate()) {
+                mErrTv.setVisibility(View.GONE);
 
-            shoppingCartItem.setProducts(mSelectedWorkshops);
+                ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
+                        mCultureDay.getProductId(),
+                        false,
+                        mCultureDayItem.getDate(),
+                        mCultureDayItem.getRounds(),
+                        mCultureDayItem.getWorkshopPerWorkshopRound(),
+                        mCultureDayItem.getRoundDuration(),
+                        mCultureDayItem.getTimeSchedule(),
+                        mCultureDayItem.getParticipants(),
+                        mCultureDayItem.getAmountOfParticipantsGraffitiTshirt(),
+                        mCultureDayItem.getLearningLevel(),
+                        mCultureDayItem.getPrice()
+                );
 
-            System.out.println("BOOKED CULTURE DAY: " + shoppingCartItem);
-            System.out.println("WORKSHOPS: " + mSelectedWorkshops);
+                shoppingCartItem.setProducts(mSelectedWorkshops);
 
-            LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(shoppingCartItem);
+                System.out.println("BOOKED CULTURE DAY: " + shoppingCartItem);
+                System.out.println("WORKSHOPS: " + mSelectedWorkshops);
 
-            Intent intent = new Intent(this, ShoppingCartActivity.class);
-            startActivity(intent);
+                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(shoppingCartItem);
+
+                Intent intent = new Intent(this, ShoppingCartActivity.class);
+                startActivity(intent);
+            } else {
+                mErrTv.setVisibility(View.VISIBLE);
+                mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
+            }
+        });
+
+        mParticipantsInfoBtn.setOnClickListener(v -> {
+            String header = "Totaal aantal deelnemers";
+            String content = "Maximaal 100 deelnemers aan een cultuurdag";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+
+        mTimeScheduleInfoBtn.setOnClickListener(v -> {
+            String header = "Tijdschema";
+            String content = "Geef hier op hoe jullie het tijdschema willen hebben (aantal rondes met eventueel pauzes)";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
+        });
+
+        mParticipantsGraffitiThsirtInfoBnt.setOnClickListener(v -> {
+            String header = "Deelnemers Graffiti en T-Shirt ontwerpen (+€7,50)";
+            String content = "Indien je de workshop Graffiti of T-shirt ontwerpen afneemt bereken wij o.b.v. het aantal deelnemers de materiaalkosten.";
+            new RoundedDialog(CulturedayBookingActivity.this, header, content);
         });
     }
 
@@ -542,6 +587,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mTitle = findViewById(R.id.activity_cultureday_booking_tv_title);
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         mParticipantsEditText = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.number_edit_text);
+        mParticipantsInfoBtn = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.component_edittext_number_info_btn_info);
         mWorkshopRoundsEditText = findViewById(R.id.activity_cultureday_booking_et_rounds);
         mWorkshopsPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_workshops);
         mDurationPerRoundEditText = findViewById(R.id.activity_cultureday_booking_et_mins);
@@ -551,7 +597,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mWorkshopArrayAdapter = new WorkshopArrayAdapter(this, R.layout.item_spinner_dropdown, mWorkshopNames);
         mWorkshopsLinearLayout = findViewById(R.id.activity_cultureday_booking_workshops);
         mTimeScheduleEditText = findViewById(R.id.schedule_edit_text);
+        mTimeScheduleInfoBtn = findViewById(R.id.activity_cultureday_booking_et_schedule).findViewById(R.id.component_edittext_plaintext_info_multiline_btn_info);
         mParticipantsGraffitiThsirtEditText = findViewById(R.id.activity_cultureday_booking_et_special_workshops).findViewById(R.id.number_edit_text);
+        mParticipantsGraffitiThsirtInfoBnt = findViewById(R.id.activity_cultureday_booking_et_special_workshops).findViewById(R.id.component_edittext_number_info_btn_info);
         mLearningLevelEditText = findViewById(R.id.activity_cultureday_booking_et_level);
 
         // Overview
@@ -568,6 +616,9 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
         mMinuteValidator = new MinuteValidator();
         mLearningLevelValidator = new LearningLevelValidator();
+
+        // Error
+        mErrTv = findViewById(R.id.activity_cultureday_booking_tv_err);
     }
 
     private void setDatePicker() {
@@ -622,7 +673,11 @@ public class CulturedayBookingActivity extends FragmentActivity {
         }
 
         for (int i = 0; i < products.size(); i++) {
-            result.add(products.get(i).getName());
+            int productId = products.get(i).getProductId();
+
+            if (!mSelectedWorkshops.contains(productId)) {
+                result.add(products.get(i).getName());
+            }
         }
 
         return result;
@@ -636,5 +691,57 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mOverviewTimeSchedule.setText("Totale duur: " + mCultureDayItem.getRoundDuration() * mCultureDayItem.getRounds() + " min");
         mOverviewLearningLevel.setText("Leerniveau: " + ((mCultureDayItem.getLearningLevel() == null || mCultureDayItem.getLearningLevel().equals("")) ? "n.n.b." : mCultureDayItem.getLearningLevel()));
         mOverviewTotalCost.setText("Subtotaal: €" + (int) mCultureDayItem.getPrice());
+    }
+
+    private boolean validate() {
+        boolean result = true;
+
+        boolean date = dateValidation.isValid();
+        boolean participants = mCultureDayParticipantsValidator.isValid();
+        boolean rounds = mRoundsValidator.isValid();
+        boolean workshopsPerRound = mWorkshopsPerRoundValidator.isValid();
+        boolean minutes = mMinuteValidator.isValid();
+        boolean workshops = mSelectedWorkshops.size() > 0;
+        boolean schedule = mCultureDayItem.getTimeSchedule() != null || (mCultureDayItem.getTimeSchedule() != null ? mCultureDayItem.getTimeSchedule().length() : 0) > 0;
+        boolean specialParticipants = participantsItemValidator.isValid();
+        boolean level = mLearningLevelValidator.isValid();
+
+        if (!date) {
+            result = false;
+            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!participants) {
+            result = false;
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!rounds) {
+            result = false;
+            mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!workshopsPerRound) {
+            result = false;
+            mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!minutes) {
+            result = false;
+            mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!workshops) {
+            result = false;
+        }
+        if (!schedule) {
+            // set schedule to n.v.t. when left empty
+            mCultureDayItem.setTimeSchedule("n.v.t.");
+        }
+        if (!specialParticipants) {
+            result = false;
+            mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!level) {
+            result = false;
+            mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+
+        return result;
     }
 }

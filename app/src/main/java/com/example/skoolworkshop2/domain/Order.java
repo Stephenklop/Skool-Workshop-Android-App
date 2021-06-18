@@ -5,11 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
-
-import java.io.Serializable;
-import java.util.List;
-
 @Entity
 public class Order {
     @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull

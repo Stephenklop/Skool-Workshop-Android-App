@@ -36,9 +36,10 @@ import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
+import com.example.skoolworkshop2.ui.MainActivity;
+import com.example.skoolworkshop2.ui.cultureDay.CulturedayBookingActivity;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
-
 
 import java.time.LocalDate;
 
@@ -112,13 +113,11 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         mCJPEditText = (EditText) findViewById(R.id.activity_workshop_question_et_cjp);
         mMessageEditText = (EditText) findViewById(R.id.activity_workshop_question_et_message);
         mNameEditText = (EditText) findViewById(R.id.activity_workshop_question_et_name);
-        mTermsCb = findViewById(R.id.activity_workshop_question_cb_terms);
-        mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
         //Title
         mTitleTextView = findViewById(R.id.activity_workshop_question_tv_title);
         mTitleTextView.setText(workshop.getName());
-
-        mSendBn.setEnabled(false);
+        mTermsCb = findViewById(R.id.activity_workshop_question_cb_terms);
+        mErrTv = findViewById(R.id.activity_workshop_question_tv_err);
 
         // Set up validations
         mAmountOfPersonsEditText.addTextChangedListener(new TextWatcher() {
@@ -145,9 +144,6 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
 
             }
         });
@@ -186,9 +182,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
 
             }
         });
@@ -227,9 +221,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
 
             }
         });
@@ -285,9 +277,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
             }
         });
         mDateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -323,9 +313,8 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                mSendBn.setEnabled(true);
-            }}
+
+            }
         });
         mNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -365,9 +354,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
 
             }
         });
@@ -407,9 +394,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
 
             }
         });
@@ -449,9 +434,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
             }
         });
         mCJPEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -479,9 +462,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(validate() == true ){
-                    mSendBn.setEnabled(true);
-                }
+
                 mMessageEditText.setBackgroundResource(R.drawable.edittext_confirmed);
 
             }
@@ -571,30 +552,39 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         boolean terms = mTermsCb.isChecked();
         if(!email){
             returnValue = false;
+            mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!amountOfPeople){
             returnValue = false;
+            mAmountOfPersonsEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!date){
             returnValue = false;
+            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!time){
             returnValue = false;
+            mTimeEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!location){
             returnValue = false;
+            mLocationEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!cjp){
             returnValue = false;
+            mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!name){
             returnValue = false;
+            mNameEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!tel){
             returnValue = false;
+            mTelEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if(!message){
             returnValue = false;
+            mMessageEditText.setBackgroundResource(R.drawable.edittext_error);
         }
         if (!terms) {
             returnValue = false;
