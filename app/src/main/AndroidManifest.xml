@@ -25,7 +25,6 @@
             android:launchMode="singleTop" />
         <activity android:name=".ui.WorkshopDetail.WorkshopDetailActivity" />
         <activity android:name=".ui.User.RegisterActivity" />
-        <activity android:name=".ui.User.ForgotPasswordActivity" />
         <activity
             android:name=".ui.cultureDay.CulturedayActivity"
             android:launchMode="singleTop" />
