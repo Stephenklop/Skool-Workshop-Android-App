@@ -119,11 +119,16 @@ public class ShippingAddress {
 
     @Override
     public String toString() {
-        return
-                company + '\n' + firstName + " " + lastName + '\n' +
-                        address + '\n' +
-                        postcode + '\n' +
-                        city + '\n' +
-                        country + '\n';
+        return "ShippingAddress{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", company='" + company + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

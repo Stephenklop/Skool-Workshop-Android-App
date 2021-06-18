@@ -926,6 +926,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && mCompilationRadioGroup.getCheckedRadioButtonId() != -1 && mRegistrationSystemRadioGroup.getCheckedRadioButtonId() != -1){
+                    Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
+                    Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
+
 
                     BillingAddress billingAddress = new BillingAddress(
                             mFirstNameEditText.getText().toString(),
@@ -935,7 +938,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                             mPlaceEditText.getText().toString(),
                             "STATE",
                             mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
-                            mLocationCountrySpnr.getSelectedItem().toString(),
+                            billingAddressCountry.getName(),
                             mTelEditText.getText().toString(),
                             mEmailEditText.getText().toString()
                     );
@@ -1037,20 +1040,18 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     //user postcode spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Object item = mLocationCountrySpnr.getSelectedItem();
-        Object itemWorkshop = mWorkshopLocationCountrySpnr.getSelectedItem();
+        Country item = (Country) mLocationCountrySpnr.getSelectedItem();
+        Country itemWorkshop = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
 
         //USER
-        if (item == NL) {
-            Log.d(LOG_TAG, "onItemSelected: selected netherlands");
+        if (item.getName().equals("NL")) {
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
 
-        } else if (item == BE) {
-            Log.d(LOG_TAG, "onItemSelected: selected belgium");
+        } else if (item.getName().equals("BE")) {
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
@@ -1060,14 +1061,14 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         }
 
         //Workshop
-        if (itemWorkshop == NL) {
+        if (itemWorkshop.getName().equals("NL")) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mWPostCodeEditText.removeTextChangedListener(beWTextWatcher);
             mWPostCodeEditText.addTextChangedListener(nlWTextWatcher);
-        } else if (itemWorkshop == BE) {
+        } else if (itemWorkshop.getName().equals("BE")) {
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
