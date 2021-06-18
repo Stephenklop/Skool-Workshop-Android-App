@@ -318,7 +318,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                         workshopItem.setRoundDuration(Integer.parseInt(s.toString()));
                     }
 
-                    if (workshopItem.getPrice() > 175) {
+                    if (workshopItem.getPrice() >= 175) {
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         minuteValidator.setmIsValid(true);
                     } else {
@@ -533,7 +533,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
         boolean date = dateValidation.isValid();
         boolean participants = workshopParticipantsValidator.isValid();
         boolean rounds = roundsValidator.isValid();
-        boolean minutes = workshopItem.getPrice() > 175;
+        boolean minutes = workshopItem.getPrice() >= 175;
         boolean level = learningLevelValidator.isValid();
 
         if (!date) {
