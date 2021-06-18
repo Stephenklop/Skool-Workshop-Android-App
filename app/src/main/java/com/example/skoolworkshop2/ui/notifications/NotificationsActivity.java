@@ -17,10 +17,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.Notification;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+
+import java.util.ArrayList;
 
 public class NotificationsActivity extends AppCompatActivity {
 
@@ -51,14 +54,24 @@ public class NotificationsActivity extends AppCompatActivity {
                 Thread refreshNotifications = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try{
-                            DAOFactory apidaoFactory = new APIDAOFactory();
-                            LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForTopic("main"));
-                            if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
-                                LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId()));
+                        DAOFactory apidaoFactory = new APIDAOFactory();
+                        ArrayList<Notification> notifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForTopic("main");
+                        for (Notification notification : notifications) {
+                            try{
+                                LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                            }catch (Exception e){
+                                System.out.println("Notification bestaat al");
                             }
-                        } catch (Exception e){
-                            e.printStackTrace();
+                        }
+                        if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                            ArrayList<Notification> personalNotifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
+                            for (Notification notification : personalNotifications) {
+                                try{
+                                    LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                                }catch (Exception e){
+                                    System.out.println("Notification bestaat al");
+                                }
+                            }
                         }
                         runOnUiThread(new Runnable() {
                             @Override
