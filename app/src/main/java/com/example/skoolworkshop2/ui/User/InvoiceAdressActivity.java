@@ -115,6 +115,7 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         if(shippingAddress != null){
             shippingChecker = true;
             mInvoiceShippingTextView.setText(shippingAddress.toString());
+            mInvoiceShippingAddressLayout.removeView(mInvoiceShippingTextView);
             mInvoiceShippingAddressLayout.addView(mInvoiceShippingTextView);
             mInvoiceShippingAddressImageButton.setBackgroundResource(R.drawable.ic_edit);
             mInvoiceShippingAddressImageButton.setOnClickListener(new View.OnClickListener() {
@@ -142,4 +143,4 @@ public class InvoiceAdressActivity extends AppCompatActivity {
 
 
     }
-    }
+}

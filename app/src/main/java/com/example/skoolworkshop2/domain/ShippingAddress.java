@@ -80,8 +80,8 @@ public class ShippingAddress implements Serializable {
         return
                 company + '\n' + firstName + " " + lastName + '\n' +
                         address + '\n' +
-                        postcode + '\n' +
+                        postcode + ' ' +
                         city + '\n' +
-                        country + '\n';
+                        country;
     }
 }
