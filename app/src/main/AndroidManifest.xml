@@ -37,6 +37,7 @@
         <activity
             android:name=".ui.User.AccountActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".ui.User.ReservationActivity"/>
         <activity android:name=".ui.WorkshopDetail.WorkshopQuestionActivity" />
         <activity android:name=".ui.WorkshopDetail.WorkshopBookingActivity" />
         <activity

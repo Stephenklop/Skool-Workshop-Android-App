@@ -34,7 +34,9 @@ public class Order {
     private double distance;
     @ColumnInfo
     private double price;
-    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, double distance, double price) {
+    @ColumnInfo
+    private String date;
+    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, double distance, double price, String date) {
         this.status = status;
         this.customerId = customerId;
         this.billingAddressId = billingAddressId;
@@ -47,6 +49,7 @@ public class Order {
         this.reservationSystem = reservationSystem;
         this.distance = distance;
         this.price = price;
+        this.date = date;
     }
 
 
@@ -127,5 +130,13 @@ public class Order {
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

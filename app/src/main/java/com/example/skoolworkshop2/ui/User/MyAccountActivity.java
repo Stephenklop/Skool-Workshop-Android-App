@@ -151,7 +151,14 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon3.setText("Reserveringen");
         ImageView imageIcon3 = icon3.findViewById(R.id.item_dashboard_img_icon);
         imageIcon3.setImageResource(R.drawable.ic_folder);
-
+        icon3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(buttonsEnabled[0]){
+                    startActivity(new Intent(getApplicationContext(), ReservationActivity.class));
+                }
+            }
+        });
 
         //fourth icon
         View icon4 = findViewById(R.id.activity_my_account_item_skoolpartner);
