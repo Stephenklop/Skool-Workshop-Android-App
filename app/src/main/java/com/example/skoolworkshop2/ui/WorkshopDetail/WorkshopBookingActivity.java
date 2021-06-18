@@ -51,7 +51,6 @@ import io.paperdb.Paper;
 
 public class WorkshopBookingActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private String LOG_TAG = getClass().getSimpleName();
-    private LocalAppStorage localAppStorage;
     private Product workshop;
     private WorkshopItem workshopItem;
     private ImageButton mBackButton;
@@ -96,7 +95,12 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-        localAppStorage = new LocalAppStorage(getBaseContext());
+        mPriceBn = findViewById(R.id.activity_workshop_booking_button_price);
+        mParticipantsBn = findViewById(R.id.activity_workshop_booking_button_participants);
+        mDurationBn = findViewById(R.id.activity_workshop_booking_button_duration);
+        mPriceBn.setText("€150,-");
+        mParticipantsBn.setText("25 deelnemers");
+        mDurationBn.setText("60 min");
 
         // Initialize workshop product
         workshop = (Product) getIntent().getSerializableExtra("workshop");
@@ -448,7 +452,6 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     }
 
                     // Add workshop to local storage
-                    localAppStorage.addToList("cartItems", workshop);
                     System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));
 
                     System.out.println("ORDER: " + workshopItem);

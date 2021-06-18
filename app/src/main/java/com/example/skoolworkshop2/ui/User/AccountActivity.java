@@ -169,9 +169,7 @@ public class AccountActivity extends AppCompatActivity {
         mForgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent forgotPassIntent = new Intent(getApplicationContext(), WebViewActivity.class);
-                forgotPassIntent.putExtra("url", "https://skoolworkshop.nl/account/wachtwoord-vergeten/");
-                startActivity(forgotPassIntent);
+                startActivity(new Intent(getApplicationContext(), WebViewActivity.class).putExtra("url", "https://skoolworkshop.nl/account/wachtwoord-vergeten/"));
             }
         });
 
@@ -180,6 +178,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 enableLoadingIndicator();
+                mLoginButton.setEnabled(false);
                 APIUserDAO apiUserDAO = new APIUserDAO();
 
                 if(emailValidator.isValid() && passwordValidator.isValid()){
@@ -202,13 +201,7 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 } else {
                     disableLoadingIndicator();
-                    if(!emailValidator.isValid() && !passwordValidator.isValid()){
-                        Toast.makeText(getApplicationContext(), "Email and password are incorrect given", Toast.LENGTH_SHORT).show();
-                    } else if (!emailValidator.isValid() && passwordValidator.isValid()){
-                        Toast.makeText(getApplicationContext(), "Email is incorrect given", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Password is incorrect given", Toast.LENGTH_SHORT).show();
-                    }
+                    mLoginButton.setEnabled(true);
                 }
             }
         });
@@ -236,6 +229,8 @@ public class AccountActivity extends AppCompatActivity {
     private void enableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.VISIBLE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -252,6 +247,8 @@ public class AccountActivity extends AppCompatActivity {
     private void disableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.GONE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         loadingAlert.setAlpha(1);
         loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
