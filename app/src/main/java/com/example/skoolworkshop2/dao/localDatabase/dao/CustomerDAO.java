@@ -17,4 +17,8 @@ public interface CustomerDAO {
 
     @Query("DELETE FROM Customer")
     void deleteCustomer();
+
+    //Update Customer in SQL lite db
+//    @Query("UPDATE Customer SET firstName = name")
+//    void updateCustomer(String name);
 }

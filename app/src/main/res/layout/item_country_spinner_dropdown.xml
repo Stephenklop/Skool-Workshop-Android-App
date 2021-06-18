@@ -16,4 +16,15 @@
         android:layout_marginRight="44dp"
         android:src="@drawable/ic_flag_of_the_netherlands"/>
 
+    <TextView
+        android:id="@+id/item_country_spinner_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/item_country_spinner_iv"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="25dp"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 </RelativeLayout>

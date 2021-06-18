@@ -37,7 +37,6 @@ public class MessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         Room.databaseBuilder(this, LocalDb.class, "LocalDb");
-        LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(new Notification("title", "description", "url", false));
 
 //        messageData = remoteMessage.getData().toString();
 

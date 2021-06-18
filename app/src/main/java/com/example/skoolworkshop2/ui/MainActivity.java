@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -38,6 +39,7 @@ import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.notifications.MessagingService;
 import com.example.skoolworkshop2.ui.User.AccountActivity;
+import com.example.skoolworkshop2.ui.User.ChangeInvoiceAddressActivity;
 import com.example.skoolworkshop2.ui.User.RegisterActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 import com.example.skoolworkshop2.ui.notifications.NotificationsActivity;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
         adminToken = "pK4TdR13EQfl7l5a017Jzng3QUS67qYLmiR0OvBB/szH12AZI2WQezzJS8Xlm1Z6JSrkBJJMII1F6MxV2dKP14KmL7F8y2ZDIWGlif1/wSMaR3Q9ADFG7Mv1ljXa9L/YZQH0nwVVOtQtW9FpgKLvPVHC0QCuaAH8AZQ5zvsWEBYL+9yw4HPdNA9wrI7HC1X/";
 
-        EncryptionLogic.decrypt(androidToken, "secretKey");
+        System.out.println(EncryptionLogic.decrypt(androidToken, "secretKey"));
 
         UserManager iem = new UserManager(this.getApplication());
 
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
         TextView greeting = findViewById(R.id.activity_home_tv_greeting);
-        greeting.setText("Goedendag");
+        greeting.setText("Goedendag,");
 
         if (iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
@@ -170,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         searchPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddressInfoLayoutTestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
                 startActivity(new Intent(getApplicationContext(), WorkshopActivity.class));
             }
         });

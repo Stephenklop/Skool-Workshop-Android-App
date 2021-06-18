@@ -5,4 +5,5 @@ public interface DAOFactory {
     UserDAO getUserDAO();
     NewsArticleDAO getNewsArticleDAO();
     FireBaseTokenDAO getFireBaseTokenDAO();
+    NotificationDAO getNotificationDAO();
 }

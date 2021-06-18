@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
@@ -24,8 +25,11 @@ import android.widget.Toast;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
+import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.notifications.MessagingService;
@@ -41,12 +45,15 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Thread tokenThread;
     private RoundedDialog roundedDialog;
     private ImageView mLoadingImg;
+    public static Application application;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        application = getApplication();
 
         mLoadingImg = findViewById(R.id.activity_splash_screen_img_loading_indicator);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) mLoadingImg.getDrawable();
@@ -103,6 +110,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void runThreads(){
         DAOFactory apidaoFactory = new APIDAOFactory();
 
+
         Thread toMainActivity = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,12 +123,53 @@ public class SplashScreenActivity extends AppCompatActivity {
                 });
             }
         });
+
+        Thread notifications = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForTopic("main"));
+                    if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                        LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId()));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                toMainActivity.start();
+            }
+        });
+
+        Thread updateUserInfo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                    System.out.println("updating account info");
+                    UserDAO userDAO = apidaoFactory.getUserDAO();
+                    int id = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId();
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                    System.out.println("deleted customer");
+                    Customer insertCustomer = userDAO.getCustomerInfo(id);
+                    System.out.println(insertCustomer.toString());
+                    LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(insertCustomer);
+                    System.out.println("added customer with updated info");
+                    LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
+                    System.out.println("deleted user");
+                    User user = userDAO.getLastUser();
+                    System.out.println(user.toString());
+                    LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
+                    System.out.println("added user with updated info");
+                }
+                notifications.start();
+
+            }
+        });
+
         Thread loadProducts = new Thread(() -> {
             System.out.println("THREAD 2");
             LocalDb.getDatabase(getBaseContext()).getProductDAO().deleteProductTable();
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(23));
             LocalDb.getDatabase(getBaseContext()).getProductDAO().insertProducts(apidaoFactory.getProductDAO().getAllProductsByCategory(28));
-            toMainActivity.start();
+            updateUserInfo.start();
         });
 
         Thread APIThread = new Thread(() -> {

@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
@@ -34,14 +37,40 @@ public class NotificationsActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        if(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNotifications().size() > 0){
+            TextView tvError = findViewById(R.id.activity_notifications_tv_error);
+            tvError.setVisibility(View.GONE);
+        }
+
         loadNotifications();
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_notifications_refresh);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadNotifications();
-                refreshLayout.setRefreshing(false);
+                Thread refreshNotifications = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            DAOFactory apidaoFactory = new APIDAOFactory();
+                            LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForTopic("main"));
+                            if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                                LocalDb.getDatabase(getApplication()).getNotificationDAO().insertListOfNotification(apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId()));
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadNotifications();
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+
+                    }
+                });
+                refreshNotifications.start();
             }
         });
 
@@ -52,6 +81,8 @@ public class NotificationsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
     }
 
