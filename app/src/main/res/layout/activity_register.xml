@@ -116,6 +116,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_register_txt_label_password" />
 
             <TextView
+                android:id="@+id/activity_register_tv_pass_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="het wachtwoord moet minimaal twaalf tekens lang zijn. Gebruik hoofd- en kleine letters, nummers en tekens zoals ! &quot; ? $ % ^ &amp; ) om het sterker te maken."
+                android:textColor="@color/dark_grey"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_register_et_password"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +146,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_register_et_password" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_register_tv_pass_hint" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

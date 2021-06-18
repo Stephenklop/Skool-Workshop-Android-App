@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPasswordEditText;
     private Button mSubmitButton;
     private TextView mLoginTextView;
+    private TextView mPassHintTv;
     private final String LOG_TAG = getClass().getSimpleName();
 
     // Validators
@@ -60,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-
+        mPassHintTv = findViewById(R.id.activity_register_tv_pass_hint);
 
         View root = findViewById(R.id.activity_register);
         MenuController menuController = new MenuController(root);
@@ -119,6 +120,14 @@ public class RegisterActivity extends AppCompatActivity {
                     mPasswordEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                     passwordValidator.mIsValid = true;
                 }
+            }
+        });
+
+        mPasswordEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                mPassHintTv.setVisibility(View.VISIBLE);
+            } else {
+                mPassHintTv.setVisibility(View.GONE);
             }
         });
 
