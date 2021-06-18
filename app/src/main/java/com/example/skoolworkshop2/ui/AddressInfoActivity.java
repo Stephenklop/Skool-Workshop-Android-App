@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,12 +14,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Country;
+import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -64,6 +69,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mLastNameEditText;
     private EditText mCompanyNameEditText;
     private EditText mPostCodeEditText;
+    private EditText mHouseNr;
     private EditText mAddressEditText;
     private EditText mPlaceEditText;
     private EditText mStreetNameEditText;
@@ -81,6 +87,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWPlaceEditText;
     private EditText mWStreetNameEditText;
     private EditText mWWorkshopInfoText;
+    private EditText mWHouseNr;
+
+    private TextView mSubscribtionText;
 
     //Delay for textchanger
     private Timer timer = new Timer();
@@ -108,6 +117,17 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+        Context context = this;
+
+        mSubscribtionText = findViewById(R.id.activity_address_info_tv_regsystem_info);
+        mSubscribtionText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RoundedDialog roundedDialog = new RoundedDialog(context, "Online inschrijfsysteem", "Een cultuurdag organiseren is veel werk: roosters opzetten, presentielijsten maken en ervoor zorgen dat alle leerlingen ingeschreven staan. Met behulp van ons inschrijfsysteem worden al deze taken uit handen genomen! Leerlingen melden zich online aan en wij gaan met deze informatie aan de slag om alles in orde te maken. Het enige wat wij willen weten, is in welke lokalen/gymzalen de workshops gegeven kunnen worden. De workshop docenten zijn geheel zelfstandig, hierdoor ontstaat er ruimte voor de leerkracht voor andere klussen. Er hoeft dus geen leerkracht vanuit school aanwezig te zijn, uiteraard mag dit altijd. Op deze manier halen wij alle lasten tijdens het organiseren uit handen.");
+            }
+        });
+
+
 //        initializeAttributes();
 
 
@@ -116,6 +136,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mLastNameEditText = (EditText) findViewById(R.id.activity_address_info_et_lastname);
         mCompanyNameEditText = (EditText) findViewById(R.id.activity_address_info_et_company);
         mPostCodeEditText = (EditText) findViewById(R.id.activity_address_info_et_postalcode);
+        mHouseNr = (EditText) findViewById(R.id.activity_address_info_housenr);
         mAddressEditText = (EditText) findViewById(R.id.activity_address_info_housenr);
         mPlaceEditText = (EditText) findViewById(R.id.activity_address_info_et_place);
         mStreetNameEditText = (EditText) findViewById(R.id.activity_address_info_et_street);
@@ -134,6 +155,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWAddressEditText = (EditText) findViewById(R.id.activity_address_info_workshop_housenr);
         mWPlaceEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_place);
         mWStreetNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_street);
+        mWHouseNr = (EditText) findViewById(R.id.activity_address_info_workshop_housenr);
 
 
         NL = new Country(this.getDrawable(R.drawable.ic_flag_of_the_netherlands), "NL");
@@ -159,6 +181,24 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 mWorkshopLocationCl.setVisibility(View.GONE);
             } else {
                 mWorkshopLocationCl.setVisibility(View.VISIBLE);
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null){
+                    ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
+                    if(shippingAddress.getCountry().equals("Nederland")){
+                        mWorkshopLocationCountrySpnr.setSelection(1);
+                    } else {
+                        mWorkshopLocationCountrySpnr.setSelection(2);
+                    }
+
+                    String addressSplit[] = shippingAddress.getAddress().split(" ");
+
+                    mWFirstNameEditText.setText(shippingAddress.getFirstName());
+                    mWLastNameEditText.setText(shippingAddress.getLastName());
+                    mWCompanyNameEditText.setText(shippingAddress.getCompany());
+                    mWPostCodeEditText.setText(shippingAddress.getPostcode());
+                    mWHouseNr.setText(addressSplit[1]);
+                    mWPlaceEditText.setText(shippingAddress.getCity());
+                    mWStreetNameEditText.setText(addressSplit[0]);
+                }
             }
         });
 
@@ -908,6 +948,32 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         });
+
+
+
+        if(LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0) != null){
+            BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0);
+
+            if(billingAddress.getCountry().equals("Nederland")){
+                mLocationCountrySpnr.setSelection(1);
+            } else {
+                mLocationCountrySpnr.setSelection(2);
+            }
+
+            String addressSplit[] = billingAddress.getAddress().split(" ");
+
+            mFirstNameEditText.setText(billingAddress.getFirstName());
+            mLastNameEditText.setText(billingAddress.getLastName());
+            mCompanyNameEditText.setText(billingAddress.getCompany());
+            mPostCodeEditText.setText(billingAddress.getPostcode());
+            mHouseNr.setText(addressSplit[1]);
+            mPlaceEditText.setText(billingAddress.getCity());
+            mStreetNameEditText.setText(addressSplit[0]);
+            mTelEditText.setText(billingAddress.getPhone());
+            mEmailEditText.setText(billingAddress.getEmail());
+        }
+
+
     }
 
 
@@ -927,7 +993,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
-                mPostCodeEditText.setText("");
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
@@ -936,7 +1001,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
-                mPostCodeEditText.setText("");
             }
             mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mPostCodeEditText.removeTextChangedListener(nlTextWatcher);
@@ -948,7 +1012,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
-                mWPostCodeEditText.setText("");
             }
             mWPostCodeEditText.removeTextChangedListener(beWTextWatcher);
             mWPostCodeEditText.addTextChangedListener(nlWTextWatcher);
@@ -956,7 +1019,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
-                mWPostCodeEditText.setText("");
             }
             mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mWPostCodeEditText.removeTextChangedListener(nlWTextWatcher);

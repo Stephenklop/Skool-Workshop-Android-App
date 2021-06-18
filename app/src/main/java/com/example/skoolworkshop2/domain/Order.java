@@ -1,46 +1,131 @@
 package com.example.skoolworkshop2.domain;
 
-import java.io.Serializable;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class Order implements Serializable {
-    private List<Product> products;
-    private Customer customer;
-    private String orderDate; // Might be changed to Timestamp later (depends on whether that's useful)
-    private int totalPrice;
-
-    public Order(List<Product> products, Customer customer, String orderDate, int totalPrice) {
-        this.products = products;
-        this.customer = customer;
-        this.orderDate = orderDate;
-        this.totalPrice = totalPrice;
+@Entity
+public class Order {
+    @ColumnInfo
+    @PrimaryKey(autoGenerate = true) @NonNull
+    private int id;
+    @ColumnInfo
+    private String status;
+    @ColumnInfo
+    private int customerId;
+    @ColumnInfo
+    private int billingAddressId;
+    @ColumnInfo
+    private int shippingAddressId;
+    @ColumnInfo
+    private String paymentMethod;
+    @ColumnInfo
+    private String paymentMethodTitle;
+    @ColumnInfo
+    private String customerNote;
+    @ColumnInfo
+    private int billingCJP;
+    @ColumnInfo
+    private String billingVideo;
+    @ColumnInfo
+    private String reservationSystem;
+    @ColumnInfo
+    private double distance;
+    @ColumnInfo
+    private double price;
+    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, double distance, double price) {
+        this.status = status;
+        this.customerId = customerId;
+        this.billingAddressId = billingAddressId;
+        this.shippingAddressId = shippingAddressId;
+        this.paymentMethod = paymentMethod;
+        this.paymentMethodTitle = paymentMethodTitle;
+        this.customerNote = customerNote;
+        this.billingCJP = billingCJP;
+        this.billingVideo = billingVideo;
+        this.reservationSystem = reservationSystem;
+        this.distance = distance;
+        this.price = price;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
 
-    public String getOrderDate() {
-        return orderDate;
+    public int getId() {
+        return id;
     }
-
-    public int getTotalPrice() {
-        return totalPrice;
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public String getStatus() {
+        return status;
     }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setStatus(String status) {
+        this.status = status;
     }
-
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
+    public int getCustomerId() {
+        return customerId;
     }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+    public int getBillingAddressId() {
+        return billingAddressId;
+    }
+    public void setBillingAddressId(int billingAddressId) {
+        this.billingAddressId = billingAddressId;
+    }
+    public int getShippingAddressId() {
+        return shippingAddressId;
+    }
+    public void setShippingAddressId(int shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
+    }
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+    public String getPaymentMethodTitle() {
+        return paymentMethodTitle;
+    }
+    public void setPaymentMethodTitle(String paymentMethodTitle) {
+        this.paymentMethodTitle = paymentMethodTitle;
+    }
+    public String getCustomerNote() {
+        return customerNote;
+    }
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
+    }
+    public int getBillingCJP() {
+        return billingCJP;
+    }
+    public void setBillingCJP(int billingCJP) {
+        this.billingCJP = billingCJP;
+    }
+    public String getBillingVideo() {
+        return billingVideo;
+    }
+    public void setBillingVideo(String billingVideo) {
+        this.billingVideo = billingVideo;
+    }
+    public String getReservationSystem() {
+        return reservationSystem;
+    }
+    public void setReservationSystem(String reservationSystem) {
+        this.reservationSystem = reservationSystem;
+    }
+    public double getDistance() {
+        return distance;
+    }
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

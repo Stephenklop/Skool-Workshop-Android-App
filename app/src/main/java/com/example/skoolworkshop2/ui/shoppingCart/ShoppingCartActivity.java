@@ -78,7 +78,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         });
 
         totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_key);
-        totalPriceTitleTextView.setText("Subotaal (" + shoppingCartItems.size() + ")");
+        totalPriceTitleTextView.setText("Subtotaal (" + shoppingCartItems.size() + ")");
 
         totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_value);
         // TODO: Add price

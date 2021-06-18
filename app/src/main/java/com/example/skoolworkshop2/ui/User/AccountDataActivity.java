@@ -20,6 +20,7 @@ import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WebViewActivity;
 
 public class AccountDataActivity extends AppCompatActivity {
     @Override
@@ -172,7 +173,7 @@ public class AccountDataActivity extends AppCompatActivity {
         updatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
+                startActivity(new Intent(getApplicationContext(), WebViewActivity.class).putExtra("url", "https://skoolworkshop.nl/account/wachtwoord-vergeten/"));
             }
         });
 
