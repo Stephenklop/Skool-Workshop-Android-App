@@ -1,3 +1,5 @@
+package com.example.skoolworkshop2.domain;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

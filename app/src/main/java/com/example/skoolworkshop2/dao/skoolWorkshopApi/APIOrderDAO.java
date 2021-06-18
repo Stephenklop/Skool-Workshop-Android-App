@@ -1,7 +1,11 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
+import androidx.room.FtsOptions;
+
 import com.example.skoolworkshop2.dao.OrderDAO;
+import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.domain.ShippingAddress;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,15 +42,10 @@ public class APIOrderDAO implements OrderDAO {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                JSONObject input = new JSONObject(inputLine);
-                JSONArray array = input.getJSONArray("booking_info");
-
-                JSONObject booking = array.getJSONObject(0);
-                String date = booking.getString("start_date");
-
-                JSONArray lineItems = input.getJSONArray("line_items");
-                String status = input.getString("status");
-
+                JSONArray input = new JSONArray(inputLine);
+                for(int i = 0; i < input.length(); i++){
+                    orders.add(parseOrder(input.getJSONObject(i)));
+                }
 
             }
         } catch (Exception e) {
@@ -58,8 +57,30 @@ public class APIOrderDAO implements OrderDAO {
 
     public Order parseOrder(JSONObject object) throws JSONException {
         Order order = null;
+        BillingAddress address = (BillingAddress) object.get("billing");
+        ShippingAddress shippingAddress = (ShippingAddress) object.get("shipping");
 
-        String status = object.getString("status");
-        int costumerId = object.getInt("costumer_id");
+        try{
+            String status = object.getString("status");
+            int costumerId = object.getInt("costumer_id");
+            int billingId = address.getId();
+            int shippingId = shippingAddress.getId();
+            String paymentMethod = object.getString("payment_method");
+            String paymentMethodTitle = object.getString("payment_method_title");
+            String costumerNote = object.getString("customer_note");
+            int billingCJP = object.getInt("billing_CJP");
+            String billingVideo = object.getString("billing_video");
+            String reservationSystem = object.getString("reservation_system");
+            JSONArray shippingLines = object.getJSONArray("shipping_lines");
+            JSONObject shippingObject = shippingLines.getJSONObject(0);
+            Double distance = shippingObject.getDouble("distance");
+            Double price = shippingObject.getDouble("price");
+            order = new Order(status, costumerId, billingId, shippingId, paymentMethod, paymentMethodTitle, costumerNote, billingCJP, billingVideo, reservationSystem, distance, price);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return order;
+
     }
 }
