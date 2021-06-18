@@ -275,7 +275,7 @@ public class APIUserDAO implements UserDAO {
             state = adress.getString("state");
             country = adress.getString("country");
 
-            result = new Customer(firstName, lastName, email, street, houseNumber, postCode, city, state, country);
+            result = new Customer(id, firstName, lastName, email, street, houseNumber, postCode, city, state, country);
 
         } catch (Exception e){
             e.printStackTrace();
@@ -424,7 +424,7 @@ public class APIUserDAO implements UserDAO {
 
 
 
-                customer = new Customer(firstname, lastName, email, street, number, postCode, city, state, country);
+                customer = new Customer(id, firstname, lastName, email, street, number, postCode, city, state, country);
                 lastUser = result;
             }
         } catch (Exception e) {

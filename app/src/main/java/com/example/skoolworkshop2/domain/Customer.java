@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 public class Customer implements Serializable {
-    @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
+    @ColumnInfo @PrimaryKey @NonNull
     private int id;
 
     @ColumnInfo
@@ -39,7 +39,8 @@ public class Customer implements Serializable {
     @ColumnInfo
     private String country;
 
-    public Customer(String firstName, String lastName, String email, String street, String houseNumber, String postcode, String city, String state, String country) {
+    public Customer(int id, String firstName, String lastName, String email, String street, String houseNumber, String postcode, String city, String state, String country) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
