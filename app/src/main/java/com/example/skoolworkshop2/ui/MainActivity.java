@@ -296,4 +296,10 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         appBrowserIntent.putExtra("url", newsArticles.get(position).getUrl());
         startActivity(appBrowserIntent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setNotificationText();
+    }
 }
