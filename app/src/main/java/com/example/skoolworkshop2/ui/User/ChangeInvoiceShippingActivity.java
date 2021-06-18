@@ -534,17 +534,24 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         Object item = mLocationCountrySpnr.getSelectedItem();
         if (item == netherlands) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
-            if (mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+            if (!mPostCodeEditText.getText().toString().isEmpty()) {
+                if(PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText().toString())){
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }else {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
         } else if (item == belgium) {
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText().toString())){
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }else {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
-            mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mPostCodeEditText.removeTextChangedListener(nlTextWatcher);
             mPostCodeEditText.addTextChangedListener(beTextWatcher);
         }
