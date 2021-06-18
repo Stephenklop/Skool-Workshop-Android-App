@@ -274,7 +274,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!mWorkshopsPerRoundEditText.equals("") && mWorkshopRoundsEditText.getText().length() > 0) {
+                if(!mWorkshopsPerRoundEditText.getText().toString().equals("") && mWorkshopRoundsEditText.getText().toString().length() > 0) {
                     mCultureDayItem.setWorkshopPerWorkshopRound(Integer.parseInt(s.toString()));
                 }
                 updateOrderOverview();
@@ -302,15 +302,15 @@ public class CulturedayBookingActivity extends FragmentActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (!mDurationPerRoundEditText.equals("")) {
-                    if (!mMinuteValidator.isValidMinute(s.toString())) {
-                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mMinuteValidator.setmIsValid(false);
-                    } else if (mMinuteValidator.isValidMinute(s.toString())) {
+                    if (mDurationPerRoundEditText.getText().length() > 0) {
+                        mCultureDayItem.setRoundDuration(Integer.parseInt(s.toString()));
+                    }
+
+                    if (mCultureDayItem.getPrice() > 125) {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         mMinuteValidator.setmIsValid(true);
                     } else {
-                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
-
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
                     }
                 }
             }

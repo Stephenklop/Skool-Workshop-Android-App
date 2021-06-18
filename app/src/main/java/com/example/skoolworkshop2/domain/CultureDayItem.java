@@ -101,7 +101,7 @@ public class CultureDayItem implements Serializable, ProductItem {
     }
 
     public double getPrice() {
-        return 2.325 * roundDuration * rounds * workshopPerWorkshopRound;
+        return 2.325 * roundDuration * rounds * workshopPerWorkshopRound + (amountOfParticipantsGraffitiTshirt * 7.5);
     }
 
     @Override
