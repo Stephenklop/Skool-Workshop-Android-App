@@ -75,7 +75,8 @@
                     android:id="@+id/activity_change_invoice_address_et_firstname"
                     layout="@layout/component_edittext_plaintext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 
@@ -101,7 +102,8 @@
                     android:id="@+id/activity_change_invoice_address_et_lastname"
                     layout="@layout/component_edittext_plaintext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -122,7 +124,8 @@
             layout="@layout/component_edittext_plaintext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_company" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_company"
+            android:layout_marginTop="5dp"/>
 
         <Spinner
             android:id="@+id/activity_change_invoice_address_spnr_country"
@@ -163,7 +166,8 @@
                     android:id="@+id/activity_change_invoice_address_et_postalcode"
                     layout="@layout/component_edittext_postalcode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 
@@ -190,7 +194,8 @@
                     android:id="@+id/activity_change_invoice_address_housenr"
                     layout="@layout/component_edittext_plaintext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -229,7 +234,8 @@
             layout="@layout/component_edittext_plaintext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_street" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_street"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/activity_change_invoice_address_tv_tel"
@@ -246,6 +252,7 @@
             android:id="@+id/activity_change_invoice_address_et_tel"
             layout="@layout/component_edittext_number"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_tel" />
 
@@ -266,6 +273,7 @@
             layout="@layout/component_edittext_plaintext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_country" />
 
         <TextView
@@ -284,6 +292,7 @@
             layout="@layout/component_edittext_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             app:layout_constraintTop_toBottomOf="@+id/activity_change_invoice_address_tv_email" />
 
         <include
