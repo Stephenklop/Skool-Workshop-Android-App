@@ -306,7 +306,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
                         mCultureDayItem.setRoundDuration(Integer.parseInt(s.toString()));
                     }
 
-                    if (mCultureDayItem.getPrice() > 125) {
+                    if (mCultureDayItem.getPrice() > 0) {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         mMinuteValidator.setmIsValid(true);
                     } else {
@@ -704,7 +704,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         boolean participants = mCultureDayParticipantsValidator.isValid();
         boolean rounds = mRoundsValidator.isValid();
         boolean workshopsPerRound = mWorkshopsPerRoundValidator.isValid();
-        boolean minutes = mMinuteValidator.isValid();
+        boolean minutes = mCultureDayItem.getPrice() > 0;
         boolean workshops = mSelectedWorkshops.size() > 0;
         boolean schedule = mCultureDayItem.getTimeSchedule() != null || (mCultureDayItem.getTimeSchedule() != null ? mCultureDayItem.getTimeSchedule().length() : 0) > 0;
         boolean specialParticipants = participantsItemValidator.isValid();

@@ -314,27 +314,25 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!mMinuteEditText.equals("")) {
-                    if (minuteValidator.isValidMinute(s.toString())) {
-                        workshopItem.setRoundDuration(Integer.valueOf(s.toString()));
-                        updateOrderOverview();
+                    if (mMinuteEditText.getText().length() > 0) {
+                        workshopItem.setRoundDuration(Integer.parseInt(s.toString()));
+                    }
+
+                    if (workshopItem.getPrice() > 175) {
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         minuteValidator.setmIsValid(true);
-                    } else if (!minuteValidator.isValidMinute(s.toString())){
-                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mTotalCostTextView.setText("Subtotaal: €");
-                        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-                        mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
-                        minuteValidator.setmIsValid(false);
                     } else {
-                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
-                        mTotalCostTextView.setText("Subtotaal: €");
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
                     }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if (mMinuteEditText.getText().length() > 0) {
+                    workshopItem.setRoundDuration(Integer.parseInt(editable.toString()));
+                }
+                updateOrderOverview();
             }
         });
         mMinuteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -438,7 +436,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void onClick(View view) {
                 // Datum, deelnemers, rondes, minuten, learning levels niet leeg, rest wel
-                if(dateValidation.isValid() && workshopParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid()){
+                if(validate()){
                     mErrTv.setVisibility(View.GONE);
 
                     // set schedule to n.v.t. when left empty
@@ -470,21 +468,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     Intent intent = new Intent(getApplicationContext(), ShoppingCartActivity.class);
                     startActivity(intent);
                 } else {
-                    if (!dateValidation.isValid()) {
-                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!workshopParticipantsValidator.isValid()) {
-                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!roundsValidator.isValid()) {
-                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!minuteValidator.isValid()) {
-                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!learningLevelValidator.isValid()) {
-                        mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
+
 
                     mErrTv.setVisibility(View.VISIBLE);
                     mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
@@ -542,6 +526,48 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             }
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    private boolean validate() {
+        boolean result = true;
+        boolean date = dateValidation.isValid();
+        boolean participants = workshopParticipantsValidator.isValid();
+        boolean rounds = roundsValidator.isValid();
+        boolean minutes = workshopItem.getPrice() > 175;
+        boolean level = learningLevelValidator.isValid();
+
+        if (!date) {
+            result = false;
+            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!participants) {
+            result = false;
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!rounds) {
+            result = false;
+            mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mRoundsEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!minutes) {
+            result = false;
+            mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mMinuteEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!level) {
+            result = false;
+            mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mLevelEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+
+        return result;
     }
 
 }
