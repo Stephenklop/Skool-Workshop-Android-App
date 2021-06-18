@@ -286,7 +286,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     if(mWorkshopsPerRoundValidator.isValid()) {
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
 

@@ -196,7 +196,8 @@ public class ShoppingCartItem {
     }
 
     public String getTimeSchedule() {
-        return timeSchedule;
+        // Replace the \n with a space to avoid api errors
+        return timeSchedule.replace("\n", " ");
     }
 
     public void setTimeSchedule(String timeSchedule) {

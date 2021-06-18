@@ -204,6 +204,7 @@ public class APIOrderDAO implements OrderDAO {
 
         }
 
+        // TODO: Fix \n at timeschedule
         result.append("\"timetable\": \"" + shoppingCartItem.getTimeSchedule() + "\",\n" +
                 "      \"learning_level\": \"" + shoppingCartItem.getLearningLevel() + "\",\n" +
                 "      \"booking_info\": {\n" +
