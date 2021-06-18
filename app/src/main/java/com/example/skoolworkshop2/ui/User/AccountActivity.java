@@ -41,6 +41,7 @@ import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WebViewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -168,7 +169,8 @@ public class AccountActivity extends AppCompatActivity {
         mForgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent forgotPassIntent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
+                Intent forgotPassIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                forgotPassIntent.putExtra("url", "https://skoolworkshop.nl/account/wachtwoord-vergeten/");
                 startActivity(forgotPassIntent);
             }
         });
