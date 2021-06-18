@@ -1,10 +1,10 @@
 package com.example.skoolworkshop2.logic.validation;
 
 public class WorkshopsPerRoundValidator {
-    public boolean mIsValid = false;
+    private boolean mIsValid = false;
 
     public boolean isValid() {
-        return mIsValid;
+        return ismIsValid();
     }
 
     public static boolean isValidWorkshopsPerRound(CharSequence rounds) {
@@ -14,5 +14,13 @@ public class WorkshopsPerRoundValidator {
         } else {
             return false;
         }
+    }
+
+    public boolean ismIsValid() {
+        return mIsValid;
+    }
+
+    public void setmIsValid(boolean mIsValid) {
+        this.mIsValid = mIsValid;
     }
 }

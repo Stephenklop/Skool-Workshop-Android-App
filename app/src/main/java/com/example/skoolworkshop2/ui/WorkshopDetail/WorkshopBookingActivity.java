@@ -20,14 +20,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.Product;
@@ -38,14 +36,11 @@ import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
-import com.example.skoolworkshop2.logic.validation.addressInfoValidators.StreetnameValidator;
-import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -232,12 +227,12 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                 if(!mDateEditText.equals("")) {
                     if (dateValidation.isValidDate(charSequence.toString())) {
                         mDateEditText.setBackgroundResource(R.drawable.edittext_default);
-                        dateValidation.mIsValid = true;
+                        dateValidation.setmIsValid(true);
                         workshopItem.setDate(charSequence.toString());
                     } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                        dateValidation.mIsValid = false;
+                        dateValidation.setmIsValid(false);
 
                     }
                 }
@@ -273,13 +268,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     if (roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
                         updateOrderOverview();
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        roundsValidator.mIsValid = true;
+                        roundsValidator.setmIsValid(true);
                     } else if (!roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
                         mTotalCostTextView.setText("Subtotaal: €");
                         mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
                         mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
-                        roundsValidator.mIsValid = false;
+                        roundsValidator.setmIsValid(false);
                     } else {
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
                         mTotalCostTextView.setText("Subtotaal: €");
@@ -323,13 +318,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                         workshopItem.setRoundDuration(Integer.valueOf(s.toString()));
                         updateOrderOverview();
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        minuteValidator.mIsValid = true;
+                        minuteValidator.setmIsValid(true);
                     } else if (!minuteValidator.isValidMinute(s.toString())){
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
                         mTotalCostTextView.setText("Subtotaal: €");
                         mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
                         mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
-                        minuteValidator.mIsValid = false;
+                        minuteValidator.setmIsValid(false);
                     } else {
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
                         mTotalCostTextView.setText("Subtotaal: €");

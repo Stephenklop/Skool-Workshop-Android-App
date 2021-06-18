@@ -36,7 +36,6 @@ import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -85,7 +84,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private CultureDayParticipantsValidator mCultureDayParticipantsValidator = new CultureDayParticipantsValidator();
     private RoundsValidator mRoundsValidator = new RoundsValidator();
     private WorkshopsPerRoundValidator mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
-    private MinuteValidator mMinuteValidator = new MinuteValidator();
+    private MinuteValidator mMinuteValidator;
     private LearningLevelValidator mLearningLevelValidator = new LearningLevelValidator();
     private DateValidation dateValidation = new DateValidation();
     private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
@@ -100,6 +99,8 @@ public class CulturedayBookingActivity extends FragmentActivity {
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
+
+        mMinuteValidator = new MinuteValidator();
 
         TextView mPriceBn = findViewById(R.id.activity_cultureday_booking_btn_price);
         TextView mParticipantsBn = findViewById(R.id.activity_cultureday_booking_btn_participant);
@@ -136,12 +137,12 @@ public class CulturedayBookingActivity extends FragmentActivity {
                 if(!mDateEditText.equals("")) {
                     if (dateValidation.isValidDate(s.toString())) {
                         mDateEditText.setBackgroundResource(R.drawable.edittext_default);
-                        dateValidation.mIsValid = true;
+                        dateValidation.setmIsValid(true);
 
                     } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                        dateValidation.mIsValid = false;
+                        dateValidation.setmIsValid(false);
 
                     }
                 }
@@ -173,10 +174,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     if (mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
                         updateOrderOverview();
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mCultureDayParticipantsValidator.mIsValid = true;
+                        mCultureDayParticipantsValidator.setmIsValid(true);
                     } else if (!mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mCultureDayParticipantsValidator.mIsValid = false;
+                        mCultureDayParticipantsValidator.setmIsValid(false);
                     } else {
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
                     }
@@ -213,10 +214,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
                     if (mRoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mRoundsValidator.mIsValid = true;
+                        mRoundsValidator.setmIsValid(true);
                     } else if (!mRoundsValidator.isValidWorkshopRounds(s.toString())){
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mRoundsValidator.mIsValid = false;
+                        mRoundsValidator.setmIsValid(false);
                     } else{
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
                     }
@@ -260,10 +261,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
                     if (!RoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mWorkshopsPerRoundValidator.mIsValid = false;
+                        mWorkshopsPerRoundValidator.setmIsValid(false);
                     } else if (RoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mWorkshopsPerRoundValidator.mIsValid = true;
+                        mWorkshopsPerRoundValidator.setmIsValid(true);
                     } else{
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
 
@@ -303,10 +304,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
                 if (!mDurationPerRoundEditText.equals("")) {
                     if (!mMinuteValidator.isValidMinute(s.toString())) {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mMinuteValidator.mIsValid = false;
+                        mMinuteValidator.setmIsValid(false);
                     } else if (mMinuteValidator.isValidMinute(s.toString())) {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mMinuteValidator.mIsValid = true;
+                        mMinuteValidator.setmIsValid(true);
                     } else {
                         mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
 
