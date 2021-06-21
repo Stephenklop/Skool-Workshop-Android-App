@@ -473,7 +473,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:popupBackground="@android:color/transparent"
+                android:popupBackground="@drawable/edittext_focused"
                 android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/activity_address_info_ll_workshop_address"
                 app:layout_constraintStart_toStartOf="parent"
@@ -599,5 +599,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/component_button_large" />
+
+        <TextView
+            android:id="@+id/activity_address_info_tv_err"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@color/error_red"
+            android:text="@string/tv_err_msg"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
