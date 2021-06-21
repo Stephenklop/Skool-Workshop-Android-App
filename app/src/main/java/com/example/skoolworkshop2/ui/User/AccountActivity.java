@@ -47,6 +47,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
@@ -216,6 +217,11 @@ public class AccountActivity extends AppCompatActivity {
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
 
                         setToken();
+
+                        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(AccountActivity.this);
+                        Bundle loginEvent = new Bundle();
+                        loginEvent.putString("login_event_id", "login_event_id");
+                        mFirebaseAnalytics.logEvent("login_event", loginEvent);
 
                         startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
                     });
