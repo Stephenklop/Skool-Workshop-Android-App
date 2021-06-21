@@ -439,11 +439,6 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                 if(validate()){
                     mErrTv.setVisibility(View.GONE);
 
-                    // set schedule to n.v.t. when left empty
-                    if (workshopItem.getTimeSchedule() != null || (workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0) {
-                        workshopItem.setTimeSchedule("n.v.t.");
-                    }
-
                     // Add workshop to local storage
                     System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));
 
@@ -534,7 +529,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
         boolean participants = workshopParticipantsValidator.isValid();
         boolean rounds = roundsValidator.isValid();
         boolean minutes = workshopItem.getPrice() >= 175;
-        boolean schedule = workshopItem.getTimeSchedule() != null || (workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0;
+        boolean schedule = (workshopItem.getTimeSchedule() != null) || ((workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0);
         boolean level = learningLevelValidator.isValid();
 
         if (!date) {
