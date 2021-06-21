@@ -84,7 +84,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWAddressEditText;
     private EditText mWPlaceEditText;
     private EditText mWStreetNameEditText;
-    private EditText mWWorkshopInfoText;
     private EditText mWHouseNr;
 
     // Radio buttons
@@ -1014,7 +1013,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                     -1,
                                     "unknown",
                                     "unknown",
-                                    mWorkshopInfoText.getText().toString(),
+                                    mWorkshopInfoText.getText().toString().replace("\n", " "),
                                     Integer.parseInt(mCJPEditText.getText().toString()),
                                     (String) registrationSystemRadioButton.getText(),
                                     (String) compilationRadioButton.getText(),

@@ -104,55 +104,55 @@ public class APIOrderDAO implements OrderDAO {
         List<ShoppingCartItem> shoppingCartItems = LocalDb.getDatabase(SplashScreenActivity.application).getShoppingCartDAO().getItemsInShoppingCart();
         StringBuilder result = new StringBuilder();
 
-        result.append("{\n" +
-                "  \"status\": \"" + order.getStatus() + "\",\n" +
-                "  \"customer_id\": " + order.getCustomerId() + ",\n" +
-                "  \"billing\": {\n" +
-                "    \"first_name\": \"" + customer.getFirstName() + "\",\n" +
-                "    \"last_name\": \"" + customer.getLastName() + "\",\n" +
-                "    \"company\": \"" + billingAddress.getCompany() + "\",\n" +
-                "    \"address_1\": \"" + billingAddress.getAddress() + "\",\n" +
-                "    \"address_2\": \"\",\n" +
-                "    \"city\": \"" + billingAddress.getCity() + "\",\n" +
-                "    \"state\": \"" + billingAddress.getState() + "\",\n" +
-                "    \"postcode\": \"" + billingAddress.getPostcode() + "\",\n" +
-                "    \"country\": \"" + billingAddress.getCountry() + "\",\n" +
-                "    \"email\": \"" + billingAddress.getEmail() + "\",\n" +
-                "    \"phone\": \"" + billingAddress.getPhone() + "\"\n" +
-                "  },\n" +
-                "  \"shipping\": {\n" +
-                "    \"first_name\": \"" + customer.getFirstName() + "\",\n" +
-                "    \"last_name\": \"" + customer.getLastName() + "\",\n" +
-                "    \"company\": \"" + shippingAddress.getCompany() + "\",\n" +
-                "    \"address_1\": \"" + shippingAddress.getAddress() + "\",\n" +
-                "    \"address_2\": \"\",\n" +
-                "    \"city\": \"" + shippingAddress.getCity() + "\",\n" +
-                "    \"state\": \"" + shippingAddress.getState() + "\",\n" +
-                "    \"postcode\": \"" + shippingAddress.getPostcode() + "\",\n" +
-                "    \"country\": \"" + shippingAddress.getCountry() + "\"\n" +
-                "  },\n" +
-                "  \"payment_method\": \"" + order.getPaymentMethod() + "\",\n" +
-                "  \"payment_method_title\": \"" + order.getPaymentMethodTitle() + "\",\n" +
-                "  \"customer_note\": \"" + order.getCustomerNote() + "\",\n" +
-                "  \"billing_CJP\": " + order.getBillingCJP() + ",\n" +
-                "  \"billing_video\": \"" + order.getBillingVideo() + "\",\n" +
-                "  \"reservation_system\": \"" + order.getReservationSystem() + "\",\n" +
-                "  \"line_items\": [\n"
+        result.append("{" +
+                "  \"status\": \"" + order.getStatus() + "\"," +
+                "  \"customer_id\": " + order.getCustomerId() + "," +
+                "  \"billing\": {" +
+                "    \"first_name\": \"" + customer.getFirstName() + "\"," +
+                "    \"last_name\": \"" + customer.getLastName() + "\"," +
+                "    \"company\": \"" + billingAddress.getCompany() + "\"," +
+                "    \"address_1\": \"" + billingAddress.getAddress() + "\"," +
+                "    \"address_2\": \"\"," +
+                "    \"city\": \"" + billingAddress.getCity() + "\"," +
+                "    \"state\": \"" + billingAddress.getState() + "\"," +
+                "    \"postcode\": \"" + billingAddress.getPostcode() + "\"," +
+                "    \"country\": \"" + billingAddress.getCountry() + "\"," +
+                "    \"email\": \"" + billingAddress.getEmail() + "\"," +
+                "    \"phone\": \"" + billingAddress.getPhone() + "\"" +
+                "  }," +
+                "  \"shipping\": {" +
+                "    \"first_name\": \"" + customer.getFirstName() + "\"," +
+                "    \"last_name\": \"" + customer.getLastName() + "\"," +
+                "    \"company\": \"" + shippingAddress.getCompany() + "\"," +
+                "    \"address_1\": \"" + shippingAddress.getAddress() + "\"," +
+                "    \"address_2\": \"\"," +
+                "    \"city\": \"" + shippingAddress.getCity() + "\"," +
+                "    \"state\": \"" + shippingAddress.getState() + "\"," +
+                "    \"postcode\": \"" + shippingAddress.getPostcode() + "\"," +
+                "    \"country\": \"" + shippingAddress.getCountry() + "\"" +
+                "  }," +
+                "  \"payment_method\": \"" + order.getPaymentMethod() + "\"," +
+                "  \"payment_method_title\": \"" + order.getPaymentMethodTitle() + "\"," +
+                "  \"customer_note\": \"" + order.getCustomerNote() + "\"," +
+                "  \"billing_CJP\": " + order.getBillingCJP() + "," +
+                "  \"billing_video\": \"" + order.getBillingVideo() + "\"," +
+                "  \"reservation_system\": \"" + order.getReservationSystem() + "\"," +
+                "  \"line_items\": ["
         );
 
         for (int i = 0; i < shoppingCartItems.size(); i++) {
             result.append(parseShoppingCartItemToJson(shoppingCartItems.get(i)));
 
             if (shoppingCartItems.size() != i + 1) {
-                result.append(",\n");
+                result.append(",");
             }
         }
 
-        result.append("],\n" +
-                    "  \"shipping_lines\": {\n" +
-                    "    \"distance\": 7.2,\n" +
-                    "    \"price\": 4.03\n" +
-                    "  }\n" +
+        result.append("]," +
+                    "  \"shipping_lines\": {" +
+                    "    \"distance\": 7.2," +
+                    "    \"price\": 4.03" +
+                    "  }" +
                     "}"
         );
 
@@ -164,24 +164,24 @@ public class APIOrderDAO implements OrderDAO {
 
         Product product = LocalDb.getDatabase(SplashScreenActivity.application).getProductDAO().getProduct(shoppingCartItem.getProductId());
 
-        result.append("{\n" +
-                "      \"name\": \"" + product.getName() + "\",\n" +
-                "      \"product_id\": " + product.getProductId() + ",\n" +
-                "      \"quantity\": 1,\n" +
-                "      \"subtotal\": " + shoppingCartItem.getTotalPrice() + ",\n" +
-                "      \"total\": " + (shoppingCartItem.getTotalPrice() + shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + ",\n" +
-                "      \"participants\": " + shoppingCartItem.getParticipants() + ",\n" +
-                "      \"participants_total_cost\": " + (shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + ",\n" +
-                "      \"workshop_rounds\": " + shoppingCartItem.getRounds() + ",\n" +
-                "      \"workshop_round_minutes\": " + shoppingCartItem.getRoundDuration() + ",\n");
+        result.append("{" +
+                "      \"name\": \"" + product.getName() + "\"," +
+                "      \"product_id\": " + product.getProductId() + "," +
+                "      \"quantity\": 1," +
+                "      \"subtotal\": " + shoppingCartItem.getTotalPrice() + "," +
+                "      \"total\": " + (shoppingCartItem.getTotalPrice() + shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
+                "      \"participants\": " + shoppingCartItem.getParticipants() + "," +
+                "      \"participants_total_cost\": " + (shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
+                "      \"workshop_rounds\": " + shoppingCartItem.getRounds() + "," +
+                "      \"workshop_round_minutes\": " + shoppingCartItem.getRoundDuration() + ",");
 
         if (shoppingCartItem.isWorkshop()) {
-            result.append("\"total_duration\": " + (shoppingCartItem.getRoundDuration() * shoppingCartItem.getRounds()) + ",\n" +
-                    "      \"total_duration_price\": " + shoppingCartItem.getTotalPrice() + ",\n");
+            result.append("\"total_duration\": " + (shoppingCartItem.getRoundDuration() * shoppingCartItem.getRounds()) + "," +
+                    "      \"total_duration_price\": " + shoppingCartItem.getTotalPrice() + ",");
         } else {
-            result.append("\"culture_day\": {\n" +
-                    "        \"workshops_per_round\": " + shoppingCartItem.getWorkshopPerWorkshopRound() + ",\n" +
-                    "        \"workshops\": [\n"
+            result.append("\"culture_day\": {" +
+                    "        \"workshops_per_round\": " + shoppingCartItem.getWorkshopPerWorkshopRound() + "," +
+                    "        \"workshops\": ["
             );
 
             for (int i = 0; i < shoppingCartItem.getProductIdsList().size(); i++) {
@@ -190,28 +190,28 @@ public class APIOrderDAO implements OrderDAO {
                 result.append("\"" + productId + "\"");
 
                 if (shoppingCartItem.getProductIdsList().size() != i + 1) {
-                    result.append(",\n");
+                    result.append(",");
                 }
             }
 
-            result.append("],\n" +
-                    "        \"total_participants\": 20,\n" +
-                    "        \"price\": 1674,\n" +
-                    "        \"total_minutes\": 720\n" +
-                    "      },\n" +
-                    "      \"total_duration\": 0,\n" +
-                    "      \"total_duration_price\": 0,\n");
+            result.append("]," +
+                    "        \"total_participants\": 20," +
+                    "        \"price\": 1674," +
+                    "        \"total_minutes\": 720" +
+                    "      }," +
+                    "      \"total_duration\": 0," +
+                    "      \"total_duration_price\": 0,");
 
         }
 
         // TODO: Fix \n at timeschedule
-        result.append("\"timetable\": \"" + shoppingCartItem.getTimeSchedule() + "\",\n" +
-                "      \"learning_level\": \"" + shoppingCartItem.getLearningLevel() + "\",\n" +
-                "      \"booking_info\": {\n" +
-                "        \"start_date\": \"\",\n" +
-                "        \"end_date\": \"\",\n" +
-                "        \"booking_status\": \"unpaid\"\n" +
-                "      }\n" +
+        result.append("\"timetable\": \"" + shoppingCartItem.getTimeSchedule() + "\"," +
+                "      \"learning_level\": \"" + shoppingCartItem.getLearningLevel() + "\"," +
+                "      \"booking_info\": {" +
+                "        \"start_date\": \"\"," +
+                "        \"end_date\": \"\"," +
+                "        \"booking_status\": \"unpaid\"" +
+                "      }" +
                 "    }");
 
         return result.toString();
