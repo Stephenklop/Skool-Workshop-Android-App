@@ -48,6 +48,7 @@ public class NotificationsActivity extends AppCompatActivity {
         loadNotifications();
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_notifications_refresh);
+        refreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

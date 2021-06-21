@@ -49,6 +49,7 @@ public class ReservationActivity extends AppCompatActivity{
         enableLoadingIndicator();
 
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.activity_reservations_refresh);
+        swipeRefreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -116,6 +116,8 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mTabsCostTv.setOnClickListener(this);
         mTabsInfoTv.setOnClickListener(this);
 
+        initializePlayer();
+
         AppBarLayout appBarLayout = findViewById(R.id.activity_cultureday_details_appBar);
         ImageView playIcon = findViewById(R.id.activity_cultureday_detail_play);
         appBarLayout.setOnClickListener(new View.OnClickListener() {
