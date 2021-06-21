@@ -3,6 +3,9 @@ package com.example.skoolworkshop2.ui.User;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -284,6 +289,7 @@ public class AccountDataActivity extends AppCompatActivity {
         updateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                enableLoadingIndicator();
                 APIUserDAO apiUserDAO = new APIUserDAO();
                 if(usernameValidator.isValid() && nameValidator.isValid() && emailValidator.isValid()) {
                 new Thread(new Runnable() {
@@ -297,6 +303,7 @@ public class AccountDataActivity extends AppCompatActivity {
 
                 }).start();
                 } else{
+                    disableLoadingIndicator();
                     String header = "Updaten van user gefaald.";
                     String content = "Een of meer validatie(s) is fout.";
                     new RoundedDialog(AccountDataActivity.this, header, content);
@@ -324,5 +331,36 @@ public class AccountDataActivity extends AppCompatActivity {
                 startActivity(backIntent);
             }
         });
+    }
+
+    private void enableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_account_data_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_account_data_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_account_data_loading_background);
+        backGround.setVisibility(View.VISIBLE);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        loadingAlert.setAlpha(0);
+        loadingAlert.setVisibility(View.VISIBLE);
+        loadingAlert.animate().alpha(1).setDuration(200).start();
+        avd.start();
+    }
+
+    private void disableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_account_data_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_account_data_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_account_data_loading_background);
+        backGround.setVisibility(View.GONE);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        loadingAlert.setAlpha(1);
+        loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
+                loadingIndicator.setVisibility(View.GONE)
+        ).start();
+        avd.stop();
     }
 }
