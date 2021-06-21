@@ -65,8 +65,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         Reservation order = orderArrayList.get(position);
         Log.d(LOG_TAG, "onBindViewHolder - " + order.toString());
 
-        holder.mTitle.setText(order.getId() + "");
-        holder.mInfo.setText("Datum: " + order.getDate() + "\nStatus: " + order.getStatus());
+        holder.mTitle.setText("#" + order.getId());
+        holder.mInfo.setText("Type: " + order.getType() + "\nBesteldatum: " + order.getDate().replace("T", "   ") + "\nStatus: " + order.getStatus());
     }
 
     @Override

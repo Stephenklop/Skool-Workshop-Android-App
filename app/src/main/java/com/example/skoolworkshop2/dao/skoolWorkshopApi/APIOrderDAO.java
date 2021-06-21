@@ -70,8 +70,12 @@ public class APIOrderDAO implements OrderDAO {
             String status = object.getString("status");
             int costumerId = object.getInt("customer_id");
             String date = object.getString("date_created");
+            JSONArray items = object.getJSONArray("line_items");
+            JSONObject item = items.getJSONObject(0);
+            String type = item.getString("name");
 
-            order = new Reservation(id, status, date, costumerId, "");
+
+            order = new Reservation(id, status, date, costumerId, type);
         } catch (JSONException e){
             e.printStackTrace();
         }
