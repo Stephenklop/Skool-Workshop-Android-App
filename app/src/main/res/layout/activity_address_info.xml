@@ -299,9 +299,11 @@
                 android:overScrollMode="never"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_address_info_tv_regsystem">
+                app:layout_constraintTop_toBottomOf="@id/activity_address_info_tv_regsystem"
+                android:checkedButton="@id/activity_address_info_rb_regsystem_n">
 
                 <RadioButton
+                    android:id="@+id/activity_address_info_rb_regsystem_y"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/main_orange"
@@ -311,6 +313,7 @@
                     android:textSize="18sp" />
 
                 <RadioButton
+                    android:id="@+id/activity_address_info_rb_regsystem_n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
@@ -350,12 +353,13 @@
                 android:id="@+id/activity_address_info_rg_comp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_address_info_tv_comp">
+                app:layout_constraintTop_toBottomOf="@id/activity_address_info_tv_comp"
+                android:checkedButton="@id/activity_address_info_rb_comp_n">
 
                 <RadioButton
+                    android:id="@+id/activity_address_info_rb_comp_y"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/main_orange"
@@ -365,6 +369,7 @@
                     android:textSize="18sp" />
 
                 <RadioButton
+                    android:id="@+id/activity_address_info_rb_comp_n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
