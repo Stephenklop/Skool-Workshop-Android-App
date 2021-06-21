@@ -36,6 +36,7 @@ public class MoreMenuActivity extends AppCompatActivity {
     private AppCompatButton mAboutUsButton;
     private AppCompatButton mSettingsButton;
     private AppCompatButton mAccountbutton;
+    private AppCompatButton mContactButton;
 
     // List
     private List<Quiz> quizzes;
@@ -83,6 +84,14 @@ public class MoreMenuActivity extends AppCompatActivity {
         mAboutUsButton = findViewById(R.id.activity_more_btn_about);
         mAskedQuestionsButton = findViewById(R.id.activity_more_btn_faq);
         mQuizButton = findViewById(R.id.activity_more_btn_quiz);
+        mContactButton = findViewById(R.id.activity_more_btn_contact);
+
+        mContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ContactActivity.class));
+            }
+        });
 
         mAccountbutton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)

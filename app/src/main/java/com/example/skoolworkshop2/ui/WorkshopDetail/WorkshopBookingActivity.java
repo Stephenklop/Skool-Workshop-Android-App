@@ -20,14 +20,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.Product;
@@ -38,14 +36,11 @@ import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
 import com.example.skoolworkshop2.logic.validation.MinuteValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.RoundsValidator;
-import com.example.skoolworkshop2.logic.validation.addressInfoValidators.StreetnameValidator;
-import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -232,12 +227,12 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                 if(!mDateEditText.equals("")) {
                     if (dateValidation.isValidDate(charSequence.toString())) {
                         mDateEditText.setBackgroundResource(R.drawable.edittext_default);
-                        dateValidation.mIsValid = true;
+                        dateValidation.setmIsValid(true);
                         workshopItem.setDate(charSequence.toString());
                     } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                        dateValidation.mIsValid = false;
+                        dateValidation.setmIsValid(false);
 
                     }
                 }
@@ -273,13 +268,13 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     if (roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
                         updateOrderOverview();
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        roundsValidator.mIsValid = true;
+                        roundsValidator.setmIsValid(true);
                     } else if (!roundsValidator.isValidWorkshopRounds(charSequence.toString())) {
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
                         mTotalCostTextView.setText("Subtotaal: €");
                         mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
                         mResultWorkshopRoundsTextView.setText("Aantal workshoprondes: ");
-                        roundsValidator.mIsValid = false;
+                        roundsValidator.setmIsValid(false);
                     } else {
                         mRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
                         mTotalCostTextView.setText("Subtotaal: €");
@@ -319,27 +314,25 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!mMinuteEditText.equals("")) {
-                    if (minuteValidator.isValidMinute(s.toString())) {
-                        workshopItem.setRoundDuration(Integer.valueOf(s.toString()));
-                        updateOrderOverview();
+                    if (mMinuteEditText.getText().length() > 0) {
+                        workshopItem.setRoundDuration(Integer.parseInt(s.toString()));
+                    }
+
+                    if (workshopItem.getPrice() >= 175) {
                         mMinuteEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        minuteValidator.mIsValid = true;
-                    } else if (!minuteValidator.isValidMinute(s.toString())){
-                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mTotalCostTextView.setText("Subtotaal: €");
-                        mResultWorkshopTotalMinutesTextView.setText("Totale duur: ");
-                        mResultWorkshopMinutesPerRoundTextView.setText("Aantal minuten per workshopronde: ");
-                        minuteValidator.mIsValid = false;
+                        minuteValidator.setmIsValid(true);
                     } else {
-                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_focused);
-                        mTotalCostTextView.setText("Subtotaal: €");
+                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
                     }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if (mMinuteEditText.getText().length() > 0) {
+                    workshopItem.setRoundDuration(Integer.parseInt(editable.toString()));
+                }
+                updateOrderOverview();
             }
         });
         mMinuteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -443,7 +436,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             @Override
             public void onClick(View view) {
                 // Datum, deelnemers, rondes, minuten, learning levels niet leeg, rest wel
-                if(dateValidation.isValid() && workshopParticipantsValidator.isValid() && roundsValidator.isValid() && minuteValidator.isValid() && learningLevelValidator.isValid()){
+                if(validate()){
                     mErrTv.setVisibility(View.GONE);
 
                     // set schedule to n.v.t. when left empty
@@ -475,21 +468,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     Intent intent = new Intent(getApplicationContext(), ShoppingCartActivity.class);
                     startActivity(intent);
                 } else {
-                    if (!dateValidation.isValid()) {
-                        mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!workshopParticipantsValidator.isValid()) {
-                        mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!roundsValidator.isValid()) {
-                        mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!minuteValidator.isValid()) {
-                        mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
-                    if (!learningLevelValidator.isValid()) {
-                        mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
-                    }
+
 
                     mErrTv.setVisibility(View.VISIBLE);
                     mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
@@ -547,6 +526,48 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             }
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    private boolean validate() {
+        boolean result = true;
+        boolean date = dateValidation.isValid();
+        boolean participants = workshopParticipantsValidator.isValid();
+        boolean rounds = roundsValidator.isValid();
+        boolean minutes = workshopItem.getPrice() >= 175;
+        boolean level = learningLevelValidator.isValid();
+
+        if (!date) {
+            result = false;
+            mDateEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mDateEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!participants) {
+            result = false;
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mParticipantsEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!rounds) {
+            result = false;
+            mRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mRoundsEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!minutes) {
+            result = false;
+            mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mMinuteEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!level) {
+            result = false;
+            mLevelEditText.setBackgroundResource(R.drawable.edittext_error);
+        } else {
+            mLevelEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+
+        return result;
     }
 
 }

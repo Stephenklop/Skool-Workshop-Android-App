@@ -53,6 +53,9 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
     private TelValidator telValidator = new TelValidator();
     private EmailValidator emailValidator = new EmailValidator();
     private CountryValidator countryValidator = new CountryValidator();
+
+    private Country netherlands;
+    private Country belgium;
     // Watchers
     private TextWatcher nlTextWatcher;
     private TextWatcher beTextWatcher;
@@ -207,8 +210,8 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
         // Spinner
         NL = this.getDrawable(R.drawable.ic_flag_of_the_netherlands);
         BE = this.getDrawable(R.drawable.ic_flag_of_belgium);
-        Country netherlands = new Country(NL, "Nederland");
-        Country belgium = new Country(BE, "België");
+        netherlands = new Country(NL, "Nederland");
+        belgium = new Country(BE, "België");
         mLocationCountrySpnr = findViewById(R.id.activity_change_invoice_address_spnr_country);
         mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{netherlands, belgium}));
         mLocationCountrySpnr.setSelection(1);
@@ -489,7 +492,7 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
                 Log.d(LOG_TAG, "onCreate: part 2: " + house);
 
                 mPlaceEditText.setText(billingAddress.getCity());
-                mStreetNameEditText.setText(stb.toString());
+                mStreetNameEditText.setText(stb.toString().trim());
                 mHouseNumberEditText.setText(house);
                 mTelEditText.setText(billingAddress.getPhone());
                 mCountryEditText.setText(billingAddress.getCountry());
@@ -506,7 +509,7 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mPostCodeEditText.equals("")){
+                if(!s.equals("")){
                     if (PostcodeValidatorNL.isValidPostcode(s.toString())){
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         postcodeValidatorNL.setmIsValid(true);
@@ -529,6 +532,8 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
         mPostCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                System.out.println(postcodeValidatorNL.isValid());
+                System.out.println(postcodeValidatorBE.isValid());
                 if(!hasFocus){
                     if(postcodeValidatorNL.isValid() || postcodeValidatorBE.isValid()) {
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_default);
@@ -546,7 +551,7 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mPostCodeEditText.equals("")) {
+                if(!s.equals("")) {
                     if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         postcodeValidatorNL.setmIsValid(true);
@@ -608,17 +613,23 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object item = mLocationCountrySpnr.getSelectedItem();
-        if (item == NL) {
+        if (item == netherlands) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText().toString())){
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                } else {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
-        } else if (item == BE) {
+        } else if (item == belgium) {
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText().toString())){
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
             mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mPostCodeEditText.removeTextChangedListener(nlTextWatcher);

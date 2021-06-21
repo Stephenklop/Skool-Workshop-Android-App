@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
@@ -39,12 +38,7 @@ import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.WorkshopParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
-import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
-import com.example.skoolworkshop2.ui.WebViewActivity;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopQuestionActivity;
-
-import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 
@@ -279,12 +273,12 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                 if(!mDateEditText.equals("")) {
                     if (dateValidation.isValidDate(charSequence.toString())) {
                         mDateEditText.setBackgroundResource(R.drawable.edittext_default);
-                        dateValidation.mIsValid = true;
+                        dateValidation.setmIsValid(true);
 
                     } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                        dateValidation.mIsValid = false;
+                        dateValidation.setmIsValid(false);
 
                     }
                 }

@@ -1,14 +1,11 @@
 package com.example.skoolworkshop2.logic.validation;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 
 public class MinuteValidator{
 
-    public boolean mIsValid = false;
+    private boolean mIsValid = false;
 
     public boolean isValid() {
-        return mIsValid;
+        return ismIsValid();
     }
 
     public static boolean isValidMinute(CharSequence minutes) {
@@ -21,4 +18,11 @@ public class MinuteValidator{
 
     }
 
+    public boolean ismIsValid() {
+        return mIsValid;
+    }
+
+    public void setmIsValid(boolean mIsValid) {
+        this.mIsValid = mIsValid;
+    }
 }

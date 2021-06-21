@@ -71,6 +71,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
         shoppingCartRecyclerView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             totalPriceTextView.setText("€" + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
             totalPriceTitleTextView.setText("Subtotaal (" + shoppingCartItems.size() + ")");
+
+            if (shoppingCartItems.size() == 0) {
+                orderButton.setEnabled(false);
+            }
         });
 
         totalPriceTitleTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_key);
@@ -88,6 +92,11 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (shoppingCartItems.size() == 0) {
+            orderButton.setEnabled(false);
+        }
+
 
         mPromoAddBtn.setText("Voeg toe");
     }

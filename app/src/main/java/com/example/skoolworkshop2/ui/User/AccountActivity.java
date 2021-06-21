@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -105,24 +106,37 @@ public class AccountActivity extends AppCompatActivity {
         mEmailEditText = findViewById(R.id.activity_login_et_username);
         mEmailEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                if(!emailValidator.isValidEmail(charSequence.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mEmailEditText.equals("")) {
+                        emailValidator.mIsValid = true;
+                    } else{
+                    emailValidator.mIsValid = false;
                 }
+
+
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                if(emailValidator.isValidEmail(editable.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    emailValidator.mIsValid = true;
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(emailValidator.isValid()) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                    }
+                } else{
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -138,18 +152,30 @@ public class AccountActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mPasswordEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPasswordEditText.equals("")) {
+                        passwordValidator.mIsValid = true;
 
-                if(!passwordValidator.isValidPassword(charSequence.toString())){
-                    mPasswordEditText.setBackgroundResource(R.drawable.edittext_error);
+
+                } else {
+                    passwordValidator.mIsValid = false;
                 }
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(passwordValidator.isValidPassword(editable.toString())){
-                    mPasswordEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    passwordValidator.mIsValid = true;
+
+            }
+        });
+        mPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(passwordValidator.isValid()) {
+                        mPasswordEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mPasswordEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });

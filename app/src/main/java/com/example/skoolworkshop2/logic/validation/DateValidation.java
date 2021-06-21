@@ -1,18 +1,11 @@
 package com.example.skoolworkshop2.logic.validation;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.regex.Pattern;
 
 public class DateValidation {
 
-    public boolean mIsValid = false;
+    private boolean mIsValid = false;
 
 
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -20,7 +13,7 @@ public class DateValidation {
 
 
     public boolean isValid() {
-        return mIsValid;
+        return ismIsValid();
     }
 
     public static boolean isValidDate(CharSequence date) {
@@ -37,5 +30,13 @@ public class DateValidation {
             return false;
         }
 
+    }
+
+    public boolean ismIsValid() {
+        return mIsValid;
+    }
+
+    public void setmIsValid(boolean mIsValid) {
+        this.mIsValid = mIsValid;
     }
 }

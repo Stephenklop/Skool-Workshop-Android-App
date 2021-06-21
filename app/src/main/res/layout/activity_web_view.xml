@@ -46,6 +46,7 @@
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="Loading..."
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -57,6 +58,7 @@
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="Loading..."
                     android:textColor="@color/dark_grey"
                     android:textSize="14sp" />

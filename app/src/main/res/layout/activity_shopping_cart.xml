@@ -52,7 +52,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_shopping_cart_tv_shopping_cart"
                 app:layout_constraintVertical_bias="0.0"
                 tools:layout_editor_absoluteX="25dp"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never"
+                android:minHeight="256dp"/>
 
             <include
                 android:id="@+id/activity_shopping_cart_item_promo"

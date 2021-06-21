@@ -3,11 +3,11 @@ package com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern;
 public class CultureDayParticipantsValidator implements ParticipantsValidatorInterface {
 
     private String LOG_TAG = getClass().getSimpleName();
-    public boolean mIsValid = false;
+    private boolean mIsValid = false;
 
 
     public boolean isValid() {
-        return mIsValid;
+        return ismIsValid();
     }
 
     public static boolean isValidMaxParticipant(CharSequence participants) {
@@ -20,4 +20,11 @@ public class CultureDayParticipantsValidator implements ParticipantsValidatorInt
     }
 
 
+    public boolean ismIsValid() {
+        return mIsValid;
+    }
+
+    public void setmIsValid(boolean mIsValid) {
+        this.mIsValid = mIsValid;
+    }
 }

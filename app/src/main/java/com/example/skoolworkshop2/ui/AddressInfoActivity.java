@@ -1,11 +1,13 @@
 package com.example.skoolworkshop2.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -93,6 +96,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     // Checkbox
     private CheckBox mShippingAddressCheckBox;
 
+    private TextView mSubscribtionText;
+    private TextView mErrTv;
+
     // Constraint Layout
     private ConstraintLayout mShippingAddressConstraintLayout;
 
@@ -108,8 +114,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
     private LocationCalculation locationCalculation;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +122,18 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
+
+        Context context = this;
+
+        mSubscribtionText = findViewById(R.id.activity_address_info_tv_regsystem_info);
+        mSubscribtionText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RoundedDialog roundedDialog = new RoundedDialog(context, "Online inschrijfsysteem", "Een cultuurdag organiseren is veel werk: roosters opzetten, presentielijsten maken en ervoor zorgen dat alle leerlingen ingeschreven staan. Met behulp van ons inschrijfsysteem worden al deze taken uit handen genomen! Leerlingen melden zich online aan en wij gaan met deze informatie aan de slag om alles in orde te maken. Het enige wat wij willen weten, is in welke lokalen/gymzalen de workshops gegeven kunnen worden. De workshop docenten zijn geheel zelfstandig, hierdoor ontstaat er ruimte voor de leerkracht voor andere klussen. Er hoeft dus geen leerkracht vanuit school aanwezig te zijn, uiteraard mag dit altijd. Op deze manier halen wij alle lasten tijdens het organiseren uit handen.");
+            }
+        });
+
+
 //        initializeAttributes();
 
 
@@ -149,6 +165,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
         mRegistrationSystemRadioGroup = findViewById(R.id.activity_address_info_rg_regsystem);
         mCompilationRadioGroup = findViewById(R.id.activity_address_info_rg_comp);
+        mErrTv = findViewById(R.id.activity_address_info_tv_err);
 
         NL = new Country(this.getDrawable(R.drawable.ic_flag_of_the_netherlands), "NL");
         BE = new Country(this.getDrawable(R.drawable.ic_flag_of_belgium), "BE");
@@ -930,7 +947,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && mCompilationRadioGroup.getCheckedRadioButtonId() != -1 && mRegistrationSystemRadioGroup.getCheckedRadioButtonId() != -1){
+                if (validate()){
+                    mErrTv.setVisibility(View.GONE);
                     Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
                     Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
                     RadioButton registrationSystemRadioButton = (RadioButton) findViewById(mRegistrationSystemRadioGroup.getCheckedRadioButtonId());
@@ -979,8 +997,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                         );
                     }
 
-
-
                     LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().deleteShippingAddress();
                     LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().insertShippingAddress(shippingAddress);
 
@@ -1026,6 +1042,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
                     Intent intent = new Intent(getBaseContext(), OrderSummaryActivity.class);
                     startActivity(intent);
+                } else {
+                    mErrTv.setVisibility(View.VISIBLE);
+                    mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                 }
             }
         });
@@ -1107,5 +1126,91 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private boolean validate() {
+        boolean result = true;
+
+        boolean fName = NameValidator.isValidName(mFirstNameEditText.getText());
+        boolean lName = NameValidator.isValidName(mLastNameEditText.getText());
+        boolean postal = mLocationCountrySpnr.getSelectedItem().equals(NL) ? PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText()) :  PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText());
+        boolean houseNr = AddressValidator.isValidAdressValidator(mAddressEditText.getText());
+        boolean place = PlaceValidator.isValidPlace(mPlaceEditText.getText());
+        boolean street = StreetnameValidator.isValidStreetname(mStreetNameEditText.getText());
+        boolean tel = telValidator.isValid();
+        boolean cjp = cjpValidator.isValid() || mCJPEditText.getText().toString().isEmpty();
+        boolean email = EmailValidator.isValidEmail(mEmailEditText.getText());
+
+        if (!fName) {
+            result = false;
+            mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!lName) {
+            result = false;
+            mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!postal) {
+            result = false;
+            mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!houseNr) {
+            result = false;
+            mAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!place) {
+            result = false;
+            mPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!street) {
+            result = false;
+            mStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!tel) {
+            result = false;
+            mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!email) {
+            result = false;
+            mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!cjp) {
+            result = false;
+            mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (mShippingAddressCheckbox.isChecked()) {
+            boolean wFName = NameValidator.isValidName(mWFirstNameEditText.getText());
+            boolean wLName = NameValidator.isValidName(mWLastNameEditText.getText());
+            boolean wPostal = mLocationCountrySpnr.getSelectedItem().equals(NL) ? PostcodeValidatorNL.isValidPostcode(mWPostCodeEditText.getText()) :  PostcodeValidatorBE.isValidPostcode(mWPostCodeEditText.getText());
+            boolean wHouseNr = AddressValidator.isValidAdressValidator(mWAddressEditText.getText());
+            boolean wPlace = PlaceValidator.isValidPlace(mWPlaceEditText.getText());
+            boolean wStreet = StreetnameValidator.isValidStreetname(mWStreetNameEditText.getText());
+
+            if (!wFName) {
+                result = false;
+                mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wLName) {
+                result = false;
+                mWLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wPostal) {
+                result = false;
+                mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wHouseNr) {
+                result = false;
+                mWAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wPlace) {
+                result = false;
+                mWPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wStreet) {
+                result = false;
+                mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+        }
+
+        return result;
     }
 }

@@ -36,7 +36,6 @@ import com.example.skoolworkshop2.logic.validation.RoundsValidator;
 import com.example.skoolworkshop2.logic.validation.WorkshopsPerRoundValidator;
 import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -85,7 +84,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private CultureDayParticipantsValidator mCultureDayParticipantsValidator = new CultureDayParticipantsValidator();
     private RoundsValidator mRoundsValidator = new RoundsValidator();
     private WorkshopsPerRoundValidator mWorkshopsPerRoundValidator = new WorkshopsPerRoundValidator();
-    private MinuteValidator mMinuteValidator = new MinuteValidator();
+    private MinuteValidator mMinuteValidator;
     private LearningLevelValidator mLearningLevelValidator = new LearningLevelValidator();
     private DateValidation dateValidation = new DateValidation();
     private ParticipantsItemValidator participantsItemValidator = new ParticipantsItemValidator();
@@ -100,6 +99,8 @@ public class CulturedayBookingActivity extends FragmentActivity {
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
+
+        mMinuteValidator = new MinuteValidator();
 
         TextView mPriceBn = findViewById(R.id.activity_cultureday_booking_btn_price);
         TextView mParticipantsBn = findViewById(R.id.activity_cultureday_booking_btn_participant);
@@ -136,12 +137,12 @@ public class CulturedayBookingActivity extends FragmentActivity {
                 if(!mDateEditText.equals("")) {
                     if (dateValidation.isValidDate(s.toString())) {
                         mDateEditText.setBackgroundResource(R.drawable.edittext_default);
-                        dateValidation.mIsValid = true;
+                        dateValidation.setmIsValid(true);
 
                     } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mDateEditText.setBackgroundResource(R.drawable.edittext_error);
-                        dateValidation.mIsValid = false;
+                        dateValidation.setmIsValid(false);
 
                     }
                 }
@@ -173,10 +174,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     if (mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
                         updateOrderOverview();
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mCultureDayParticipantsValidator.mIsValid = true;
+                        mCultureDayParticipantsValidator.setmIsValid(true);
                     } else if (!mCultureDayParticipantsValidator.isValidMaxParticipant(s.toString())) {
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mCultureDayParticipantsValidator.mIsValid = false;
+                        mCultureDayParticipantsValidator.setmIsValid(false);
                     } else {
                         mParticipantsEditText.setBackgroundResource(R.drawable.edittext_focused);
                     }
@@ -213,10 +214,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
                     if (mRoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mRoundsValidator.mIsValid = true;
+                        mRoundsValidator.setmIsValid(true);
                     } else if (!mRoundsValidator.isValidWorkshopRounds(s.toString())){
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mRoundsValidator.mIsValid = false;
+                        mRoundsValidator.setmIsValid(false);
                     } else{
                         mWorkshopRoundsEditText.setBackgroundResource(R.drawable.edittext_focused);
                     }
@@ -260,10 +261,10 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
                     if (!RoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mWorkshopsPerRoundValidator.mIsValid = false;
+                        mWorkshopsPerRoundValidator.setmIsValid(false);
                     } else if (RoundsValidator.isValidWorkshopRounds(s.toString())) {
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mWorkshopsPerRoundValidator.mIsValid = true;
+                        mWorkshopsPerRoundValidator.setmIsValid(true);
                     } else{
                         mWorkshopsPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
 
@@ -273,7 +274,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!mWorkshopsPerRoundEditText.equals("") && mWorkshopRoundsEditText.getText().length() > 0) {
+                if(!mWorkshopsPerRoundEditText.getText().toString().equals("") && mWorkshopRoundsEditText.getText().toString().length() > 0) {
                     mCultureDayItem.setWorkshopPerWorkshopRound(Integer.parseInt(s.toString()));
                 }
                 updateOrderOverview();
@@ -301,15 +302,15 @@ public class CulturedayBookingActivity extends FragmentActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (!mDurationPerRoundEditText.equals("")) {
-                    if (!mMinuteValidator.isValidMinute(s.toString())) {
-                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
-                        mMinuteValidator.mIsValid = false;
-                    } else if (mMinuteValidator.isValidMinute(s.toString())) {
-                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                        mMinuteValidator.mIsValid = true;
-                    } else {
-                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_focused);
+                    if (mDurationPerRoundEditText.getText().length() > 0) {
+                        mCultureDayItem.setRoundDuration(Integer.parseInt(s.toString()));
+                    }
 
+                    if (mCultureDayItem.getPrice() > 0) {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                        mMinuteValidator.setmIsValid(true);
+                    } else {
+                        mDurationPerRoundEditText.setBackgroundResource(R.drawable.edittext_error);
                     }
                 }
             }
@@ -376,12 +377,15 @@ public class CulturedayBookingActivity extends FragmentActivity {
                     ImageButton xButton = button.findViewById(R.id.component_button_medium_extendable_delete_btn_x);
                     buttonLabel.setText(selectedItem);
 
-                    xButton.setOnClickListener(v -> {
+                    View.OnClickListener removeListener = v -> {
                         button.animate().alpha(0).setDuration(250).withEndAction(() -> {
                             mWorkshopsLinearLayout.removeView(button);
                         }).start();
                         mSelectedWorkshops.remove((Object) productId);
-                    });
+                    };
+
+                    button.setOnClickListener(removeListener);
+                    xButton.setOnClickListener(removeListener);
 
                     mWorkshopsLinearLayout.addView(button);
                     mSelectedWorkshops.add(productId);
@@ -629,7 +633,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, (view, year, month, dayOfMonth) -> {
 //            mDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
             if(dayOfMonth < 10 && month < 10){
                 mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
@@ -700,7 +704,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         boolean participants = mCultureDayParticipantsValidator.isValid();
         boolean rounds = mRoundsValidator.isValid();
         boolean workshopsPerRound = mWorkshopsPerRoundValidator.isValid();
-        boolean minutes = mMinuteValidator.isValid();
+        boolean minutes = mCultureDayItem.getPrice() > 0;
         boolean workshops = mSelectedWorkshops.size() > 0;
         boolean schedule = mCultureDayItem.getTimeSchedule() != null || (mCultureDayItem.getTimeSchedule() != null ? mCultureDayItem.getTimeSchedule().length() : 0) > 0;
         boolean specialParticipants = participantsItemValidator.isValid();

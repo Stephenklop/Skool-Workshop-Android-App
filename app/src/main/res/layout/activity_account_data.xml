@@ -74,7 +74,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proxima_nova_semibold"
-                            android:text="Voornaam"
+                            android:text="Voornaam:"
                             android:textColor="@color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -83,7 +83,8 @@
                             android:id="@+id/activity_account_data_et_first_name"
                             layout="@layout/component_edittext_plaintext"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"/>
                     </LinearLayout>
 
                     <Space
@@ -100,7 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proxima_nova_semibold"
-                            android:text="Achternaam"
+                            android:text="Achternaam:"
                             android:textColor="@color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -109,7 +110,8 @@
                             android:id="@+id/activity_account_data_et_last_name"
                             layout="@layout/component_edittext_plaintext"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -118,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Weergavenaam"
+                    android:text="Weergavenaam:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -127,14 +129,15 @@
                     android:id="@+id/activity_account_data_et_display_name"
                     layout="@layout/component_edittext_plaintext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="E-mailadres"
+                    android:text="E-mailadres:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -143,14 +146,15 @@
                     android:id="@+id/activity_account_data_et_email"
                     layout="@layout/component_edittext_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Wachtwoord"
+                    android:text="Wachtwoord:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -160,7 +164,7 @@
                     layout="@layout/component_button_large_border"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2" />
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
