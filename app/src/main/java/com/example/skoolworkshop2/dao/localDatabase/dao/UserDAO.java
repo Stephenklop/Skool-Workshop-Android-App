@@ -23,8 +23,8 @@ public interface UserDAO {
     void deleteInfo();
     // Billing
 
-    @Query("SELECT * FROM BillingAddress WHERE billingAddress.id = :id")
-    BillingAddress getBillingAddress(int id);
+    @Query("SELECT * FROM BillingAddress")
+    BillingAddress getBillingAddress();
 
     @Query("SELECT * FROM BillingAddress")
     BillingAddress getAddresses();
@@ -32,12 +32,12 @@ public interface UserDAO {
     @Insert
     void insertBillingaddress(BillingAddress address);
 
-    @Query("DELETE FROM billingaddress WHERE id = :id")
-    void deleteAdress(int id);
+    @Query("DELETE FROM billingaddress")
+    void deleteAdress();
 
     // Shipping
-    @Query("SELECT * FROM ShippingAddress WHERE shippingAddress.id = :id")
-    ShippingAddress getShippingAddress(int id);
+    @Query("SELECT * FROM ShippingAddress")
+    ShippingAddress getShippingAddress();
 
     @Query("SELECT * FROM shippingaddress")
     ShippingAddress getShippingAddresses();
@@ -45,7 +45,7 @@ public interface UserDAO {
     @Insert
     void insertShippingAddress(ShippingAddress address);
 
-    @Query("DELETE FROM shippingaddress WHERE id = :id")
-    void deleteShippingAddress(int id);
+    @Query("DELETE FROM shippingaddress")
+    void deleteShippingAddress();
 
 }

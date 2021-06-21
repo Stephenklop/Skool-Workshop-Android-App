@@ -186,6 +186,10 @@ public class MyAccountActivity extends AppCompatActivity {
                         LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
                         System.out.println("deleted user");
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted billing address");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteAdress();
+                        System.out.println("deleted shipping address");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteShippingAddress();
                         System.out.println("deleted customer");
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     }
