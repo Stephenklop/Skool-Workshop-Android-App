@@ -85,7 +85,7 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
 
         if (bank != null) {
             bankTv.setText(bank.getName());
-            Glide.with(context).load(bank.getSvg()).into(bankImg);
+            Glide.with(context).load(bank.getLogoUrl()).into(bankImg);
         } else {
             Glide.with(context).load("https://www.mollie.com/external/icons/payment-methods/ideal.png").into(bankImg);
             bankTv.setText("Kies uw bank");

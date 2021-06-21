@@ -20,12 +20,12 @@ public class Bank {
     private String name;
 
     @ColumnInfo
-    private String svg;
+    private String logoUrl;
 
-    public Bank(@NonNull String id, String name, String svg) {
+    public Bank(@NonNull String id, String name, String logoUrl) {
         this.id = id;
         this.name = name;
-        this.svg = svg;
+        this.logoUrl = logoUrl;
     }
 
     public Context getContext() {
@@ -50,7 +50,7 @@ public class Bank {
                 "context=" + context +
                 ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", svg='" + svg + '\'' +
+                ", svg='" + logoUrl + '\'' +
                 '}';
     }
 
@@ -58,12 +58,12 @@ public class Bank {
         this.name = name;
     }
 
-    public String getSvg() {
-        return svg;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 
-    public void setSvg(String svg) {
-        this.svg = svg;
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
 
