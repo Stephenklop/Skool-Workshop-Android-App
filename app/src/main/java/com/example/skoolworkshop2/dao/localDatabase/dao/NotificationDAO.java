@@ -33,4 +33,7 @@ public interface NotificationDAO {
 
     @Query("UPDATE Notification SET status = 1 WHERE id = :id")
     void setNotificationRead(int id);
+
+    @Query("DELETE FROM Notification WHERE topic = 'null'")
+    void deletePersonalNotifications();
 }

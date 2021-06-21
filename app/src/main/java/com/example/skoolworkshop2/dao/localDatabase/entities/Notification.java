@@ -22,12 +22,16 @@ public class Notification {
     @ColumnInfo
     boolean status;
 
-    public Notification(int id,String title, String description, String url, boolean status) {
+    @ColumnInfo
+    String topic;
+
+    public Notification(int id,String title, String description, String url, boolean status, String topic) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.url = url;
         this.status = status;
+        this.topic = topic;
     }
 
     public boolean isStatus() {
@@ -68,5 +72,13 @@ public class Notification {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.skoolworkshop2.ui.notifications;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.Notification;
+import com.example.skoolworkshop2.ui.WebViewActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +44,9 @@ public class OldNotificationAdapter extends RecyclerView.Adapter<OldNotification
 
         @Override
         public void onClick(View v) {
-
+            if(!notifications.get(getAdapterPosition()).getUrl().equals("undefined")){
+                context.startActivity(new Intent(context, WebViewActivity.class).putExtra("url", notifications.get(getAdapterPosition()).getUrl()).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
         }
     }
 
@@ -61,7 +65,11 @@ public class OldNotificationAdapter extends RecyclerView.Adapter<OldNotification
 
         Notification notification = notifications.get(position);
         holder.mNotificationTitle.setText(notification.getTitle());
-        holder.mNotificationDescription .setText(notification.getDescription());
+        if (!notification.getUrl().equals("undefined")) {
+            holder.mNotificationDescription .setText(notification.getDescription() + "\n" + notification.getUrl());
+        } else {
+            holder.mNotificationDescription .setText(notification.getDescription());
+        }
     }
 
 

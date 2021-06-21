@@ -65,7 +65,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         Notification notification = notifications.get(position);
         holder.mNotificationTitle.setText(notification.getTitle());
-        holder.mNotificationDescription .setText(notification.getDescription());
+        if (!notification.getUrl().equals("undefined")) {
+            holder.mNotificationDescription .setText(notification.getDescription() + "\n" + notification.getUrl());
+        } else {
+            holder.mNotificationDescription .setText(notification.getDescription());
+        }
     }
 
 
