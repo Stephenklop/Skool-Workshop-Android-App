@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -90,6 +91,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWHouseNr;
 
     private TextView mSubscribtionText;
+    private TextView mErrTv;
 
     //Delay for textchanger
     private Timer timer = new Timer();
@@ -105,6 +107,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
     private Country NL;
     private Country BE;
+
+    // Checkbox
+    private CheckBox mWorkshopLocationCb;
 
 
 
@@ -157,6 +162,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWStreetNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_street);
         mWHouseNr = (EditText) findViewById(R.id.activity_address_info_workshop_housenr);
 
+        mErrTv = findViewById(R.id.activity_address_info_tv_err);
+
 
         NL = new Country(this.getDrawable(R.drawable.ic_flag_of_the_netherlands), "NL");
         BE = new Country(this.getDrawable(R.drawable.ic_flag_of_belgium), "BE");
@@ -173,7 +180,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
 
 
-        CheckBox mWorkshopLocationCb = findViewById(R.id.activity_address_info_cb_workshop_location);
+        mWorkshopLocationCb = findViewById(R.id.activity_address_info_cb_workshop_location);
         ConstraintLayout mWorkshopLocationCl = findViewById(R.id.activity_address_info_cl_workshop_location);
 
         mWorkshopLocationCb.setOnClickListener((View v) -> {
@@ -940,11 +947,15 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nameValidator.isValid() && placeValidator.isValid() && placeValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid() && cjpValidator.isValid()){
+                if (validate()){
+                    mErrTv.setVisibility(View.GONE);
                     // Alles vgm opslaan in gebruiker
                     Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
                     intent.putExtra("FIRSTNAME", mFirstNameEditText.getText().toString());
 
+                } else {
+                    mErrTv.setVisibility(View.VISIBLE);
+                    mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                 }
             }
         });
@@ -1033,5 +1044,91 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private boolean validate() {
+        boolean result = true;
+
+        boolean fName = NameValidator.isValidName(mFirstNameEditText.getText());
+        boolean lName = NameValidator.isValidName(mLastNameEditText.getText());
+        boolean postal = mLocationCountrySpnr.getSelectedItem().equals(NL) ? PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText()) :  PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText());
+        boolean houseNr = AddressValidator.isValidAdressValidator(mAddressEditText.getText());
+        boolean place = PlaceValidator.isValidPlace(mPlaceEditText.getText());
+        boolean street = StreetnameValidator.isValidStreetname(mStreetNameEditText.getText());
+        boolean tel = telValidator.isValid();
+        boolean cjp = cjpValidator.isValid() || mCJPEditText.getText().toString().isEmpty();
+        boolean email = EmailValidator.isValidEmail(mEmailEditText.getText());
+
+        if (!fName) {
+            result = false;
+            mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!lName) {
+            result = false;
+            mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!postal) {
+            result = false;
+            mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!houseNr) {
+            result = false;
+            mAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!place) {
+            result = false;
+            mPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!street) {
+            result = false;
+            mStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!tel) {
+            result = false;
+            mTelEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!email) {
+            result = false;
+            mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (!cjp) {
+            result = false;
+            mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
+        }
+        if (mWorkshopLocationCb.isChecked()) {
+            boolean wFName = NameValidator.isValidName(mWFirstNameEditText.getText());
+            boolean wLName = NameValidator.isValidName(mWLastNameEditText.getText());
+            boolean wPostal = mLocationCountrySpnr.getSelectedItem().equals(NL) ? PostcodeValidatorNL.isValidPostcode(mWPostCodeEditText.getText()) :  PostcodeValidatorBE.isValidPostcode(mWPostCodeEditText.getText());
+            boolean wHouseNr = AddressValidator.isValidAdressValidator(mWAddressEditText.getText());
+            boolean wPlace = PlaceValidator.isValidPlace(mWPlaceEditText.getText());
+            boolean wStreet = StreetnameValidator.isValidStreetname(mWStreetNameEditText.getText());
+
+            if (!wFName) {
+                result = false;
+                mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wLName) {
+                result = false;
+                mWLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wPostal) {
+                result = false;
+                mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wHouseNr) {
+                result = false;
+                mWAddressEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wPlace) {
+                result = false;
+                mWPlaceEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+            if (!wStreet) {
+                result = false;
+                mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_error);
+            }
+        }
+
+        return result;
     }
 }
