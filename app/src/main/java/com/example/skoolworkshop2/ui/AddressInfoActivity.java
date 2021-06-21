@@ -190,7 +190,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 mShippingAddressConstraintLayout.setVisibility(View.GONE);
             } else {
 
-                mWorkshopLocationCl.setVisibility(View.VISIBLE);
+                mShippingAddressConstraintLayout.setVisibility(View.VISIBLE);
                 if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress() != null){
                     ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress();
 

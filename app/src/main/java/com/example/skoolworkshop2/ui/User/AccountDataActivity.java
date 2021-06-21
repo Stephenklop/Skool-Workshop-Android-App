@@ -40,6 +40,7 @@ import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.WebViewActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopBookingActivity;
 
+
 public class AccountDataActivity extends AppCompatActivity {
     private String LOG_TAG = getClass().getSimpleName();
     //validations
