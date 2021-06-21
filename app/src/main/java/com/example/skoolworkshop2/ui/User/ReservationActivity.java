@@ -27,7 +27,9 @@ import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIOrderDAO;
 import com.example.skoolworkshop2.domain.Order;
 import com.example.skoolworkshop2.domain.Reservation;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.RoundedDialog;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,11 @@ public class ReservationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         // Set view
         setContentView(R.layout.activity_reservations);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
+
         enableLoadingIndicator();
 
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.activity_reservations_refresh);

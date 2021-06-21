@@ -2,7 +2,7 @@
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/ic_check_circle">
     <target
-        android:animation="@animator/ic_result_trim_animator"
+        android:animation="@anim/ic_result_trim_animator_delay"
         android:name="circle" />
     <target
         android:animation="@animator/ic_result_trim_animator"

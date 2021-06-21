@@ -33,7 +33,8 @@ public class MollieResultActivity extends AppCompatActivity {
             startActivity(homeIntent);
         });
 
-        successAnim();
+        failureAnim();
+//        successAnim();
     }
 
     private void successAnim() {

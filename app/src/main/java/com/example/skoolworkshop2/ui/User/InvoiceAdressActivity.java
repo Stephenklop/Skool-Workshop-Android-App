@@ -19,7 +19,9 @@ import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.AddressInfoLayoutTestActivity;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,6 +52,10 @@ public class InvoiceAdressActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_data);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         // Billing
         mInvoiceAddressLayout = findViewById(R.id.activity_invoice_data_item_invoice_address);

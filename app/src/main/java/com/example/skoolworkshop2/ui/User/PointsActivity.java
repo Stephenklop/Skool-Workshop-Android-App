@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ui;
+package com.example.skoolworkshop2.ui.User;
 
 import android.content.Intent;
 import android.os.Build;
@@ -23,9 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.User.MyAccountActivity;
 
-public class PointsLayoutTestActivity extends AppCompatActivity {
+public class PointsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
