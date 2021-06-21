@@ -2,6 +2,7 @@ package com.example.skoolworkshop2.logic.validation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateValidation {
 
@@ -19,13 +20,14 @@ public class DateValidation {
     public static boolean isValidDate(CharSequence date) {
 //        DateFormat date1 = new SimpleDateFormat("dd/MM/yyyy");
 //        date1.setLenient(false);
+
         if(date == null || !date.toString().matches(regex)) {
             return false;
         }
         simpleDateFormat.setLenient(false);
         try {
             simpleDateFormat.parse(date.toString());
-            return true;
+            return !simpleDateFormat.parse(date.toString()).before(new Date());
         } catch (ParseException ex){
             return false;
         }

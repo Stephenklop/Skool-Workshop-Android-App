@@ -410,7 +410,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
                 StringBuilder stb = new StringBuilder();
                 String house = "";
                 for (String part : parts) {
-                    if (part.matches(".*\\d.*")) {
+                        if (part.matches(".*\\d.*")) {
                         house = part;
                     } else {
                         stb.append(part + " ");

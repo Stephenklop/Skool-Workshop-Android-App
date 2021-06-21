@@ -200,7 +200,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                         mWorkshopLocationCountrySpnr.setSelection(2);
                     }
 
-                    String addressSplit[] = shippingAddress.getAddress().split(" ");
+                    String addressSplit[] = shippingAddress.getAddress().split("(?<=\\D)(?=\\d)");
 
                     mWFirstNameEditText.setText(shippingAddress.getFirstName());
                     mWLastNameEditText.setText(shippingAddress.getLastName());
@@ -1020,6 +1020,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 //                    );
 
 
+                    // TODO: Add shipping address, billing video, reservation system, distance & price
+
                     LocalDb.getDatabase(getBaseContext()).getOrderDAO().deleteOrder();
                     LocalDb.getDatabase(getBaseContext()).getOrderDAO().insertOrder(
                             new Order(
@@ -1058,7 +1060,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 mLocationCountrySpnr.setSelection(2);
             }
 
-            String addressSplit[] = billingAddress.getAddress().split(" ");
+            String addressSplit[] = billingAddress.getAddress().split("(?<=\\D)(?=\\d)");
 
             mFirstNameEditText.setText(billingAddress.getFirstName());
             mLastNameEditText.setText(billingAddress.getLastName());
