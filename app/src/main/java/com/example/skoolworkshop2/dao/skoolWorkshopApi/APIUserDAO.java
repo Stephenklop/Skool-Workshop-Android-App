@@ -16,6 +16,7 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.domain.User;
+import com.example.skoolworkshop2.ui.AddressInfoActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
 
 
@@ -67,7 +68,7 @@ public class APIUserDAO implements UserDAO {
             firstName = jsonObject.getString("first_name");
             lastName = jsonObject.getString("last_name");
             company = jsonObject.getString("company");
-            postcode = jsonObject.getString("company");
+            postcode = jsonObject.getString("postcode");
             city = jsonObject.getString("city");
             address = jsonObject.getString("address_1");
             country = jsonObject.getString("country");
@@ -103,7 +104,7 @@ public class APIUserDAO implements UserDAO {
             firstName = jsonObject.getString("first_name");
             lastName = jsonObject.getString("last_name");
             company = jsonObject.getString("company");
-            postcode = jsonObject.getString("company");
+            postcode = jsonObject.getString("postcode");
             city = jsonObject.getString("city");
             address = jsonObject.getString("address_1");
             country = jsonObject.getString("country");
@@ -168,6 +169,10 @@ public class APIUserDAO implements UserDAO {
                 String userName = user.get("username").toString();
                 BillingAddress billingAddress = parseJSONToBillling(user.getJSONObject("billing"));
                 ShippingAddress shippingAddress = parseJSONToShipping(user.getJSONObject("shipping"));
+                LocalDb.getDatabase(application).getUserDAO().deleteAdress();
+                LocalDb.getDatabase(application).getUserDAO().deleteShippingAddress();
+                LocalDb.getDatabase(application).getUserDAO().insertBillingaddress(billingAddress);
+                LocalDb.getDatabase(application).getUserDAO().insertShippingAddress(shippingAddress);
                 Log.d("POINTS", points + "");
 
                 result = new User(id, email, userName, points, billingAddress.getId(), shippingAddress.getId());
@@ -186,6 +191,99 @@ public class APIUserDAO implements UserDAO {
     @Override
     public Customer getLastCustomer() {
         return lastCustomer;
+    }
+
+    public void updateBilling(BillingAddress billingAddress){
+        int id = LocalDb.getDatabase(application).getUserDAO().getInfo().getId();
+        System.out.println("integer: " + id + "++++++++++++++++++++++++++++++++++++++++");
+
+        final String PATH = "account/" + id;
+        User result = null;
+
+        try{
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+
+            String billing = " { \"billing\": { \"first_name\": \"" + billingAddress.getFirstName() + "\", \"last_name\": \"" + billingAddress.getLastName() + "\", \"company\": \"" + billingAddress.getCompany() + "\", \"postcode\": \"" + billingAddress.getPostcode() + "\", \"city\": \"" + billingAddress.getCity() + "\", \"address_1\": \"" + billingAddress.getAddress() + "\", \"country\": \"" + billingAddress.getCountry() + "\", \"phone\": \"" + billingAddress.getPhone() + "\", \"email\": \"" + billingAddress.getEmail() + "\" } }";
+            System.out.println("JSON STRING: " + billing);
+
+            OutputStream os = connection.getOutputStream();
+            os.write(billing.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("RESPONSE: " + inputLine);
+                JSONObject response = new JSONObject(inputLine);
+                try {
+                    JSONObject userData = response.getJSONObject("result");
+                    System.out.println(userData.toString());
+
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateShipping(ShippingAddress shippingAddress){
+        int id = LocalDb.getDatabase(application).getUserDAO().getInfo().getId();
+        System.out.println("integer: " + id + "++++++++++++++++++++++++++++++++++++++++");
+
+        final String PATH = "account/" + id;
+        User result = null;
+
+        try{
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+
+            String billing = " { \"shipping\": { \"first_name\": \"" + shippingAddress.getFirstName() + "\", \"last_name\": \"" + shippingAddress.getLastName() + "\", \"company\": \"" + shippingAddress.getCompany() + "\", \"postcode\": \"" + shippingAddress.getPostcode() + "\", \"city\": \"" + shippingAddress.getCity() + "\", \"address_1\": \"" + shippingAddress.getAddress() + "\", \"country\": \"" + shippingAddress.getCountry() + "\" } }";
+            System.out.println("JSON STRING: " + billing);
+
+            OutputStream os = connection.getOutputStream();
+            os.write(billing.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("RESPONSE: " + inputLine);
+                JSONObject response = new JSONObject(inputLine);
+                try {
+                    JSONObject userData = response.getJSONObject("result");
+                    System.out.println(userData.toString());
+
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -223,6 +321,7 @@ public class APIUserDAO implements UserDAO {
                 try {
                     JSONObject userData = response.getJSONObject("result");
                     User user = parseUser(userData);
+                    System.out.println(user.getUsername() + " GEBRUIKERSNAAM");
                     Customer customer = parseCustomer(userData);
 
                     LocalDb.getDatabase(application).getUserDAO().deleteInfo();
@@ -420,6 +519,13 @@ public class APIUserDAO implements UserDAO {
                 String city = adress.getString("city");
                 String state = adress.getString("state");
                 String country = adress.getString("country");
+
+                BillingAddress billingAddress = parseJSONToBillling(user.getJSONObject("billing"));
+                ShippingAddress shippingAddress = parseJSONToShipping(user.getJSONObject("shipping"));
+                LocalDb.getDatabase(application).getUserDAO().deleteAdress();
+                LocalDb.getDatabase(application).getUserDAO().deleteShippingAddress();
+                LocalDb.getDatabase(application).getUserDAO().insertBillingaddress(billingAddress);
+                LocalDb.getDatabase(application).getUserDAO().insertShippingAddress(shippingAddress);
 
 
 

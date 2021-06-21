@@ -56,9 +56,8 @@ public class UserManager {
     // Billing
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public BillingAddress getBillingAddress(int id){
-        Log.d(TAG, "getBillingAddress: id :" + id);
-        return userDAO.getBillingAddress(id);
+    public BillingAddress getBillingAddress(){
+        return userDAO.getBillingAddress();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -72,15 +71,14 @@ public class UserManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void deleteAdress(int id){
-        userDAO.deleteAdress(id);
+    public void deleteAdress(){
+        userDAO.deleteAdress();
     }
 
     // Shipping
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public ShippingAddress getShippingAddress(int id){
-        Log.d(TAG, "getBillingAddress: id :" + id);
-        return userDAO.getShippingAddress (id);
+    public ShippingAddress getShippingAddress(){
+        return userDAO.getShippingAddress();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -94,8 +92,8 @@ public class UserManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void deleteShippingAddress(int id){
-        userDAO.deleteShippingAddress(id);
+    public void deleteShippingAddress(){
+        userDAO.deleteShippingAddress();
     }
 
     public Customer getCustomer(){

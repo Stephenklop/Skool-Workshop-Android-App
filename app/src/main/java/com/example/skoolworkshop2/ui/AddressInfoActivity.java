@@ -181,8 +181,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 mWorkshopLocationCl.setVisibility(View.GONE);
             } else {
                 mWorkshopLocationCl.setVisibility(View.VISIBLE);
-                if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null){
-                    ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress() != null){
+                    ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress();
                     if(shippingAddress.getCountry().equals("Nederland")){
                         mWorkshopLocationCountrySpnr.setSelection(1);
                     } else {
@@ -951,8 +951,8 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
 
 
-        if(LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0) != null){
-            BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0);
+        if(LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress() != null){
+            BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress();
 
             if(billingAddress.getCountry().equals("Nederland")){
                 mLocationCountrySpnr.setSelection(1);
