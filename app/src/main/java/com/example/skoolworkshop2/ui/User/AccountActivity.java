@@ -211,7 +211,7 @@ public class AccountActivity extends AppCompatActivity {
                     Thread loadUser = new Thread(() -> {
                         User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
                         Bundle bundle = new Bundle();
-                        bundle.putString("USERNAME", user.getUsername());
+//                        bundle.putString("USERNAME", user.getUsername());
                         um.insertInfo(user);
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
 

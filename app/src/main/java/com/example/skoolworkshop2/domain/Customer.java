@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 public class Customer implements Serializable {
-    @PrimaryKey @NonNull
+    @ColumnInfo @PrimaryKey @NonNull
     private int id;
 
     @ColumnInfo

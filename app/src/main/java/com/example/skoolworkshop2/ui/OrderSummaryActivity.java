@@ -11,11 +11,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 public class OrderSummaryActivity extends AppCompatActivity implements View.OnClickListener {
     private MollieDAOFactory mollieDAOFactory;
+    private int amountOfItems;
+    private double subTotalPrice;
+    private double travelExpenses;
+    private TextView subTotalPriceTitleTextView;
+    private TextView subTotalPriceTextView;
+    private TextView travelExpensesTextView;
+    private TextView totalPriceTextView;
     private LinearLayout mPaymentMethodsLinearLayout;
     private LinearLayout mPaymentTransferButton;
     private LinearLayout mPaymentCjpButton;
@@ -34,6 +42,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         }
 
         initializeAttributes();
+
+        subTotalPriceTitleTextView.setText("Subtotaal (" + amountOfItems + "):" );
+        subTotalPriceTextView.setText("€" + String.format("%.2f", subTotalPrice).replace(".", ","));
 
         new Thread(() -> {
             mIdealSpinner.setAdapter(new BankArrayAdapter(getBaseContext(), mollieDAOFactory.getBankDAO().getAllBanks()));
@@ -75,6 +86,13 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
 
     private void initializeAttributes() {
         mollieDAOFactory = new MollieDAOFactory();
+        amountOfItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getAmountOfShoppingCartItems();
+        subTotalPrice = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getTotalShoppingCartPrice();
+        travelExpenses = 0;
+        subTotalPriceTitleTextView = findViewById(R.id.activity_summary_tv_subtotal_key);
+        subTotalPriceTextView = findViewById(R.id.activity_summary_tv_subtotal_value);
+        travelExpensesTextView = findViewById(R.id.activity_summary_tv_travel_cost_value);
+        totalPriceTextView = findViewById(R.id.activity_summary_tv_total_value);
         mPaymentMethodsLinearLayout = findViewById(R.id.activity_summary_ll_payment_methods);
         mPaymentTransferButton = findViewById(R.id.activity_summary_btn_transfer);
         mPaymentCjpButton = findViewById(R.id.activity_summary_btn_cjp);

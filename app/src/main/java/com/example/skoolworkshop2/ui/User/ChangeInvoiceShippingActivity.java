@@ -527,6 +527,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
                         }
                     });
                     t.start();
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Something isnt valid", Toast.LENGTH_SHORT).show();
                     disableLoadingIndicator();

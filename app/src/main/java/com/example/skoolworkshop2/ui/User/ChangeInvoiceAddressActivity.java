@@ -608,6 +608,7 @@ public class ChangeInvoiceAddressActivity extends AppCompatActivity implements A
                     });
                     t.start();
                     // Start the activity
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Something isnt valid", Toast.LENGTH_SHORT).show();
                     disableLoadingIndicator();
