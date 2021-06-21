@@ -2,7 +2,6 @@ package com.example.skoolworkshop2.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,14 +23,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.BillingAddress;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.logic.calculations.LocationCalculation;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.domain.Country;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
-import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
-import com.example.skoolworkshop2.logic.validation.ParticipantFactoryPattern.CultureDayParticipantsValidator;
 import com.example.skoolworkshop2.logic.validation.TelValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.AddressValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.NameValidator;
@@ -38,15 +42,12 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.Streetn
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidator;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorBE;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
-import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
-import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
-
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class AddressInfoActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private String LOG_TAG = getClass().getSimpleName();
+
+    // Data
+    APIDAOFactory apidaoFactory = new APIDAOFactory();
 
     //validations
     private NameValidator nameValidator = new NameValidator();
@@ -63,7 +64,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private TextWatcher beTextWatcher;
     private TextWatcher nlWTextWatcher;
     private TextWatcher beWTextWatcher;
-
 
     //Edit text User
     private EditText mFirstNameEditText;
@@ -87,16 +87,20 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private EditText mWAddressEditText;
     private EditText mWPlaceEditText;
     private EditText mWStreetNameEditText;
-    private EditText mWWorkshopInfoText;
     private EditText mWHouseNr;
+
+    // Radio buttons
+    private RadioGroup mRegistrationSystemRadioGroup;
+    private RadioGroup mCompilationRadioGroup;
+
+    // Checkbox
+    private CheckBox mShippingAddressCheckBox;
 
     private TextView mSubscribtionText;
     private TextView mErrTv;
 
-    //Delay for textchanger
-    private Timer timer = new Timer();
-    private final long DELAY = 1000; // Milliseconds
-
+    // Constraint Layout
+    private ConstraintLayout mShippingAddressConstraintLayout;
 
     //Buttons
     private ImageButton mBackButton;
@@ -108,10 +112,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     private Country NL;
     private Country BE;
 
-    // Checkbox
-    private CheckBox mWorkshopLocationCb;
-
-
+    private LocationCalculation locationCalculation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +153,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn = findViewById(R.id.activity_address_info_btn_submit);
         mBackButton = findViewById(R.id.activity_address_info_btn_back);
 
-        ////Setting up ID's Workshop Info
+        //Setting up ID's Workshop Info
         mWFirstNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_firstname);
         mWLastNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_lastname);
         mWCompanyNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_company);
@@ -162,8 +163,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWStreetNameEditText = (EditText) findViewById(R.id.activity_address_info_et_workshop_street);
         mWHouseNr = (EditText) findViewById(R.id.activity_address_info_workshop_housenr);
 
+        mRegistrationSystemRadioGroup = findViewById(R.id.activity_address_info_rg_regsystem);
+        mCompilationRadioGroup = findViewById(R.id.activity_address_info_rg_comp);
         mErrTv = findViewById(R.id.activity_address_info_tv_err);
-
 
         NL = new Country(this.getDrawable(R.drawable.ic_flag_of_the_netherlands), "NL");
         BE = new Country(this.getDrawable(R.drawable.ic_flag_of_belgium), "BE");
@@ -172,22 +174,22 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mLocationCountrySpnr.setSelection(1);
         mLocationCountrySpnr.setOnItemSelectedListener(this);
 
-
         mWorkshopLocationCountrySpnr = findViewById(R.id.activity_address_info_spnr_workshop_country);
         mWorkshopLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{NL, BE}));
         mWorkshopLocationCountrySpnr.setSelection(1);
 
         mWorkshopLocationCountrySpnr.setOnItemSelectedListener(this);
 
+        mShippingAddressCheckBox = findViewById(R.id.activity_address_info_cb_workshop_location);
+        mShippingAddressConstraintLayout = findViewById(R.id.activity_address_info_cl_workshop_location);
 
-        mWorkshopLocationCb = findViewById(R.id.activity_address_info_cb_workshop_location);
-        ConstraintLayout mWorkshopLocationCl = findViewById(R.id.activity_address_info_cl_workshop_location);
+        locationCalculation = new LocationCalculation();
 
-        mWorkshopLocationCb.setOnClickListener((View v) -> {
-            if (mWorkshopLocationCl.getVisibility() == View.VISIBLE) {
-                mWorkshopLocationCl.setVisibility(View.GONE);
+        mShippingAddressCheckBox.setOnClickListener((View v) -> {
+            if (mShippingAddressConstraintLayout.getVisibility() == View.VISIBLE) {
+                mShippingAddressConstraintLayout.setVisibility(View.GONE);
             } else {
-                mWorkshopLocationCl.setVisibility(View.VISIBLE);
+                mShippingAddressConstraintLayout.setVisibility(View.VISIBLE);
                 if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null){
                     ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
                     if(shippingAddress.getCountry().equals("Nederland")){
@@ -903,8 +905,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-
-
         mWorkshopInfoText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -949,18 +949,105 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View v) {
                 if (validate()){
                     mErrTv.setVisibility(View.GONE);
-                    // Alles vgm opslaan in gebruiker
-                    Intent intent = new Intent(getApplicationContext(), CulturedayActivity.class);
-                    intent.putExtra("FIRSTNAME", mFirstNameEditText.getText().toString());
+                    Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
+                    Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
+                    RadioButton registrationSystemRadioButton = (RadioButton) findViewById(mRegistrationSystemRadioGroup.getCheckedRadioButtonId());
+                    RadioButton compilationRadioButton = (RadioButton) findViewById(mCompilationRadioGroup.getCheckedRadioButtonId());
+                    double distance = mShippingAddressCheckBox.isChecked() ? locationCalculation.getDistance(mWPostCodeEditText.getText().toString().replace(" ", ""), shippingAddressCountry.getName()) : locationCalculation.getDistance(mPostCodeEditText.getText().toString().replace(" ", ""), billingAddressCountry.getName());
 
+                    BillingAddress billingAddress = new BillingAddress(
+                            mFirstNameEditText.getText().toString(),
+                            mLastNameEditText.getText().toString(),
+                            mCompanyNameEditText.getText().toString(),
+                            mPostCodeEditText.getText().toString(),
+                            mPlaceEditText.getText().toString(),
+                            "",
+                            mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
+                            billingAddressCountry.getName(),
+                            mTelEditText.getText().toString(),
+                            mEmailEditText.getText().toString()
+                    );
+
+                    LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().deleteBillingAddress();
+                    int billingAddressId = (int) LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().insertBillingAddress(billingAddress);
+
+                    ShippingAddress shippingAddress;
+
+                    if (mShippingAddressCheckBox.isChecked()) {
+                        shippingAddress = new ShippingAddress(
+                                mWFirstNameEditText.getText().toString(),
+                                mWLastNameEditText.getText().toString(),
+                                mWCompanyNameEditText.getText().toString(),
+                                mWPostCodeEditText.getText().toString(),
+                                mWPlaceEditText.getText().toString(),
+                                "",
+                                mWAddressEditText.getText().toString(),
+                                shippingAddressCountry.getName()
+                        );
+                    } else {
+                        shippingAddress = new ShippingAddress(
+                                mFirstNameEditText.getText().toString(),
+                                mLastNameEditText.getText().toString(),
+                                mCompanyNameEditText.getText().toString(),
+                                mPostCodeEditText.getText().toString(),
+                                mPlaceEditText.getText().toString(),
+                                "",
+                                mAddressEditText.getText().toString(),
+                                billingAddressCountry.getName()
+                        );
+                    }
+
+                    LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().deleteShippingAddress();
+                    LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().insertShippingAddress(shippingAddress);
+
+                    UserManager userManager = new UserManager(getApplication());
+                    Customer customer = userManager.getCustomer();
+
+//                    long customerId = LocalDb.getDatabase(getBaseContext()).getCustomerDAO().addCustomer(
+//                            new Customer(
+//                                    mFirstNameEditText.getText().toString(),
+//                                    mLastNameEditText.getText().toString(),
+//                                    mEmailEditText.getText().toString(),
+//                                    mStreetNameEditText.getText().toString(),
+//                                    mAddressEditText.getText().toString(),
+//                                    mPostCodeEditText.getText().toString(),
+//                                    mPlaceEditText.getText().toString(),
+//                                    mWorkshopLocationCountrySpnr.getSelectedItem().toString(),
+//                                    mLocationCountrySpnr.getSelectedItem().toString()
+//                            )
+//                    );
+
+
+                    // TODO: Add shipping address, billing video, reservation system, distance & price
+
+                    LocalDb.getDatabase(getBaseContext()).getOrderDAO().deleteOrder();
+                    LocalDb.getDatabase(getBaseContext()).getOrderDAO().insertOrder(
+                            new Order(
+                                    "pending",
+                                    customer.getId(),
+                                    billingAddressId,
+                                    -1,
+                                    "unknown",
+                                    "unknown",
+                                    mWorkshopInfoText.getText().toString().replace("\n", " "),
+                                    Integer.parseInt((mCJPEditText.getText().toString().equals("")) ? "0" : mCJPEditText.getText().toString()),
+                                    (String) registrationSystemRadioButton.getText(),
+                                    (String) compilationRadioButton.getText(),
+                                    Math.round(distance * 10.0) / 10.0,
+                                    Math.round(distance * 0.56 * 100.0) / 100.0
+                            )
+                    );
+
+                    new Thread(() -> apidaoFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder())).start();
+
+                    Intent intent = new Intent(getBaseContext(), OrderSummaryActivity.class);
+                    startActivity(intent);
                 } else {
                     mErrTv.setVisibility(View.VISIBLE);
                     mErrTv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tv_err_translate_anim));
                 }
             }
         });
-
-
 
         if(LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0) != null){
             BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0);
@@ -987,7 +1074,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-
     @Override
     public void onClick(View v) {
 
@@ -996,20 +1082,18 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
     //user postcode spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Object item = mLocationCountrySpnr.getSelectedItem();
-        Object itemWorkshop = mWorkshopLocationCountrySpnr.getSelectedItem();
+        Country item = (Country) mLocationCountrySpnr.getSelectedItem();
+        Country itemWorkshop = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
 
         //USER
-        if (item == NL) {
-            Log.d(LOG_TAG, "onItemSelected: selected netherlands");
+        if (item.getName().equals("NL")) {
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
 
-        } else if (item == BE) {
-            Log.d(LOG_TAG, "onItemSelected: selected belgium");
+        } else if (item.getName().equals("BE")) {
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
                 mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
@@ -1019,15 +1103,13 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         }
 
         //Workshop
-        if (itemWorkshop == NL) {
-            Log.d(LOG_TAG, "onItemSelected: selected netherlands");
+        if (itemWorkshop.getName().equals("NL")) {
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
             mWPostCodeEditText.removeTextChangedListener(beWTextWatcher);
             mWPostCodeEditText.addTextChangedListener(nlWTextWatcher);
-        } else if (itemWorkshop == BE) {
-            Log.d(LOG_TAG, "onItemSelected: selected belgium");
+        } else if (itemWorkshop.getName().equals("BE")) {
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             }
@@ -1095,7 +1177,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             result = false;
             mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
         }
-        if (mWorkshopLocationCb.isChecked()) {
+        if (mShippingAddressCheckbox.isChecked()) {
             boolean wFName = NameValidator.isValidName(mWFirstNameEditText.getText());
             boolean wLName = NameValidator.isValidName(mWLastNameEditText.getText());
             boolean wPostal = mLocationCountrySpnr.getSelectedItem().equals(NL) ? PostcodeValidatorNL.isValidPostcode(mWPostCodeEditText.getText()) :  PostcodeValidatorBE.isValidPostcode(mWPostCodeEditText.getText());

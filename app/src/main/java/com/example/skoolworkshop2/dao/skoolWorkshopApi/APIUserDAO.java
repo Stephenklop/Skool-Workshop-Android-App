@@ -81,7 +81,8 @@ public class APIUserDAO implements UserDAO {
             e.printStackTrace();
         }
 
-        billingAddress = new BillingAddress(firstName, lastName, company, postcode, city, address, country, phone, email);
+        // TODO: Add state
+        billingAddress = new BillingAddress(firstName, lastName, company, postcode, city, "STATE" ,address, country, phone, email);
         System.out.println(billingAddress);
 
         return billingAddress;
@@ -115,7 +116,8 @@ public class APIUserDAO implements UserDAO {
             e.printStackTrace();
         }
 
-        shippingAddress = new ShippingAddress(firstName, lastName, company, postcode, city, address, country);
+        // TODO: Add state
+        shippingAddress = new ShippingAddress(firstName, lastName, company, postcode, city, "STATE" ,address, country);
         System.out.println(shippingAddress);
 
         return shippingAddress;
@@ -234,7 +236,6 @@ public class APIUserDAO implements UserDAO {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();

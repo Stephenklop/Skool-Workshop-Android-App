@@ -22,4 +22,10 @@ public interface ShoppingCartDAO {
 
     @Query("SELECT * FROM ShoppingCartItem")
     List<ShoppingCartItem> getItemsInShoppingCart();
+
+    @Query("SELECT SUM(totalPrice) FROM ShoppingCartItem")
+    double getTotalShoppingCartPrice();
+
+    @Query("SELECT COUNT(id) FROM ShoppingCartItem")
+    int getAmountOfShoppingCartItems();
 }

@@ -5,66 +5,44 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.io.Serializable;
-
 @Entity
-public class ShippingAddress implements Serializable {
+public class ShippingAddress {
+    @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
+    private int id;
+
     @ColumnInfo
     private String firstName;
+
     @ColumnInfo
     private String lastName;
+
     @ColumnInfo
     private String company;
+
     @ColumnInfo
     private String postcode;
+
     @ColumnInfo
     private String city;
+
+    @ColumnInfo
+    private String state;
+
     @ColumnInfo
     private String address;
+
     @ColumnInfo
     private String country;
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo
-    private int id;
-    public ShippingAddress(String firstName, String lastName, String company, String postcode, String city, String address, String country) {
+
+    public ShippingAddress(String firstName, String lastName, String company, String postcode, String city, String state, String address, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.company = company;
         this.postcode = postcode;
         this.city = city;
+        this.state = state;
         this.address = address;
         this.country = country;
-        this.id = id++;
-    }
-
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     public int getId() {
@@ -75,13 +53,82 @@ public class ShippingAddress implements Serializable {
         this.id = id;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @Override
     public String toString() {
-        return
-                company + '\n' + firstName + " " + lastName + '\n' +
-                        address + '\n' +
-                        postcode + ' ' +
-                        city + '\n' +
-                        country;
+        return "ShippingAddress{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", company='" + company + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }
