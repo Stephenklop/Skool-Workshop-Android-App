@@ -102,7 +102,6 @@ public class AccountDataActivity extends AppCompatActivity {
 
 
 
-        // FIXME: DE HELFT VAN DE ACTIVITY STAAT IN DE ONCLICK LISTENER VAN DE UPDATE BUTTON
         //button update account information
         View updateAccountInfo = findViewById(R.id.activity_account_data_btn_confirm);
         updateAccountInfo.setOnClickListener(new View.OnClickListener() {

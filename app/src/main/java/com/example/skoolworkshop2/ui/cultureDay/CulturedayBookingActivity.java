@@ -445,7 +445,6 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: Check if maxParticipants is indeed 25
                 if(!mParticipantsGraffitiThsirtEditText.equals("")) {
                     if (participantsItemValidator.isValidParticipantsItemValidator(s.toString(), 25)) {
                         mParticipantsGraffitiThsirtEditText.setBackgroundResource(R.drawable.edittext_confirmed);
@@ -493,7 +492,6 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: Check learning level validator
                 if(!mLearningLevelValidator.isValidLearningLevels(s.toString())){
                     mLearningLevelEditText.setBackgroundResource(R.drawable.edittext_error);
                     mLearningLevelValidator.mIsValid = false;
@@ -657,7 +655,6 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
             // Avoid duplicate categories showing up
             if (result.stream().noneMatch(o -> o.equals(category)) && !category.isEmpty()) {
-                // TODO: Fix empty category
                 result.add(category);
             }
         }
@@ -669,7 +666,6 @@ public class CulturedayBookingActivity extends FragmentActivity {
         List<String> result = new ArrayList<>();
         List<Product> products;
 
-        // TODO: Add all category
         if (category.equals("")) {
             products = mWorkshops;
         } else {

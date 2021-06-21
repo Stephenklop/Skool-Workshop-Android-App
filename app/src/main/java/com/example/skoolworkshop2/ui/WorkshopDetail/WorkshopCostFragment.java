@@ -22,7 +22,6 @@ public class WorkshopCostFragment extends Fragment {
                                  Bundle savedInstanceState) {
             View root = inflater.inflate(R.layout.fragment_workshop_costs, container, false);
             mDescriptionTv = root.findViewById(R.id.fragment_workshop_costs_tv_txt);
-            // TODO: Add text
             mDescriptionTv.setText(Html.fromHtml(workshop.getCostsInfo(), Html.FROM_HTML_MODE_COMPACT));
 
             return root;

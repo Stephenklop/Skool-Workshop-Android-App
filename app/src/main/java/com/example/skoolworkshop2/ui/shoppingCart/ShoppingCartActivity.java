@@ -81,7 +81,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         totalPriceTitleTextView.setText("Subtotaal (" + shoppingCartItems.size() + ")");
 
         totalPriceTextView = findViewById(R.id.activity_shopping_cart_tv_total_cost_value);
-        // TODO: Add price
         totalPriceTextView.setText("€" + String.format("%.2f", calculateTotalPrice()).replace(".", ","));
 
         orderButton = findViewById(R.id.activity_shopping_cart_btn_confirm);

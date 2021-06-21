@@ -82,7 +82,6 @@ public class APIUserDAO implements UserDAO {
             e.printStackTrace();
         }
 
-        // TODO: Add state
         billingAddress = new BillingAddress(firstName, lastName, company, postcode, city, "STATE" ,address, country, phone, email);
         System.out.println(billingAddress);
 
@@ -117,7 +116,6 @@ public class APIUserDAO implements UserDAO {
             e.printStackTrace();
         }
 
-        // TODO: Add state
         shippingAddress = new ShippingAddress(firstName, lastName, company, postcode, city, "STATE" ,address, country);
         System.out.println(shippingAddress);
 

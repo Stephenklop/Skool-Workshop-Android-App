@@ -105,7 +105,6 @@ public class NotificationsActivity extends AppCompatActivity {
         this.notificationsAdapter = new NotificationsAdapter(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications(), getApplication(), new NotificationsAdapter.ClickListener() {
             @Override
             public void onClick() {
-                //TODO ophalen notifications
                 loadNotifications();
             }
         });

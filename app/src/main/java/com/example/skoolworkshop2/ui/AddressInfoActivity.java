@@ -1020,8 +1020,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 //                    );
 
 
-                    // TODO: Add shipping address, billing video, reservation system, distance & price
-
                     LocalDb.getDatabase(getBaseContext()).getOrderDAO().deleteOrder();
                     LocalDb.getDatabase(getBaseContext()).getOrderDAO().insertOrder(
                             new Order(
