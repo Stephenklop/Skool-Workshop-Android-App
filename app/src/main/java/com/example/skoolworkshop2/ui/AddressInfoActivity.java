@@ -1014,7 +1014,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                     "unknown",
                                     "unknown",
                                     mWorkshopInfoText.getText().toString().replace("\n", " "),
-                                    Integer.parseInt(mCJPEditText.getText().toString()),
+                                    Integer.parseInt((mCJPEditText.getText().toString().equals("")) ? "0" : mCJPEditText.getText().toString()),
                                     (String) registrationSystemRadioButton.getText(),
                                     (String) compilationRadioButton.getText(),
                                     Math.round(distance * 10.0) / 10.0,
