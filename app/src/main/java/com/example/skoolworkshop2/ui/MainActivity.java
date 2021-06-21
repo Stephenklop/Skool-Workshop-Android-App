@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_home_refresh);
+        refreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

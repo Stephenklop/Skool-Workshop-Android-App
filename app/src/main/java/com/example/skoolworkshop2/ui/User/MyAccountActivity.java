@@ -70,6 +70,7 @@ public class MyAccountActivity extends AppCompatActivity {
         logOutButton.setText("Log uit");
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_account_refresh);
+        refreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

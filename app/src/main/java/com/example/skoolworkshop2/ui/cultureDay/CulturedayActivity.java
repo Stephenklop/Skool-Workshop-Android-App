@@ -1,6 +1,9 @@
 package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -21,9 +25,14 @@ import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+
+import vimeoextractor.OnVimeoExtractionListener;
+import vimeoextractor.VimeoExtractor;
+import vimeoextractor.VimeoVideo;
 
 
 public class CulturedayActivity extends FragmentActivity implements View.OnClickListener {
@@ -43,6 +52,8 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
     private ImageView mCultureDayBanner;
     private TextView mTitleTV;
     private LocalAppStorage localAppStorage;
+
+    private VideoView videoView;
 
     public CulturedayActivity() {}
 
@@ -105,6 +116,29 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
         mTabsCostTv.setOnClickListener(this);
         mTabsInfoTv.setOnClickListener(this);
 
+        initializePlayer();
+
+        AppBarLayout appBarLayout = findViewById(R.id.activity_cultureday_details_appBar);
+        ImageView playIcon = findViewById(R.id.activity_cultureday_detail_play);
+        appBarLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(videoView != null){
+                    if(videoView.isPlaying()){
+                        videoView.pause();
+                        playIcon.setVisibility(View.VISIBLE);
+                    } else if(videoView.getVisibility() == View.VISIBLE){
+                        videoView.start();
+                        playIcon.setVisibility(View.GONE);
+                    } else {
+                        playVideo();
+                        playIcon.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -130,5 +164,63 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
                     .replace(R.id.activity_cultureday_details_fragment_txt, new CulturedayCostFragment(cultureDay))
                     .commit();
         }
+    }
+
+    private void initializePlayer() {
+        System.out.println(getId(cultureDay.getVideo()));
+        VimeoExtractor.getInstance().fetchVideoWithIdentifier(getId(cultureDay.getVideo()), null, new OnVimeoExtractionListener() {
+            @Override
+            public void onSuccess(VimeoVideo video) {
+                String hdStream = video.getStreams().get("720p");
+                System.out.println("VIMEO VIDEO STREAM" + hdStream);
+                if (hdStream != null) {
+                    prepareVideo(hdStream);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    private void prepareVideo(final String stream) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                videoView = findViewById(R.id.activity_cultureday_details_vv_banner);
+
+                videoView.setBackgroundColor(Color.TRANSPARENT);
+                Uri video = Uri.parse(stream);
+                videoView.setVideoURI(video);
+                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                    }
+                });
+                videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        videoView.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void playVideo(){
+        videoView.setVisibility(View.VISIBLE);
+        videoView.requestFocus();
+        videoView.start();
+    }
+
+    private String getId(String string){
+        int i = 0;
+        while (i < string.length() && !Character.isDigit(string.charAt(i))) i++;
+        int j = i;
+        while (j < string.length() && Character.isDigit(string.charAt(j))) j++;
+        return string.substring(i, j);
     }
 }
