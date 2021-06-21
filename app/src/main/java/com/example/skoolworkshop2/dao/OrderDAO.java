@@ -10,11 +10,8 @@ import java.util.List;
 
 @Dao
 public interface OrderDAO {
-    @Query("SELECT * FROM Reservation WHERE costumerId = :userId")
     List<Reservation> getAllReservationsFromUser(int userId);
     List<Order> getAllOrders();
-    List<Order> getAllOrdersOfUser(int userId);
-    Order getOrder(int id);
     void addOrder(Order order);
     String parseOrderToJson(Order order);
 }

@@ -46,8 +46,8 @@ public class APIOrderDAO implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAllOrdersOfUser(int userId) {
-        List<Order> orders = new ArrayList<>();
+    public List<Reservation> getAllReservationsFromUser(int userId) {
+        List<Reservation> orders = new ArrayList<>();
         final String PATH = "order/" + userId;
 
         try {
@@ -78,7 +78,7 @@ public class APIOrderDAO implements OrderDAO {
         APIUserDAO dao = new APIUserDAO();
 
         Reservation order = null;
-        try{
+        try {
             int id = object.getInt("id");
             String status = object.getString("status");
             int costumerId = object.getInt("customer_id");
@@ -89,11 +89,10 @@ public class APIOrderDAO implements OrderDAO {
 
 
             order = new Reservation(id, status, date, costumerId, type);
-        } catch (JSONException e){
+        } catch (JSONException e) {
 
-    @Override
-    public Order getOrder(int id) {
-        return null;
+        }
+        return order;
     }
 
     @Override

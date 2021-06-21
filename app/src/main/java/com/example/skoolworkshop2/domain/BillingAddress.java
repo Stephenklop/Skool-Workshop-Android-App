@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class BillingAddress {
+public class BillingAddress implements Serializable {
     @ColumnInfo @PrimaryKey(autoGenerate = true) @NonNull
     private int id;
 
@@ -143,17 +145,17 @@ public class BillingAddress {
 
     @Override
     public String toString() {
-        return "BillingAddress{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", company='" + company + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", city='" + city + '\'' +
-                ", address='" + address + '\'' +
-                ", country='" + country + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        if(company.isEmpty()){
+            return firstName + " " + lastName +
+                    "\n" + address +
+                    "\n" + postcode + " " + city +
+                    "\n" + country;
+        } else {
+            return company +
+                    "\n" + firstName + " " + lastName +
+                    "\n" + address +
+                    "\n" + postcode + " " + city +
+                    "\n" + country;
+        }
     }
 }

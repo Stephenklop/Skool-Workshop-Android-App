@@ -6,7 +6,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.skoolworkshop2.dao.OrderDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.BankDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.BillingAddressDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.CustomerDAO;
@@ -54,7 +53,6 @@ public abstract class LocalDb extends RoomDatabase {
     abstract public OrderDAO getOrderDAO();
     abstract public BillingAddressDAO getBillingAddressDAO();
     abstract public ShippingAddressDAO getShippingAddressDAO();
-    abstract public OrderDAO getOrderDAO();
     abstract public SettingsEntityDAO getSettingsDAO();
 
     public static LocalDb getDatabase(final Context context){
