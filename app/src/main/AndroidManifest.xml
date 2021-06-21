@@ -60,6 +60,7 @@
             android:name=".ui.cultureDay.CulturedayQuestionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.User.ReservationActivity"/>
         <activity
             android:name=".ui.User.AccountActivity"
             android:screenOrientation="portrait"

@@ -59,6 +59,7 @@ public class Order {
         this.reservationSystem = reservationSystem;
         this.distance = distance;
         this.price = price;
+        this.date = date;
     }
 
     public int getId() {
@@ -163,5 +164,13 @@ public class Order {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
