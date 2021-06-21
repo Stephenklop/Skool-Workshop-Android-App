@@ -45,6 +45,12 @@ public class ReservationActivity extends AppCompatActivity{
         mOrderList = new ArrayList<>();
         Thread loadData = new Thread(() -> {
             mOrderList.addAll(dao.getAllReservationsFromUser(70));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mReservationAdapter.setList(mOrderList);
+                }
+            });
         });
         try {
             loadData.join();;
