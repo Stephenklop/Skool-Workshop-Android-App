@@ -361,8 +361,7 @@ public class APIUserDAO implements UserDAO {
             lastName = jsonObject.getString("last_name");
             JSONObject adress = jsonObject.getJSONObject("billing");
             String adress_1 = adress.getString("address_1");
-            //TODO what if spatie in straatnaam
-            String streetAndNumber[] = adress_1.split(" ");
+            String streetAndNumber[] = adress_1.split("(?<=\\D)(?=\\d)");
             if(streetAndNumber.length > 1){
                 street = streetAndNumber[0];
                 houseNumber = streetAndNumber[1];
