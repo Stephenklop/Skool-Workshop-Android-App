@@ -1177,7 +1177,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             result = false;
             mCJPEditText.setBackgroundResource(R.drawable.edittext_error);
         }
-        if (mShippingAddressCheckbox.isChecked()) {
+        if (mShippingAddressCheckBox.isChecked()) {
             boolean wFName = NameValidator.isValidName(mWFirstNameEditText.getText());
             boolean wLName = NameValidator.isValidName(mWLastNameEditText.getText());
             boolean wPostal = mLocationCountrySpnr.getSelectedItem().equals(NL) ? PostcodeValidatorNL.isValidPostcode(mWPostCodeEditText.getText()) :  PostcodeValidatorBE.isValidPostcode(mWPostCodeEditText.getText());
