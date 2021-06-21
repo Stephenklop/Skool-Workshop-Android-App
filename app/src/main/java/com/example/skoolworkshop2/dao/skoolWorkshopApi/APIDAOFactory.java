@@ -4,6 +4,7 @@ import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.FireBaseTokenDAO;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.NotificationDAO;
+import com.example.skoolworkshop2.dao.OrderDAO;
 import com.example.skoolworkshop2.dao.ProductDAO;
 import com.example.skoolworkshop2.dao.UserDAO;
 
@@ -33,5 +34,8 @@ public class APIDAOFactory implements DAOFactory {
         return new APINotificationDAO();
     }
 
-
+    @Override
+    public OrderDAO getOrderDAO() {
+        return new APIOrderDAO();
+    }
 }

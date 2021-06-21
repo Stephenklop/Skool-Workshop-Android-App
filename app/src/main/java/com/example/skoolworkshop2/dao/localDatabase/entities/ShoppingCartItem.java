@@ -84,7 +84,7 @@ public class ShoppingCartItem {
     private String convertIdsToString(List<Integer> ids){
         String idString = "";
         for (Integer integer : ids) {
-            idString += ids + ";";
+            idString += integer + ";";
         }
         return idString;
     }
@@ -116,6 +116,19 @@ public class ShoppingCartItem {
 
     public String getProductIds() {
         return productIds;
+    }
+
+    public List<Integer> getProductIdsList() {
+        List<Integer> result = new ArrayList<>();
+        String[] ids = productIds.split(";");
+
+        for (int i = 0; i < ids.length; i++) {
+            String item = ids[i];
+
+            result.add(Integer.parseInt(item));
+        }
+
+        return result;
     }
 
     public void addProductId(int productId) {
@@ -183,7 +196,8 @@ public class ShoppingCartItem {
     }
 
     public String getTimeSchedule() {
-        return timeSchedule;
+        // Replace the \n with a space to avoid api errors
+        return timeSchedule.replace("\n", " ");
     }
 
     public void setTimeSchedule(String timeSchedule) {

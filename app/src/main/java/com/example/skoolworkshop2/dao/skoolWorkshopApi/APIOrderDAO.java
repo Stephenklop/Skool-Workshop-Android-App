@@ -1,7 +1,6 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
 import android.util.Log;
-
 import androidx.room.FtsOptions;
 
 import com.example.skoolworkshop2.dao.OrderDAO;
@@ -18,6 +17,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
+
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -25,7 +32,8 @@ import javax.net.ssl.HttpsURLConnection;
 public class APIOrderDAO implements OrderDAO {
 
     private final String TAG = getClass().getSimpleName();
-    private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api";
+    private final String BASE_URL = "https://skool-workshop-api.herokuapp.com/api/";
+
     private HttpsURLConnection connection;
 
     private void connect(String url) throws Exception {
@@ -33,10 +41,14 @@ public class APIOrderDAO implements OrderDAO {
         connection = (HttpsURLConnection) connectionUrl.openConnection();
     }
 
+    public List<Order> getAllOrders() {
+        return null;
+    }
+
     @Override
-    public List<Reservation> getAllReservationsFromUser(int userId) {
-        List<Reservation> orders = new ArrayList<>();
-        final String PATH = "/order/" + userId;
+    public List<Order> getAllOrdersOfUser(int userId) {
+        List<Order> orders = new ArrayList<>();
+        final String PATH = "order/" + userId;
 
         try {
             connect(BASE_URL + PATH);
@@ -51,6 +63,7 @@ public class APIOrderDAO implements OrderDAO {
                 for(int i = 0; i < input.length(); i++){
                     orders.add(parseReservation(input.getJSONObject(i)));
                     Log.d(TAG, "order: " + parseReservation(input.getJSONObject(i)));
+
                 }
 
             }
@@ -77,11 +90,187 @@ public class APIOrderDAO implements OrderDAO {
 
             order = new Reservation(id, status, date, costumerId, type);
         } catch (JSONException e){
+
+    @Override
+    public Order getOrder(int id) {
+        return null;
+    }
+
+    @Override
+    public void addOrder(Order order) {
+        final String PATH = "order";
+
+        try {
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+            String jsonInput = parseOrderToJson(order);
+            System.out.println("JSON STRING: " + jsonInput);
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String parseOrderToJson(Order order) {
+        LocalDb localDb = LocalDb.getDatabase(SplashScreenActivity.application);
+        Customer customer = localDb.getCustomerDAO().getCustomer();
+        BillingAddress billingAddress = localDb.getBillingAddressDAO().getBillingAddress();
+        ShippingAddress shippingAddress = localDb.getShippingAddressDAO().getShippingAddress();
+        List<ShoppingCartItem> shoppingCartItems = LocalDb.getDatabase(SplashScreenActivity.application).getShoppingCartDAO().getItemsInShoppingCart();
+        StringBuilder result = new StringBuilder();
+
+        result.append("{" +
+                "  \"status\": \"" + order.getStatus() + "\"," +
+                "  \"customer_id\": " + order.getCustomerId() + "," +
+                "  \"billing\": {" +
+                "    \"first_name\": \"" + customer.getFirstName() + "\"," +
+                "    \"last_name\": \"" + customer.getLastName() + "\"," +
+                "    \"company\": \"" + billingAddress.getCompany() + "\"," +
+                "    \"address_1\": \"" + billingAddress.getAddress() + "\"," +
+                "    \"address_2\": \"\"," +
+                "    \"city\": \"" + billingAddress.getCity() + "\"," +
+                "    \"state\": \"" + billingAddress.getState() + "\"," +
+                "    \"postcode\": \"" + billingAddress.getPostcode() + "\"," +
+                "    \"country\": \"" + billingAddress.getCountry() + "\"," +
+                "    \"email\": \"" + billingAddress.getEmail() + "\"," +
+                "    \"phone\": \"" + billingAddress.getPhone() + "\"" +
+                "  }," +
+                "  \"shipping\": {" +
+                "    \"first_name\": \"" + customer.getFirstName() + "\"," +
+                "    \"last_name\": \"" + customer.getLastName() + "\"," +
+                "    \"company\": \"" + shippingAddress.getCompany() + "\"," +
+                "    \"address_1\": \"" + shippingAddress.getAddress() + "\"," +
+                "    \"address_2\": \"\"," +
+                "    \"city\": \"" + shippingAddress.getCity() + "\"," +
+                "    \"state\": \"" + shippingAddress.getState() + "\"," +
+                "    \"postcode\": \"" + shippingAddress.getPostcode() + "\"," +
+                "    \"country\": \"" + shippingAddress.getCountry() + "\"" +
+                "  }," +
+                "  \"payment_method\": \"" + order.getPaymentMethod() + "\"," +
+                "  \"payment_method_title\": \"" + order.getPaymentMethodTitle() + "\"," +
+                "  \"customer_note\": \"" + order.getCustomerNote() + "\"," +
+                "  \"billing_CJP\": " + order.getBillingCJP() + "," +
+                "  \"billing_video\": \"" + order.getBillingVideo() + "\"," +
+                "  \"reservation_system\": \"" + order.getReservationSystem() + "\"," +
+                "  \"line_items\": ["
+        );
+
+        for (int i = 0; i < shoppingCartItems.size(); i++) {
+            result.append(parseShoppingCartItemToJson(shoppingCartItems.get(i)));
+
+            if (shoppingCartItems.size() != i + 1) {
+                result.append(",");
+            }
+        }
+
+        result.append("]," +
+                    "  \"shipping_lines\": {" +
+                    "    \"distance\": 7.2," +
+                    "    \"price\": 4.03" +
+                    "  }" +
+                    "}"
+        );
+
+        return result.toString();
+    }
+
+    private String parseShoppingCartItemToJson(ShoppingCartItem shoppingCartItem) {
+        StringBuilder result = new StringBuilder();
+
+        Product product = LocalDb.getDatabase(SplashScreenActivity.application).getProductDAO().getProduct(shoppingCartItem.getProductId());
+
+        result.append("{" +
+                "      \"name\": \"" + product.getName() + "\"," +
+                "      \"product_id\": " + product.getProductId() + "," +
+                "      \"quantity\": 1," +
+                "      \"subtotal\": " + shoppingCartItem.getTotalPrice() + "," +
+                "      \"total\": " + (shoppingCartItem.getTotalPrice() + shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
+                "      \"participants\": " + shoppingCartItem.getParticipants() + "," +
+                "      \"participants_total_cost\": " + (shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
+                "      \"workshop_rounds\": " + shoppingCartItem.getRounds() + "," +
+                "      \"workshop_round_minutes\": " + shoppingCartItem.getRoundDuration() + ",");
+
+        if (shoppingCartItem.isWorkshop()) {
+            result.append("\"total_duration\": " + (shoppingCartItem.getRoundDuration() * shoppingCartItem.getRounds()) + "," +
+                    "      \"total_duration_price\": " + shoppingCartItem.getTotalPrice() + ",");
+        } else {
+            result.append("\"culture_day\": {" +
+                    "        \"workshops_per_round\": " + shoppingCartItem.getWorkshopPerWorkshopRound() + "," +
+                    "        \"workshops\": ["
+            );
+
+            for (int i = 0; i < shoppingCartItem.getProductIdsList().size(); i++) {
+                int productId = shoppingCartItem.getProductIdsList().get(i);
+
+                result.append("\"" + productId + "\"");
+
+                if (shoppingCartItem.getProductIdsList().size() != i + 1) {
+                    result.append(",");
+                }
+            }
+
+            result.append("]," +
+                    "        \"total_participants\": 20," +
+                    "        \"price\": 1674," +
+                    "        \"total_minutes\": 720" +
+                    "      }," +
+                    "      \"total_duration\": 0," +
+                    "      \"total_duration_price\": 0,");
+
+        }
+
+        // TODO: Fix \n at timeschedule
+        result.append("\"timetable\": \"" + shoppingCartItem.getTimeSchedule() + "\"," +
+                "      \"learning_level\": \"" + shoppingCartItem.getLearningLevel() + "\"," +
+                "      \"booking_info\": {" +
+                "        \"start_date\": \"\"," +
+                "        \"end_date\": \"\"," +
+                "        \"booking_status\": \"unpaid\"" +
+                "      }" +
+                "    }");
+
+        return result.toString();
+    }
+
+    public Order parseJsonToOrder(JSONObject object) throws JSONException {
+        Order order = null;
+        BillingAddress address = (BillingAddress) object.get("billing");
+        ShippingAddress shippingAddress = (ShippingAddress) object.get("shipping");
+
+        try {
+            String status = object.getString("status");
+            int costumerId = object.getInt("costumer_id");
+            int billingId = address.getId();
+            int shippingId = shippingAddress.getId();
+            String paymentMethod = object.getString("payment_method");
+            String paymentMethodTitle = object.getString("payment_method_title");
+            String costumerNote = object.getString("customer_note");
+            int billingCJP = object.getInt("billing_CJP");
+            String billingVideo = object.getString("billing_video");
+            String reservationSystem = object.getString("reservation_system");
+            JSONArray shippingLines = object.getJSONArray("shipping_lines");
+            JSONObject shippingObject = shippingLines.getJSONObject(0);
+            Double distance = shippingObject.getDouble("distance");
+            Double price = shippingObject.getDouble("price");
+            order = new Order(status, costumerId, billingId, shippingId, paymentMethod, paymentMethodTitle, costumerNote, billingCJP, billingVideo, reservationSystem, distance, price);
+        } catch (JSONException e) {
+
             e.printStackTrace();
         }
 
         return order;
-
     }
 
 }

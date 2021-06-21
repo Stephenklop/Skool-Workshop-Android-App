@@ -75,9 +75,9 @@ public class WorkshopItem implements Serializable, ProductItem {
         double result;
 
         if (product.getName().toLowerCase().contains("graffiti") || product.getName().toLowerCase().contains("t-shirt")) {
-            result = (participants * 7.50) + ((roundDuration * rounds) * 2.50);
+            result = 25 + (participants * 7.50) + ((roundDuration * rounds) * 2.50);
         } else {
-            result = (roundDuration * rounds) * 2.50;
+            result = 25 + (roundDuration * rounds) * 2.50;
         }
 
         return result;

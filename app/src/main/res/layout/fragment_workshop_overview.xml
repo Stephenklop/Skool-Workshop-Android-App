@@ -57,39 +57,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_tv_price" />
 
-        <include
-            android:id="@+id/fragment_workshop_overview_btn_booking"
-            layout="@layout/component_button_large"
+
+        <LinearLayout
+            android:layout_marginTop="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-
-            app:layout_constraintTop_toBottomOf="@id/fragment_worksjop_overview_tv_details" />
-
-        <TextView
-            android:id="@+id/fragment_workshop_overview_tv_div"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="@font/proxima_nova_semibold"
-            android:text="of"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_btn_booking" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_worksjop_overview_tv_details">
 
-        <include
-            android:id="@+id/fragment_workshop_overview_btn_info"
-            layout="@layout/component_button_large_border"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_tv_div" />
+            <include
+                android:id="@+id/fragment_workshop_overview_btn_booking"
+                layout="@layout/component_button_large"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_worksjop_overview_tv_details"
+                android:layout_weight="1" />
 
+            <TextView
+                android:id="@+id/fragment_workshop_overview_tv_div"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="of"
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_btn_booking" />
 
+            <include
+                android:id="@+id/fragment_workshop_overview_btn_info"
+                layout="@layout/component_button_large_border"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_workshop_overview_tv_div"
+                android:layout_weight="1"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.logic.notifications;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.collection.ArrayMap;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +23,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
+
 public class MessagingService extends FirebaseMessagingService {
     private static final String TAG = MessagingService.class.getSimpleName();
     public static String messageData = "";
@@ -37,6 +41,19 @@ public class MessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         Room.databaseBuilder(this, LocalDb.class, "LocalDb");
+
+        ArrayMap<String, String> messageInput = (ArrayMap<String, String>) remoteMessage.getData();
+        System.out.println(messageInput.toString());
+        String title = messageInput.get("Title");
+        String description = messageInput.get("Message");
+        String url = messageInput.get("Url");
+        if(messageInput.get("Id") != null){
+            int id = Integer.parseInt((messageInput.get("Id")));
+            Notification notification = new Notification(id, title, description, url, false);
+            System.out.println(notification.toString());
+
+            LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+        }
 
 //        messageData = remoteMessage.getData().toString();
 

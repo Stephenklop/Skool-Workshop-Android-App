@@ -148,7 +148,7 @@ public class MyAccountActivity extends AppCompatActivity {
         //third icon
         View icon3 = findViewById(R.id.activity_my_account_item_reservations);
         TextView textIcon3 = icon3.findViewById(R.id.item_dashboard_tv_txt);
-        textIcon3.setText("Reserveringen");
+        textIcon3.setText("Boekingen");
         ImageView imageIcon3 = icon3.findViewById(R.id.item_dashboard_img_icon);
         imageIcon3.setImageResource(R.drawable.ic_folder);
         icon3.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +193,10 @@ public class MyAccountActivity extends AppCompatActivity {
                         LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
                         System.out.println("deleted user");
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted billing address");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteAdress();
+                        System.out.println("deleted shipping address");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteShippingAddress();
                         System.out.println("deleted customer");
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     }

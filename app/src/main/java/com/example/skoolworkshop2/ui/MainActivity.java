@@ -26,9 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.Notification;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Product;
@@ -46,6 +48,7 @@ import com.example.skoolworkshop2.ui.notifications.NotificationsActivity;
 import com.example.skoolworkshop2.ui.workshop.WorkshopActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         TextView pointsTv = points.findViewById(R.id.item_points_tv_points);
 
         TextView greeting = findViewById(R.id.activity_home_tv_greeting);
-        greeting.setText("Goedendag,");
+        greeting.setText("Goedendag");
 
         if (iem.hasInfo()) {
             LinearLayout noAccount = findViewById(R.id.activity_home_ll_portal_msg);
@@ -124,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             points.setVisibility(View.VISIBLE);
 
             if (!iem.getCustomer().getFirstName().isEmpty()) {
-                greeting.setText("Goedendag " + iem.getCustomer().getFirstName());
+                greeting.setText("Goedendag, " + iem.getCustomer().getFirstName());
             } else {
-                greeting.setText("Goedendag " + iem.getInfo().getUsername());
+                greeting.setText("Goedendag, " + iem.getInfo().getUsername());
             }
 
 
@@ -146,15 +149,15 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
 
             String moneyStrStart = "Waarde ";
-            String moneyStr = moneyStrStart + "€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-";
+            String moneyStr = moneyStrStart + "€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03));
             Spannable moneySpannable = new SpannableString(moneyStr);
             moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
                     moneyStrStart.length(),
-                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    moneyStrStart.length() + ("€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03))).length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             moneySpannable.setSpan(new RelativeSizeSpan(1.2f),
                     moneyStrStart.length(),
-                    moneyStrStart.length() + ("€" + (1.00 * iem.getInfo().getPoints() * 0.03) + ",-").length(),
+                    moneyStrStart.length() + ("€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03))).length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             moneyPoints.setText(moneySpannable, TextView.BufferType.SPANNABLE);
         }
@@ -239,6 +242,26 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
                         LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().insertArticles(newsArticleDAO.getAllArticles());
                         newsArticles = LocalDb.getDatabase(getBaseContext()).getNewsArticleDAO().getAllNewsArticlesOrderedByDate();
 
+                        DAOFactory apidaoFactory = new APIDAOFactory();
+                        ArrayList<Notification> notifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForTopic("main");
+                        for (Notification notification : notifications) {
+                            try{
+                                LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                            }catch (Exception e){
+                                System.out.println("Notification bestaat al");
+                            }
+                        }
+                        if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                            ArrayList<Notification> personalNotifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
+                            for (Notification notification : personalNotifications) {
+                                try{
+                                    LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                                }catch (Exception e){
+                                    System.out.println("Notification bestaat al");
+                                }
+                            }
+                        }
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -295,5 +318,11 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
         Intent appBrowserIntent = new Intent(getApplicationContext(), WebViewActivity.class);
         appBrowserIntent.putExtra("url", newsArticles.get(position).getUrl());
         startActivity(appBrowserIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setNotificationText();
     }
 }

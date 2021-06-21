@@ -76,12 +76,12 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         // Loading billing addresses
         Log.d(LOG_TAG, "onCreate: " + iem.getAddresses());
         Log.d(LOG_TAG, "onCreate: id: " + iem.getInfo().getBillingAddressId());
-        billingAddress = iem.getBillingAddress(iem.getInfo().getBillingAddressId());
+        billingAddress = iem.getBillingAddress();
         Log.d(LOG_TAG, "onCreate: billingaddress: " + billingAddress);
         // Loading shipping adresses
         Log.d(LOG_TAG, "onCreate: " + iem.getShippingAddresses());
         Log.d(LOG_TAG, "onCreate: id: " + iem.getInfo().getShippingAddressId());
-        shippingAddress = iem.getShippingAddress(iem.getInfo().getShippingAddressId());
+        shippingAddress = iem.getShippingAddress();
         Log.d(LOG_TAG, "onCreate: shippingAddress: " + shippingAddress);
         // checking if layout should contain object or not
         if (billingAddress != null){
@@ -115,6 +115,7 @@ public class InvoiceAdressActivity extends AppCompatActivity {
         if(shippingAddress != null){
             shippingChecker = true;
             mInvoiceShippingTextView.setText(shippingAddress.toString());
+            mInvoiceShippingAddressLayout.removeView(mInvoiceShippingTextView);
             mInvoiceShippingAddressLayout.addView(mInvoiceShippingTextView);
             mInvoiceShippingAddressImageButton.setBackgroundResource(R.drawable.ic_edit);
             mInvoiceShippingAddressImageButton.setOnClickListener(new View.OnClickListener() {
@@ -142,4 +143,4 @@ public class InvoiceAdressActivity extends AppCompatActivity {
 
 
     }
-    }
+}

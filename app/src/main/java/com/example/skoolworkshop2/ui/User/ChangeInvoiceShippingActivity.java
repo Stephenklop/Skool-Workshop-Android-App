@@ -1,6 +1,8 @@
 package com.example.skoolworkshop2.ui.User;
 
 import android.content.Intent;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +24,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.UserDAO;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Country;
 import com.example.skoolworkshop2.domain.ShippingAddress;
@@ -38,6 +45,7 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcod
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
 import com.example.skoolworkshop2.ui.CountryArrayAdapter;
 
+import java.sql.SQLOutput;
 import java.sql.Statement;
 
 public class ChangeInvoiceShippingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -53,6 +61,9 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     private TelValidator telValidator = new TelValidator();
     private EmailValidator emailValidator = new EmailValidator();
     private CountryValidator countryValidator = new CountryValidator();
+
+    private Country netherlands;
+    private Country belgium;
     // Watchers
     private TextWatcher nlTextWatcher;
     private TextWatcher beTextWatcher;
@@ -75,6 +86,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     private Button mSubmitButton;
     // Checker
     private ShippingAddress shippingAddress;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -205,8 +217,8 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         // Spinner
         NL = this.getDrawable(R.drawable.ic_flag_of_the_netherlands);
         BE = this.getDrawable(R.drawable.ic_flag_of_belgium);
-        Country netherlands = new Country(NL, "Nederland");
-        Country belgium = new Country(BE, "België");
+         netherlands = new Country(NL, "Nederland");
+         belgium = new Country(BE, "België");
         mLocationCountrySpnr = findViewById(R.id.activity_change_workshop_location_spnr_country);
         mLocationCountrySpnr.setAdapter(new CountryArrayAdapter(this, new Country[]{netherlands, belgium}));
         mLocationCountrySpnr.setSelection(1);
@@ -408,11 +420,13 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
                 Log.d(LOG_TAG, "onCreate: part 2: " + house);
 
                 mPlaceEditText.setText(shippingAddress.getCity());
-                mStreetNameEditText.setText(stb.toString());
+                mStreetNameEditText.setText(stb.toString().trim());
                 mHouseNumberEditText.setText(house);
                 mCountryEditText.setText(shippingAddress.getCountry());
             }
         }
+
+
         // Textwatchers
         nlTextWatcher = new TextWatcher() {
             @Override
@@ -440,6 +454,7 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         };
         mPostCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -488,34 +503,34 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DAOFactory apiDaoFactory = new APIDAOFactory();
+                UserDAO userDAO = apiDaoFactory.getUserDAO();
+                enableLoadingIndicator();
 
-                if (nameValidator.isValid() && placeValidator.isValid() && houseNumberValidator.isValid() && countryValidator.isValid() && streetnameValidator.isValid() && telValidator.isValid() && emailValidator.isValid()) {
+                if (nameValidator.isValid() && placeValidator.isValid() && houseNumberValidator.isValid() && countryValidator.isValid() && streetnameValidator.isValid()) {
                     // Making address
                     ShippingAddress address = new ShippingAddress(mFirstNameEditText.getText().toString(), mLastNameEditText.getText().toString(), mCompanyNameEditText.getText().toString(), mPostCodeEditText.getText().toString(), mPlaceEditText.getText().toString(), mStreetNameEditText.getText().toString() + " " + mHouseNumberEditText.getText().toString(), mCountryEditText.getText().toString());
-                    if(InvoiceAdressActivity.shippingChecker = true){
-                        // Making intent
-                        Intent intent = new Intent(getApplicationContext(), InvoiceAdressActivity.class);
-                        iem.deleteShippingAddress(address.getId());
-                        iem.insertShippingAddress(address);
-                        // Update user to link the billingaddress id
-                        iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), iem.getInfo().getShippingAddressId(), address.getId()));
-                        // Let invoiceAddressActivity know there are item(s) now
-                        InvoiceAdressActivity.shippingChecker = true;
-                        // Start the activity
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(getApplicationContext(), InvoiceAdressActivity.class);
-                        // Inserting address into db
-                        iem.insertShippingAddress(address);
-                        // Update user to link the billingaddress id
-                        iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), iem.getInfo().getShippingAddressId(), address.getId()));
-                        // Let invoiceAddressActivity know there are item(s) now
-                        InvoiceAdressActivity.shippingChecker = true;
-                        // Start the activity
-                        startActivity(intent);
-                    }
+                    // Making intent
+                    Intent intent = new Intent(getApplicationContext(), InvoiceAdressActivity.class);
+                    iem.deleteShippingAddress();
+                    iem.insertShippingAddress(address);
+                    // Update user to link the billingaddress id
+                    iem.updateInfo(new User(iem.getInfo().getId(), iem.getInfo().getEmail(), iem.getInfo().getUsername(), iem.getInfo().getPoints(), iem.getInfo().getShippingAddressId(), address.getId()));
+                    // Let invoiceAddressActivity know there are item(s) now
+                    // Start the activity
+
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            userDAO.updateShipping(address);
+                            startActivity(intent);
+                        }
+                    });
+                    t.start();
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Something isnt valid", Toast.LENGTH_SHORT).show();
+                    disableLoadingIndicator();
                 }
             }
         });
@@ -524,19 +539,26 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object item = mLocationCountrySpnr.getSelectedItem();
-        if (item == NL) {
+        if (item == netherlands) {
             Log.d(LOG_TAG, "onItemSelected: selected netherlands");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText().toString())){
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }else {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
-        } else if (item == BE) {
+        } else if (item == belgium) {
             Log.d(LOG_TAG, "onItemSelected: selected belgium");
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if(PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText().toString())){
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }else {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                }
             }
-            mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mPostCodeEditText.removeTextChangedListener(nlTextWatcher);
             mPostCodeEditText.addTextChangedListener(beTextWatcher);
         }
@@ -544,5 +566,36 @@ public class ChangeInvoiceShippingActivity extends AppCompatActivity implements 
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    private void enableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.VISIBLE);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        loadingAlert.setAlpha(0);
+        loadingAlert.setVisibility(View.VISIBLE);
+        loadingAlert.animate().alpha(1).setDuration(200).start();
+        avd.start();
+    }
+
+    private void disableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.GONE);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        loadingAlert.setAlpha(1);
+        loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
+                loadingIndicator.setVisibility(View.GONE)
+        ).start();
+        avd.stop();
     }
 }

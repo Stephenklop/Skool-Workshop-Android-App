@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -105,24 +106,37 @@ public class AccountActivity extends AppCompatActivity {
         mEmailEditText = findViewById(R.id.activity_login_et_username);
         mEmailEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
-
-                if(!emailValidator.isValidEmail(charSequence.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_error);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!mEmailEditText.equals("")) {
+                        emailValidator.mIsValid = true;
+                    } else{
+                    emailValidator.mIsValid = false;
                 }
+
+
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                if(emailValidator.isValidEmail(editable.toString())){
-                    mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    emailValidator.mIsValid = true;
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(emailValidator.isValid()) {
+                        mEmailEditText.setBackgroundResource(R.drawable.edittext_default);
+
+                    }
+                } else{
+                    mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -138,18 +152,30 @@ public class AccountActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mPasswordEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if(!mPasswordEditText.equals("")) {
+                        passwordValidator.mIsValid = true;
 
-                if(!passwordValidator.isValidPassword(charSequence.toString())){
-                    mPasswordEditText.setBackgroundResource(R.drawable.edittext_error);
+
+                } else {
+                    passwordValidator.mIsValid = false;
                 }
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(passwordValidator.isValidPassword(editable.toString())){
-                    mPasswordEditText.setBackgroundResource(R.drawable.edittext_confirmed);
-                    passwordValidator.mIsValid = true;
+
+            }
+        });
+        mPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(passwordValidator.isValid()) {
+                        mPasswordEditText.setBackgroundResource(R.drawable.edittext_default);
+                    }
+                } else{
+                    mPasswordEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
         });
@@ -169,9 +195,7 @@ public class AccountActivity extends AppCompatActivity {
         mForgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent forgotPassIntent = new Intent(getApplicationContext(), WebViewActivity.class);
-                forgotPassIntent.putExtra("url", "https://skoolworkshop.nl/account/wachtwoord-vergeten/");
-                startActivity(forgotPassIntent);
+                startActivity(new Intent(getApplicationContext(), WebViewActivity.class).putExtra("url", "https://skoolworkshop.nl/account/wachtwoord-vergeten/"));
             }
         });
 
@@ -180,13 +204,14 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 enableLoadingIndicator();
+                mLoginButton.setEnabled(false);
                 APIUserDAO apiUserDAO = new APIUserDAO();
 
                 if(emailValidator.isValid() && passwordValidator.isValid()){
                     Thread loadUser = new Thread(() -> {
                         User user = apiUserDAO.signUserIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
                         Bundle bundle = new Bundle();
-                        bundle.putString("USERNAME", user.getUsername());
+//                        bundle.putString("USERNAME", user.getUsername());
                         um.insertInfo(user);
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
 
@@ -202,13 +227,7 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 } else {
                     disableLoadingIndicator();
-                    if(!emailValidator.isValid() && !passwordValidator.isValid()){
-                        Toast.makeText(getApplicationContext(), "Email and password are incorrect given", Toast.LENGTH_SHORT).show();
-                    } else if (!emailValidator.isValid() && passwordValidator.isValid()){
-                        Toast.makeText(getApplicationContext(), "Email is incorrect given", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Password is incorrect given", Toast.LENGTH_SHORT).show();
-                    }
+                    mLoginButton.setEnabled(true);
                 }
             }
         });
@@ -236,6 +255,8 @@ public class AccountActivity extends AppCompatActivity {
     private void enableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.VISIBLE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
             @Override
@@ -252,6 +273,8 @@ public class AccountActivity extends AppCompatActivity {
     private void disableLoadingIndicator() {
         LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
         ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.GONE);
         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
         loadingAlert.setAlpha(1);
         loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->

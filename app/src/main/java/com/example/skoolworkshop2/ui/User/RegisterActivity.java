@@ -34,6 +34,7 @@ import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.EmailValidator;
 import com.example.skoolworkshop2.logic.validation.PasswordValidator;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
+import com.example.skoolworkshop2.ui.WebViewActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -44,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPasswordEditText;
     private Button mSubmitButton;
     private TextView mLoginTextView;
+    private TextView mPassHintTv;
     private final String LOG_TAG = getClass().getSimpleName();
 
     // Validators
@@ -59,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-
+        mPassHintTv = findViewById(R.id.activity_register_tv_pass_hint);
 
         View root = findViewById(R.id.activity_register);
         MenuController menuController = new MenuController(root);
@@ -121,6 +123,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        mPasswordEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                mPassHintTv.setVisibility(View.VISIBLE);
+            } else {
+                mPassHintTv.setVisibility(View.GONE);
+            }
+        });
+
         // Submit
         mSubmitButton = findViewById(R.id.activity_register_btn_register);
         mSubmitButton.setText("Registreren");
@@ -178,7 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvPrivacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://skoolworkshop.nl/privacybeleid/")));
+                startActivity(new Intent(getApplicationContext(), WebViewActivity.class).putExtra("url", "https://skoolworkshop.nl/privacybeleid/"));
             }
         });
     }

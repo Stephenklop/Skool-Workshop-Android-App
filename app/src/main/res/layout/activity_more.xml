@@ -40,7 +40,7 @@
                 android:text="SkoolPartner Portaal"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/text_white_btn_states"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -55,7 +55,7 @@
                 android:text="Instellingen"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/text_white_btn_states"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -70,7 +70,22 @@
                 android:text="Over ons"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/text_white_btn_states"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/activity_more_btn_contact"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_white"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:paddingHorizontal="25dp"
+                android:text="Contact"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/text_white_btn_states"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -85,7 +100,7 @@
                 android:text="Veel gestelde vragen"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/text_white_btn_states"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -93,14 +108,14 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/btn_white"
                 android:fontFamily="@font/proxima_nova_semibold"
                 android:paddingHorizontal="25dp"
                 android:text="Quiz"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/text_white_btn_states"
                 android:textSize="18sp" />
 
         </LinearLayout>
