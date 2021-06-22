@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
+import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
 public class activity_email_result extends AppCompatActivity {
     private ImageView mResponseImg;
@@ -20,6 +21,7 @@ public class activity_email_result extends AppCompatActivity {
     private Button mContinueBtn;
 
     private Product workshop;
+    private Product cultureDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +29,24 @@ public class activity_email_result extends AppCompatActivity {
         setContentView(R.layout.activity_email_result);
 
         workshop = (Product) getIntent().getSerializableExtra("workshop");
+        cultureDay = (Product) getIntent().getSerializableExtra("cultureDay");
         boolean failed = getIntent().getBooleanExtra("failed", false);
 
         mResponseImg = findViewById(R.id.activity_mollie_result_img_response);
         mResponseTv = findViewById(R.id.activity_mollie_result_tv_response);
         mContinueBtn = findViewById(R.id.activity_mollie_result_btn_continue);
 
-        mContinueBtn.setText("Terug naar de workshop");
+        if(workshop != null){
+            mContinueBtn.setText("Terug naar de workshop");
+        } else {
+            mContinueBtn.setText("Terug naar de cultuurdag");
+        }
         mContinueBtn.setOnClickListener(v -> {
-            startActivity(new Intent(activity_email_result.this, WorkshopDetailActivity.class).putExtra("workshop", workshop));
+            if(workshop != null){
+                startActivity(new Intent(activity_email_result.this, WorkshopDetailActivity.class).putExtra("workshop", workshop));
+            } else {
+                startActivity(new Intent(activity_email_result.this, CulturedayActivity.class));
+            }
         });
 
         if(failed){

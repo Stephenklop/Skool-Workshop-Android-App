@@ -31,9 +31,11 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.activity_email_result;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.Mail;
+import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -74,6 +76,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private WorkshopParticipantsValidator workshopParticipantsValidator = new WorkshopParticipantsValidator();
 
     private DatePickerDialog datePickerDialog;
+    private Product cultureDay;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -85,6 +88,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
+
+        cultureDay = (Product) getIntent().getSerializableExtra("cultureDay");
 
         datePickerDialog = new DatePickerDialog(this,R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
@@ -523,6 +528,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                         @Override
                         public void run() {
                             daoFactory.getEmailDAO().sendMail(mail);
+                            startActivity(new Intent(CulturedayQuestionActivity.this, activity_email_result.class).putExtra("cultureDay", cultureDay));
                         }
                     }).start();
 

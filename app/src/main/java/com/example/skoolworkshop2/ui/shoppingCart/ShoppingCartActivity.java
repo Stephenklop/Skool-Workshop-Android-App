@@ -166,6 +166,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPoints.setVisibility(View.GONE);
                 mCouponsWorthTvPoints.setVisibility(View.GONE);
                 mCouponsIgPoints.setVisibility(View.GONE);
+                pointsAddView.setVisibility(View.VISIBLE);
                 calculateTotalPrice();
             }
         });
@@ -177,6 +178,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPoints.setVisibility(View.GONE);
                 mCouponsWorthTvPoints.setVisibility(View.GONE);
                 mCouponsIgPoints.setVisibility(View.GONE);
+                pointsAddView.setVisibility(View.VISIBLE);
                 calculateTotalPrice();
             }
         });
@@ -185,12 +187,13 @@ public class ShoppingCartActivity extends AppCompatActivity {
         mPointsTv = pointsAddView.findViewById(R.id.component_promo_et_txt);
         mPointsAddButton = pointsAddView.findViewById(R.id.component_promo_btn_add);
 
-
-        if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() >= 1500 && LocalDb.getDatabase(getApplication()).getCouponDAO().getPointsCoupon() == null){
-            pointsAddView.setVisibility(View.VISIBLE);
-            int points = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints();
-            mPointsTv.setText( points + " punten (€" + String.format("%.2f" ,points * 0.03).replace(".", ",") + ")");
-            mPointsAddButton.setText("Voeg toe");
+        if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+            if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() >= 1500 && LocalDb.getDatabase(getApplication()).getCouponDAO().getPointsCoupon() == null){
+                pointsAddView.setVisibility(View.VISIBLE);
+                int points = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints();
+                mPointsTv.setText( points + " punten (€" + String.format("%.2f" ,points * 0.03).replace(".", ",") + ")");
+                mPointsAddButton.setText("Voeg toe");
+            }
         }
 
         mPointsAddButton.setOnClickListener(new View.OnClickListener() {
@@ -219,8 +222,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
                         if(factory.getCouponDAO().checkCoupon(mPromoEt.getText().toString())){
                             try{
                                 LocalDb.getDatabase(getApplication()).getCouponDAO().insertCoupon(factory.getCouponDAO().getCoupon(mPromoEt.getText().toString()));
-                                calculateTotalPrice();
                             } catch (Exception e){
+                                e.printStackTrace();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -332,10 +335,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPercent.setText("Coupon: " + coupon.getCode());
             } else if(coupon.getDiscountTypeEnum() == DiscountType.POINTS){
                 if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() >= 1500){
-                    LocalDb.getDatabase(getApplication()).getCouponDAO().deleteCoupon(1);
-                    int points = LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints();
-                    LocalDb.getDatabase(getApplication()).getCouponDAO().insertCoupon(new Coupon(1, "points", (points * 0.03), "points", ""));
-
                     mCouponsTvPoints.setVisibility(View.VISIBLE);
                     mCouponsWorthTvPoints.setVisibility(View.VISIBLE);
                     mCouponsIgPoints.setVisibility(View.VISIBLE);
@@ -352,6 +351,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
             }
         }
 
+
+        totalPriceTextView.setText("€" + String.format("%.2f", total).replace(".", ","));
         return total;
     }
 

@@ -1,14 +1,17 @@
 package com.example.skoolworkshop2.logic.menuController;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.domain.WorkshopItem;
 import com.example.skoolworkshop2.ui.MoreMenuActivity;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
@@ -38,6 +41,7 @@ public class MenuController {
     private Context context;
 
 
+    @SuppressLint("RestrictedApi")
     public MenuController(View root){
         menu = root.findViewById(R.id.activity_menu_buttons);
         home = menu.findViewById(R.id.menu_bottom_icons_menu_home);
