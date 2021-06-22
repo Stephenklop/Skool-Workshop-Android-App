@@ -70,10 +70,6 @@ public class CulturedayActivity extends FragmentActivity implements View.OnClick
 
         MenuController mc = new MenuController(root);
 
-        if(NetworkUtil.checkInternet(getApplicationContext())){
-            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
-        }
-
         localAppStorage = new LocalAppStorage(getBaseContext());
         cultureDay = LocalDb.getDatabase(getBaseContext()).getProductDAO().getAllProductsByType("Cultuurdag").get(0);
 
