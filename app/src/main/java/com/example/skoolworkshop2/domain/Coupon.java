@@ -1,13 +1,29 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(indices = {@Index(value = {"discountType"},
+        unique = true)})
 public class Coupon {
+    @ColumnInfo @PrimaryKey
     private int id;
+
+    @ColumnInfo
     private String code;
+
+    @ColumnInfo
     private double amount;
-    private DiscountType discountType;
+
+    @ColumnInfo
+    private String discountType;
+
+    @ColumnInfo
     private String description;
 
-    public Coupon(int id, String code, double amount, DiscountType discountType, String description) {
+    public Coupon(int id, String code, double amount, String discountType, String description) {
         this.id = id;
         this.code = code;
         this.amount = amount;
@@ -39,11 +55,25 @@ public class Coupon {
         this.amount = amount;
     }
 
-    public DiscountType getDiscountType() {
-        return discountType;
+    public DiscountType getDiscountTypeEnum() {
+        if(discountType.equals("percent")){
+            return DiscountType.PROCENTKORTING;
+        } else if(discountType.equals("fixed_cart")){
+            return DiscountType.VASTEKORTING;
+        } else if(discountType.equals("fixed_product")){
+            return DiscountType.PRODUCTKORTING;
+        } else if(discountType.equals("points")){
+            return DiscountType.POINTS;
+        } else {
+            return null;
+        }
     }
 
-    public void setDiscountType(DiscountType discountType) {
+    public String getDiscountType(){
+        return this.discountType;
+    }
+
+    public void setDiscountType(String discountType) {
         this.discountType = discountType;
     }
 

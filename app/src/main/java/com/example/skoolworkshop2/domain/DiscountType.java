@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 public enum DiscountType {
-    PROCENTKORTING, VASTEKORTING, PRODUCTKORTING;
+    PROCENTKORTING, VASTEKORTING, PRODUCTKORTING, POINTS;
 
     @NonNull
     @NotNull

@@ -32,7 +32,6 @@
         android:layout_width="50dp"
         android:layout_height="53dp"
         android:src="@drawable/ic_play"
-        android:elevation="20dp"
         android:id="@+id/activity_cultureday_detail_play"
         app:layout_anchor="@+id/activity_cultureday_details_vv_banner"
         app:layout_anchorGravity="center" />

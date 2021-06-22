@@ -48,16 +48,7 @@ public class APICouponDAO implements CouponDAO {
                     String type = jsonResult.getString("discount_type");
                     String description = jsonResult.getString("description");
 
-                    DiscountType discountType = null;
-                    if(type.equals("percent")){
-                        discountType = DiscountType.PROCENTKORTING;
-                    } else if(type.equals("fixed_cart")){
-                        discountType = DiscountType.VASTEKORTING;
-                    } else if(type.equals("fixed_product")){
-                        discountType = DiscountType.PRODUCTKORTING;
-                    }
-
-                    result = new Coupon(id, code, amount, discountType, description);
+                    result = new Coupon(id, code, amount, type, description);
                 }
 
             }
