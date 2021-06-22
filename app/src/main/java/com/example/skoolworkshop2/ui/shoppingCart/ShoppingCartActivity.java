@@ -334,19 +334,23 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 total = discount;
                 mCouponsTvPercent.setText("Coupon: " + coupon.getCode());
             } else if(coupon.getDiscountTypeEnum() == DiscountType.POINTS){
-                if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() >= 1500){
-                    mCouponsTvPoints.setVisibility(View.VISIBLE);
-                    mCouponsWorthTvPoints.setVisibility(View.VISIBLE);
-                    mCouponsIgPoints.setVisibility(View.VISIBLE);
+                if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo() != null){
+                    if(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() >= 1500){
+                        mCouponsTvPoints.setVisibility(View.VISIBLE);
+                        mCouponsWorthTvPoints.setVisibility(View.VISIBLE);
+                        mCouponsIgPoints.setVisibility(View.VISIBLE);
 
-                    total -= coupon.getAmount();
-                    mCouponsWorthTvPoints.setText("-€" + String.format("%.2f" ,coupon.getAmount()).replace(".", ","));
-                    mCouponsTvPoints.setText("Punten: " + LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() + " punten");
+                        total -= coupon.getAmount();
+                        mCouponsWorthTvPoints.setText("-€" + String.format("%.2f" ,coupon.getAmount()).replace(".", ","));
+                        mCouponsTvPoints.setText("Punten: " + LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getPoints() + " punten");
+                    } else {
+                        LocalDb.getDatabase(getApplication()).getCouponDAO().deleteCoupon(1);
+                        mCouponsTvPoints.setVisibility(View.GONE);
+                        mCouponsWorthTvPoints.setVisibility(View.GONE);
+                        mCouponsIgPoints.setVisibility(View.GONE);
+                    }
                 } else {
                     LocalDb.getDatabase(getApplication()).getCouponDAO().deleteCoupon(1);
-                    mCouponsTvPoints.setVisibility(View.GONE);
-                    mCouponsWorthTvPoints.setVisibility(View.GONE);
-                    mCouponsIgPoints.setVisibility(View.GONE);
                 }
             }
         }
