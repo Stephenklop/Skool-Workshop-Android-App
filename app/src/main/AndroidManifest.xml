@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkoolWorkshop2"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity_email_result"></activity>
         <activity
             android:name=".ui.OrderSummaryActivity"
             android:screenOrientation="portrait"
@@ -60,7 +61,7 @@
             android:name=".ui.cultureDay.CulturedayQuestionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ui.User.ReservationActivity"/>
+        <activity android:name=".ui.User.ReservationActivity" />
         <activity
             android:name=".ui.User.AccountActivity"
             android:screenOrientation="portrait"
@@ -141,13 +142,15 @@
             android:name=".ui.User.ChangeInvoiceShippingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ui.ContactActivity"
+        <activity
+            android:name=".ui.ContactActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.MollieResultActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.MollieResultActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <service
             android:name=".logic.notifications.MessagingService"

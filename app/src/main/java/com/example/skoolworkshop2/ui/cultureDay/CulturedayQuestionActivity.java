@@ -31,6 +31,9 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Mail;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -514,29 +517,14 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                 if(validate()){
                     mErrTv.setVisibility(View.GONE);
 
-                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                    emailIntent.setType("text/html");
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@skoolworkshop.nl"});
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email vanuit de app");
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("Contact informatie:");
-                    stringBuilder.append("\n-Naam: " + mNameEditText.getText().toString());
-                    stringBuilder.append("\n-Email: " + mEmailEditText.getText().toString());
-                    stringBuilder.append("\n-TelefoonNummer: " + mTelEditText.getText().toString());
-                    stringBuilder.append("\nCJP schoolnummer: " + mCJPEditText.getText().toString());
-
-                    stringBuilder.append("\n\nWorkshop informatie:");
-                    stringBuilder.append("\n-Aantal personen: " + mAmountOfPersonsEditText.getText().toString());
-                    stringBuilder.append("\n-Gewenste datum: " + mDateEditText.getText().toString());
-                    stringBuilder.append("\n-Gewenste aanvangstijd: " + mTimeEditText.getText().toString());
-                    stringBuilder.append("\n-Gewenste locatie: " + mLocationEditText.getText().toString());
-
-                    stringBuilder.append("\n\nBericht:\n");
-                    stringBuilder.append(mMessageEditText.getText().toString());
-
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, stringBuilder.toString());
-                    startActivity(emailIntent);
+                    Mail mail = new Mail(Integer.parseInt(mAmountOfPersonsEditText.getText().toString()), mDateEditText.getText().toString(), mTimeEditText.getText().toString(), mLocationEditText.getText().toString(), Integer.parseInt(mCJPEditText.getText().toString()), mEmailEditText.getText().toString(), mTelEditText.getText().toString(), mMessageEditText.getText().toString());
+                    DAOFactory daoFactory = new APIDAOFactory();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            daoFactory.getEmailDAO().sendMail(mail);
+                        }
+                    }).start();
 
                 } else {
                     mErrTv.setVisibility(View.VISIBLE);

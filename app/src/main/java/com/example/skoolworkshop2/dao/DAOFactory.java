@@ -8,4 +8,5 @@ public interface DAOFactory {
     NotificationDAO getNotificationDAO();
     OrderDAO getOrderDAO();
     CouponDAO getCouponDAO();
+    EmailDAO getEmailDAO();
 }
