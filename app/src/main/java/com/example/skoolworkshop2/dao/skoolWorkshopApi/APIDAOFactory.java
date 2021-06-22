@@ -1,5 +1,6 @@
 package com.example.skoolworkshop2.dao.skoolWorkshopApi;
 
+import com.example.skoolworkshop2.dao.CouponDAO;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.FireBaseTokenDAO;
 import com.example.skoolworkshop2.dao.NewsArticleDAO;
@@ -37,5 +38,10 @@ public class APIDAOFactory implements DAOFactory {
     @Override
     public OrderDAO getOrderDAO() {
         return new APIOrderDAO();
+    }
+
+    @Override
+    public CouponDAO getCouponDAO() {
+        return new APICouponDAO();
     }
 }

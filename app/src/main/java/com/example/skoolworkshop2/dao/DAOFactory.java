@@ -7,4 +7,5 @@ public interface DAOFactory {
     FireBaseTokenDAO getFireBaseTokenDAO();
     NotificationDAO getNotificationDAO();
     OrderDAO getOrderDAO();
+    CouponDAO getCouponDAO();
 }

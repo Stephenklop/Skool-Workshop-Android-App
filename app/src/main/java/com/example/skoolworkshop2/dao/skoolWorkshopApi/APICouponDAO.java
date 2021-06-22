@@ -34,7 +34,6 @@ public class APICouponDAO implements CouponDAO {
         try{
             connect(BASE_URL + "/coupon/" + coupon);
             connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
             connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -73,15 +72,14 @@ public class APICouponDAO implements CouponDAO {
         try{
             connect(BASE_URL + "/coupon/" + coupon);
             connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
             connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null){
                 JSONObject couponJson = new JSONObject(inputLine);
-                JSONObject jsonResult = couponJson.getJSONObject("message");
-                if(jsonResult.equals("Succes")){
+                String jsonResult = couponJson.getString("message");
+                if(jsonResult.equals("Success")){
                     return true;
                 } else {
                     return false;

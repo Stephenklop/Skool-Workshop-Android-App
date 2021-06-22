@@ -13,14 +13,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localData.LocalAppStorage;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Coupon;
 import com.example.skoolworkshop2.domain.ProductItem;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.AddressInfoActivity;
 import com.example.skoolworkshop2.ui.AddressInfoLayoutTestActivity;
+import com.example.skoolworkshop2.ui.RoundedDialog;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,14 +42,12 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private EditText mPromoEt;
     private Button mPromoAddBtn;
 
+    private Coupon coupon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
-
-        if(NetworkUtil.checkInternet(getApplicationContext())){
-            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
-        }
 
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
@@ -58,6 +60,37 @@ public class ShoppingCartActivity extends AppCompatActivity {
         mPromoCl = findViewById(R.id.activity_shopping_cart_item_promo);
         mPromoEt = mPromoCl.findViewById(R.id.component_promo_et_txt);
         mPromoAddBtn = mPromoCl.findViewById(R.id.component_promo_btn_add);
+
+        mPromoAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPromoAddBtn.setEnabled(false);
+                DAOFactory factory = new APIDAOFactory();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(factory.getCouponDAO().checkCoupon(mPromoEt.getText().toString())){
+                            coupon = factory.getCouponDAO().getCoupon(mPromoEt.getText().toString());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mPromoAddBtn.setEnabled(true);
+                                    mPromoEt.setText("");
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new RoundedDialog(ShoppingCartActivity.this, "Ongeldige coupon", "De coupon die ingevuld is bestaat niet of is niet meer geldig.");
+                                    mPromoAddBtn.setEnabled(true);
+                                }
+                            });
+                        }
+                    }
+                }).start();
+            }
+        });
 
         menu.getMenu().getItem(3).setChecked(true);
 
