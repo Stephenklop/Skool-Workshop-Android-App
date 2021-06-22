@@ -88,6 +88,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPercent.setVisibility(View.GONE);
                 mCouponsWorthTvPercent.setVisibility(View.GONE);
                 mcouponsIgPercent.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -98,6 +99,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPercent.setVisibility(View.GONE);
                 mCouponsWorthTvPercent.setVisibility(View.GONE);
                 mcouponsIgPercent.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -112,6 +114,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvCart.setVisibility(View.GONE);
                 mCouponsWorthTvCart.setVisibility(View.GONE);
                 mCouponsIgCart.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -122,6 +125,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvCart.setVisibility(View.GONE);
                 mCouponsWorthTvCart.setVisibility(View.GONE);
                 mCouponsIgCart.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -136,6 +140,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvProduct.setVisibility(View.GONE);
                 mCouponsWorthTvProduct.setVisibility(View.GONE);
                 mCouponsIgProduct.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -146,6 +151,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvProduct.setVisibility(View.GONE);
                 mCouponsWorthTvProduct.setVisibility(View.GONE);
                 mCouponsIgProduct.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -160,6 +166,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPoints.setVisibility(View.GONE);
                 mCouponsWorthTvPoints.setVisibility(View.GONE);
                 mCouponsIgPoints.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -170,6 +177,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsTvPoints.setVisibility(View.GONE);
                 mCouponsWorthTvPoints.setVisibility(View.GONE);
                 mCouponsIgPoints.setVisibility(View.GONE);
+                calculateTotalPrice();
             }
         });
 
@@ -196,6 +204,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 mCouponsWorthTvPoints.setText("-€" + (String.format("%.2f" , money).replace(".", ",")));
                 pointsAddView.setVisibility(View.GONE);
                 LocalDb.getDatabase(getApplication()).getCouponDAO().insertCoupon(new Coupon(1, "points", (points * 0.03), "points", ""));
+                calculateTotalPrice();
             }
         });
 
@@ -210,6 +219,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                         if(factory.getCouponDAO().checkCoupon(mPromoEt.getText().toString())){
                             try{
                                 LocalDb.getDatabase(getApplication()).getCouponDAO().insertCoupon(factory.getCouponDAO().getCoupon(mPromoEt.getText().toString()));
+                                calculateTotalPrice();
                             } catch (Exception e){
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -217,6 +227,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                                         new RoundedDialog(ShoppingCartActivity.this, "Ongeldige coupon", "Het type coupon dat ingevuld is wordt al gebruikt. Je mag maximaal 1 coupon per type hebben.");
                                         mPromoAddBtn.setEnabled(true);
                                         mPromoEt.setText("");
+                                        calculateTotalPrice();
                                     }
                                 });
                             }
@@ -235,6 +246,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                                     new RoundedDialog(ShoppingCartActivity.this, "Ongeldige coupon", "De coupon die ingevuld is bestaat niet of is niet meer geldig.");
                                     mPromoAddBtn.setEnabled(true);
                                     mPromoEt.setText("");
+                                    calculateTotalPrice();
                                 }
                             });
                         }
@@ -348,6 +360,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         for (Coupon coupon : coupons) {
             if(coupon.getDiscountTypeEnum() == type){
                 LocalDb.getDatabase(getApplication()).getCouponDAO().deleteCoupon(coupon.getId());
+                calculateTotalPrice();
             }
         }
     }

@@ -26,7 +26,7 @@ public class APIMailDAO implements EmailDAO {
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
-            String jsonInput = "{\"aantalPersonen\": \"" + mail.getAmountOfPerson() + "\", \"gewensteDatum\":\"" + mail.getDate() + "\",\"gewensteAanvangstijd\":\"" + mail.getTime() + "\",\"cjpSchoolnummer\":\"" + mail.getCjp() + "\",\"email\":\"" + mail.getEmail() + "\",\"telefoonnummer\":\"" + mail.getPhone() + "\",\"bericht\":\"" + mail.getMessage() + "\", \"testEmail\":\"bbuijsen@gmail.com\"}";
+            String jsonInput = "{\"aantalPersonen\": \"" + mail.getAmountOfPerson() + "\", \"gewensteDatum\":\"" + mail.getDate() + "\",\"gewensteAanvangstijd\":\"" + mail.getTime() + "\",\"gewensteLocatie\":\"" + mail.getLocation() +"\", \"cjpSchoolnummer\":\"" + mail.getCjp() + "\",\"email\":\"" + mail.getEmail() + "\",\"telefoonnummer\":\"" + mail.getPhone() + "\",\"bericht\":\"" + mail.getMessage() + "\", \"testEmail\":\"bbuijsen@gmail.com\"}";
             System.out.println("JSON STRING: " + jsonInput);
 
             OutputStream os = connection.getOutputStream();
