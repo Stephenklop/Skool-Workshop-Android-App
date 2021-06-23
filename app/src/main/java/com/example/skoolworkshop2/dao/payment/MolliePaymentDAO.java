@@ -58,13 +58,13 @@ public class MolliePaymentDAO implements PaymentDAO {
 
     @Override
     public Payment getPayment(String id) {
-        final String PATH = "payment";
+        final String PATH = "payment/get";
         Payment result = null;
 
         try {
             connect(BASE_URL + PATH);
             connection.setDoOutput(true);
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
 
             String jsonInput = "{\" orderId\": \"" + id + "\"}";
@@ -72,9 +72,6 @@ public class MolliePaymentDAO implements PaymentDAO {
             OutputStream os = connection.getOutputStream();
             os.write(jsonInput.getBytes());
             os.flush();
-
-            System.out.println("REQUEST METHOD: " + connection.getRequestMethod());
-            System.out.println("RESPONSE CODE: " + connection.getResponseCode());
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
