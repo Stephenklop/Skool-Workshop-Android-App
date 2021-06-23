@@ -628,19 +628,20 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
+        mMonth = c.get(Calendar.MONTH) + 1;
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, (view, year, month, dayOfMonth) -> {
 //            mDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            int indexOneMonth = month + 1;
             if(dayOfMonth < 10 && month < 10){
-                mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+                mDateEditText.setText("0" + dayOfMonth + "/0" + indexOneMonth + "/" + year);
             } else if (dayOfMonth < 10){
-                mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+                mDateEditText.setText("0" + dayOfMonth + "/" + indexOneMonth + "/" + year);
             } else if (month < 10){
-                mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+                mDateEditText.setText(dayOfMonth + "/0" + indexOneMonth + "/" + year);
             } else {
-                mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+                mDateEditText.setText(dayOfMonth + "/" + indexOneMonth + "/" + year);
             }
             mDateEditText.setError(null);
         }, mYear, mMonth, mDay);

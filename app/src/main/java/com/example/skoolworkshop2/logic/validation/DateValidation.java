@@ -2,6 +2,8 @@ package com.example.skoolworkshop2.logic.validation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateValidation {
@@ -27,7 +29,11 @@ public class DateValidation {
         simpleDateFormat.setLenient(false);
         try {
             simpleDateFormat.parse(date.toString());
-            return !simpleDateFormat.parse(date.toString()).before(new Date());
+            Calendar c = Calendar.getInstance();
+            int month = c.get(Calendar.MONTH) + 1;
+            Date today = new Date();
+            today.setMonth(month);
+            return !simpleDateFormat.parse(date.toString()).before(today);
         } catch (ParseException ex){
             return false;
         }
