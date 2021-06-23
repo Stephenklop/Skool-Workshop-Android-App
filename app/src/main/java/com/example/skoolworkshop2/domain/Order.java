@@ -32,7 +32,7 @@ public class Order {
     private String customerNote;
 
     @ColumnInfo
-    private int billingCJP;
+    private String billingCJP;
 
     @ColumnInfo
     private String billingVideo;
@@ -52,7 +52,7 @@ public class Order {
     @ColumnInfo
     private double price;
 
-    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, double distance, double orderPrice) {
+    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, String billingCJP, String billingVideo, String reservationSystem, double distance, double orderPrice) {
         this.status = status;
         this.customerId = customerId;
         this.billingAddressId = billingAddressId;
@@ -131,11 +131,11 @@ public class Order {
         this.customerNote = customerNote;
     }
 
-    public int getBillingCJP() {
+    public String getBillingCJP() {
         return billingCJP;
     }
 
-    public void setBillingCJP(int billingCJP) {
+    public void setBillingCJP(String billingCJP) {
         this.billingCJP = billingCJP;
     }
 

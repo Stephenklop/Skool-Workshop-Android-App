@@ -1,22 +1,52 @@
 package com.example.skoolworkshop2.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Payment {
+    @ColumnInfo
     private String resource;
+
+    @ColumnInfo @PrimaryKey @NonNull
     private String id;
+
+    @ColumnInfo
     private String mode;
+
+    @ColumnInfo
     private String createdAt;
+
+    @ColumnInfo
     private String amount;
+
+    @ColumnInfo
     private String currency;
+
+    @ColumnInfo
     private String description;
+
+    @ColumnInfo
     private String method;
+
+    @ColumnInfo
     private String status;
+
+    @ColumnInfo
     private String expiresAt;
+
+    @ColumnInfo
     private String locale;
+
+    @ColumnInfo
     private String redirectUrl;
-    private String webhookUrl;
+
+    @ColumnInfo
     private String checkoutUrl;
 
-    public Payment(String resource, String id, String mode, String createdAt, String amount, String currency, String description, String method, String status, String expiresAt, String locale, String redirectUrl, String webhookUrl, String checkoutUrl) {
+    public Payment(String resource, String id, String mode, String createdAt, String amount, String currency, String description, String method, String status, String expiresAt, String locale, String redirectUrl, String checkoutUrl) {
         this.resource = resource;
         this.id = id;
         this.mode = mode;
@@ -29,7 +59,6 @@ public class Payment {
         this.expiresAt = expiresAt;
         this.locale = locale;
         this.redirectUrl = redirectUrl;
-        this.webhookUrl = webhookUrl;
         this.checkoutUrl = checkoutUrl;
     }
 
@@ -79,10 +108,6 @@ public class Payment {
 
     public String getRedirectUrl() {
         return redirectUrl;
-    }
-
-    public String getWebhookUrl() {
-        return webhookUrl;
     }
 
     public String getCheckoutUrl() {
@@ -137,10 +162,6 @@ public class Payment {
         this.redirectUrl = redirectUrl;
     }
 
-    public void setWebhookUrl(String webhookUrl) {
-        this.webhookUrl = webhookUrl;
-    }
-
     public void setCheckoutUrl(String checkoutUrl) {
         this.checkoutUrl = checkoutUrl;
     }
@@ -160,7 +181,6 @@ public class Payment {
                 ", expiresAt='" + expiresAt + '\'' +
                 ", locale='" + locale + '\'' +
                 ", redirectUrl='" + redirectUrl + '\'' +
-                ", webhookUrl='" + webhookUrl + '\'' +
                 ", checkoutUrl='" + checkoutUrl + '\'' +
                 '}';
     }

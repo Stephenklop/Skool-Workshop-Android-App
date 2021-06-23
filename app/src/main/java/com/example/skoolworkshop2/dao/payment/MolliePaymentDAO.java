@@ -44,10 +44,10 @@ public class MolliePaymentDAO implements PaymentDAO {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                System.out.println("RESPONSE: " + inputLine);
-                JSONObject response = new JSONObject(inputLine);
-
-                result = parsePayment(response);
+                 if (connection.getResponseCode() == 200) {
+                     JSONObject response = new JSONObject(inputLine);
+                     result = parsePayment(response);
+                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class MolliePaymentDAO implements PaymentDAO {
         Payment result = null;
 
         try {
-            result = new Payment(jsonObject.getString("resource"), jsonObject.getString("id"), jsonObject.getString("mode"), jsonObject.getString("createdAt"), jsonObject.getJSONObject("amount").getString("value"), jsonObject.getJSONObject("amount").getString("currency"), jsonObject.getString("description"), jsonObject.getString("method"), jsonObject.getString("status"), jsonObject.getString("expiresAt"), jsonObject.getString("locale"), jsonObject.getString("redirectUrl"), jsonObject.getString("webhookUrl"), jsonObject.getJSONObject("_links").getJSONObject("checkout").getString("href"));
+            result = new Payment(jsonObject.getString("resource"), jsonObject.getString("id"), jsonObject.getString("mode"), jsonObject.getString("createdAt"), jsonObject.getJSONObject("amount").getString("value"), jsonObject.getJSONObject("amount").getString("currency"), jsonObject.getString("description"), jsonObject.getString("method"), jsonObject.getString("status"), jsonObject.getString("expiresAt"), jsonObject.getString("locale"), jsonObject.getString("redirectUrl"), jsonObject.getJSONObject("_links").getJSONObject("checkout").getString("href"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

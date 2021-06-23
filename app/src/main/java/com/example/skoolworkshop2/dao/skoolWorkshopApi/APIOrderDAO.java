@@ -70,7 +70,8 @@ public class APIOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void addOrder(Order order) {
+    public Order addOrder(Order order) {
+        Order result = null;
         final String PATH = "order";
 
         try {
@@ -90,9 +91,52 @@ public class APIOrderDAO implements OrderDAO {
             System.out.println(connection.getRequestMethod());
             System.out.println(connection.getResponseCode());
 
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                JSONObject resultObject = new JSONObject(inputLine).getJSONObject("result");
+                result = parseJsonToOrder(resultObject);
+                System.out.println("RESPONSE OBJECT ADD ORDER: " + result);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return result;
+    }
+
+    @Override
+    public Order parseJsonToOrder(JSONObject jsonObject) {
+        Order result = null;
+
+        try {
+            JSONObject orderInformation = jsonObject.getJSONObject("orderInformation");
+            JSONArray bookingInformation = jsonObject.getJSONArray("bookingInformation");
+
+            result = new Order(
+                    orderInformation.getString("status"),
+                    bookingInformation.getJSONObject(0).getJSONObject("result").getInt("customerId"),
+                    0,
+                    0,
+                    orderInformation.getString("payment_method"),
+                    orderInformation.getString("payment_method_title"),
+                    orderInformation.getString("customer_note"),
+                    // TODO Add error handling
+                    orderInformation.getJSONArray("meta_data").getJSONObject(0).getString("value"),
+                    orderInformation.getJSONArray("meta_data").getJSONObject(3).getString("value"),
+                    orderInformation.getJSONArray("meta_data").getJSONObject(2).getString("value"),
+                    orderInformation.getDouble("shipping_total"),
+                    orderInformation.getDouble("total")
+                    );
+
+            result.setId(orderInformation.getInt("id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override
@@ -204,12 +248,11 @@ public class APIOrderDAO implements OrderDAO {
 
         }
 
-        // TODO: Fix \n at timeschedule
         result.append("\"timetable\": \"" + shoppingCartItem.getTimeSchedule() + "\"," +
                 "      \"learning_level\": \"" + shoppingCartItem.getLearningLevel() + "\"," +
                 "      \"booking_info\": {" +
-                "        \"start_date\": \"\"," +
-                "        \"end_date\": \"\"," +
+                "        \"start_date\": \"" + shoppingCartItem.getStartDate() + "\"," +
+                "        \"end_date\": \"" + shoppingCartItem.getEndDate() + "\"," +
                 "        \"booking_status\": \"unpaid\"" +
                 "      }" +
                 "    }");
@@ -217,31 +260,31 @@ public class APIOrderDAO implements OrderDAO {
         return result.toString();
     }
 
-    public Order parseJsonToOrder(JSONObject object) throws JSONException {
-        Order order = null;
-        BillingAddress address = (BillingAddress) object.get("billing");
-        ShippingAddress shippingAddress = (ShippingAddress) object.get("shipping");
-
-        try {
-            String status = object.getString("status");
-            int costumerId = object.getInt("costumer_id");
-            int billingId = address.getId();
-            int shippingId = shippingAddress.getId();
-            String paymentMethod = object.getString("payment_method");
-            String paymentMethodTitle = object.getString("payment_method_title");
-            String costumerNote = object.getString("customer_note");
-            int billingCJP = object.getInt("billing_CJP");
-            String billingVideo = object.getString("billing_video");
-            String reservationSystem = object.getString("reservation_system");
-            JSONArray shippingLines = object.getJSONArray("shipping_lines");
-            JSONObject shippingObject = shippingLines.getJSONObject(0);
-            Double distance = shippingObject.getDouble("distance");
-            Double price = shippingObject.getDouble("price");
-            order = new Order(status, costumerId, billingId, shippingId, paymentMethod, paymentMethodTitle, costumerNote, billingCJP, billingVideo, reservationSystem, distance, price);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return order;
-    }
+//    public Order parseJsonToOrder(JSONObject object) throws JSONException {
+//        Order order = null;
+//        BillingAddress address = (BillingAddress) object.get("billing");
+//        ShippingAddress shippingAddress = (ShippingAddress) object.get("shipping");
+//
+//        try {
+//            String status = object.getString("status");
+//            int costumerId = object.getInt("costumer_id");
+//            int billingId = address.getId();
+//            int shippingId = shippingAddress.getId();
+//            String paymentMethod = object.getString("payment_method");
+//            String paymentMethodTitle = object.getString("payment_method_title");
+//            String costumerNote = object.getString("customer_note");
+//            int billingCJP = object.getInt("billing_CJP");
+//            String billingVideo = object.getString("billing_video");
+//            String reservationSystem = object.getString("reservation_system");
+//            JSONArray shippingLines = object.getJSONArray("shipping_lines");
+//            JSONObject shippingObject = shippingLines.getJSONObject(0);
+//            Double distance = shippingObject.getDouble("distance");
+//            Double price = shippingObject.getDouble("price");
+//            order = new Order(status, costumerId, billingId, shippingId, paymentMethod, paymentMethodTitle, costumerNote, billingCJP, billingVideo, reservationSystem, distance, price);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return order;
+//    }
 }

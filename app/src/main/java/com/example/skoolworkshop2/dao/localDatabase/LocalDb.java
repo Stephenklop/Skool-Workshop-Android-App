@@ -11,6 +11,7 @@ import com.example.skoolworkshop2.dao.localDatabase.dao.BillingAddressDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.CustomerDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.NotificationDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.OrderDAO;
+import com.example.skoolworkshop2.dao.localDatabase.dao.PaymentDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.ShippingAddressDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.SettingsEntityDAO;
 import com.example.skoolworkshop2.dao.localDatabase.dao.UserDAO;
@@ -26,6 +27,7 @@ import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.NewsArticle;
 import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.domain.Payment;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.Quiz;
 import com.example.skoolworkshop2.domain.ShippingAddress;
@@ -34,7 +36,7 @@ import com.example.skoolworkshop2.domain.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Customer.class, Product.class, Quiz.class, Bank.class, ShoppingCartItem.class, NewsArticle.class, BillingAddress.class, ShippingAddress.class, Order.class, Notification.class, SettingsEntity.class}, version = 1)
+@Database(entities = {User.class, Customer.class, Product.class, Quiz.class, Bank.class, ShoppingCartItem.class, NewsArticle.class, BillingAddress.class, ShippingAddress.class, Order.class, Notification.class, SettingsEntity.class, Payment.class}, version = 1)
 
 public abstract class LocalDb extends RoomDatabase {
 
@@ -53,6 +55,7 @@ public abstract class LocalDb extends RoomDatabase {
     abstract public ShippingAddressDAO getShippingAddressDAO();
     abstract public OrderDAO getOrderDAO();
     abstract public SettingsEntityDAO getSettingsDAO();
+    abstract public PaymentDAO getPaymentDAO();
 
     public static LocalDb getDatabase(final Context context){
         if(INSTANCE == null){

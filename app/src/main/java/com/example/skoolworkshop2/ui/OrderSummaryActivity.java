@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,14 +14,18 @@ import android.widget.TextView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Bank;
 import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.domain.Payment;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 public class OrderSummaryActivity extends AppCompatActivity implements View.OnClickListener {
+    private APIDAOFactory mApiDAOFactory;
     private MollieDAOFactory mMollieDAOFactory;
     private UserManager mUserManager;
     private Customer mCustomer;
@@ -28,8 +33,6 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
     private ShippingAddress mShippingAddress;
     private BillingAddress mBillingAddress;
     private int mAmountOfItems;
-    private double mSubTotalPrice;
-    private double mTravelExpenses;
     private LinearLayout mSummaryLinearLayout;
     private TextView mSummaryNameTextView;
     private TextView mShippingAddressTextView;
@@ -46,6 +49,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
     private LinearLayout mPaymentCashButton;
     private LinearLayout mPaymentIdealButton;
     private Spinner mIdealSpinner;
+    private boolean mIsIdeal;
     private Button mOrderButton;
 
     @Override
@@ -67,7 +71,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         mBillingPostalCityTextView.setText(mBillingAddress.getPostcode() + " " + mBillingAddress.getCity());
 
         mSubTotalPriceTitleTextView.setText("Subtotaal (" + mAmountOfItems + "):" );
-        mSubTotalPriceTextView.setText("€" + String.format("%.2f", mSubTotalPrice).replace(".", ","));
+        mSubTotalPriceTextView.setText("€" + String.format("%.2f", mOrder.getOrderPrice()).replace(".", ","));
 
         mTravelExpensesTextView.setText("€" + String.format("%.2f", mOrder.getTravelCosts()).replace(".", ","));
         mTotalPriceTextView.setText("€" + String.format("%.2f", mOrder.getPrice()).replace(".", ","));
@@ -84,6 +88,35 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         mOrderButton.setText("Door naar betalen");
         mOrderButton.setOnClickListener(v -> {
             System.out.println(mOrder);
+            if (mIsIdeal) {
+                Bank selectedBank = (Bank) mIdealSpinner.getSelectedItem();
+
+                // Send to Mollie
+                new Thread(() -> {
+                    // Add order to Skool Workshop Database and save order to get the order id
+                    Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
+
+                    // Send mollie API request
+                    Payment payment = mMollieDAOFactory.getPaymentDAO().addPayment(order.getId(), String.format("%.2f", order.getPrice()), "TEST ORDER", selectedBank);
+
+                    if (payment != null) {
+                        // Save payment locally
+                        LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
+
+                        // Redirect to bank
+                        // TODO: Add error handling
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
+                        startActivity(browserIntent);
+                    }
+
+
+
+                }).start();
+            } else {
+                // Send to success page
+                Intent intent = new Intent(this, MollieResultActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
@@ -97,20 +130,25 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.activity_summary_btn_transfer:
                 selectPayment(mPaymentTransferButton);
+                mIsIdeal = false;
                 break;
             case R.id.activity_summary_btn_cjp:
                 selectPayment(mPaymentCjpButton);
+                mIsIdeal = false;
                 break;
             case R.id.activity_summary_btn_cash:
                 selectPayment(mPaymentCashButton);
+                mIsIdeal = false;
                 break;
             case R.id.activity_summary_btn_ideal:
                 selectPayment(mPaymentIdealButton);
+                mIsIdeal = true;
                 break;
         }
     }
 
     private void initializeAttributes() {
+        mApiDAOFactory = new APIDAOFactory();
         mMollieDAOFactory = new MollieDAOFactory();
         mUserManager = new UserManager(getApplication());
         mCustomer = mUserManager.getCustomer();
@@ -118,8 +156,6 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         mShippingAddress = LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().getShippingAddress();
         mBillingAddress = LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().getBillingAddress();
         mAmountOfItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getAmountOfShoppingCartItems();
-        mSubTotalPrice = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getTotalShoppingCartPrice();
-        mTravelExpenses = 0;
         mSummaryLinearLayout = findViewById(R.id.activity_summary_overview);
         mSummaryNameTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_name);
         mShippingAddressTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_street_housenr);
