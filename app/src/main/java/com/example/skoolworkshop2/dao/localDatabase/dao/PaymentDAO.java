@@ -13,7 +13,7 @@ public interface PaymentDAO {
     long addPayment(Payment payment);
 
     @Query("SELECT * FROM Payment")
-    Customer getPayment();
+    Payment getPayment();
 
     @Query("DELETE FROM Payment")
     void deletePayment();

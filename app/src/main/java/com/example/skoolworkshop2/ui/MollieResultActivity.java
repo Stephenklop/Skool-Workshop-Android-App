@@ -12,8 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
+import com.example.skoolworkshop2.domain.Payment;
 
 public class MollieResultActivity extends AppCompatActivity {
+    private MollieDAOFactory mMollieDAOFactory;
+    private Payment mPayment;
     private ImageView mResponseImg;
     private TextView mResponseTv;
 
@@ -24,14 +29,8 @@ public class MollieResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mollie_result);
 
-        Intent intent = getIntent();
-
-        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri uri = intent.getData();
-            String paymentId = uri.getQueryParameter("id");
-
-            // Optional: Do stuff with the payment ID
-        }
+        mMollieDAOFactory = new MollieDAOFactory();
+        mPayment = LocalDb.getDatabase(getBaseContext()).getPaymentDAO().getPayment();
 
         mResponseImg = findViewById(R.id.activity_mollie_result_img_response);
         mResponseTv = findViewById(R.id.activity_mollie_result_tv_response);
@@ -43,11 +42,15 @@ public class MollieResultActivity extends AppCompatActivity {
             startActivity(homeIntent);
         });
 
-        successAnim();
-    }
+        new Thread(() -> {
+            mPayment = mMollieDAOFactory.getPaymentDAO().getPayment(mPayment.getId());
 
-    private void sendCurrentOrder() {
-        // TODO: Send current order to api
+            if (mPayment != null && mPayment.getStatus().equals("paid")) {
+                runOnUiThread(() -> successAnim());
+            } else {
+                runOnUiThread(() -> failureAnim());
+            }
+        }).start();
     }
 
     private void successAnim() {

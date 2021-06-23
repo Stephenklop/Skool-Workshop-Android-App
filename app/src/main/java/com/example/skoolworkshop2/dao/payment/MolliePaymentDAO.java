@@ -56,6 +56,42 @@ public class MolliePaymentDAO implements PaymentDAO {
         return result;
     }
 
+    @Override
+    public Payment getPayment(String id) {
+        final String PATH = "payment";
+        Payment result = null;
+
+        try {
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            String jsonInput = "{\" orderId\": \"" + id + "\"}";
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            System.out.println("REQUEST METHOD: " + connection.getRequestMethod());
+            System.out.println("RESPONSE CODE: " + connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                if (connection.getResponseCode() == 200) {
+                    JSONObject response = new JSONObject(inputLine);
+                    result = parsePayment(response);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     private Payment parsePayment(JSONObject jsonObject) {
         Payment result = null;
 

@@ -104,7 +104,6 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                         LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
 
                         // Redirect to bank
-                        // TODO: Add error handling
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
                         startActivity(browserIntent);
                     }
