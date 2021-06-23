@@ -49,11 +49,17 @@ public class ShoppingCartItem {
     private String learningLevel;
 
     @ColumnInfo
+    private String startDate;
+
+    @ColumnInfo
+    private String endDate;
+
+    @ColumnInfo
     private double totalPrice;
 
     public ShoppingCartItem() {}
 
-    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel, double totalPrice) {
+    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel, String startDate, String endDate, double totalPrice) {
         this.productId = productId;
         this.workshop = workshop;
         this.date = date;
@@ -64,22 +70,10 @@ public class ShoppingCartItem {
         this.participants = participants;
         this.amountOfParticipantsGraffitiTshirt = amountOfParticipantsGraffitiTshirt;
         this.learningLevel = learningLevel;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.totalPrice = totalPrice;
     }
-
-//    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, List<Integer> productIds, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel) {
-//        this.productId = productId;
-//        this.workshop = workshop;
-//        this.date = date;
-//        this.rounds = rounds;
-//        this.workshopPerWorkshopRound = workshopPerWorkshopRound;
-//        this.roundDuration = roundDuration;
-//        this.productIds = convertIdsToString(productIds);
-//        this.timeSchedule = timeSchedule;
-//        this.participants = participants;
-//        this.amountOfParticipantsGraffitiTshirt = amountOfParticipantsGraffitiTshirt;
-//        this.learningLevel = learningLevel;
-//    }
 
     private String convertIdsToString(List<Integer> ids){
         String idString = "";
@@ -226,6 +220,22 @@ public class ShoppingCartItem {
 
     public void setLearningLevel(String learningLevel) {
         this.learningLevel = learningLevel;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public void setTotalPrice(double totalPrice) {
