@@ -536,7 +536,7 @@ public class WorkshopQuestionActivity extends FragmentActivity implements View.O
         boolean date = !mDateEditText.getText().toString().isEmpty() && DateValidation.isValidDate(mDateEditText.getText().toString());
         boolean time = !mTimeEditText.getText().toString().isEmpty();
         boolean location = !mLocationEditText.getText().toString().isEmpty();
-        boolean cjp = !mCJPEditText.getText().toString().isEmpty() && CJPValidator.isValidCJP(mCJPEditText.getText().toString());
+        boolean cjp = mCJPEditText.getText().toString().isEmpty() || CJPValidator.isValidCJP(mCJPEditText.getText().toString());
         boolean name = !mNameEditText.getText().toString().isEmpty();
         boolean tel = !mTelEditText.getText().toString().isEmpty() && TelValidator.isValidTelNumber(mTelEditText.getText().toString());
         boolean message = !mMessageEditText.getText().toString().isEmpty();
