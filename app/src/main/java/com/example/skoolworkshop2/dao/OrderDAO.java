@@ -13,9 +13,6 @@ import java.util.List;
 @Dao
 public interface OrderDAO {
     List<Reservation> getAllReservationsFromUser(int userId);
-    List<Order> getAllOrders();
-    List<Order> getAllOrdersOfUser(int userId);
-    Order getOrder(int id);
     Order addOrder(Order order);
     boolean updateOrderStatus(int id, String status);
     Order parseJsonToOrder(JSONObject jsonObject);

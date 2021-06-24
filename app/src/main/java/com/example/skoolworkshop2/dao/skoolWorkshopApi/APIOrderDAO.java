@@ -41,10 +41,6 @@ public class APIOrderDAO implements OrderDAO {
         connection = (HttpsURLConnection) connectionUrl.openConnection();
     }
 
-    public List<Order> getAllOrders() {
-        return null;
-    }
-
     @Override
     public List<Reservation> getAllReservationsFromUser(int userId) {
         List<Reservation> orders = new ArrayList<>();
