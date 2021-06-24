@@ -991,7 +991,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                 mWPostCodeEditText.getText().toString(),
                                 mWPlaceEditText.getText().toString(),
                                 "",
-                                mWAddressEditText.getText().toString(),
+                                mWStreetNameEditText.getText().toString() + " " + mWAddressEditText.getText().toString(),
                                 shippingAddressCountry.getName()
                         );
                     } else {
@@ -1002,7 +1002,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                 mPostCodeEditText.getText().toString(),
                                 mPlaceEditText.getText().toString(),
                                 "",
-                                mAddressEditText.getText().toString(),
+                                mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
                                 billingAddressCountry.getName()
                         );
                     }
