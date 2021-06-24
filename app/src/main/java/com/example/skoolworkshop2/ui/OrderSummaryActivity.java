@@ -96,6 +96,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                     // Add order to Skool Workshop Database and save order to get the order id
                     Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
 
+                    // Delete all payments
+                    LocalDb.getDatabase(getBaseContext()).getPaymentDAO().deletePayment();
+
                     // Send mollie API request
                     Payment payment = mMollieDAOFactory.getPaymentDAO().addPayment(order.getId(), String.format("%.2f", order.getPrice()), "TEST ORDER", selectedBank);
 

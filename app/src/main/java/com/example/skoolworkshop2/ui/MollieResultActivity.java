@@ -43,7 +43,6 @@ public class MollieResultActivity extends AppCompatActivity {
         });
 
         new Thread(() -> {
-            System.out.println(mPayment.getId());
             mPayment = mMollieDAOFactory.getPaymentDAO().getPayment(mPayment.getId());
 
             if (mPayment != null && mPayment.getStatus().equals("paid")) {
@@ -51,6 +50,8 @@ public class MollieResultActivity extends AppCompatActivity {
             } else {
                 runOnUiThread(() -> failureAnim());
             }
+
+            LocalDb.getDatabase(getBaseContext()).getPaymentDAO().deletePayment();
         }).start();
     }
 
