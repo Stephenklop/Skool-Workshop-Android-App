@@ -45,7 +45,6 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
     public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
         holder.title.setText(newsArticles.get(position).getName());
         Glide.with(this.context).load(newsArticles.get(position).getImgUrl()).into(holder.image);
-        //TODO: Link to website
 
     }
 

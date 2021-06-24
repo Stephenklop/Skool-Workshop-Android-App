@@ -92,14 +92,16 @@ public class APINotificationDAO implements NotificationDAO {
         String url = "";
         int id = 0;
         boolean status = false;
+        String topic = null;
 
         try{
             title = jsonObject.getString("Title");
             description = jsonObject.getString("Message");
             url = jsonObject.getString("Url");
             id = jsonObject.getInt("Id");
+            topic = jsonObject.getString("Topic");
 
-            result = new Notification(id, title, description, url, status);
+            result = new Notification(id, title, description, url, status, topic);
         }catch (Exception e){
 
         }

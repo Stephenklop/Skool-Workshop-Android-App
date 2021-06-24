@@ -9,7 +9,6 @@ public class CultureDayItem implements Serializable, ProductItem {
     private int rounds;
     private int workshopPerWorkshopRound;
     private int roundDuration;
-    // TODO: Add product validation
     private List<Product> products;
     private String timeSchedule;
     private int participants;

@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2.ui;
+package com.example.skoolworkshop2.ui.User;
 
 import android.content.Intent;
 import android.os.Build;
@@ -23,9 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
+import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.example.skoolworkshop2.ui.User.MyAccountActivity;
 
-public class PointsLayoutTestActivity extends AppCompatActivity {
+public class PointsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class PointsLayoutTestActivity extends AppCompatActivity {
         TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
 
         String moneyStrStart = "Waarde ";
-        String moneyStr = moneyStrStart + "€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03));
+        String moneyStr = moneyStrStart + "€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03)).replace(".", ",");
         Spannable moneySpannable = new SpannableString(moneyStr);
         moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
                 moneyStrStart.length(),

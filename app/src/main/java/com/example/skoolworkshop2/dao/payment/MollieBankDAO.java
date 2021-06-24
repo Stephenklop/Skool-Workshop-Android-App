@@ -56,7 +56,7 @@ public class MollieBankDAO implements BankDAO {
             result = new Bank(
                     jsonObject.getString("id"),
                     jsonObject.getString("name"),
-                    jsonObject.getJSONObject("image").getString("svg")
+                    jsonObject.getJSONObject("image").getString("size1x")
             );
         } catch (JSONException e) {
             e.printStackTrace();

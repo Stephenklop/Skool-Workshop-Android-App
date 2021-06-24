@@ -16,8 +16,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <VideoView
+        android:id="@+id/activity_cultureday_details_vv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:scaleType="centerCrop"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="53dp"
+        android:src="@drawable/ic_play"
+        android:id="@+id/activity_cultureday_detail_play"
+        app:layout_anchor="@+id/activity_cultureday_details_vv_banner"
+        app:layout_anchorGravity="center" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
+        android:id="@+id/activity_cultureday_details_appBar"
         android:layout_height="200dp"
         android:background="@android:color/transparent"
         android:stateListAnimator="@null"

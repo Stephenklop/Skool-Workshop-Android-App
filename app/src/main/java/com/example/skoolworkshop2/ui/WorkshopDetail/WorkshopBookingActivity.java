@@ -491,14 +491,15 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        int indexOneMonth = month + 1;
         if(dayOfMonth < 10 && month < 10){
-            mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+            mDateEditText.setText("0" + dayOfMonth + "/0" + indexOneMonth + "/" + year);
         } else if (dayOfMonth < 10){
-            mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+            mDateEditText.setText("0" + dayOfMonth + "/" + indexOneMonth + "/" + year);
         } else if (month < 10){
-            mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+            mDateEditText.setText(dayOfMonth + "/0" + indexOneMonth + "/" + year);
         } else {
-            mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+            mDateEditText.setText(dayOfMonth + "/" + indexOneMonth + "/" + year);
         }
         datePickerDialog.cancel();
     }
@@ -536,6 +537,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
         boolean participants = workshopParticipantsValidator.isValid();
         boolean rounds = roundsValidator.isValid();
         boolean minutes = workshopItem.getPrice() >= 175;
+        boolean schedule = (workshopItem.getTimeSchedule() != null) || ((workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0);
         boolean level = learningLevelValidator.isValid();
 
         if (!date) {
@@ -561,6 +563,9 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
             mMinuteEditText.setBackgroundResource(R.drawable.edittext_error);
         } else {
             mMinuteEditText.setBackgroundResource(R.drawable.edittext_default);
+        }
+        if (!schedule) {
+            workshopItem.setTimeSchedule("n.v.t.");
         }
         if (!level) {
             result = false;

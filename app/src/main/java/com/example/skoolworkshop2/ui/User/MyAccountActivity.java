@@ -6,14 +6,11 @@ import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,12 +22,10 @@ import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.UserDAO;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
-import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.User;
 import com.example.skoolworkshop2.logic.menuController.MenuController;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
-import com.example.skoolworkshop2.ui.PointsLayoutTestActivity;
 import com.example.skoolworkshop2.ui.SplashScreenActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,6 +65,7 @@ public class MyAccountActivity extends AppCompatActivity {
         logOutButton.setText("Log uit");
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_account_refresh);
+        refreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -151,7 +147,14 @@ public class MyAccountActivity extends AppCompatActivity {
         textIcon3.setText("Boekingen");
         ImageView imageIcon3 = icon3.findViewById(R.id.item_dashboard_img_icon);
         imageIcon3.setImageResource(R.drawable.ic_folder);
-
+        icon3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(buttonsEnabled[0]){
+                    startActivity(new Intent(getApplicationContext(), ReservationActivity.class));
+                }
+            }
+        });
 
         //fourth icon
         View icon4 = findViewById(R.id.activity_my_account_item_skoolpartner);
@@ -163,7 +166,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(buttonsEnabled[0]){
-                    startActivity(new Intent(getApplicationContext(), PointsLayoutTestActivity.class));
+                    startActivity(new Intent(getApplicationContext(), PointsActivity.class));
                 }
             }
         });
@@ -186,6 +189,12 @@ public class MyAccountActivity extends AppCompatActivity {
                         LocalDb.getDatabase(getApplication()).getUserDAO().deleteInfo();
                         System.out.println("deleted user");
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().deleteCustomer();
+                        System.out.println("deleted billing address");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteAdress();
+                        System.out.println("deleted shipping address");
+                        LocalDb.getDatabase(getApplication()).getUserDAO().deleteShippingAddress();
+                        System.out.println("deleted notifications");
+                        LocalDb.getDatabase(getApplication()).getNotificationDAO().deletePersonalNotifications();
                         System.out.println("deleted customer");
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     }

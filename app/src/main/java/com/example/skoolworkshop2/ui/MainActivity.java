@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             TextView moneyPoints = points.findViewById(R.id.item_points_tv_value);
 
             String moneyStrStart = "Waarde ";
-            String moneyStr = moneyStrStart + "€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03));
+            String moneyStr = moneyStrStart + "€" + String.format("%.2f", (1.00 * iem.getInfo().getPoints() * 0.03)).replace(".", ",");
             Spannable moneySpannable = new SpannableString(moneyStr);
             moneySpannable.setSpan(new ForegroundColorSpan(getColor(R.color.main_orange)),
                     moneyStrStart.length(),
@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
 
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_home_refresh);
+        refreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -277,18 +278,8 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             }
         });
 
-        Bundle bundle = new Bundle();
-        bundle.putString("test_event", "test_event_id");
-        mFirebaseAnalytics.logEvent("eventTest", bundle);
 
-        Bundle loginEvent = new Bundle();
-        loginEvent.putString("login_event_id", "login_event_id");
-        mFirebaseAnalytics.logEvent("login_event", loginEvent);
-
-        Bundle appOpenEvent = new Bundle();
-        appOpenEvent.putString("app_open_event_id", "app_open_event_id");
-        mFirebaseAnalytics.logEvent("app_open_event", appOpenEvent);
-
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle ordersEvent = new Bundle();
         ordersEvent.putString("orders_event_id", "orders_event_id");
         mFirebaseAnalytics.logEvent("orders_event", ordersEvent);

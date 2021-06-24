@@ -48,6 +48,7 @@ public class NotificationsActivity extends AppCompatActivity {
         loadNotifications();
 
         SwipeRefreshLayout refreshLayout = findViewById(R.id.activity_notifications_refresh);
+        refreshLayout.setColorSchemeColors(getColor(R.color.main_orange));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -105,7 +106,6 @@ public class NotificationsActivity extends AppCompatActivity {
         this.notificationsAdapter = new NotificationsAdapter(LocalDb.getDatabase(getApplication()).getNotificationDAO().getAllNewNotifications(), getApplication(), new NotificationsAdapter.ClickListener() {
             @Override
             public void onClick() {
-                //TODO ophalen notifications
                 loadNotifications();
             }
         });

@@ -38,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -79,6 +80,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             MessagingService messagingService = new MessagingService();
             messagingService.handleNotificationData(getIntent());
             messagingService.subscribeToTopic("main");
+
+            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+            Bundle appOpenEvent = new Bundle();
+            appOpenEvent.putString("app_open_event_id", "app_open_event_id");
+            mFirebaseAnalytics.logEvent("app_open_event", appOpenEvent);
         }
     }
 

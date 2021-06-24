@@ -31,6 +31,11 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.activity_email_result;
+import com.example.skoolworkshop2.dao.DAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Mail;
+import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.CJPValidator;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
@@ -71,6 +76,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
     private WorkshopParticipantsValidator workshopParticipantsValidator = new WorkshopParticipantsValidator();
 
     private DatePickerDialog datePickerDialog;
+    private Product cultureDay;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -82,6 +88,8 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
+
+        cultureDay = (Product) getIntent().getSerializableExtra("cultureDay");
 
         datePickerDialog = new DatePickerDialog(this,R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayQuestionActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
 
@@ -514,29 +522,15 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
                 if(validate()){
                     mErrTv.setVisibility(View.GONE);
 
-                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                    emailIntent.setType("text/html");
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@skoolworkshop.nl"});
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email vanuit de app");
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("Contact informatie:");
-                    stringBuilder.append("\n-Naam: " + mNameEditText.getText().toString());
-                    stringBuilder.append("\n-Email: " + mEmailEditText.getText().toString());
-                    stringBuilder.append("\n-TelefoonNummer: " + mTelEditText.getText().toString());
-                    stringBuilder.append("\nCJP schoolnummer: " + mCJPEditText.getText().toString());
-
-                    stringBuilder.append("\n\nWorkshop informatie:");
-                    stringBuilder.append("\n-Aantal personen: " + mAmountOfPersonsEditText.getText().toString());
-                    stringBuilder.append("\n-Gewenste datum: " + mDateEditText.getText().toString());
-                    stringBuilder.append("\n-Gewenste aanvangstijd: " + mTimeEditText.getText().toString());
-                    stringBuilder.append("\n-Gewenste locatie: " + mLocationEditText.getText().toString());
-
-                    stringBuilder.append("\n\nBericht:\n");
-                    stringBuilder.append(mMessageEditText.getText().toString());
-
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, stringBuilder.toString());
-                    startActivity(emailIntent);
+                    Mail mail = new Mail(Integer.parseInt(mAmountOfPersonsEditText.getText().toString()), mDateEditText.getText().toString(), mTimeEditText.getText().toString(), mLocationEditText.getText().toString(), Integer.parseInt(mCJPEditText.getText().toString()), mEmailEditText.getText().toString(), mTelEditText.getText().toString(), mMessageEditText.getText().toString());
+                    DAOFactory daoFactory = new APIDAOFactory();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            daoFactory.getEmailDAO().sendMail(mail);
+                            startActivity(new Intent(CulturedayQuestionActivity.this, activity_email_result.class).putExtra("cultureDay", cultureDay));
+                        }
+                    }).start();
 
                 } else {
                     mErrTv.setVisibility(View.VISIBLE);
@@ -554,7 +548,7 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
         boolean date = !mDateEditText.getText().toString().isEmpty() && DateValidation.isValidDate(mDateEditText.getText().toString());
         boolean time = !mTimeEditText.getText().toString().isEmpty();
         boolean location = !mLocationEditText.getText().toString().isEmpty();
-        boolean cjp = !mCJPEditText.getText().toString().isEmpty() && CJPValidator.isValidCJP(mCJPEditText.getText().toString());
+        boolean cjp = mCJPEditText.getText().toString().isEmpty() || CJPValidator.isValidCJP(mCJPEditText.getText().toString());
         boolean name = !mNameEditText.getText().toString().isEmpty();
         boolean tel = !mTelEditText.getText().toString().isEmpty() && TelValidator.isValidTelNumber(mTelEditText.getText().toString());
         boolean message = !mMessageEditText.getText().toString().isEmpty();
@@ -611,14 +605,15 @@ public class CulturedayQuestionActivity extends FragmentActivity implements View
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        int indexOneMonth = month + 1;
         if(dayOfMonth < 10 && month < 10){
-            mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+            mDateEditText.setText("0" + dayOfMonth + "/0" + indexOneMonth + "/" + year);
         } else if (dayOfMonth < 10){
-            mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+            mDateEditText.setText("0" + dayOfMonth + "/" + indexOneMonth + "/" + year);
         } else if (month < 10){
-            mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+            mDateEditText.setText(dayOfMonth + "/0" + indexOneMonth + "/" + year);
         } else {
-            mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+            mDateEditText.setText(dayOfMonth + "/" + indexOneMonth + "/" + year);
         }
         datePickerDialog.cancel();
     }

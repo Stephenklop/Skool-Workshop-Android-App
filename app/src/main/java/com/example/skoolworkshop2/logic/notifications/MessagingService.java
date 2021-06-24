@@ -47,9 +47,10 @@ public class MessagingService extends FirebaseMessagingService {
         String title = messageInput.get("Title");
         String description = messageInput.get("Message");
         String url = messageInput.get("Url");
+        String topic = messageInput.get("Topic");
         if(messageInput.get("Id") != null){
             int id = Integer.parseInt((messageInput.get("Id")));
-            Notification notification = new Notification(id, title, description, url, false);
+            Notification notification = new Notification(id, title, description, url, false, topic);
             System.out.println(notification.toString());
 
             LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);

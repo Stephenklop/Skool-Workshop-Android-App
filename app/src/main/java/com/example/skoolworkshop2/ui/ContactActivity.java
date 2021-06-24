@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import com.example.skoolworkshop2.R;
+import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.ui.notifications.OldNotificationAdapter;
 
 public class ContactActivity extends AppCompatActivity {
@@ -24,6 +25,10 @@ public class ContactActivity extends AppCompatActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        if(NetworkUtil.checkInternet(getApplicationContext())){
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        }
 
         ImageButton backButton = findViewById(R.id.activity_contact_btn_back);
         backButton.setOnClickListener(new View.OnClickListener() {

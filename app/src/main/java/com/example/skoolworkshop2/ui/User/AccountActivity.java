@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.Notification;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIUserDAO;
 import com.example.skoolworkshop2.domain.User;
@@ -47,9 +48,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -204,6 +208,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 enableLoadingIndicator();
+                DAOFactory apidaoFactory = new APIDAOFactory();
                 mLoginButton.setEnabled(false);
                 APIUserDAO apiUserDAO = new APIUserDAO();
 
@@ -216,6 +221,20 @@ public class AccountActivity extends AppCompatActivity {
                         LocalDb.getDatabase(getApplication()).getCustomerDAO().addCustomer(apiUserDAO.getLastCustomer());
 
                         setToken();
+
+                        ArrayList<Notification> personalNotifications = (ArrayList<Notification>) apidaoFactory.getNotificationDAO().getNotificationsForUser(LocalDb.getDatabase(getApplication()).getUserDAO().getInfo().getId());
+                        for (Notification notification : personalNotifications) {
+                            try{
+                                LocalDb.getDatabase(getApplication()).getNotificationDAO().insertNotification(notification);
+                            }catch (Exception e){
+                                System.out.println("Notification bestaat al");
+                            }
+                        }
+
+                        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(AccountActivity.this);
+                        Bundle loginEvent = new Bundle();
+                        loginEvent.putString("login_event_id", "login_event_id");
+                        mFirebaseAnalytics.logEvent("login_event", loginEvent);
 
                         startActivity(new Intent(getApplicationContext(), MyAccountActivity.class).putExtras(bundle));
                     });

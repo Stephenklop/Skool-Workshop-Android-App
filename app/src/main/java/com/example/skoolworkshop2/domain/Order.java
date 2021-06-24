@@ -186,23 +186,4 @@ public class Order {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", status='" + status + '\'' +
-                ", customerId=" + customerId +
-                ", billingAddressId=" + billingAddressId +
-                ", shippingAddressId=" + shippingAddressId +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", paymentMethodTitle='" + paymentMethodTitle + '\'' +
-                ", customerNote='" + customerNote + '\'' +
-                ", billingCJP=" + billingCJP +
-                ", billingVideo='" + billingVideo + '\'' +
-                ", reservationSystem='" + reservationSystem + '\'' +
-                ", distance=" + distance +
-                ", price=" + price +
-                '}';
-    }
 }

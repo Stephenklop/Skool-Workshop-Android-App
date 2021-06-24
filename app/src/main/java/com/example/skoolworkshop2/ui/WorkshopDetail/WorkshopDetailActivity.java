@@ -123,16 +123,20 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
         });
 
         CollapsingToolbarLayout appBarLayout = findViewById(R.id.activity_workshop_details_collapsingToolbar);
+        ImageView playIcon = findViewById(R.id.activity_workshop_detail_play);
         appBarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(videoView != null){
                     if(videoView.isPlaying()){
                         videoView.pause();
+                        playIcon.setVisibility(View.VISIBLE);
                     } else if(videoView.getVisibility() == View.VISIBLE){
                         videoView.start();
+                        playIcon.setVisibility(View.GONE);
                     } else {
                         playVideo();
+                        playIcon.setVisibility(View.GONE);
                     }
                 }
             }
@@ -203,7 +207,7 @@ public class WorkshopDetailActivity extends FragmentActivity implements View.OnC
                 videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        videoView.setVisibility(View.GONE);
+                        videoView.setVisibility(View.INVISIBLE);
                     }
                 });
             }

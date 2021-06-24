@@ -195,6 +195,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             if (mShippingAddressConstraintLayout.getVisibility() == View.VISIBLE) {
                 mShippingAddressConstraintLayout.setVisibility(View.GONE);
             } else {
+
                 mShippingAddressConstraintLayout.setVisibility(View.VISIBLE);
                 if (LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null) {
                     ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
@@ -204,7 +205,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                         mWorkshopLocationCountrySpnr.setSelection(2);
                     }
 
-                    String addressSplit[] = shippingAddress.getAddress().split(" ");
+                    String addressSplit[] = shippingAddress.getAddress().split("(?<=\\D)(?=\\d)");
 
                     mWFirstNameEditText.setText(shippingAddress.getFirstName());
                     mWLastNameEditText.setText(shippingAddress.getLastName());
@@ -325,7 +326,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
 
-                if (!PostcodeValidatorBE.isValidPostcode(s.toString())) {
+                if (!PostcodeValidatorBE.isValidPostcode(s)) {
                     Log.d(LOG_TAG, "onTextChanged: verkeerde belgische postcode");
                     mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
                 }
@@ -1065,7 +1066,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                 mLocationCountrySpnr.setSelection(2);
             }
 
-            String addressSplit[] = billingAddress.getAddress().split(" ");
+            String addressSplit[] = billingAddress.getAddress().split("(?<=\\D)(?=\\d)");
 
             mFirstNameEditText.setText(billingAddress.getFirstName());
             mLastNameEditText.setText(billingAddress.getLastName());
@@ -1093,16 +1094,19 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         //USER
         if (item.getName().equals("NL")) {
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if (PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText().toString())) {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }
             }
             mPostCodeEditText.removeTextChangedListener(beTextWatcher);
             mPostCodeEditText.addTextChangedListener(nlTextWatcher);
 
         } else if (item.getName().equals("BE")) {
             if (!mPostCodeEditText.getText().toString().isEmpty()) {
-                mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if (PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText().toString())) {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }
             }
-            mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mPostCodeEditText.removeTextChangedListener(nlTextWatcher);
             mPostCodeEditText.addTextChangedListener(beTextWatcher);
         }
@@ -1110,15 +1114,18 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         //Workshop
         if (itemWorkshop.getName().equals("NL")) {
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
-                mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if (PostcodeValidatorNL.isValidPostcode(mPostCodeEditText.getText().toString())) {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }
             }
             mWPostCodeEditText.removeTextChangedListener(beWTextWatcher);
             mWPostCodeEditText.addTextChangedListener(nlWTextWatcher);
         } else if (itemWorkshop.getName().equals("BE")) {
             if (!mWPostCodeEditText.getText().toString().isEmpty()) {
-                mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
+                if (PostcodeValidatorBE.isValidPostcode(mPostCodeEditText.getText().toString())) {
+                    mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
+                }
             }
-            mWPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
             mWPostCodeEditText.removeTextChangedListener(nlWTextWatcher);
             mWPostCodeEditText.addTextChangedListener(beWTextWatcher);
         }
