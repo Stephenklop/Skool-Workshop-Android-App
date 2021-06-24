@@ -16,5 +16,7 @@ public interface UserDAO {
     User getLastUser();
     void updateBilling(BillingAddress billingAddress);
     void updateShipping(ShippingAddress shippingAddress);
+    void deleteUserPoints(int orderId);
+    void addUserPoints(int orderId, int points);
 
 }

@@ -540,4 +540,73 @@ public class APIUserDAO implements UserDAO {
     public User getLastUser(){
         return lastUser;
     }
+
+    public void deleteUserPoints(int orderId){
+        try{
+            int points = LocalDb.getDatabase(application).getUserDAO().getInfo().getPoints();
+            int id = LocalDb.getDatabase(application).getUserDAO().getInfo().getId();
+            String PATH = "account/" + id + "/points";
+            connect(BASE_URL + PATH);
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+            String jsonInput = "{\"points\": \"-" + points + "\", \"orderId\": \"" + orderId + "\"}";
+            System.out.println("JSON STRING: " + jsonInput);
+
+            System.out.println("PROPERTIES: " + connection.getRequestProperties());
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addUserPoints(int orderId, int points){
+        try{
+            int id = LocalDb.getDatabase(application).getUserDAO().getInfo().getId();
+            String PATH = "account/" + id + "/points";
+            connect(BASE_URL + PATH);
+            System.out.println(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+            String jsonInput = "{\"points\": " + points + ", \"orderId\": " + orderId + "}";
+            System.out.println("JSON STRING: " + jsonInput);
+
+            System.out.println("PROPERTIES: " + connection.getRequestProperties());
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            System.out.println(connection.getRequestMethod());
+            System.out.println(connection.getResponseCode());
+
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
