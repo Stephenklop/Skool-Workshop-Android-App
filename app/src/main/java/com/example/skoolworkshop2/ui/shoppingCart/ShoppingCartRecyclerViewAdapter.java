@@ -20,7 +20,6 @@ import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.domain.ProductItem;
 
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
 
         Glide.with(context).load(product.getSourceImage()).centerCrop().into(holder.mWorkshopImage);
         holder.mWorkshopTitle.setText(product.getName());
-        holder.mWorkshopPrice.setText("€" + String.format("%.2f", shoppingCartItems.get(position).getTotalPrice()).replace(".", ","));
+        holder.mWorkshopPrice.setText("€" + String.format("%.2f", shoppingCartItems.get(position).getRegularPrice()).replace(".", ","));
         holder.mDetailButton.setText("Details");
         holder.mDetailButton.setOnClickListener(v -> {
             if (holder.mDetailButton.getText().equals("Details")) {

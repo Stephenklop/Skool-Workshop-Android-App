@@ -23,9 +23,12 @@ public interface ShoppingCartDAO {
     @Query("SELECT * FROM ShoppingCartItem")
     List<ShoppingCartItem> getItemsInShoppingCart();
 
-    @Query("SELECT SUM(totalPrice) FROM ShoppingCartItem")
+    @Query("SELECT SUM(price) FROM ShoppingCartItem")
     double getTotalShoppingCartPrice();
 
     @Query("SELECT COUNT(id) FROM ShoppingCartItem")
     int getAmountOfShoppingCartItems();
+
+    @Query("UPDATE ShoppingCartItem SET price = :price WHERE productId = :productId")
+    void updateShoppingCartItemPrice(int productId, double price);
 }

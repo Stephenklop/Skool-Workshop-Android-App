@@ -23,7 +23,6 @@ public interface CouponDAO {
     @Query("DELETE FROM Coupon")
     void deleteAllCoupons();
 
-
     @Query("SELECT * FROM Coupon WHERE discountType = 'points'")
     Coupon getPointsCoupon();
 }

@@ -21,6 +21,7 @@ public class MollieResultActivity extends AppCompatActivity {
     private LocalDb mLocalDb;
     private MollieDAOFactory mMollieDAOFactory;
     private APIDAOFactory mAPIDAOFactory;
+    private boolean manualSuccess;
     private Payment mPayment;
     private ImageView mResponseImg;
     private TextView mResponseTv;
@@ -31,6 +32,9 @@ public class MollieResultActivity extends AppCompatActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mollie_result);
+
+        Intent intent = getIntent();
+        manualSuccess = intent.getBooleanExtra("success", false);
 
         mLocalDb = LocalDb.getDatabase(getBaseContext());
         mMollieDAOFactory = new MollieDAOFactory();
@@ -49,10 +53,19 @@ public class MollieResultActivity extends AppCompatActivity {
 
         new Thread(() -> {
             int orderId = mLocalDb.getOrderDAO().getOrder().getId();
-            mPayment = mMollieDAOFactory.getPaymentDAO().getPayment(mPayment.getId());
 
-            if (mPayment != null && mPayment.getStatus().equals("paid")) {
+            if (mPayment != null) {
+                mPayment = mMollieDAOFactory.getPaymentDAO().getPayment(mPayment.getId());
+            }
+
+            if ((mPayment != null && mPayment.getStatus().equals("paid")) || manualSuccess) {
                 runOnUiThread(() -> successAnim());
+
+                // If there was a points coupon applied, remove the points from the account
+                if (LocalDb.getDatabase(getBaseContext()).getCouponDAO().getPointsCoupon() != null) {
+                    mAPIDAOFactory.getUserDAO().deleteUserPoints(orderId);
+                }
+
                 mAPIDAOFactory.getOrderDAO().updateOrderStatus(orderId, "completed");
             } else {
                 runOnUiThread(() -> failureAnim());

@@ -1135,7 +1135,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         double total = 0;
 
         for (ShoppingCartItem product : shoppingCartItems) {
-            total += product.getTotalPrice();
+            total += product.getPrice();
         }
 
         return total;

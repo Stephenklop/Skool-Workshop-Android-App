@@ -18,5 +18,5 @@ public interface OrderDAO {
     void deleteOrder();
 
     @Query("UPDATE `Order` SET paymentMethod = :paymentMethod, paymentMethodTitle = :paymentMethodTitle")
-    int updateOrderPaymentMethod(String paymentMethod, String paymentMethodTitle);
+    void updateOrderPaymentMethod(String paymentMethod, String paymentMethodTitle);
 }

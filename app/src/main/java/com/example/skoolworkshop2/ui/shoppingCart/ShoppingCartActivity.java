@@ -290,6 +290,30 @@ public class ShoppingCartActivity extends AppCompatActivity {
         orderButton.setText("Verder met bestellen");
         orderButton.setOnClickListener(v -> {
             if (LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getAmountOfShoppingCartItems() > 0) {
+                List<ShoppingCartItem> shoppingCartItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getItemsInShoppingCart();
+                List<Coupon> coupons = LocalDb.getDatabase(getBaseContext()).getCouponDAO().getAllCoupons();
+
+                for (ShoppingCartItem shoppingCartItem : shoppingCartItems) {
+                    for (Coupon coupon : coupons) {
+                        switch (coupon.getDiscountTypeEnum()) {
+                            case PROCENTKORTING:
+                                double newPercentPrice = shoppingCartItem.getRegularPrice() * (coupon.getAmount() / 100);
+                                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().updateShoppingCartItemPrice(shoppingCartItem.getProductId(), newPercentPrice);
+                                break;
+                            case PRODUCTKORTING:
+                                double newProductPrice = shoppingCartItem.getRegularPrice() - coupon.getAmount();
+                                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().updateShoppingCartItemPrice(shoppingCartItem.getProductId(), newProductPrice);
+                                break;
+                            case VASTEKORTING:
+                            case POINTS:
+                                double newFixedPrice = shoppingCartItem.getRegularPrice() - (coupon.getAmount() / shoppingCartItems.size());
+                                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().updateShoppingCartItemPrice(shoppingCartItem.getProductId(), newFixedPrice);
+                                break;
+                        }
+                    }
+                }
+
+
                 Intent intent = new Intent(this, AddressInfoActivity.class);
                 startActivity(intent);
             }
@@ -308,7 +332,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         ArrayList<Coupon> coupons = (ArrayList<Coupon>) LocalDb.getDatabase(getApplication()).getCouponDAO().getAllCoupons();
 
         for (ShoppingCartItem product : shoppingCartItems) {
-            total += product.getTotalPrice();
+            total += product.getRegularPrice();
         }
 
         for (Coupon coupon : coupons){

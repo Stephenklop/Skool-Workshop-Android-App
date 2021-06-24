@@ -550,6 +550,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements DateP
                         mCultureDayItem.getLearningLevel(),
                         DateConverter.datePickerConverter(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 12, 0, 0, "00:00"),
                         DateConverter.datePickerConverter(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 23, 59, 59, "00:00"),
+                        mCultureDayItem.getPrice(),
                         mCultureDayItem.getPrice()
                 );
 

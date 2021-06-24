@@ -81,7 +81,14 @@ public class MainActivity extends AppCompatActivity implements NewsArticleAdapte
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
+//        apidaoFactory = new APIDAOFactory();
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                apidaoFactory.getUserDAO().addUserPoints(8276, 2000);
+//            }
+//        }).start();
 
 
 

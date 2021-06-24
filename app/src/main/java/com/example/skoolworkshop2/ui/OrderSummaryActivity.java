@@ -111,6 +111,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                                 // Save payment locally
                                 LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
 
+                                // Clear coupon codes
+                                LocalDb.getDatabase(getBaseContext()).getCouponDAO().deleteAllCoupons();
+
                                 // Clear shopping cart
                                 LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
 
@@ -123,6 +126,19 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                         break;
 
                     default:
+                        new Thread(() -> {
+                            // Add order to Skool Workshop Database and save order to get the order id
+                            Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
+
+                            // If there was a points coupon applied, remove the points from the account
+                            if (LocalDb.getDatabase(getBaseContext()).getCouponDAO().getPointsCoupon() != null) {
+                                mApiDAOFactory.getUserDAO().deleteUserPoints(order.getId());
+                            }
+                        });
+
+                        // Clear coupon codes
+                        LocalDb.getDatabase(getBaseContext()).getCouponDAO().deleteAllCoupons();
+
                         // Clear shopping cart
                         LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
 

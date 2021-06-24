@@ -5,8 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.skoolworkshop2.domain.Product;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,11 +53,14 @@ public class ShoppingCartItem {
     private String endDate;
 
     @ColumnInfo
-    private double totalPrice;
+    private double regularPrice;
+
+    @ColumnInfo
+    private double price;
 
     public ShoppingCartItem() {}
 
-    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel, String startDate, String endDate, double totalPrice) {
+    public ShoppingCartItem(int productId, boolean workshop, String date, int rounds, int workshopPerWorkshopRound, int roundDuration, String timeSchedule, int participants, int amountOfParticipantsGraffitiTshirt, String learningLevel, String startDate, String endDate, double regularPrice, double price) {
         this.productId = productId;
         this.workshop = workshop;
         this.date = date;
@@ -72,7 +73,8 @@ public class ShoppingCartItem {
         this.learningLevel = learningLevel;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.totalPrice = totalPrice;
+        this.regularPrice = regularPrice;
+        this.price = price;
     }
 
     private String convertIdsToString(List<Integer> ids){
@@ -238,12 +240,20 @@ public class ShoppingCartItem {
         this.endDate = endDate;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setRegularPrice(double regularPrice) {
+        this.regularPrice = regularPrice;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getRegularPrice() {
+        return regularPrice;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     @Override
@@ -261,7 +271,7 @@ public class ShoppingCartItem {
                 ", participants=" + participants +
                 ", amountOfParticipantsGraffitiTshirt=" + amountOfParticipantsGraffitiTshirt +
                 ", learningLevel='" + learningLevel + '\'' +
-                ", totalPrice=" + totalPrice +
+                ", totalPrice=" + price +
                 '}';
     }
 }

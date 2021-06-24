@@ -273,8 +273,8 @@ public class APIOrderDAO implements OrderDAO {
                 "      \"name\": \"" + product.getName() + "\"," +
                 "      \"product_id\": " + product.getProductId() + "," +
                 "      \"quantity\": 1," +
-                "      \"subtotal\": " + shoppingCartItem.getTotalPrice() + "," +
-                "      \"total\": " + (shoppingCartItem.getTotalPrice() + shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
+                "      \"subtotal\": " + shoppingCartItem.getPrice() + "," +
+                "      \"total\": " + (shoppingCartItem.getPrice() + shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
                 "      \"participants\": " + shoppingCartItem.getParticipants() + "," +
                 "      \"participants_total_cost\": " + (shoppingCartItem.getAmountOfParticipantsGraffitiTshirt() * 7.50) + "," +
                 "      \"workshop_rounds\": " + shoppingCartItem.getRounds() + "," +
@@ -282,7 +282,7 @@ public class APIOrderDAO implements OrderDAO {
 
         if (shoppingCartItem.isWorkshop()) {
             result.append("\"total_duration\": " + (shoppingCartItem.getRoundDuration() * shoppingCartItem.getRounds()) + "," +
-                    "      \"total_duration_price\": " + shoppingCartItem.getTotalPrice() + ",");
+                    "      \"total_duration_price\": " + shoppingCartItem.getPrice() + ",");
         } else {
             result.append("\"culture_day\": {" +
                     "        \"workshops_per_round\": " + shoppingCartItem.getWorkshopPerWorkshopRound() + "," +
