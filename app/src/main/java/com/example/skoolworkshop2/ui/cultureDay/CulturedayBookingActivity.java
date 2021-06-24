@@ -638,6 +638,7 @@ public class CulturedayBookingActivity extends FragmentActivity implements DateP
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month++;
         if(dayOfMonth < 10 && month < 10){
             mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
         } else if (dayOfMonth < 10){
