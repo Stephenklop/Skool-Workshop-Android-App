@@ -20,6 +20,7 @@ import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Customer;
 import com.example.skoolworkshop2.domain.Order;
 import com.example.skoolworkshop2.domain.Payment;
+import com.example.skoolworkshop2.domain.PaymentMethod;
 import com.example.skoolworkshop2.domain.ShippingAddress;
 import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
@@ -30,6 +31,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
     private UserManager mUserManager;
     private Customer mCustomer;
     private Order mOrder;
+    private PaymentMethod selectedPaymentMethod;
     private ShippingAddress mShippingAddress;
     private BillingAddress mBillingAddress;
     private int mAmountOfItems;
@@ -87,37 +89,43 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
 
         mOrderButton.setText("Door naar betalen");
         mOrderButton.setOnClickListener(v -> {
-            System.out.println(mOrder);
-            if (mIsIdeal) {
-                Bank selectedBank = (Bank) mIdealSpinner.getSelectedItem();
+            if (selectedPaymentMethod != null) {
+                LocalDb.getDatabase(getBaseContext()).getOrderDAO().updateOrderPaymentMethod(selectedPaymentMethod.getFields().get(0), selectedPaymentMethod.getFields().get(1));
 
-                // Send to Mollie
-                new Thread(() -> {
-                    // Add order to Skool Workshop Database and save order to get the order id
-                    Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
+                switch (selectedPaymentMethod) {
+                    case IDEAL:
+                        Bank selectedBank = (Bank) mIdealSpinner.getSelectedItem();
 
-                    // Delete all payments
-                    LocalDb.getDatabase(getBaseContext()).getPaymentDAO().deletePayment();
+                        // Send to Mollie
+                        new Thread(() -> {
+                            // Add order to Skool Workshop Database and save order to get the order id
+                            Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
 
-                    // Send mollie API request
-                    Payment payment = mMollieDAOFactory.getPaymentDAO().addPayment(order.getId(), String.format("%.2f", order.getPrice()), "TEST ORDER", selectedBank);
+                            // Delete all payments
+                            LocalDb.getDatabase(getBaseContext()).getPaymentDAO().deletePayment();
 
-                    if (payment != null) {
-                        // Save payment locally
-                        LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
+                            // Send mollie API request
+                            Payment payment = mMollieDAOFactory.getPaymentDAO().addPayment(order.getId(), String.format("%.2f", order.getPrice()), "TEST ORDER", selectedBank);
 
-                        // Redirect to bank
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
-                        startActivity(browserIntent);
-                    }
+                            if (payment != null) {
+                                // Save payment locally
+                                LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
 
+                                // Redirect to bank
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
+                                startActivity(browserIntent);
+                            }
+                        }).start();
 
+                        break;
 
-                }).start();
-            } else {
-                // Send to success page
-                Intent intent = new Intent(this, MollieResultActivity.class);
-                startActivity(intent);
+                    default:
+                        Intent intent = new Intent(this, MollieResultActivity.class);
+                        intent.putExtra("success", true);
+                        startActivity(intent);
+
+                        break;
+                }
             }
         });
     }
@@ -132,19 +140,19 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.activity_summary_btn_transfer:
                 selectPayment(mPaymentTransferButton);
-                mIsIdeal = false;
+                selectedPaymentMethod = PaymentMethod.BACS;
                 break;
             case R.id.activity_summary_btn_cjp:
                 selectPayment(mPaymentCjpButton);
-                mIsIdeal = false;
+                selectedPaymentMethod = PaymentMethod.CHECQUE;
                 break;
             case R.id.activity_summary_btn_cash:
                 selectPayment(mPaymentCashButton);
-                mIsIdeal = false;
+                selectedPaymentMethod = PaymentMethod.CHECQUE;
                 break;
             case R.id.activity_summary_btn_ideal:
                 selectPayment(mPaymentIdealButton);
-                mIsIdeal = true;
+                selectedPaymentMethod = PaymentMethod.IDEAL;
                 break;
         }
     }

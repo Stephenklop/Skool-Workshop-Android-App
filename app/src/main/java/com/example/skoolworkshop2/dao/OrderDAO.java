@@ -11,6 +11,7 @@ public interface OrderDAO {
     List<Order> getAllOrdersOfUser(int userId);
     Order getOrder(int id);
     Order addOrder(Order order);
+    boolean updateOrderStatus(int id, String status);
     Order parseJsonToOrder(JSONObject jsonObject);
     String parseOrderToJson(Order order);
 }

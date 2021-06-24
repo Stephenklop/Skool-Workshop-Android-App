@@ -108,6 +108,32 @@ public class APIOrderDAO implements OrderDAO {
     }
 
     @Override
+    public boolean updateOrderStatus(int id, String status) {
+        boolean result = false;
+        final String PATH = "order/" + id;
+
+        try {
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
+
+            String jsonInput = "{\"status\": \"" + status + "\"}";
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            result = connection.getResponseCode() == 200;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
     public Order parseJsonToOrder(JSONObject jsonObject) {
         Order result = null;
 
@@ -259,32 +285,4 @@ public class APIOrderDAO implements OrderDAO {
 
         return result.toString();
     }
-
-//    public Order parseJsonToOrder(JSONObject object) throws JSONException {
-//        Order order = null;
-//        BillingAddress address = (BillingAddress) object.get("billing");
-//        ShippingAddress shippingAddress = (ShippingAddress) object.get("shipping");
-//
-//        try {
-//            String status = object.getString("status");
-//            int costumerId = object.getInt("costumer_id");
-//            int billingId = address.getId();
-//            int shippingId = shippingAddress.getId();
-//            String paymentMethod = object.getString("payment_method");
-//            String paymentMethodTitle = object.getString("payment_method_title");
-//            String costumerNote = object.getString("customer_note");
-//            int billingCJP = object.getInt("billing_CJP");
-//            String billingVideo = object.getString("billing_video");
-//            String reservationSystem = object.getString("reservation_system");
-//            JSONArray shippingLines = object.getJSONArray("shipping_lines");
-//            JSONObject shippingObject = shippingLines.getJSONObject(0);
-//            Double distance = shippingObject.getDouble("distance");
-//            Double price = shippingObject.getDouble("price");
-//            order = new Order(status, costumerId, billingId, shippingId, paymentMethod, paymentMethodTitle, costumerNote, billingCJP, billingVideo, reservationSystem, distance, price);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return order;
-//    }
 }
