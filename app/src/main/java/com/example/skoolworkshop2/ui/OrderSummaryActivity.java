@@ -65,7 +65,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-        mSummaryNameTextView.setText(mCustomer.getFirstName() + " " + mCustomer.getFirstName());
+        mSummaryNameTextView.setText(mCustomer.getFirstName() + " " + mCustomer.getLastName());
         mShippingAddressTextView.setText(mShippingAddress.getAddress());
         mShippingPostalCityTextView.setText(mShippingAddress.getPostcode() + " " + mShippingAddress.getCity());
 
