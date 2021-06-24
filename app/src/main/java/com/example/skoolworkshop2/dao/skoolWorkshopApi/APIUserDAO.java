@@ -551,7 +551,7 @@ public class APIUserDAO implements UserDAO {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNjIzMTQ0MTM1fQ.llvbk-9WFZdiPJvZtDfhF-08GiX114mlcGXP2PriwaY");
 
-            String jsonInput = "{\"points\": \"-" + points + "\", \"orderId\": \"" + orderId + "\"}";
+            String jsonInput = "{\"points\": -" + points + ", \"orderId\": " + orderId + "}";
             System.out.println("JSON STRING: " + jsonInput);
 
             System.out.println("PROPERTIES: " + connection.getRequestProperties());

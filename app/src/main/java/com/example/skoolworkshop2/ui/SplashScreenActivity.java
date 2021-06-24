@@ -177,8 +177,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                     System.out.println(user.toString());
                     LocalDb.getDatabase(getApplication()).getUserDAO().insertInfo(user);
                     System.out.println("added user with updated info");
-                    userDAO.addUserPoints(2873, 1000);
-                    System.out.println("added points to user");
                 }
                 notifications.start();
 
