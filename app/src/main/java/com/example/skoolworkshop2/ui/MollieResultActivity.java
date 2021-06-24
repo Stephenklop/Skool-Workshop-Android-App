@@ -34,6 +34,7 @@ public class MollieResultActivity extends AppCompatActivity {
 
         mLocalDb = LocalDb.getDatabase(getBaseContext());
         mMollieDAOFactory = new MollieDAOFactory();
+        mAPIDAOFactory = new APIDAOFactory();
         mPayment = LocalDb.getDatabase(getBaseContext()).getPaymentDAO().getPayment();
 
         mResponseImg = findViewById(R.id.activity_mollie_result_img_response);

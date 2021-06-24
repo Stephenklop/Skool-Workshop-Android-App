@@ -111,6 +111,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                                 // Save payment locally
                                 LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
 
+                                // Clear shopping cart
+                                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
+
                                 // Redirect to bank
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
                                 startActivity(browserIntent);
@@ -120,6 +123,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                         break;
 
                     default:
+                        // Clear shopping cart
+                        LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
+
                         Intent intent = new Intent(this, MollieResultActivity.class);
                         intent.putExtra("success", true);
                         startActivity(intent);

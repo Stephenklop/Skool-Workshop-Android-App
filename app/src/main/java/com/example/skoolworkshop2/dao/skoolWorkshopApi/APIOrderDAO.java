@@ -98,7 +98,6 @@ public class APIOrderDAO implements OrderDAO {
             while ((inputLine = in.readLine()) != null) {
                 JSONObject resultObject = new JSONObject(inputLine).getJSONObject("result");
                 result = parseJsonToOrder(resultObject);
-                System.out.println("RESPONSE OBJECT ADD ORDER: " + result);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,13 +148,12 @@ public class APIOrderDAO implements OrderDAO {
                     orderInformation.getString("payment_method"),
                     orderInformation.getString("payment_method_title"),
                     orderInformation.getString("customer_note"),
-                    // TODO Add error handling
                     orderInformation.getJSONArray("meta_data").getJSONObject(0).getString("value"),
                     orderInformation.getJSONArray("meta_data").getJSONObject(3).getString("value"),
                     orderInformation.getJSONArray("meta_data").getJSONObject(2).getString("value"),
                     orderInformation.getDouble("shipping_total"),
                     orderInformation.getDouble("total")
-                    );
+            );
 
             result.setId(orderInformation.getInt("id"));
         } catch (JSONException e) {
