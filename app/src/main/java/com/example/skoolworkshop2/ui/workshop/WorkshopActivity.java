@@ -178,7 +178,7 @@ public class WorkshopActivity extends AppCompatActivity implements WorkshopAdapt
 
         if(!searchValue.isEmpty()){
             for (Product workshop: mWorkshops) {
-                if(workshop.getName().toLowerCase().contains(searchValue)){
+                if(workshop.getName().toLowerCase().contains(searchValue.toLowerCase())){
                     filteredList.add(workshop);
                 }
             }
