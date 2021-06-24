@@ -20,11 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class BankArrayAdapter extends ArrayAdapter<Object> {
-    LayoutInflater layoutInflater;
+    private LayoutInflater layoutInflater;
     private Context context;
 
     public BankArrayAdapter(@NonNull Context context, @NonNull List<Bank> bankList) {
-        super(context, 0, (Object[]) bankList.toArray());
+        super(context, 0, bankList.toArray());
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
     }
@@ -39,6 +39,7 @@ public class BankArrayAdapter extends ArrayAdapter<Object> {
             view = convertView;
         }
         setBank(view, (Bank) getItem(position));
+        view.setTag(getItem(position));
         return view;
     }
 

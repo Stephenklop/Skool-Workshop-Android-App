@@ -32,7 +32,7 @@ public class Order {
     private String customerNote;
 
     @ColumnInfo
-    private int billingCJP;
+    private String billingCJP;
 
     @ColumnInfo
     private String billingVideo;
@@ -44,9 +44,15 @@ public class Order {
     private double distance;
 
     @ColumnInfo
+    private double orderPrice;
+
+    @ColumnInfo
+    private double travelCosts;
+
+    @ColumnInfo
     private double price;
 
-    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, int billingCJP, String billingVideo, String reservationSystem, double distance, double price) {
+    public Order(String status, int customerId, int billingAddressId, int shippingAddressId, String paymentMethod, String paymentMethodTitle, String customerNote, String billingCJP, String billingVideo, String reservationSystem, double distance, double orderPrice) {
         this.status = status;
         this.customerId = customerId;
         this.billingAddressId = billingAddressId;
@@ -58,7 +64,7 @@ public class Order {
         this.billingVideo = billingVideo;
         this.reservationSystem = reservationSystem;
         this.distance = distance;
-        this.price = price;
+        this.orderPrice = orderPrice;
     }
 
     public int getId() {
@@ -125,11 +131,11 @@ public class Order {
         this.customerNote = customerNote;
     }
 
-    public int getBillingCJP() {
+    public String getBillingCJP() {
         return billingCJP;
     }
 
-    public void setBillingCJP(int billingCJP) {
+    public void setBillingCJP(String billingCJP) {
         this.billingCJP = billingCJP;
     }
 
@@ -157,12 +163,27 @@ public class Order {
         this.distance = distance;
     }
 
+    public double getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(double orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public double getTravelCosts() {
+        return Math.round(distance * 0.56 * 100.0) / 100.0;
+    }
+
+    public void setTravelCosts(double travelCosts) {
+        this.travelCosts = travelCosts;
+    }
+
     public double getPrice() {
-        return price;
+        return orderPrice + travelCosts;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
-
 }

@@ -5,4 +5,5 @@ import com.example.skoolworkshop2.domain.Payment;
 
 public interface PaymentDAO {
     Payment addPayment(int orderId, String amount, String description, Bank bank);
+    Payment getPayment(String id);
 }

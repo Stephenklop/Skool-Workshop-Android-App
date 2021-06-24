@@ -30,6 +30,7 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.Product;
 import com.example.skoolworkshop2.domain.WorkshopItem;
+import com.example.skoolworkshop2.logic.converters.DateConverter;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
@@ -79,7 +80,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
     private MinuteValidator minuteValidator = new MinuteValidator();
     private WorkshopParticipantsValidator workshopParticipantsValidator = new WorkshopParticipantsValidator();
     private RoundsValidator roundsValidator = new RoundsValidator();
-
+;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -438,26 +439,32 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                 // Datum, deelnemers, rondes, minuten, learning levels niet leeg, rest wel
                 if(validate()){
                     mErrTv.setVisibility(View.GONE);
+                    DatePicker datePicker = datePickerDialog.getDatePicker();
 
-                    // Add workshop to local storage
-                    System.out.println("CART ITEMS BOOKING: " + Paper.book().read("cartItems"));
+                    // set schedule to n.v.t. when left empty
+                    if (workshopItem.getTimeSchedule() != null || (workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0) {
+                        workshopItem.setTimeSchedule("n.v.t.");
+                    }
 
-                    System.out.println("ORDER: " + workshopItem);
-                    // Save the item in the shopping cart
-                    LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(
-                            new ShoppingCartItem(
-                                    workshopItem.getProduct().getProductId(),
-                                    true, workshopItem.getDate(),
-                                    workshopItem.getRounds(),
-                                    -1,
-                                    workshopItem.getRoundDuration(),
-                                    workshopItem.getTimeSchedule(),
-                                    workshopItem.getParticipants(),
-                                    0,
-                                    workshopItem.getLearningLevel(),
-                                    workshopItem.getPrice()
-                            )
+                    // Initiate shopping cart item
+                    ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
+                            workshopItem.getProduct().getProductId(),
+                            true,
+                            workshopItem.getDate(),
+                            workshopItem.getRounds(),
+                            -1,
+                            workshopItem.getRoundDuration(),
+                            workshopItem.getTimeSchedule(),
+                            workshopItem.getParticipants(),
+                            0,
+                            workshopItem.getLearningLevel(),
+                            DateConverter.datePickerConverter(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 12, 0, 0, "00:00"),
+                            DateConverter.datePickerConverter(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 23, 59, 59, "00:00"),
+                            workshopItem.getPrice()
                     );
+
+                    // Save shopping cart item in local database
+                    LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().insertItemInShoppingCart(shoppingCartItem);
 
                     // Initiate and start intent
                     Intent intent = new Intent(getApplicationContext(), ShoppingCartActivity.class);

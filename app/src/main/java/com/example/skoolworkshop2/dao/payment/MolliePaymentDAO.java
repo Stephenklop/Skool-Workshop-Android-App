@@ -44,10 +44,10 @@ public class MolliePaymentDAO implements PaymentDAO {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                System.out.println("RESPONSE: " + inputLine);
-                JSONObject response = new JSONObject(inputLine);
-
-                result = parsePayment(response);
+                 if (connection.getResponseCode() == 200) {
+                     JSONObject response = new JSONObject(inputLine);
+                     result = parseAddPayment(response);
+                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,11 +56,56 @@ public class MolliePaymentDAO implements PaymentDAO {
         return result;
     }
 
-    private Payment parsePayment(JSONObject jsonObject) {
+    @Override
+    public Payment getPayment(String id) {
+        final String PATH = "payment/get";
         Payment result = null;
 
         try {
-            result = new Payment(jsonObject.getString("resource"), jsonObject.getString("id"), jsonObject.getString("mode"), jsonObject.getString("createdAt"), jsonObject.getJSONObject("amount").getString("value"), jsonObject.getJSONObject("amount").getString("currency"), jsonObject.getString("description"), jsonObject.getString("method"), jsonObject.getString("status"), jsonObject.getString("expiresAt"), jsonObject.getString("locale"), jsonObject.getString("redirectUrl"), jsonObject.getString("webhookUrl"), jsonObject.getJSONObject("_links").getJSONObject("checkout").getString("href"));
+            connect(BASE_URL + PATH);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            String jsonInput = "{\"orderId\": \"" + id + "\"}";
+
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonInput.getBytes());
+            os.flush();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                if (connection.getResponseCode() == 200) {
+                    JSONObject response = new JSONObject(inputLine);
+                    result = parseGetPayment(response);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    private Payment parseAddPayment(JSONObject jsonObject) {
+        Payment result = null;
+
+        try {
+            result = new Payment(jsonObject.getString("resource"), jsonObject.getString("id"), jsonObject.getString("mode"), jsonObject.getString("createdAt"), jsonObject.getJSONObject("amount").getString("value"), jsonObject.getJSONObject("amount").getString("currency"), jsonObject.getString("description"), jsonObject.getString("method"), jsonObject.getString("status"), jsonObject.getString("expiresAt"), jsonObject.getString("locale"), jsonObject.getString("redirectUrl"), jsonObject.getJSONObject("_links").getJSONObject("checkout").getString("href"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    private Payment parseGetPayment(JSONObject jsonObject) {
+        Payment result = null;
+
+        try {
+            result = new Payment(jsonObject.getString("resource"), jsonObject.getString("id"), jsonObject.getString("mode"), jsonObject.getString("createdAt"), jsonObject.getJSONObject("amount").getString("value"), jsonObject.getJSONObject("amount").getString("currency"), jsonObject.getString("description"), jsonObject.getString("method"), jsonObject.getString("status"), null, jsonObject.getString("locale"), null, null);
         } catch (JSONException e) {
             e.printStackTrace();
         }

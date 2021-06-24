@@ -23,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
+import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.BillingAddress;
 import com.example.skoolworkshop2.domain.Customer;
@@ -43,11 +44,16 @@ import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcod
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorBE;
 import com.example.skoolworkshop2.logic.validation.addressInfoValidators.postcodeValidator.PostcodeValidatorNL;
 
+import java.util.List;
+
 public class AddressInfoActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private String LOG_TAG = getClass().getSimpleName();
 
     // Data
     APIDAOFactory apidaoFactory = new APIDAOFactory();
+
+    // Shopping cart items
+    List<ShoppingCartItem> shoppingCartItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getItemsInShoppingCart();
 
     //validations
     private NameValidator nameValidator = new NameValidator();
@@ -119,7 +125,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_info);
 
-        if(NetworkUtil.checkInternet(getApplicationContext())){
+        if (NetworkUtil.checkInternet(getApplicationContext())) {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
@@ -191,10 +197,9 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             } else {
 
                 mShippingAddressConstraintLayout.setVisibility(View.VISIBLE);
-                if(LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress() != null){
-                    ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress();
-
-                    if(shippingAddress.getCountry().equals("Nederland")){
+                if (LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0) != null) {
+                    ShippingAddress shippingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getShippingAddress(0);
+                    if (shippingAddress.getCountry().equals("Nederland")) {
                         mWorkshopLocationCountrySpnr.setSelection(1);
                     } else {
                         mWorkshopLocationCountrySpnr.setSelection(2);
@@ -222,13 +227,13 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mPostCodeEditText.equals("")){
-                    if (PostcodeValidatorNL.isValidPostcode(s.toString())){
+                if (!mPostCodeEditText.equals("")) {
+                    if (PostcodeValidatorNL.isValidPostcode(s.toString())) {
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         postcodeValidatorNL.setmIsValid(true);
 
 
-                    } else{
+                    } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_error);
                         postcodeValidatorNL.setmIsValid(false);
@@ -245,11 +250,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mPostCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(postcodeValidatorNL.isValid() || postcodeValidatorBE.isValid()) {
+                if (!hasFocus) {
+                    if (postcodeValidatorNL.isValid() || postcodeValidatorBE.isValid()) {
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mPostCodeEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -262,7 +267,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mPostCodeEditText.equals("")) {
+                if (!mPostCodeEditText.equals("")) {
                     if (PostcodeValidatorBE.isValidPostcode(s.toString())) {
                         mPostCodeEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         postcodeValidatorNL.setmIsValid(true);
@@ -338,21 +343,21 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         };
 
 
-
         //validations
         mFirstNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(!mFirstNameEditText.equals("")){
-                    if (nameValidator.isValidName(s.toString())){
+                if (!mFirstNameEditText.equals("")) {
+                    if (nameValidator.isValidName(s.toString())) {
                         mFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         nameValidator.mIsValid = true;
 
-                    } else{
+                    } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
                         nameValidator.mIsValid = false;
@@ -362,16 +367,17 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         mFirstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(nameValidator.isValid()) {
+                if (!hasFocus) {
+                    if (nameValidator.isValid()) {
                         mFirstNameEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -379,16 +385,17 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
         mLastNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mLastNameEditText.equals("")){
-                    if (nameValidator.isValidName(s.toString())){
+                if (!mLastNameEditText.equals("")) {
+                    if (nameValidator.isValidName(s.toString())) {
                         mLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         nameValidator.mIsValid = true;
 
-                    } else{
+                    } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mLastNameEditText.setBackgroundResource(R.drawable.edittext_error);
                         nameValidator.mIsValid = false;
@@ -398,16 +405,17 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         mLastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(nameValidator.isValid()) {
+                if (!hasFocus) {
+                    if (nameValidator.isValid()) {
                         mLastNameEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -421,7 +429,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mAddressEditText.equals("")) {
+                if (!mAddressEditText.equals("")) {
                     if (addressValidator.isValidAdressValidator(s.toString())) {
                         mAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         addressValidator.mIsValid = true;
@@ -436,16 +444,17 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         mAddressEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(addressValidator.isValid()) {
+                if (!hasFocus) {
+                    if (addressValidator.isValid()) {
                         mAddressEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -470,11 +479,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mCompanyNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
 
                     mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_default);
 
-                } else{
+                } else {
                     mCompanyNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -488,7 +497,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mPlaceEditText.equals("")) {
+                if (!mPlaceEditText.equals("")) {
                     if (PlaceValidator.isValidPlace(s.toString())) {
                         mPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         placeValidator.mIsValid = true;
@@ -509,11 +518,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mPlaceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(placeValidator.isValid()) {
+                if (!hasFocus) {
+                    if (placeValidator.isValid()) {
                         mPlaceEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -527,7 +536,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mStreetNameEditText.equals("")) {
+                if (!mStreetNameEditText.equals("")) {
                     if (StreetnameValidator.isValidStreetname(s.toString())) {
                         mStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         streetnameValidator.mIsValid = true;
@@ -550,11 +559,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mStreetNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(streetnameValidator.isValid()) {
+                if (!hasFocus) {
+                    if (streetnameValidator.isValid()) {
                         mStreetNameEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -568,7 +577,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mTelEditText.equals("")) {
+                if (!mTelEditText.equals("")) {
                     if (telValidator.isValidTelNumber(s.toString())) {
                         mTelEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         telValidator.mIsValid = true;
@@ -589,11 +598,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mTelEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(telValidator.isValid()) {
+                if (!hasFocus) {
+                    if (telValidator.isValid()) {
                         mTelEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mTelEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -608,7 +617,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mEmailEditText.equals("")) {
+                if (!mEmailEditText.equals("")) {
                     if (emailValidator.isValidEmail(s.toString())) {
                         mEmailEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         emailValidator.mIsValid = true;
@@ -629,11 +638,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(emailValidator.isValid()) {
+                if (!hasFocus) {
+                    if (emailValidator.isValid()) {
                         mEmailEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mEmailEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -647,7 +656,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mCJPEditText.equals("")) {
+                if (!mCJPEditText.equals("")) {
                     if (cjpValidator.isValidCJP(s.toString())) {
                         mCJPEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         cjpValidator.mIsValid = true;
@@ -667,11 +676,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mCJPEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(cjpValidator.isValid()) {
+                if (!hasFocus) {
+                    if (cjpValidator.isValid()) {
                         mCJPEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mCJPEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -686,12 +695,12 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mWFirstNameEditText.equals("")){
-                    if (nameValidator.isValidName(s.toString())){
+                if (!mWFirstNameEditText.equals("")) {
+                    if (nameValidator.isValidName(s.toString())) {
                         mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         nameValidator.mIsValid = true;
 
-                    } else{
+                    } else {
                         Log.d(LOG_TAG, "onTextChanged: FOUT!!");
                         mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_error);
                         nameValidator.mIsValid = false;
@@ -709,11 +718,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWFirstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(nameValidator.isValid()) {
+                if (!hasFocus) {
+                    if (nameValidator.isValid()) {
                         mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mWFirstNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -727,7 +736,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mWLastNameEditText.equals("")) {
+                if (!mWLastNameEditText.equals("")) {
                     if (nameValidator.isValidName(s.toString())) {
                         mWLastNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         nameValidator.mIsValid = true;
@@ -748,11 +757,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWLastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(nameValidator.isValid()) {
+                if (!hasFocus) {
+                    if (nameValidator.isValid()) {
                         mWLastNameEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mWLastNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -766,7 +775,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mWAddressEditText.equals("")) {
+                if (!mWAddressEditText.equals("")) {
                     if (addressValidator.isValidAdressValidator(s.toString())) {
                         mWAddressEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         addressValidator.mIsValid = true;
@@ -790,11 +799,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWAddressEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(addressValidator.isValid()) {
+                if (!hasFocus) {
+                    if (addressValidator.isValid()) {
                         mWAddressEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mWAddressEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -820,11 +829,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWCompanyNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
 
                     mWCompanyNameEditText.setBackgroundResource(R.drawable.edittext_default);
 
-                } else{
+                } else {
                     mWCompanyNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -838,7 +847,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mWPlaceEditText.equals("")) {
+                if (!mWPlaceEditText.equals("")) {
                     if (placeValidator.isValidPlace(s.toString())) {
                         mWPlaceEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         placeValidator.mIsValid = true;
@@ -858,11 +867,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWPlaceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(placeValidator.isValid()) {
+                if (!hasFocus) {
+                    if (placeValidator.isValid()) {
                         mWPlaceEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mWPlaceEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -876,7 +885,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!mWStreetNameEditText.equals("")) {
+                if (!mWStreetNameEditText.equals("")) {
                     if (StreetnameValidator.isValidStreetname(s.toString())) {
                         mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_confirmed);
                         streetnameValidator.mIsValid = true;
@@ -897,11 +906,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWStreetNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(streetnameValidator.isValid()) {
+                if (!hasFocus) {
+                    if (streetnameValidator.isValid()) {
                         mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_default);
                     }
-                } else{
+                } else {
                     mWStreetNameEditText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -927,11 +936,11 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mWorkshopInfoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
 
                     mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_default);
 
-                } else{
+                } else {
                     mWorkshopInfoText.setBackgroundResource(R.drawable.edittext_focused);
                 }
             }
@@ -949,7 +958,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         mSendBn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validate()){
+                if (validate()) {
                     mErrTv.setVisibility(View.GONE);
                     Country billingAddressCountry = (Country) mLocationCountrySpnr.getSelectedItem();
                     Country shippingAddressCountry = (Country) mWorkshopLocationCountrySpnr.getSelectedItem();
@@ -983,7 +992,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                 mWPostCodeEditText.getText().toString(),
                                 mWPlaceEditText.getText().toString(),
                                 "",
-                                mWAddressEditText.getText().toString(),
+                                mWStreetNameEditText.getText().toString() + " " + mWAddressEditText.getText().toString(),
                                 shippingAddressCountry.getName()
                         );
                     } else {
@@ -994,7 +1003,7 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                 mPostCodeEditText.getText().toString(),
                                 mPlaceEditText.getText().toString(),
                                 "",
-                                mAddressEditText.getText().toString(),
+                                mStreetNameEditText.getText().toString() + " " + mAddressEditText.getText().toString(),
                                 billingAddressCountry.getName()
                         );
                     }
@@ -1019,9 +1028,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
 //                            )
 //                    );
 
-
-                    // TODO: Add shipping address, billing video, reservation system, distance & price
-
                     LocalDb.getDatabase(getBaseContext()).getOrderDAO().deleteOrder();
                     LocalDb.getDatabase(getBaseContext()).getOrderDAO().insertOrder(
                             new Order(
@@ -1032,15 +1038,15 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
                                     "unknown",
                                     "unknown",
                                     mWorkshopInfoText.getText().toString().replace("\n", " "),
-                                    Integer.parseInt((mCJPEditText.getText().toString().equals("")) ? "0" : mCJPEditText.getText().toString()),
-                                    (String) registrationSystemRadioButton.getText(),
-                                    (String) compilationRadioButton.getText(),
+                                    (mCJPEditText.getText().toString().equals("") ? "0" : mCJPEditText.getText().toString()),
+                                    registrationSystemRadioButton.getText().toString(),
+                                    compilationRadioButton.getText().toString(),
                                     Math.round(distance * 10.0) / 10.0,
-                                    Math.round(distance * 0.56 * 100.0) / 100.0
+                                    calculateTotalPrice()
                             )
                     );
 
-                    new Thread(() -> apidaoFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder())).start();
+//                    new Thread(() -> apidaoFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder())).start();
 
                     Intent intent = new Intent(getBaseContext(), OrderSummaryActivity.class);
                     startActivity(intent);
@@ -1051,10 +1057,10 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-        if(LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress() != null){
-            BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress();
+        if (LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0) != null) {
+            BillingAddress billingAddress = LocalDb.getDatabase(getApplication()).getUserDAO().getBillingAddress(0);
 
-            if(billingAddress.getCountry().equals("Nederland")){
+            if (billingAddress.getCountry().equals("Nederland")) {
                 mLocationCountrySpnr.setSelection(1);
             } else {
                 mLocationCountrySpnr.setSelection(2);
@@ -1072,8 +1078,6 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
             mTelEditText.setText(billingAddress.getPhone());
             mEmailEditText.setText(billingAddress.getEmail());
         }
-
-
     }
 
     @Override
@@ -1127,9 +1131,15 @@ public class AddressInfoActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private double calculateTotalPrice() {
+        double total = 0;
 
+        for (ShoppingCartItem product : shoppingCartItems) {
+            total += product.getTotalPrice();
+        }
 
-
+        return total;
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

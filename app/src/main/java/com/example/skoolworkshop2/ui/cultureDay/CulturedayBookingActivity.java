@@ -2,6 +2,8 @@ package com.example.skoolworkshop2.ui.cultureDay;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.util.LocaleData;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +30,7 @@ import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.localDatabase.entities.ShoppingCartItem;
 import com.example.skoolworkshop2.domain.CultureDayItem;
 import com.example.skoolworkshop2.domain.Product;
+import com.example.skoolworkshop2.logic.converters.DateConverter;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 import com.example.skoolworkshop2.logic.validation.DateValidation;
 import com.example.skoolworkshop2.logic.validation.LearningLevelValidator;
@@ -40,11 +45,12 @@ import com.example.skoolworkshop2.ui.cultureDay.adapters.CategoryArrayAdapter;
 import com.example.skoolworkshop2.ui.cultureDay.adapters.WorkshopArrayAdapter;
 import com.example.skoolworkshop2.ui.shoppingCart.ShoppingCartActivity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class CulturedayBookingActivity extends FragmentActivity {
+public class CulturedayBookingActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private String LOG_TAG = getClass().getSimpleName();
     private Product mCultureDay;
     private CultureDayItem mCultureDayItem;
@@ -55,6 +61,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
     private ImageButton mBackButton;
     private ImageView mBanner;
     private TextView mTitle;
+    private DatePickerDialog mDatePickerDialog;
     private EditText mDateEditText;
     private EditText mParticipantsEditText;
     private EditText mWorkshopRoundsEditText;
@@ -91,6 +98,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
 
     private TextView mErrTv;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +134,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mTitle.setText(mCultureDay.getName());
 
         // TODO: Add date validation (to ensure the date is in the future)
-        mDateEditText.setOnClickListener(v -> setDatePicker());
+        mDateEditText.setOnClickListener(v -> mDatePickerDialog.show());
         mDateEditText.setFocusable(false);
         mDateEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -527,6 +535,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mOrderButton.setOnClickListener(v -> {
             if (validate()) {
                 mErrTv.setVisibility(View.GONE);
+                DatePicker datePicker = mDatePickerDialog.getDatePicker();
 
                 ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
                         mCultureDay.getProductId(),
@@ -539,6 +548,8 @@ public class CulturedayBookingActivity extends FragmentActivity {
                         mCultureDayItem.getParticipants(),
                         mCultureDayItem.getAmountOfParticipantsGraffitiTshirt(),
                         mCultureDayItem.getLearningLevel(),
+                        DateConverter.datePickerConverter(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 12, 0, 0, "00:00"),
+                        DateConverter.datePickerConverter(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 23, 59, 59, "00:00"),
                         mCultureDayItem.getPrice()
                 );
 
@@ -576,6 +587,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initializeAttributes() {
         // Main view
         mCultureDay = (Product) getIntent().getSerializableExtra("cultureDay");
@@ -587,6 +599,7 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mBackButton = findViewById(R.id.activity_cultureday_booking_btn_back);
         mBanner = findViewById(R.id.activity_cultureday_booking_img_banner);
         mTitle = findViewById(R.id.activity_cultureday_booking_tv_title);
+        mDatePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, CulturedayBookingActivity.this, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
         mDateEditText = findViewById(R.id.date_picker_edit_text);
         mParticipantsEditText = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.number_edit_text);
         mParticipantsInfoBtn = findViewById(R.id.activity_cultureday_booking_et_amount).findViewById(R.id.component_edittext_number_info_btn_info);
@@ -623,29 +636,19 @@ public class CulturedayBookingActivity extends FragmentActivity {
         mErrTv = findViewById(R.id.activity_cultureday_booking_tv_err);
     }
 
-    private void setDatePicker() {
-        int mYear, mMonth, mDay;
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        if(dayOfMonth < 10 && month < 10){
+            mDateEditText.setText("0" + dayOfMonth + "/0" + month + "/" + year);
+        } else if (dayOfMonth < 10){
+            mDateEditText.setText("0" + dayOfMonth + "/" + month + "/" + year);
+        } else if (month < 10){
+            mDateEditText.setText(dayOfMonth + "/0" + month + "/" + year);
+        } else {
+            mDateEditText.setText(dayOfMonth + "/" + month + "/" + year);
+        }
+        mDatePickerDialog.cancel();
 
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH) + 1;
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.Theme_SkoolWorkshop2_DatePicker, (view, year, month, dayOfMonth) -> {
-//            mDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-            int indexOneMonth = month + 1;
-            if(dayOfMonth < 10 && month < 10){
-                mDateEditText.setText("0" + dayOfMonth + "/0" + indexOneMonth + "/" + year);
-            } else if (dayOfMonth < 10){
-                mDateEditText.setText("0" + dayOfMonth + "/" + indexOneMonth + "/" + year);
-            } else if (month < 10){
-                mDateEditText.setText(dayOfMonth + "/0" + indexOneMonth + "/" + year);
-            } else {
-                mDateEditText.setText(dayOfMonth + "/" + indexOneMonth + "/" + year);
-            }
-            mDateEditText.setError(null);
-        }, mYear, mMonth, mDay);
-        datePickerDialog.show();
     }
 
     private List<String> loadWorkshopCategories() {

@@ -3,6 +3,7 @@ package com.example.skoolworkshop2.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,23 +14,44 @@ import android.widget.TextView;
 import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.dao.localDatabase.LocalDb;
 import com.example.skoolworkshop2.dao.payment.MollieDAOFactory;
+import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
+import com.example.skoolworkshop2.domain.Bank;
+import com.example.skoolworkshop2.domain.BillingAddress;
+import com.example.skoolworkshop2.domain.Customer;
+import com.example.skoolworkshop2.domain.Order;
+import com.example.skoolworkshop2.domain.Payment;
+import com.example.skoolworkshop2.domain.PaymentMethod;
+import com.example.skoolworkshop2.domain.ShippingAddress;
+import com.example.skoolworkshop2.logic.managers.localDb.UserManager;
 import com.example.skoolworkshop2.logic.networkUtils.NetworkUtil;
 
 public class OrderSummaryActivity extends AppCompatActivity implements View.OnClickListener {
-    private MollieDAOFactory mollieDAOFactory;
-    private int amountOfItems;
-    private double subTotalPrice;
-    private double travelExpenses;
-    private TextView subTotalPriceTitleTextView;
-    private TextView subTotalPriceTextView;
-    private TextView travelExpensesTextView;
-    private TextView totalPriceTextView;
+    private APIDAOFactory mApiDAOFactory;
+    private MollieDAOFactory mMollieDAOFactory;
+    private UserManager mUserManager;
+    private Customer mCustomer;
+    private Order mOrder;
+    private PaymentMethod selectedPaymentMethod;
+    private ShippingAddress mShippingAddress;
+    private BillingAddress mBillingAddress;
+    private int mAmountOfItems;
+    private LinearLayout mSummaryLinearLayout;
+    private TextView mSummaryNameTextView;
+    private TextView mShippingAddressTextView;
+    private TextView mShippingPostalCityTextView;
+    private TextView mBillingAddressTextView;
+    private TextView mBillingPostalCityTextView;
+    private TextView mSubTotalPriceTitleTextView;
+    private TextView mSubTotalPriceTextView;
+    private TextView mTravelExpensesTextView;
+    private TextView mTotalPriceTextView;
     private LinearLayout mPaymentMethodsLinearLayout;
     private LinearLayout mPaymentTransferButton;
     private LinearLayout mPaymentCjpButton;
     private LinearLayout mPaymentCashButton;
     private LinearLayout mPaymentIdealButton;
     private Spinner mIdealSpinner;
+    private boolean mIsIdeal;
     private Button mOrderButton;
 
     @Override
@@ -37,17 +59,27 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
-        if(NetworkUtil.checkInternet(getApplicationContext())){
+        initializeAttributes();
+
+        if(NetworkUtil.checkInternet(getApplicationContext())) {
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
 
-        initializeAttributes();
+        mSummaryNameTextView.setText(mCustomer.getFirstName() + " " + mCustomer.getLastName());
+        mShippingAddressTextView.setText(mShippingAddress.getAddress());
+        mShippingPostalCityTextView.setText(mShippingAddress.getPostcode() + " " + mShippingAddress.getCity());
 
-        subTotalPriceTitleTextView.setText("Subtotaal (" + amountOfItems + "):" );
-        subTotalPriceTextView.setText("€" + String.format("%.2f", subTotalPrice).replace(".", ","));
+        mBillingAddressTextView.setText(mBillingAddress.getAddress());
+        mBillingPostalCityTextView.setText(mBillingAddress.getPostcode() + " " + mBillingAddress.getCity());
+
+        mSubTotalPriceTitleTextView.setText("Subtotaal (" + mAmountOfItems + "):" );
+        mSubTotalPriceTextView.setText("€" + String.format("%.2f", mOrder.getOrderPrice()).replace(".", ","));
+
+        mTravelExpensesTextView.setText("€" + String.format("%.2f", mOrder.getTravelCosts()).replace(".", ","));
+        mTotalPriceTextView.setText("€" + String.format("%.2f", mOrder.getPrice()).replace(".", ","));
 
         new Thread(() -> {
-            mIdealSpinner.setAdapter(new BankArrayAdapter(getBaseContext(), mollieDAOFactory.getBankDAO().getAllBanks()));
+            mIdealSpinner.setAdapter(new BankArrayAdapter(getBaseContext(), mMollieDAOFactory.getBankDAO().getAllBanks()));
         }).start();
 
         mPaymentTransferButton.setOnClickListener(this);
@@ -57,7 +89,50 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
 
         mOrderButton.setText("Door naar betalen");
         mOrderButton.setOnClickListener(v -> {
-            System.out.println("ORDERED!");
+            if (selectedPaymentMethod != null) {
+                LocalDb.getDatabase(getBaseContext()).getOrderDAO().updateOrderPaymentMethod(selectedPaymentMethod.getFields().get(0), selectedPaymentMethod.getFields().get(1));
+
+                switch (selectedPaymentMethod) {
+                    case IDEAL:
+                        Bank selectedBank = (Bank) mIdealSpinner.getSelectedItem();
+
+                        // Send to Mollie
+                        new Thread(() -> {
+                            // Add order to Skool Workshop Database and save order to get the order id
+                            Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
+
+                            // Delete all payments
+                            LocalDb.getDatabase(getBaseContext()).getPaymentDAO().deletePayment();
+
+                            // Send mollie API request
+                            Payment payment = mMollieDAOFactory.getPaymentDAO().addPayment(order.getId(), String.format("%.2f", order.getPrice()), "TEST ORDER", selectedBank);
+
+                            if (payment != null) {
+                                // Save payment locally
+                                LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
+
+                                // Clear shopping cart
+                                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
+
+                                // Redirect to bank
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
+                                startActivity(browserIntent);
+                            }
+                        }).start();
+
+                        break;
+
+                    default:
+                        // Clear shopping cart
+                        LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
+
+                        Intent intent = new Intent(this, MollieResultActivity.class);
+                        intent.putExtra("success", true);
+                        startActivity(intent);
+
+                        break;
+                }
+            }
         });
     }
 
@@ -71,28 +146,42 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.activity_summary_btn_transfer:
                 selectPayment(mPaymentTransferButton);
+                selectedPaymentMethod = PaymentMethod.BACS;
                 break;
             case R.id.activity_summary_btn_cjp:
                 selectPayment(mPaymentCjpButton);
+                selectedPaymentMethod = PaymentMethod.CHECQUE;
                 break;
             case R.id.activity_summary_btn_cash:
                 selectPayment(mPaymentCashButton);
+                selectedPaymentMethod = PaymentMethod.CHECQUE;
                 break;
             case R.id.activity_summary_btn_ideal:
                 selectPayment(mPaymentIdealButton);
+                selectedPaymentMethod = PaymentMethod.IDEAL;
                 break;
         }
     }
 
     private void initializeAttributes() {
-        mollieDAOFactory = new MollieDAOFactory();
-        amountOfItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getAmountOfShoppingCartItems();
-        subTotalPrice = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getTotalShoppingCartPrice();
-        travelExpenses = 0;
-        subTotalPriceTitleTextView = findViewById(R.id.activity_summary_tv_subtotal_key);
-        subTotalPriceTextView = findViewById(R.id.activity_summary_tv_subtotal_value);
-        travelExpensesTextView = findViewById(R.id.activity_summary_tv_travel_cost_value);
-        totalPriceTextView = findViewById(R.id.activity_summary_tv_total_value);
+        mApiDAOFactory = new APIDAOFactory();
+        mMollieDAOFactory = new MollieDAOFactory();
+        mUserManager = new UserManager(getApplication());
+        mCustomer = mUserManager.getCustomer();
+        mOrder = LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder();
+        mShippingAddress = LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().getShippingAddress();
+        mBillingAddress = LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().getBillingAddress();
+        mAmountOfItems = LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().getAmountOfShoppingCartItems();
+        mSummaryLinearLayout = findViewById(R.id.activity_summary_overview);
+        mSummaryNameTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_name);
+        mShippingAddressTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_street_housenr);
+        mShippingPostalCityTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_postalcode_place);
+        mBillingAddressTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_invoice_street_housenr);
+        mBillingPostalCityTextView = mSummaryLinearLayout.findViewById(R.id.comonent_summary_invoice_postalcode_place);
+        mSubTotalPriceTitleTextView = findViewById(R.id.activity_summary_tv_subtotal_key);
+        mSubTotalPriceTextView = findViewById(R.id.activity_summary_tv_subtotal_value);
+        mTravelExpensesTextView = findViewById(R.id.activity_summary_tv_travel_cost_value);
+        mTotalPriceTextView = findViewById(R.id.activity_summary_tv_total_value);
         mPaymentMethodsLinearLayout = findViewById(R.id.activity_summary_ll_payment_methods);
         mPaymentTransferButton = findViewById(R.id.activity_summary_btn_transfer);
         mPaymentCjpButton = findViewById(R.id.activity_summary_btn_cjp);

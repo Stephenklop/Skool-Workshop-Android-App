@@ -16,4 +16,7 @@ public interface OrderDAO {
 
     @Query("DELETE FROM `Order`")
     void deleteOrder();
+
+    @Query("UPDATE `Order` SET paymentMethod = :paymentMethod, paymentMethodTitle = :paymentMethodTitle")
+    int updateOrderPaymentMethod(String paymentMethod, String paymentMethodTitle);
 }
