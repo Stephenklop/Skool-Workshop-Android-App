@@ -442,7 +442,7 @@ public class WorkshopBookingActivity extends FragmentActivity implements DatePic
                     DatePicker datePicker = datePickerDialog.getDatePicker();
 
                     // set schedule to n.v.t. when left empty
-                    if (workshopItem.getTimeSchedule() != null || (workshopItem.getTimeSchedule() != null ? workshopItem.getTimeSchedule().length() : 0) > 0) {
+                    if (workshopItem.getTimeSchedule() == null || (workshopItem.getTimeSchedule() == null ? workshopItem.getTimeSchedule().length() : 0) > 0) {
                         workshopItem.setTimeSchedule("n.v.t.");
                     }
 
