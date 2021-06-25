@@ -63,7 +63,11 @@ public class MollieResultActivity extends AppCompatActivity {
 
                 // If there was a points coupon applied, remove the points from the account
                 if (LocalDb.getDatabase(getBaseContext()).getCouponDAO().getPointsCoupon() != null) {
+                    // Remove user's points
                     mAPIDAOFactory.getUserDAO().deleteUserPoints(orderId);
+
+                    // Clear coupon codes
+                    LocalDb.getDatabase(getBaseContext()).getCouponDAO().deleteAllCoupons();
                 }
 
                 mAPIDAOFactory.getOrderDAO().updateOrderStatus(orderId, "completed");

@@ -121,12 +121,6 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                                 // Save payment locally
                                 LocalDb.getDatabase(getBaseContext()).getPaymentDAO().addPayment(payment);
 
-                                // Clear coupon codes
-                                LocalDb.getDatabase(getBaseContext()).getCouponDAO().deleteAllCoupons();
-
-                                // Clear shopping cart
-                                LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
-
                                 // Redirect to bank
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payment.getCheckoutUrl()));
                                 startActivity(browserIntent);
@@ -147,9 +141,6 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                                 mApiDAOFactory.getUserDAO().deleteUserPoints(order.getId());
                             }
                         });
-
-                        // Clear coupon codes
-                        LocalDb.getDatabase(getBaseContext()).getCouponDAO().deleteAllCoupons();
 
                         // Clear shopping cart
                         LocalDb.getDatabase(getBaseContext()).getShoppingCartDAO().deleteEverythingFromShoppingCart();
