@@ -28,7 +28,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.skoolworkshop2.R;
-import com.example.skoolworkshop2.activity_email_result;
+import com.example.skoolworkshop2.ui.activity_email_result;
 import com.example.skoolworkshop2.dao.DAOFactory;
 import com.example.skoolworkshop2.dao.skoolWorkshopApi.APIDAOFactory;
 import com.example.skoolworkshop2.domain.Mail;

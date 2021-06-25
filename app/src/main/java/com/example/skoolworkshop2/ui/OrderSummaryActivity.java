@@ -3,10 +3,15 @@ package com.example.skoolworkshop2.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,6 +58,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
     private Spinner mIdealSpinner;
     private boolean mIsIdeal;
     private Button mOrderButton;
+    private ImageButton mBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +93,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         mPaymentCashButton.setOnClickListener(this);
         mPaymentIdealButton.setOnClickListener(this);
 
+
+
         mOrderButton.setText("Door naar betalen");
         mOrderButton.setOnClickListener(v -> {
             if (selectedPaymentMethod != null) {
@@ -94,6 +102,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
 
                 switch (selectedPaymentMethod) {
                     case IDEAL:
+                        enableLoadingIndicator();
+                        mOrderButton.setEnabled(false);
                         Bank selectedBank = (Bank) mIdealSpinner.getSelectedItem();
 
                         // Send to Mollie
@@ -126,6 +136,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                         break;
 
                     default:
+                        enableLoadingIndicator();
+                        mOrderButton.setEnabled(false);
                         new Thread(() -> {
                             // Add order to Skool Workshop Database and save order to get the order id
                             Order order = mApiDAOFactory.getOrderDAO().addOrder(LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder());
@@ -150,6 +162,14 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         });
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @Override
@@ -184,6 +204,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         mMollieDAOFactory = new MollieDAOFactory();
         mUserManager = new UserManager(getApplication());
         mCustomer = mUserManager.getCustomer();
+        mBackButton = findViewById(R.id.activity_summary_btn_back);
         mOrder = LocalDb.getDatabase(getBaseContext()).getOrderDAO().getOrder();
         mShippingAddress = LocalDb.getDatabase(getBaseContext()).getShippingAddressDAO().getShippingAddress();
         mBillingAddress = LocalDb.getDatabase(getBaseContext()).getBillingAddressDAO().getBillingAddress();
@@ -221,5 +242,36 @@ public class OrderSummaryActivity extends AppCompatActivity implements View.OnCl
         v.setSelected(true);
         mPaymentMethodTv.setTextColor(getColor(R.color.white));
         mPaymentExpandLl.setVisibility(View.VISIBLE);
+    }
+
+    private void enableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.VISIBLE);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                avd.start();
+            }
+        });
+        loadingAlert.setAlpha(0);
+        loadingAlert.setVisibility(View.VISIBLE);
+        loadingAlert.animate().alpha(1).setDuration(200).start();
+        avd.start();
+    }
+
+    private void disableLoadingIndicator() {
+        LinearLayout loadingAlert = findViewById(R.id.activity_login_ll_loading_alert);
+        ImageView loadingIndicator = findViewById(R.id.activity_login_img_loading_indicator);
+        View backGround = findViewById(R.id.activity_login_loading_background);
+        backGround.setVisibility(View.GONE);
+        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) loadingIndicator.getDrawable();
+        loadingAlert.setAlpha(1);
+        loadingAlert.animate().alpha(0).setDuration(200).withEndAction(() ->
+                loadingIndicator.setVisibility(View.GONE)
+        ).start();
+        avd.stop();
     }
 }

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkoolWorkshop2"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity_email_result"></activity>
+        <activity android:name=".ui.activity_email_result"></activity>
         <activity
             android:name=".ui.OrderSummaryActivity"
             android:screenOrientation="portrait"

@@ -1,4 +1,4 @@
-package com.example.skoolworkshop2;
+package com.example.skoolworkshop2.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.skoolworkshop2.R;
 import com.example.skoolworkshop2.domain.Product;
-import com.example.skoolworkshop2.ui.MainActivity;
 import com.example.skoolworkshop2.ui.WorkshopDetail.WorkshopDetailActivity;
 import com.example.skoolworkshop2.ui.cultureDay.CulturedayActivity;
 
