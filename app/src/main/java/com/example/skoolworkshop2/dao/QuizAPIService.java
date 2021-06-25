@@ -39,10 +39,11 @@ public class QuizAPIService{
 
             while((inputLine = in.readLine()) != null) {
                 JSONObject jsonObject = new JSONObject(inputLine);
-                for(int i = 0; i < jsonObject.getJSONArray("quiz").length(); i++) {
-                    String title = jsonObject.getJSONArray("quiz").getJSONObject(i).getString("title");
-                    String url = jsonObject.getJSONArray("quiz").getJSONObject(i).getString("url");
-                    boolean status = Boolean.parseBoolean((jsonObject.getJSONArray("quiz").getJSONObject(i).getString("status")));
+                JSONObject quizzes = jsonObject.getJSONObject("result");
+                for(int i = 0; i < quizzes.getJSONArray("quiz").length(); i++) {
+                    String title = quizzes.getJSONArray("quiz").getJSONObject(i).getString("Title");
+                    String url = quizzes.getJSONArray("quiz").getJSONObject(i).getString("Url");
+                    boolean status = Boolean.parseBoolean((quizzes.getJSONArray("quiz").getJSONObject(i).getString("Status")));
 
                     result.add(new Quiz(title, url, status));
                 }

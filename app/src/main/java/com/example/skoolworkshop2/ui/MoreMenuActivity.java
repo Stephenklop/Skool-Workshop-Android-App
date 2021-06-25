@@ -51,6 +51,7 @@ public class MoreMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more);
 
+
         if(NetworkUtil.checkInternet(getApplicationContext())){
             startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         }
@@ -68,8 +69,21 @@ public class MoreMenuActivity extends AppCompatActivity {
         quizzes = new ArrayList<>();
         quizAPIService = new QuizAPIService();
 
+        mQuizButton = findViewById(R.id.activity_more_btn_quiz);
+        mQuizButton.setEnabled(false);
+        mQuizButton.setBackgroundColor(getResources().getColor(R.color.disabled_grey));
         Thread loadQuiz = new Thread(() -> {
            quizzes.addAll(quizAPIService.getAllQuizzes());
+            if(quizzes.size() > 0){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mQuizButton.setEnabled(true);
+                        mQuizButton.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    }
+                });
+            }
         });
         try {
             loadQuiz.join();
@@ -83,7 +97,7 @@ public class MoreMenuActivity extends AppCompatActivity {
         mSettingsButton = findViewById(R.id.activity_more_btn_settings);
         mAboutUsButton = findViewById(R.id.activity_more_btn_about);
         mAskedQuestionsButton = findViewById(R.id.activity_more_btn_faq);
-        mQuizButton = findViewById(R.id.activity_more_btn_quiz);
+
         mContactButton = findViewById(R.id.activity_more_btn_contact);
 
         mContactButton.setOnClickListener(new View.OnClickListener() {
@@ -132,10 +146,7 @@ public class MoreMenuActivity extends AppCompatActivity {
             }
         });
 
-        if(quizzes.size() == 0){
-            mQuizButton.setEnabled(false);
-            mQuizButton.setBackgroundColor(getResources().getColor(R.color.disabled_grey));
-        }
+
         mQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,11 +156,9 @@ public class MoreMenuActivity extends AppCompatActivity {
                        quizUrl = quizzes.get(i).getUrl();
                     }
                 }
-
-                String url = quizzes.get(3).getUrl();
-
-                Intent quizIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www." + url));
-                startActivity(quizIntent);
+                if(quizUrl != null){
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(quizUrl)));
+                }
             }
         });
     }
