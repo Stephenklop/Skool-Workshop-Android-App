@@ -79,7 +79,7 @@ public class MoreMenuActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mQuizButton.setEnabled(true);
-                        mQuizButton.setBackgroundColor(getResources().getColor(R.color.white));
+                        mQuizButton.setBackgroundResource(R.drawable.btn_white);
 
                     }
                 });
